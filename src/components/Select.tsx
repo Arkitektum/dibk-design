@@ -1,5 +1,3 @@
-// Select.tsx
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import ErrorMessage from './ErrorMessage';
@@ -66,7 +64,7 @@ const Select = ({
 }: SelectProps) => {
   const [showDropdownList, setShowDropdownList] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   useCallback((element: HTMLElement | null) => {
     if (element) addFocusTrapInsideElement(element);
   }, []);

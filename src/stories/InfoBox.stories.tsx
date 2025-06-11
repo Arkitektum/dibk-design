@@ -26,7 +26,7 @@ const meta: Meta<typeof InfoBox> = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-const render = (args: any) => <InfoBox {...args} />;
+const render: Story['render'] = (args) => <InfoBox {...args} />;
 
 export const Default: Story = {
   args: {

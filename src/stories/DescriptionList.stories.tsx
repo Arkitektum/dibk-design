@@ -42,7 +42,7 @@ const commonChildren = (
   </>
 );
 
-const render = (args: any) => (
+const render: Story['render'] = (args) => (
   <DescriptionList {...args}>{commonChildren}</DescriptionList>
 );
 

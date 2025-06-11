@@ -3,7 +3,6 @@ const config: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-onboarding',
-    '@chromatic-com/storybook',
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
   ],
@@ -15,7 +14,7 @@ const config: StorybookConfig = {
     builder: '@storybook/builder-vite',
   },
 
-  staticDirs: ['../public'],
+  staticDirs: ['static'],
   typescript: { reactDocgen: 'react-docgen-typescript' },
 };
 

@@ -30,7 +30,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Reusable render function
-const render = (args: any) => <CheckBoxListItem {...args} />;
+const render: Story['render'] = (args) => <CheckBoxListItem {...args} />;
 
 export const Unchecked: Story = {
   args: {

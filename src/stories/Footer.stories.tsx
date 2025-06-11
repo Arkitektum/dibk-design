@@ -24,7 +24,7 @@ const meta: Meta<typeof Footer> = {
   ],
 };
 
-const render = (args: any) => <Footer {...args} />;
+const render: Story['render'] = (args) => <Footer {...args} />;
 
 export default meta;
 

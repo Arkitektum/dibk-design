@@ -27,7 +27,7 @@ const meta: Meta<typeof Lead> = {
 
 export default meta;
 
-const render = (args: any) => <Lead {...args} />;
+const render: Story['render'] = (args) => <Lead {...args} />;
 
 type Story = StoryObj<typeof meta>;
 

@@ -29,7 +29,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render = (args: any) => <Header {...args} />;
+const render: Story['render'] = (args) => <Header {...args} />;
 
 export const Header1: Story = {
   args: {

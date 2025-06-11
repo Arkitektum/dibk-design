@@ -26,7 +26,7 @@ const meta: Meta<typeof ErrorMessage> = {
 };
 
 export default meta;
-const render = (args: any) => <ErrorMessage {...args} />;
+const render: Story['render'] = (args) => <ErrorMessage {...args} />;
 
 type Story = StoryObj<typeof meta>;
 

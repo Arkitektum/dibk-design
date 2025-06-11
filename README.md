@@ -7,6 +7,7 @@ Shared components for DIBK applications
 ```bash
 $ pnpm install
 $ pnpm run build
+$ pnpm run build-storybook
 $ pnpm run storybook
 ```
 

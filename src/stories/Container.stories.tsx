@@ -27,7 +27,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render = (args: any) => <Container {...args} />;
+const render: Story['render'] = (args) => <Container {...args} />;
 
 export const Default: Story = {
   args: {

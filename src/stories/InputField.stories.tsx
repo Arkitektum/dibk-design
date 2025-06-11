@@ -30,7 +30,7 @@ const meta: Meta<typeof InputField> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-const render = (args: any) => <InputField {...args} />;
+const render: Story['render'] = (args) => <InputField {...args} />;
 
 // All stories follow this format:
 export const Default: Story = {

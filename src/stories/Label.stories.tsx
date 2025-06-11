@@ -29,7 +29,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render = (args: any) => <Label {...args} />;
+const render: Story['render'] = (args) => <Label {...args} />;
 
 export const Default: Story = {
   args: {

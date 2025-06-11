@@ -31,7 +31,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render = (args: any) => <ErrorBox {...args} />;
+const render: Story['render'] = (args) => <ErrorBox {...args} />;
 
 export const Default: Story = {
   args: {

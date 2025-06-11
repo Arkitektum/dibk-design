@@ -27,7 +27,7 @@ const meta: Meta<typeof CheckBoxInput> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const render = (args: any) => <CheckBoxInput {...args} />;
+const render: Story['render'] = (args) => <CheckBoxInput {...args} />;
 
 export const Unchecked: Story = {
   args: {

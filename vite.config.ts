@@ -4,26 +4,30 @@ import path from 'path';
 import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+export default defineConfig(() => {
+  return {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
     },
-  },
-  build: {
-    lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'DibkDesign',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format}.js`,
+    build: {
+      lib: {
+        entry: path.resolve(__dirname, 'src/index.ts'),
+        name: 'DibkDesign',
+        formats: ['es', 'cjs', 'umd'],
+        fileName: (format) => `index.${format}.js`,
+      },
+      rollupOptions: {
+        external: ['react', 'react-dom'],
+      },
+      outDir: 'dist',
+      sourcemap: true,
+      emptyOutDir: true,
     },
-    rollupOptions: {},
-    outDir: 'dist',
-    sourcemap: true,
-    emptyOutDir: true,
-  },
-  plugins: [
-    react(),
-    dts({ rollupTypes: true, tsconfigPath: './tsconfig.app.json' }),
-  ],
+    plugins: [
+      react(),
+      dts({ rollupTypes: true, tsconfigPath: './tsconfig.app.json' }),
+    ],
+  };
 });

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MemoryRouter } from 'react-router-dom';
 
 import WizardNavigation from '../components/WizardNavigation';
 
@@ -29,9 +30,11 @@ const meta: Meta<typeof WizardNavigation> = {
     (Story, context) => {
       const { theme, ...rest } = context.args as ExtendedArgs;
       return (
-        <ThemeProvider theme={theme}>
-          <Story args={rest} />
-        </ThemeProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <ThemeProvider theme={theme}>
+            <Story args={rest} />
+          </ThemeProvider>
+        </MemoryRouter>
       );
     },
   ],
