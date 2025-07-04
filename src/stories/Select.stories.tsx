@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Select, { type SelectProps } from '../components/Select';
 import ThemeProvider from '../components/ThemeProvider';
@@ -12,9 +13,10 @@ const meta: Meta<typeof Select> = {
   decorators: [
     (Story, context) => {
       const { theme, ...rest } = context.args as ExtendedArgs;
+      const [value, setValue] = useState(rest.value || rest.defaultValue);
       return (
         <ThemeProvider theme={theme}>
-          <Story args={rest} />
+          <Story args={{ ...rest, value, onChange: (val) => setValue(val) }} />
         </ThemeProvider>
       );
     },

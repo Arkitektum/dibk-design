@@ -5,7 +5,6 @@ import Button from './Button';
 import Label from './Label';
 import ErrorMessage from './ErrorMessage';
 import style from './InputField.module.scss';
-import { generateRandomString } from '../functions/generators';
 import { classNameArrayToClassNameString } from '../functions/helpers';
 import asterisk from '../assets/svg/asterisk.svg?url';
 
@@ -145,10 +144,7 @@ const InputField = ({
       </Label>
 
       {!contentOnly ? (
-        <input
-          key={elementKey || `${id}-${generateRandomString(6)}`}
-          {...inputProps}
-        />
+        <input key={elementKey || id} {...inputProps} />
       ) : (
         <span>{renderValueAsText(value ?? defaultValue, defaultContent)}</span>
       )}

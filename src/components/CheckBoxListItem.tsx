@@ -6,7 +6,6 @@ import { classNameArrayToClassNameString } from '../functions/helpers';
 import style from './CheckBoxListItem.module.scss';
 
 export interface CheckBoxListItemProps {
-  inputValue?: string;
   value?: string | number;
   checked?: boolean;
   disabled?: boolean;
@@ -39,6 +38,7 @@ const CheckBoxListItem = ({
   'aria-controls': ariaControls,
   'aria-describedby': ariaDescribedBy,
   children,
+  value,
 }: CheckBoxListItemProps) => {
   const className = classNameArrayToClassNameString([
     style.checkBoxListItem,
@@ -62,6 +62,7 @@ const CheckBoxListItem = ({
     id,
     name,
     checkmarkCharacter,
+    value,
   };
 
   return (

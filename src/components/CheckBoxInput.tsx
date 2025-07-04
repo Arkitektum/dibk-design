@@ -20,6 +20,7 @@ export interface CheckBoxInputProps {
   'aria-describedby'?: string;
   tabIndex?: number;
   children?: React.ReactNode;
+  value?: string | number;
 }
 
 const CheckBoxInput = ({
@@ -37,6 +38,7 @@ const CheckBoxInput = ({
   children,
   'aria-controls': ariaControls,
   'aria-describedby': ariaDescribedBy,
+  value,
 }: CheckBoxInputProps) => {
   const labelClassName = [
     style.checkBoxInput,
@@ -67,6 +69,7 @@ const CheckBoxInput = ({
     'aria-controls': ariaControls,
     'aria-invalid': hasErrors ? 'true' : undefined,
     'aria-describedby': ariaDescribedBy,
+    value,
   };
 
   return (

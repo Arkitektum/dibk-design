@@ -4,7 +4,6 @@ import ErrorMessage from './ErrorMessage';
 import CheckBoxList from './CheckBoxList';
 import CheckBoxListItem from './CheckBoxListItem';
 import asterisk from '../assets/svg/asterisk.svg?url';
-import { generateRandomString } from '../functions/generators';
 import {
   addFocusTrapInsideElement,
   classNameArrayToClassNameString,
@@ -65,7 +64,7 @@ const Select = ({
   const [showDropdownList, setShowDropdownList] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useCallback((element: HTMLElement | null) => {
+  const focusTrapRef = useCallback((element: HTMLElement | null) => {
     if (element) addFocusTrapInsideElement(element);
   }, []);
 
@@ -112,6 +111,15 @@ const Select = ({
       ?.map((v: any) => getKeyByValue(v, options))
       .join(', ') || null;
 
+  const handleMultipleChange = (changedValue: string | number) => {
+    const currentValues: (string | number)[] =
+      (value as any) ?? (defaultValue as any) ?? [];
+    const newValues = currentValues.includes(changedValue)
+      ? currentValues.filter((v) => v !== changedValue)
+      : [...currentValues, changedValue];
+    onChange(newValues);
+  };
+
   const renderCheckBoxElements = () =>
     options.map((option, index) => {
       const { key, value: val } = createOptionObject(option);
@@ -122,7 +130,7 @@ const Select = ({
           id={`${id}-${index}`}
           value={val}
           checked={selected}
-          onChange={() => onChange(val)}
+          onChange={() => handleMultipleChange(val)}
         >
           {key}
         </CheckBoxListItem>
@@ -152,7 +160,7 @@ const Select = ({
     multiple,
     required,
     disabled,
-    onChange,
+    onChange: (e) => onChange(e.target.value),
     id,
     role,
 
@@ -164,7 +172,9 @@ const Select = ({
       hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy,
     'aria-invalid': hasErrors || undefined,
     style: width ? { maxWidth: width } : undefined,
-    ...(defaultValue && !value ? { defaultValue } : { value: value || '' }),
+    ...(defaultValue !== undefined && value === undefined
+      ? { defaultValue }
+      : { value: value || '' }),
   };
 
   return (
@@ -190,22 +200,22 @@ const Select = ({
               {renderSelectedValues()}
             </div>
             {showDropdownList && (
-              <div className={style.multipleSelectDropdown}>
+              <div ref={focusTrapRef} className={style.multipleSelectDropdown}>
                 <CheckBoxList compact>{renderCheckBoxElements()}</CheckBoxList>
               </div>
             )}
           </div>
         ) : (
-          <select key={`${id}-${generateRandomString(6)}`} {...selectProps}>
+          <select {...selectProps}>
             {placeholder && (
               <option value={placeholderValue} disabled>
                 {placeholder}
               </option>
             )}
-            {options.map((opt, i) => {
+            {options.map((opt) => {
               const { key, value } = createOptionObject(opt);
               return (
-                <option key={i} value={value}>
+                <option key={key} value={value}>
                   {key}
                 </option>
               );

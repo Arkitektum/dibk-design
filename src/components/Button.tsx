@@ -35,6 +35,8 @@ export interface ButtonProps
   href?: string;
   noMargin?: boolean;
   children?: React.ReactNode;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
   [key: string]: any; // Allow additional props
 }
 
@@ -52,6 +54,8 @@ const Button = ({
   noMargin = false,
   href,
   children,
+  iconLeft,
+  iconRight,
   ...rest
 }: ButtonProps) => {
   const getArrowClass = (arrow: ArrowDirection): string => {
@@ -76,8 +80,9 @@ const Button = ({
     noHover || inputType === 'radio' ? style.noHover : null,
     rounded && style.rounded,
     hasErrors && style.hasErrors,
-    disabled && style.disabled,
-    noMargin && style.noMargin,
+    disabled ? style.disabled : null,
+    noMargin ? style.noMargin : null,
+    iconLeft || iconRight ? style.hasIcon : null,
   ]);
 
   const buttonProps = {
@@ -105,16 +110,26 @@ const Button = ({
         'to' in element.props;
 
       if (!disabled && isLink) {
-        return cloneElement(element, {
-          className,
-          key: `button-${index}`,
-          to: element.props.to,
-        });
+        return cloneElement(
+          element,
+          {
+            className,
+            key: `button-${index}`,
+            to: element.props.to,
+          },
+          iconLeft,
+          <span className={style.buttonContent}>{element.props.children}</span>,
+          iconRight
+        );
       }
 
       return (
         <button {...buttonProps} key={`button-${index}`}>
-          {content || (element.props && element.props.children)}
+          {iconLeft}
+          <span className={style.buttonContent}>
+            {content || (element.props && element.props.children)}
+          </span>
+          {iconRight}
         </button>
       );
     });
@@ -126,7 +141,9 @@ const Button = ({
     delete inputProps.href;
     return (
       <button type="button" {...buttonProps}>
-        {content || children}
+        {iconLeft}
+        <span className={style.buttonContent}>{content || children}</span>
+        {iconRight}
       </button>
     );
   }
@@ -140,7 +157,9 @@ const Button = ({
           {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)}
           type="radio"
         />
-        {content}
+        {iconLeft}
+        <span className={style.buttonContent}>{content}</span>
+        {iconRight}
       </label>
     );
   }
@@ -152,7 +171,9 @@ const Button = ({
     if ('type' in anchorProps) delete (anchorProps as any).type;
     return (
       <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
-        {content || children}
+        {iconLeft}
+        <span className={style.buttonContent}>{content || children}</span>
+        {iconRight}
       </a>
     );
   }
@@ -168,7 +189,13 @@ const Button = ({
     );
   }
 
-  return <button {...buttonProps}>{content || children}</button>;
+  return (
+    <button {...buttonProps}>
+      {iconLeft}
+      <span className={style.buttonContent}>{content || children}</span>
+      {iconRight}
+    </button>
+  );
 };
 
 export default Button;

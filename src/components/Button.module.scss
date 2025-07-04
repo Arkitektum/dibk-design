@@ -333,6 +333,13 @@
       }
     }
   }
+  &.hasIcon {
+    display: flex;
+    align-items: center;
+    .buttonContent {
+      margin: 0 0.5em;
+    }
+  }
 }
 
 label.button {
