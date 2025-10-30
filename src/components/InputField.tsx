@@ -13,6 +13,7 @@ export interface InputFieldProps {
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // <-- optional
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   name?: string;
   type?: string;
   disabled?: boolean;
@@ -72,6 +73,7 @@ const InputField = ({
   id,
   onChange = () => {}, // <-- default no-op
   onBlur,
+  onFocus,
   name = "",
   type = "text",
   disabled = false,
@@ -100,6 +102,23 @@ const InputField = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const getErrorElementId = () => `${id}-errorMessage`;
   const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
+  const isDateInput = type === "date" && !disabled && !readOnly;
+
+  const triggerDatePicker = () => {
+    if (!isDateInput || !inputRef.current) return;
+    if (document.activeElement !== inputRef.current) {
+      inputRef.current.focus();
+    }
+    const inputWithPicker = inputRef.current as HTMLInputElement & {
+      showPicker?: () => void;
+    };
+    inputWithPicker.showPicker?.();
+  };
+
+  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    triggerDatePicker();
+    onFocus?.(event);
+  };
 
   /** Build value/defaultValue safely for the given type */
   const normalizedValueProps = (() => {
@@ -137,6 +156,7 @@ const InputField = ({
     max,
     onChange,
     onBlur,
+    onFocus: handleFocus,
     placeholder: type === "file" ? undefined : placeholder,
     className: hasErrors ? style.hasErrors : undefined,
     "aria-describedby":

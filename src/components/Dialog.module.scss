@@ -1,6 +1,3 @@
-// Mixins
-@use "../style/abstracts/mixins/calc";
-
 // Variables
 @use "../style/abstracts/variables/colors";
 @use "../style/abstracts/variables/viewports";
@@ -27,154 +24,129 @@
 }
 
 .dialog {
-    margin: auto;
-    &::backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 28px;
+    box-sizing: border-box;
+
+    @media (min-width: viewports.$screen-md) {
+        padding: 36px;
+    }
+
+    .backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
         background: color-mix(in srgb, var(--color-primary, colors.$color-primary), transparent 60%);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
     }
-    
-    &[open] {
-        border: none;
-        background: none;
+
+    .dialogContainer {
+        position: relative;
         display: flex;
-        max-height: none;
-        max-width: none;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        position: fixed;
-        .dialogContainer {
-            display: flex;
-            flex-wrap: wrap;
-            overflow: auto;
-            .dialogContent {
-                background-color: #fff;
-                width: 100%;
-            }
-            .dialogContent {
-                position: relative;
-            }
-            .closeButton {
-                background: none;
-                border: none;
-                color: var(--color-primary, colors.$color-primary);
-                display: inline-block;
-                position: absolute;
-                cursor: pointer;
-                &:hover {
-                    text-decoration: none;
-                }
-                img {
-                    width: 17px;
-                    height: 17px;
-                }
-            }
-        }
-        &:not(.isSidebar) {
-            align-items: center;
-            justify-content: center;
-            padding: 8px 28px;
-            @media (min-width: viewports.$screen-md) {
-                padding: 36px;
-            }
-            .dialogContainer {
-                animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInVertical;
-                max-height: 90vh;
-                .dialogContent {
-                    &:not(.noPadding) {
-                        padding: 30px 15px;
-                        @media only screen and (min-width: viewports.$screen-sm) {
-                            padding: 60px 40px;
-                        }
-                    }
-                }
-            }
-            .closeButton {
-                &:not(.noPadding) {
-                    right: 5px;
-                    top: 8px;
-                    @media only screen and (min-width: viewports.$screen-sm) {
-                        right: 10px;
-                        top: 13px;
-                    }
-                }
-                &.noPadding {
-                    right: 0;
-                    top: 0;
-                }
-            }
-        }
-        &.isSidebar {
-            padding: 0;
-            height: 100vh;
-            .dialogContainer {
-                height: 100%;
-                width: var(--max-width, auto);
-                max-width: 100vw;
-                .dialogContent {
-                    &:not(.noPadding) {
-                        padding: 24px;
-                    }
-                }
-            }
-            .closeButton {
-                z-index: 2;
-                right: 10px;
-                top: 13px;
-            }
-            &.left {
-                margin: 0 auto 0 0;
-                .dialogContainer {
-                    justify-content: left;
-                    animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInHorizontalLeft;
-                }
-            }
-            &.right {
-                margin: 0 0 0 auto;
-                .dialogContainer {
-                    justify-content: right;
-                    animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInHorizontalRight;
-                }
-            }
+        flex-wrap: wrap;
+        overflow: auto;
+        width: fit-content;
+        max-height: 90vh;
+        animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInVertical;
+        z-index: 1;
+    }
+
+    .dialogContent {
+        position: relative;
+        background-color: #fff;
+        width: 100%;
+    }
+
+    .dialogContent:not(.noPadding) {
+        padding: 30px 15px;
+
+        @media only screen and (min-width: viewports.$screen-sm) {
+            padding: 60px 40px;
         }
     }
-}
 
-.dialogOverlay {
-    width: 0;
-    height: 0;
-    border: none;
-    position: absolute;
-    padding: 0;
-    overflow: hidden;
+    .closeButton {
+        background: none;
+        border: none;
+        color: var(--color-primary, colors.$color-primary);
+        display: inline-block;
+        position: absolute;
+        cursor: pointer;
 
-    &[open] {
-        position: fixed;
-        width: 100%;
-        height: 100%;
+        &:hover {
+            text-decoration: none;
+        }
+
+        img {
+            width: 17px;
+            height: 17px;
+        }
+    }
+
+    .closeButton:not(.noPadding) {
+        right: 5px;
+        top: 8px;
+
+        @media only screen and (min-width: viewports.$screen-sm) {
+            right: 10px;
+            top: 13px;
+        }
+    }
+
+    .closeButton.noPadding {
+        right: 0;
         top: 0;
-        left: 0;
-        z-index: 2;
     }
 
     &:not(.isSidebar) {
-        align-content: center;
-        justify-content: center;
-
-        .dialogContent {
-            @include calc.calc("max-height", "100% - 128px");
-            width: 100%;
+        .dialogContainer {
             max-width: var(--max-width, 540px);
         }
     }
 
-    .dialogContent {
-        background-color: #fff;
-        overflow: auto;
-        position: relative;
+    &.isSidebar {
+        padding: 0;
+        height: 100vh;
+        align-items: stretch;
+        justify-content: stretch;
 
-        @media (min-width: viewports.$screen-md) {
-            @include calc.calc("width", "100% - 128px");
-            max-height: 100%;
+        .dialogContainer {
+            height: 100%;
+            width: var(--max-width, auto);
+            max-width: 100vw;
+            animation: none;
+        }
+
+        .dialogContent:not(.noPadding) {
+            padding: 24px;
+        }
+
+        .closeButton {
+            z-index: 2;
+            right: 10px;
+            top: 13px;
+        }
+
+        &.left {
+            justify-content: flex-start;
+
+            .dialogContainer {
+                animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInHorizontalLeft;
+            }
+        }
+
+        &.right {
+            justify-content: flex-end;
+
+            .dialogContainer {
+                animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running modalInHorizontalRight;
+            }
         }
     }
 }

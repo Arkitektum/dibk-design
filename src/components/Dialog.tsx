@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
 import xSymbol from "../assets/svg/x-symbol.svg?url";
 import {
   addFocusTrapInsideElement,
@@ -27,7 +28,9 @@ const Dialog = ({
   hidden = false,
   children,
 }: DialogProps) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(
+    null,
+  );
   const dialogContainerRef = useRef<HTMLDivElement>(null);
 
   const dialogContentRef = useCallback(
@@ -40,37 +43,63 @@ const Dialog = ({
   );
 
   useEffect(() => {
+    if (hidden) {
+      return undefined;
+    }
+
     const keyDownFunction = (event: KeyboardEvent) => {
       if (event.key === "Escape" && onClickOutside) {
         onClickOutside();
       }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dialogContainerRef.current &&
-        !dialogContainerRef.current.contains(event.target as Node)
-      ) {
-        onClickOutside();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", keyDownFunction, false);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", keyDownFunction, false);
     };
-  }, [onClickOutside]);
+  }, [hidden, onClickOutside]);
 
   useEffect(() => {
-    if (!dialogRef.current) return;
-
-    dialogRef.current.close();
-    if (!hidden) {
-      modal ? dialogRef.current.showModal() : dialogRef.current.show();
+    if (typeof window === "undefined") {
+      return;
     }
+
+    const ensurePortalRoot = (): HTMLElement => {
+      const portalId = "dibk-design-dialog-root";
+      let root = document.getElementById(portalId);
+      if (!root) {
+        root = document.createElement("div");
+        root.setAttribute("id", portalId);
+        document.body.appendChild(root);
+      }
+      return root;
+    };
+
+    const root = ensurePortalRoot();
+    const element = document.createElement("div");
+    root.appendChild(element);
+    setPortalElement(element);
+
+    return () => {
+      setPortalElement(null);
+      if (root.contains(element)) {
+        root.removeChild(element);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hidden || !modal) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [hidden, modal]);
 
   const sideBarClassNames =
@@ -80,18 +109,29 @@ const Dialog = ({
     "--max-width": maxWidth,
   } as React.CSSProperties;
 
-  return (
-    <dialog
+  if (hidden || !portalElement) {
+    return null;
+  }
+
+  const dialogRoleProps = modal
+    ? ({ role: "dialog", "aria-modal": "true" } as const)
+    : ({ role: "dialog" } as const);
+
+  return createPortal(
+    <div
       className={classNameArrayToClassNameString([
         style.dialog,
         sideBarClassNames,
       ])}
-      ref={dialogRef}
+      onClick={onClickOutside}
+      {...dialogRoleProps}
     >
+      {modal && <div className={style.backdrop} aria-hidden="true" />}
       <div
         ref={dialogContainerRef}
         className={style.dialogContainer}
         style={dialogContentStyleProps}
+        onClick={(event) => event.stopPropagation()}
       >
         <div
           ref={dialogContentRef}
@@ -113,12 +153,11 @@ const Dialog = ({
               <img src={xSymbol} alt="" />
             </button>
           )}
-          <div aria-live="assertive" role="dialog">
-            {children}
-          </div>
+          <div aria-live="assertive">{children}</div>
         </div>
       </div>
-    </dialog>
+    </div>,
+    portalElement,
   );
 };
 
