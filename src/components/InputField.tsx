@@ -144,6 +144,11 @@ const InputField = ({
     return {};
   })();
 
+  const inputClassName = classNameArrayToClassNameString([
+    hasErrors && style.hasErrors,
+    type === "file" && style.visuallyHidden,
+  ]);
+
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     name,
     readOnly,
@@ -158,7 +163,7 @@ const InputField = ({
     onBlur,
     onFocus: handleFocus,
     placeholder: type === "file" ? undefined : placeholder,
-    className: hasErrors ? style.hasErrors : undefined,
+    className: inputClassName || undefined,
     "aria-describedby":
       hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy,
     "aria-invalid": hasErrors || undefined,

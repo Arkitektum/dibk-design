@@ -1,0 +1,94 @@
+// Mixins
+@use "../style/abstracts/mixins/transition";
+
+// Variables
+@use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/typography";
+
+.tabs {
+  width: 100%;
+}
+
+.tabList {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  border-bottom: 1px solid var(--color-border, colors.$color-border);
+  padding: 0 2px;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-family: typography.$default-font;
+  font-size: 16px;
+  color: var(--color-primary-text, colors.$color-primary-text);
+  @include transition.transition(
+    color 0.2s,
+    border-color 0.2s,
+    background-color 0.2s
+  );
+
+  &:hover {
+    color: var(--color-heading-text, colors.$color-heading-text);
+    background-color: var(
+      --color-secondary-x-light,
+      colors.$color-secondary-x-light
+    );
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus, colors.$color-focus);
+    outline-offset: 2px;
+    border-radius: 6px 6px 0 0;
+  }
+
+  &.active {
+    border-bottom-color: var(--color-primary, colors.$color-primary);
+    background-color: var(
+      --color-secondary-light,
+      colors.$color-secondary-light
+    );
+    color: var(--color-heading-text, colors.$color-heading-text);
+    font-weight: 600;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    color: var(--color-border, colors.$color-border);
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.tabLabel {
+  line-height: 1.2;
+}
+
+.tabAmount {
+  font-size: 14px;
+  color: var(--color-primary-light, colors.$color-primary-light);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tabPanels {
+  margin-top: 16px;
+}
+
+.tabPanel {
+  padding: 4px 0;
+}
+
+.hidden {
+  display: none;
+}

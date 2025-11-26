@@ -45,7 +45,15 @@
 
         &:focus {
             border-color: var(--color-primary, colors.$color-primary);
-            outline: colors.$color-focus solid 0px;
+            outline: none;
+            box-shadow: none;
+        }
+
+        &:focus-visible {
+            border-color: var(--color-primary, colors.$color-primary);
+            outline: 2px solid var(--color-focus, colors.$color-focus);
+            outline-offset: 1px;
+            box-shadow: 0 0 0 2px var(--color-focus, colors.$color-focus);
         }
 
         &[disabled],
@@ -59,6 +67,11 @@
             &:focus {
                 border-color: var(--color-error, colors.$color-error);
                 outline-color: #b8565d;
+            }
+            &:focus-visible {
+                outline: 2px solid var(--color-error, colors.$color-error);
+                outline-offset: 1px;
+                box-shadow: 0 0 0 2px var(--color-error, colors.$color-error);
             }
             &[disabled],
             &[readonly] {
@@ -84,5 +97,17 @@
         button {
             margin: 0 8px;
         }
+    }
+
+    .visuallyHidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
     }
 }

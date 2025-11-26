@@ -41,12 +41,11 @@ Builds the Storybook as a static web application. The output is saved to the `/s
 pnpm run build-storybook
 ```
 
-## Use with Next.js and Tailwind
+## Use with Next.js
 
 1. Import `dibk-design.css` file in your `globals.css`
 
 ```css
-@import 'tailwindcss';
 @import './node_modules/dibk-design/dist/dibk-design.css';
 ```
 

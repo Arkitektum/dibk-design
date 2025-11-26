@@ -125,7 +125,7 @@
   }
 
   &.secondary {
-    background-color: var(--color-secondary, colors.$color-secondary);
+    background-color: var(--color-secondary-light, colors.$color-secondary-light);
     color: var(--color-secondary-contrast, colors.$color-secondary-contrast);
     border-color: var(
       --color-secondary-x-light,
@@ -163,10 +163,47 @@
     }
   }
 
+  &.ghost {
+    background-color: transparent;
+    color: var(--color-primary, colors.$color-primary);
+    border-color: var(--color-primary, colors.$color-primary);
+    &:hover:not(.noHover),
+    &:focus-visible {
+      background-color: var(
+        --color-primary-light,
+        colors.$color-primary-light
+      );
+      color: var(--color-secondary, colors.$color-secondary);
+      &:after,
+      &:before {
+        border-color: var(
+          --color-primary-light,
+          colors.$color-secondary-x-light
+        );
+      }
+    }
+    &:active:not(.noHover),
+    &:active:hover:not(.noHover) {
+      background-color: var(
+        --color-secondary-x-light,
+        colors.$color-primary-light
+      );
+      color: var(--color-primary, colors.$color-primary);
+      &:after,
+      &:before {
+        border-color: var(
+          --color-primary-light,
+          colors.$color-primary-light
+        );
+      }
+    }
+  }
+
   &:disabled,
   &.disabled {
     &.primary,
-    &.secondary {
+    &.secondary,
+    &.ghost {
       background-color: var(--color-primary, colors.$color-primary);
       cursor: default;
       color: var(--color-primary-contrast, colors.$color-primary-contrast);
@@ -197,6 +234,7 @@
         );
       }
     }
+    
   }
 
   &.hasErrors {

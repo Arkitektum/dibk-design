@@ -8,7 +8,7 @@ const dirname =
     ? __dirname
     : path.dirname(fileURLToPath(import.meta.url));
 
-import viteConfig from './vite.config';
+import viteConfig from './vite.config' ;
 
 export default mergeConfig(
   viteConfig,

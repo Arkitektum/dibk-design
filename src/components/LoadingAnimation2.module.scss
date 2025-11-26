@@ -1,0 +1,42 @@
+// Variables
+@use "../style/abstracts/variables/colors";
+
+$dot-size: 8px;
+$border-radius: 12px;
+$gap: 10px;
+
+.LoadingAnimation2 {
+  align-items: center;
+  background-color: transparent;
+  border-radius: $border-radius;
+  display: inline-flex;
+  gap: $gap;
+  padding: 12px 16px;
+}
+
+.dot {
+  animation: loader-dot 1.4s ease-in-out infinite;
+  background-color: var(--color-primary, colors.$color-primary);
+  border-radius: 50%;
+  height: $dot-size;
+  width: $dot-size;
+}
+
+@keyframes loader-dot {
+  0%,
+  100% {
+    background-color: var(--color-primary, colors.$color-primary);
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    background-color: var(--color-primary-light, colors.$color-primary-light);
+    transform: translateY(-8px) scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}

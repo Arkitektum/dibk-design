@@ -14,7 +14,7 @@ import style from "./Button.module.scss";
 
 type ArrowDirection = "none" | "left" | "right";
 type ButtonSize = "small" | "regular";
-export type ButtonColor = "primary" | "secondary";
+export type ButtonColor = "primary" | "secondary" | "ghost";
 export type InputType = "button" | "radio";
 
 export interface ButtonProps
@@ -101,7 +101,7 @@ const Button = ({
     );
     return flattened.map((childElement) => {
       if (!React.isValidElement(childElement)) return null;
-      
+
       // biome-ignore lint/suspicious/noExplicitAny: <any allowed>
       const element = childElement as ReactElement<any, any>;
       const isLink =
@@ -169,7 +169,7 @@ const Button = ({
     // Only pass anchor-allowed props
     const anchorProps = { ...buttonProps };
     // Remove 'type' if present
-    if ("type" in anchorProps) delete (anchorProps).type;
+    if ("type" in anchorProps) delete anchorProps.type;
     return (
       <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
         {iconLeft}

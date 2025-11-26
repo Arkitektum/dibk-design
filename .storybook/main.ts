@@ -12,9 +12,6 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  core: {
-    builder: '@storybook/builder-vite',
-  },
 
   staticDirs: ['static'],
   typescript: { reactDocgen: 'react-docgen-typescript' },

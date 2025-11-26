@@ -20,6 +20,18 @@
     }
     .selectContainer {
         position: relative;
+        &.small {
+            .selectListArrow {
+                top: 10px;
+                right: 10px;
+                width: 10px;
+                height: calc(50% - 4px);
+                &::after {
+                    width: 10px;
+                    height: 10px;
+                }
+            }
+        }
 
         .selectListArrow {
             @include border-radius.border-radius(100px);
@@ -95,6 +107,12 @@
             &:not(.multiple) {
                 height: 54px;
                 padding: 12px 40px 12px 12px;
+            }
+            &.small,
+            &[data-size="small"] {
+                font-size: 15px;
+                height: 40px;
+                padding: 8px 32px 8px 10px;
             }
             &.multiple {
                 max-height: 100px;

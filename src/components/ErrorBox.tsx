@@ -1,37 +1,16 @@
-import infoSign from "../assets/svg/info-sign.svg?url";
-import { classNameArrayToClassNameString } from "../functions/helpers";
-import style from "./ErrorBox.module.scss";
+import InfoBox, { type InfoBoxProps } from "./InfoBox";
 
-export interface ErrorBoxProps {
+export interface ErrorBoxProps
+  extends Omit<InfoBoxProps, "variant" | "hideIcon"> {
   type?: "warning" | "error";
-  fullScreen?: boolean;
-  children?: React.ReactNode;
 }
 
-const ErrorBox: React.FC<ErrorBoxProps> = ({
+const ErrorBox = ({
   type = "warning",
-  fullScreen = false,
   children = "",
-}) => {
-  return (
-    <div
-      className={classNameArrayToClassNameString([
-        style.errorBoxContainer,
-        style[type],
-        fullScreen && style.fullScreen,
-      ])}
-    >
-      <div
-        className={classNameArrayToClassNameString([
-          style.errorBox,
-          fullScreen && style.fullScreen,
-        ])}
-      >
-        <img src={infoSign} alt="" className={style.infoSign} />
-        {children}
-      </div>
-    </div>
-  );
+  ...rest
+}: ErrorBoxProps) => {
+  return <InfoBox variant={type} children={children} {...rest} />;
 };
 
 export default ErrorBox;

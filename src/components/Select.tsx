@@ -33,6 +33,7 @@ interface SelectPropsBase {
   "aria-describedby"?: string;
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
+  size?: "small" | "medium";
 }
 
 export interface SingleSelectProps extends SelectPropsBase {
@@ -69,6 +70,7 @@ const Select = (props: SelectProps) => {
     "aria-describedby": ariaDescribedBy,
     hasErrors = false,
     errorMessage = "",
+    size = "medium",
   } = props;
 
   const [showDropdownList, setShowDropdownList] = useState(false);
@@ -123,7 +125,8 @@ const Select = (props: SelectProps) => {
 
   const selectedArray = (): (string | number)[] => {
     if (props.value !== undefined) return ensureArray(props.value);
-    if (props.defaultValue !== undefined) return ensureArray(props.defaultValue);
+    if (props.defaultValue !== undefined)
+      return ensureArray(props.defaultValue);
     return [];
   };
 
@@ -201,7 +204,10 @@ const Select = (props: SelectProps) => {
       </Label>
 
       <div
-        className={style.selectContainer}
+        className={classNameArrayToClassNameString([
+          style.selectContainer,
+          size === "small" && style.small,
+        ])}
         style={width ? { maxWidth: width } : undefined}
       >
         <span className={style.selectListArrow} />
@@ -215,7 +221,10 @@ const Select = (props: SelectProps) => {
               aria-haspopup="listbox"
               aria-expanded={showDropdownList}
               onClick={() => setShowDropdownList((s) => !s)}
-              className={style.multipleSelectElement}
+              className={classNameArrayToClassNameString([
+                style.multipleSelectElement,
+                size === "small" && style.small,
+              ])}
               disabled={disabled}
             >
               {renderSelectedValues()}
@@ -244,6 +253,7 @@ const Select = (props: SelectProps) => {
             role={role}
             className={classNameArrayToClassNameString([
               hasErrors && style.hasErrors,
+              size === "small" && style.small,
             ])}
             aria-describedby={
               hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy

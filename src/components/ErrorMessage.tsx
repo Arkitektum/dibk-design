@@ -1,5 +1,5 @@
 import type React from "react";
-import errorSign from "../assets/svg/error-sign.svg?url";
+import errorIcon from "../assets/svg/error-icon.svg?url";
 import style from "./ErrorMessage.module.scss";
 
 export interface ErrorMessageProps {
@@ -18,7 +18,7 @@ const ErrorMessage = ({ id, content = "" }: ErrorMessageProps) => {
 
   return hasContent ? (
     <span aria-live="polite" {...getErrorElementProps()}>
-      <img src={errorSign} alt="" className={style.errorSign} />
+      <img src={errorIcon} alt="" className={style.errorSign} />
       {content}
     </span>
   ) : null;

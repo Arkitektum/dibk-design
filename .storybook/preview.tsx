@@ -2,7 +2,7 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
-import type { Preview, Decorator } from "@storybook/react-vite";
+import type { Decorator, Preview } from "@storybook/react";
 
 const withThemeProvider: Decorator = (Story, { parameters }) => {
   return (
