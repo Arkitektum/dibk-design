@@ -25,6 +25,7 @@ import LoadingAnimation from "./components/LoadingAnimation";
 import LoadingAnimation2 from "./components/LoadingAnimation2";
 import NavigationBar from "./components/NavigationBar";
 import NavigationBarListItem from "./components/NavigationBarListItem";
+import Paragraph from "./components/Paragraph";
 import Paper from "./components/Paper";
 import ProgressBar from "./components/ProgressBar";
 import RadioButtonIcon from "./components/RadioButtonIcon";
@@ -39,6 +40,7 @@ import Textarea from "./components/Textarea";
 import ThemeProvider from "./components/ThemeProvider";
 import ToggleNavigationButton from "./components/ToggleNavigationButton";
 import WizardNavigation from "./components/WizardNavigation";
+import "./style/base/_fonts.scss";
 
 export {
   Accordion,
@@ -68,6 +70,7 @@ export {
   LoadingAnimation2,
   NavigationBar,
   NavigationBarListItem,
+  Paragraph,
   Paper,
   ProgressBar,
   RadioButtonIcon,

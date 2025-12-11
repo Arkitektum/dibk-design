@@ -10,6 +10,21 @@
 @use "../style/abstracts/variables/viewports";
 
 .navigationBarContainer {
+    --navigation-surface: #fff;
+    --navigation-overlay: #ebf4fa;
+
+    &.primary {
+        --navigation-surface: #fff;
+    }
+
+    &.neutral {
+        --navigation-surface: #fff;
+    }
+
+    &.secondary {
+        --navigation-surface: #ebf4fa;
+    }
+    
     .mainContentLink {
         display: block;
         padding: 8px;
@@ -42,7 +57,7 @@
     }
     &:not(.compact) {
         position: relative;
-        background-color: var(--color-body-background, colors.$color-body-background);
+        background-color: var(--navigation-surface, #fff);
         padding: 5px;
         @media only screen and (min-width: viewports.$screen-sm) {
             padding: 20px;
@@ -51,8 +66,8 @@
             padding-bottom: 40px;
         }
         .mainContentLink {
-            background-color: var(--color-body-background, colors.$color-body-background);
-            color: var(--color-primary, colors.$color-primary);
+            background-color: var(--navigation-surface, #fff);
+            color: var(--color-primary-text, colors.$color-primary-text);
             &:focus,
             &:active {
                 span {
@@ -64,20 +79,14 @@
             position: relative;
             display: -ms-flexbox;
             display: flex;
+            
             -ms-flex-wrap: wrap;
             flex-wrap: wrap;
             max-width: 100%;
             margin: 0;
             font-size: 18px;
             padding: 0;
-            &:not(.preventStacking) {
-                -ms-flex-direction: column;
-                flex-direction: column;
-            }
-            &.preventStacking {
-                -ms-flex-direction: row;
-                flex-direction: row;
-            }
+            
             @media only screen and (min-width: viewports.$screen-sm) {
                 -ms-flex-direction: row;
                 flex-direction: row;
@@ -88,9 +97,14 @@
         }
         .logoContainer {
             width: var(--size-logo-small-width, 85px);
+            
             margin-bottom: 0;
             @media only screen and (min-width: viewports.$screen-sm) {
                 width: var(--size-logo-large-width, 100px);
+            }
+            img {
+                display: block;
+                background-color: var(--navigation-surface, #fff);
             }
         }
         .childElements {
@@ -109,13 +123,13 @@
             right: 10px;
             height: auto;
             margin: auto;
-            border: 1px solid var(--color-primary, colors.$color-primary);
-            padding: 10px 20px;
+            border: none;
+            padding: 12px 24px;
             padding-right: 54px;
             background-color: transparent;
             color: var(--color-primary, colors.$color-primary);
-            font-size: 20px;
-            font-weight: 400;
+            font-size: 18px;
+            font-weight: 500;
             cursor: pointer;
             @media only screen and (min-width: viewports.$screen-sm) {
                 position: relative;
@@ -130,15 +144,15 @@
                 top: 50%;
                 right: 15px;
                 transform: translateY(-50%);
-                height: 4px;
-                width: 24px;
+                height: 2px;
+                width: 22px;
                 border-radius: 3px;
                 background-color: var(--color-primary, colors.$color-primary);
                 &::before,
                 &::after {
                     content: "";
                     position: absolute;
-                    height: 4px;
+                    height: 2px;
                     left: 0;
                     right: 0;
                     border-radius: 3px;
@@ -155,13 +169,13 @@
             &:hover,
             &:focus,
             &:active {
-                color: #fff;
-                background-color: var(--color-primary, colors.$color-primary);
+                color: var(--color-primary, colors.$color-primary);
+                background-color: transparent;
                 .hamburgerIcon {
-                    background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
+                    background-color: var(--color-primary, colors.$color-primary);
                     &::before,
                     &::after {
-                        background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
+                        background-color: var(--color-primary, colors.$color-primary);
                     }
                 }
             }
@@ -178,14 +192,20 @@
             }
         }
         .dropdownContainer {
+            position: fixed;
+            inset: 0;
             z-index: 1000;
             display: none;
             width: 100%;
-            overflow: hidden;
-            transition: all transitions.$default-transition;
-            background-color: var(--color-body-background, colors.$color-body-background);
+            height: 100vh;
+            overflow: auto;
+            transition: opacity transitions.$default-transition;
+            background-color: var(--navigation-surface, #fff);
+            padding: 24px 16px;
             &.active {
-                display: block;
+                display: flex;
+                opacity: 1;
+                background-color: var(--navigation-overlay, #ebf4fa);
             }
         }
         .dropdown {
@@ -194,8 +214,10 @@
             display: flex;
             -ms-flex-wrap: wrap;
             flex-wrap: wrap;
-            padding: 0;
+            width: min(1240px, 100%);
             padding: 20px;
+            background-color: var(--navigation-surface, #fff);
+            position: relative;
             @media only screen and (min-width: viewports.$screen-sm) {
                 padding: 40px 5%;
             }
@@ -304,6 +326,64 @@
                     }
                 }
             }
+            .closeOverlay {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-family: typography.$default-font;
+                border: none;
+                background: transparent;
+                color: var(--color-primary, colors.$color-primary);
+                padding: 8px 12px;
+                font-size: 18px;
+                font-weight: 500;
+                cursor: pointer;
+                border-radius: 6px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                .closeText {
+                    line-height: 1;
+                }
+                .closeIcon {
+                    position: relative;
+                    width: 18px;
+                    height: 18px;
+                    display: inline-block;
+                }
+                .closeLine {
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    border-radius: 2px;
+                    background-color: var(--color-primary, colors.$color-primary);
+                    transform-origin: center;
+                    &:first-of-type {
+                        transform: translateY(-50%) rotate(45deg);
+                    }
+                    &:last-of-type {
+                        transform: translateY(-50%) rotate(-45deg);
+                    }
+                }
+                &:hover,
+                &:focus-visible {
+                    background-color: var(
+                        --color-secondary-x-light,
+                        colors.$color-secondary-x-light
+                    );
+                    outline: none;
+                }
+            }
+        }
+        .dropdownContainer.active .dropdown {
+            background-color: var(--navigation-overlay, #ebf4fa);
+        }
+    }
+    &.secondary:not(.compact) {
+        .logoContainer img {
+            mix-blend-mode: multiply;
         }
     }
     &.compact {
@@ -313,6 +393,7 @@
 
         .mainContentLink {
             background-color: var(--color-primary, colors.$color-primary);
+            
             color: var(--color-primary-contrast, colors.$color-primary-contrast);
             &:focus,
             &:active {
@@ -327,6 +408,7 @@
             height: 54px;
             display: flex;
             justify-content: space-between;
+            
             align-items: center;
             @media only screen and (min-width: viewports.$screen-sm) {
                 height: 73px;
@@ -336,6 +418,7 @@
         .logoContainer {
             width: 200px;
             height: 54px;
+            
             display: inline-block;
             img {
                 height: 54px;

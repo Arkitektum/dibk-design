@@ -1,57 +1,57 @@
-$font-path: "../../assets/fonts";
+
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-Regular.otf");
+	src: url("../../assets/fonts/PPMori-Regular.otf");
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-RegularItalic.otf");
+	src: url("../../assets/fonts/PPMori-RegularItalic.otf");
 	font-weight: 400;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-Book.otf");
+	src: url("../../assets/fonts/PPMori-Book.otf");
 	font-weight: 300;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-Medium.otf");
+	src: url("../../assets/fonts/PPMori-Medium.otf");
 	font-weight: 500;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-SemiBold.otf");
+	src: url("../../assets/fonts/PPMori-SemiBold.otf");
 	font-weight: 600;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-Bold.otf");
+	src: url("../../assets/fonts/PPMori-Bold.otf");
 	font-weight: 700;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-ExtraBold.otf");
+	src: url("../../assets/fonts/PPMori-ExtraBold.otf");
 	font-weight: 900;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PP Mori";
-	src: url("#{$font-path}/PPMori-Light.otf");
+	src: url("../../assets/fonts/PPMori-Light.otf");
 	font-weight: 200;
 	font-style: normal;
 }

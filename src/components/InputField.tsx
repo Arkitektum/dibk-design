@@ -38,6 +38,7 @@ export interface InputFieldProps {
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
   noMargin?: boolean;
+  caption?: React.ReactNode;
 }
 
 /** Format a Date (or date-like string) to DD.MM.YYYY for read-only display */
@@ -98,9 +99,11 @@ const InputField = ({
   hasErrors = false,
   errorMessage = "",
   noMargin = false,
+  caption,
 }: InputFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const getErrorElementId = () => `${id}-errorMessage`;
+  const captionId = `${id}-caption`;
   const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
   const isDateInput = type === "date" && !disabled && !readOnly;
 
@@ -164,8 +167,14 @@ const InputField = ({
     onFocus: handleFocus,
     placeholder: type === "file" ? undefined : placeholder,
     className: inputClassName || undefined,
-    "aria-describedby":
-      hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy,
+    "aria-describedby": [
+      hasErrors && errorMessage ? getErrorElementId() : null,
+      caption ? captionId : null,
+      ariaDescribedBy,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .trim() || undefined,
     "aria-invalid": hasErrors || undefined,
     "aria-autocomplete": isTextLike(type) ? ariaAutocomplete : undefined,
     style: styleRules,
@@ -233,6 +242,12 @@ const InputField = ({
 
       {/* note: for type="file", we don’t pass value/defaultValue */}
       <input key={elementKey || id} {...inputProps} ref={inputRef} />
+
+      {caption ? (
+        <p className={style.caption} id={captionId}>
+          {caption}
+        </p>
+      ) : null}
 
       {hasErrors && errorMessage ? (
         <ErrorMessage id={getErrorElementId()} content={errorMessage} />

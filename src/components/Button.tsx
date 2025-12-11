@@ -14,7 +14,7 @@ import style from "./Button.module.scss";
 
 type ArrowDirection = "none" | "left" | "right";
 type ButtonSize = "small" | "regular";
-export type ButtonColor = "primary" | "secondary" | "ghost";
+export type ButtonColor = "primary" | "secondary" | "neutral";
 export type InputType = "button" | "radio";
 
 export interface ButtonProps
@@ -56,6 +56,7 @@ const Button = ({
   children,
   iconLeft,
   iconRight,
+  className: classNameProp,
   ...rest
 }: ButtonProps) => {
   const getArrowClass = (arrow: ArrowDirection): string => {
@@ -83,6 +84,7 @@ const Button = ({
     disabled ? style.disabled : null,
     noMargin ? style.noMargin : null,
     iconLeft || iconRight ? style.hasIcon : null,
+    classNameProp,
   ]);
 
   const buttonProps = {

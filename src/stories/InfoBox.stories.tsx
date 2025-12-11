@@ -7,7 +7,7 @@ const meta: Meta<typeof InfoBox> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["info", "warning", "error", "tip"],
+      options: ["info", "warning", "error", "tip", "success"],
     },
     fullScreen: { control: "boolean" },
     hideIcon: { control: "boolean" },
@@ -62,6 +62,15 @@ export const Tip: Story = {
     variant: "tip",
     title: "Tips",
     children: "Du kan lagre utkastet og fortsette senere.",
+  },
+  render,
+};
+
+export const Success: Story = {
+  args: {
+    variant: "success",
+    title: "Alt er klart",
+    children: "Søknaden ble sendt inn uten feil.",
   },
   render,
 };

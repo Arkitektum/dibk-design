@@ -21,30 +21,33 @@ export interface ListItemObject {
 export interface NavigationBarProps {
   primaryListItems?: ListItemObject[];
   secondaryListItems?: ListItemObject[];
+  menuContent?: React.ReactNode;
   logoLink?: string;
   logoLinkTitle?: string;
   openLogoLinkInNewTab?: boolean;
   theme?: ThemeProps;
   compact?: boolean;
   mainContentId?: string;
-  preventChildElementStacking?: boolean;
+  color?: "primary" | "secondary" | "neutral";
   children?: React.ReactNode;
 }
 
 const NavigationBar = ({
   primaryListItems = [],
   secondaryListItems = [],
+  menuContent,
   logoLink = "",
   logoLinkTitle,
   openLogoLinkInNewTab,
   theme,
   compact,
   mainContentId,
-  preventChildElementStacking = false,
+  color = "neutral",
   children,
 }: NavigationBarProps) => {
   const [active, setActive] = useState(false);
   const toggleList = () => setActive(!active);
+  const closeList = () => setActive(false);
 
   const getLogoThemeStyle = (theme?: ThemeProps) => ({
     padding: getThemeLogoPadding(theme),
@@ -116,6 +119,7 @@ const NavigationBar = ({
 
   const hasListItems =
     primaryListItems.length > 0 || secondaryListItems.length > 0;
+  const hasMenu = hasListItems || Boolean(menuContent);
   const mainContentLinkId = useId();
   const mainContentLinkSpanId = useId();
   const dropdownId = useId();
@@ -123,6 +127,7 @@ const NavigationBar = ({
     <div
       className={classNameArrayToClassNameString([
         compact && style.compact,
+        color && style[color],
         style.navigationBarContainer,
       ])}
     >
@@ -139,7 +144,6 @@ const NavigationBar = ({
       <div
         className={classNameArrayToClassNameString([
           style.navigationBar,
-          preventChildElementStacking && style.preventStacking,
         ])}
       >
         <div className={style.logoContainer}>
@@ -148,13 +152,13 @@ const NavigationBar = ({
 
         {children && <div className={style.childElements}>{children}</div>}
 
-        {hasListItems && (
+        {hasMenu && (
           <button
             type="button"
             className={`${style.menuToggle} ${active ? style.active : ""}`}
             onClick={toggleList}
             aria-expanded={active ? "true" : "false"}
-            aria-controls="main-menu-dropdown"
+            aria-controls={dropdownId}
           >
             {!compact && "Meny"}
             <span className={style.hamburgerIcon}>
@@ -166,16 +170,37 @@ const NavigationBar = ({
         )}
       </div>
 
-      {hasListItems && (
+      {hasMenu && (
         <div
           className={classNameArrayToClassNameString([
             style.dropdownContainer,
             active && style.active,
           ])}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Hovedmeny"
         >
           <div id={dropdownId} className={style.dropdown}>
-            {renderPrimaryList()}
-            {renderSecondaryList()}
+            {menuContent ?? (
+              <>
+                {renderPrimaryList()}
+                {renderSecondaryList()}
+              </>
+            )}
+            {!compact && (
+              <button
+                type="button"
+                className={style.closeOverlay}
+                onClick={closeList}
+                aria-label="Lukk meny"
+              >
+                <span className={style.closeText}>Lukk</span>
+                <span aria-hidden="true" className={style.closeIcon}>
+                  <span className={style.closeLine}></span>
+                  <span className={style.closeLine}></span>
+                </span>
+              </button>
+            )}
           </div>
         </div>
       )}

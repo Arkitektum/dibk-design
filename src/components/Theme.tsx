@@ -103,7 +103,7 @@ const Theme = (theme: ThemeProps) => {
               content="Secondary button"
               arrow="right"
             />
-            <Button color="ghost" content="Ghost button" />
+            <Button color="neutral" content="Neutral button" />
           </section>
 
           <section>

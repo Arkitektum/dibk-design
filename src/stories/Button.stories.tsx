@@ -29,9 +29,9 @@ export const Secondary: Story = {
   },
 };
 
-export const Ghost: Story = {
+export const Neutral: Story = {
   args: {
-    color: "ghost",
+    color: "neutral",
     content: "Button",
   },
 };
@@ -95,5 +95,49 @@ export const RadioButton: Story = {
     inputType: "radio",
     name: "radio-button",
     defaultChecked: false,
+  },
+};
+
+const caretIconLeft = (
+  <span
+    aria-hidden="true"
+    style={{
+      display: "inline-block",
+      width: 0,
+      height: 0,
+      borderTop: "6px solid transparent",
+      borderBottom: "6px solid transparent",
+      borderRight: "8px solid currentColor",
+    }}
+  />
+);
+
+const caretIconRight = (
+  <span
+    aria-hidden="true"
+    style={{
+      display: "inline-block",
+      width: 0,
+      height: 0,
+      borderTop: "6px solid transparent",
+      borderBottom: "6px solid transparent",
+      borderLeft: "8px solid currentColor",
+    }}
+  />
+);
+
+export const IconLeft: Story = {
+  args: {
+    color: "primary",
+    content: "Icon left",
+    iconLeft: caretIconLeft,
+  },
+};
+
+export const IconRight: Story = {
+  args: {
+    color: "secondary",
+    content: "Icon right",
+    iconRight: caretIconRight,
   },
 };

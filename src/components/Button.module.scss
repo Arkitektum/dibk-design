@@ -84,12 +84,13 @@
   }
 
   &.small {
-    padding: 6px 24px;
+    padding: 8px 10px;
+    font-size: 14px;
     min-width: 80px;
     line-height: 18px;
     @media only screen and (min-width: viewports.$screen-sm) {
       line-height: 21px;
-      padding: 6px 32px;
+      padding: 8px 10px;
     }
   }
 
@@ -126,7 +127,7 @@
 
   &.secondary {
     background-color: var(--color-secondary-light, colors.$color-secondary-light);
-    color: var(--color-secondary-contrast, colors.$color-secondary-contrast);
+    color: var(--color-primary, colors.$color-primary);
     border-color: var(
       --color-secondary-x-light,
       colors.$color-secondary-x-light
@@ -137,7 +138,7 @@
         --color-secondary-light,
         colors.$color-secondary-x-light
       );
-      color: var(--color-secondary-contrast, colors.$color-secondary-contrast);
+      color: var(--color-primary, colors.$color-primary);
       &:after,
       &:before {
         border-color: var(
@@ -163,7 +164,7 @@
     }
   }
 
-  &.ghost {
+  &.neutral {
     background-color: transparent;
     color: var(--color-primary, colors.$color-primary);
     border-color: var(--color-primary, colors.$color-primary);
@@ -203,7 +204,7 @@
   &.disabled {
     &.primary,
     &.secondary,
-    &.ghost {
+    &.neutral {
       background-color: var(--color-primary, colors.$color-primary);
       cursor: default;
       color: var(--color-primary-contrast, colors.$color-primary-contrast);

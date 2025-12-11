@@ -74,10 +74,11 @@ export const WithChildElements: Story = {
   },
 };
 
-export const PreventChildElementStacking: Story = {
+export const WithSecondaryColor: Story = {
   args: {
-    preventChildElementStacking: true,
-    children: <span>Content here</span>,
+    primaryListItems,
+    secondaryListItems,
+    color: 'secondary',
     mainContentId: 'main-content',
   },
 };

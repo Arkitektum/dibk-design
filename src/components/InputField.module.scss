@@ -110,4 +110,11 @@
         white-space: nowrap;
         border: 0;
     }
+
+    .caption {
+        margin: 6px 0 0;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--color-default-text, colors.$color-default-text);
+    }
 }

@@ -1,11 +1,12 @@
 import type React from "react";
-import { classNameArrayToClassNameString } from "../functions/helpers";
-import style from "./InfoBox.module.scss";
 import errorIcon from "../assets/svg/error-icon.svg?url";
 import infoIcon from "../assets/svg/info-icon.svg?url";
+import successIcon from "../assets/svg/success-icon.svg?url";
 import warningIcon from "../assets/svg/warning-icon.svg?url";
+import { classNameArrayToClassNameString } from "../functions/helpers";
+import style from "./InfoBox.module.scss";
 
-export type InfoBoxVariant = "info" | "warning" | "error" | "tip";
+export type InfoBoxVariant = "info" | "warning" | "error" | "tip" | "success";
 
 export interface InfoBoxProps {
   title?: React.ReactNode;
@@ -31,12 +32,12 @@ const InfoBox = ({
     warning: warningIcon,
     error: errorIcon,
     tip: infoIcon,
+    success: successIcon,
   };
 
-  const iconNode =
-    icon ?? (
-      <img src={defaultIcons[variant]} alt="" className={style.iconImage} />
-    );
+  const iconNode = icon ?? (
+    <img src={defaultIcons[variant]} alt="" className={style.iconImage} />
+  );
   const shouldRenderIcon = !hideIcon && iconNode;
 
   return (
@@ -50,9 +51,7 @@ const InfoBox = ({
       ])}
     >
       <div className={style.inner}>
-        {shouldRenderIcon ? (
-          <div className={style.icon}>{iconNode}</div>
-        ) : null}
+        {shouldRenderIcon ? <div className={style.icon}>{iconNode}</div> : null}
         <div className={style.content}>
           {title ? <div className={style.title}>{title}</div> : null}
           {children ? <div className={style.body}>{children}</div> : null}

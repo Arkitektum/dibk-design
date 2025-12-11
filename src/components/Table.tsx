@@ -258,14 +258,40 @@ const Table = <T extends object>({
                             isAsc ? style.activeArrow : ""
                           }`}
                         >
-                          ▲
+                          <svg
+                            viewBox="0 0 12 8"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="presentation"
+                          >
+                            <path
+                              d="M2 6 6 2 10 6"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </span>
                         <span
                           className={`${style.sortArrow} ${
                             isDesc ? style.activeArrow : ""
                           }`}
                         >
-                          ▼
+                          <svg
+                            viewBox="0 0 12 8"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="presentation"
+                          >
+                            <path
+                              d="M2 2 6 6 10 2"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </span>
                       </span>
                     </button>
