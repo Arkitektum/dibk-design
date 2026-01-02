@@ -27,6 +27,10 @@ export interface InputFieldProps {
   contentOnly?: boolean;
   buttonColor?: "primary" | "secondary";
   buttonContent?: string;
+  actionButtonContent?: React.ReactNode;
+  actionButtonOnClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  actionButtonDisabled?: boolean;
+  actionButtonAriaLabel?: string;
   selectedFileName?: string;
   placeholder?: string;
   defaultContent?: string;
@@ -88,6 +92,10 @@ const InputField = ({
   contentOnly = false,
   buttonColor = "primary",
   buttonContent,
+  actionButtonContent,
+  actionButtonOnClick,
+  actionButtonDisabled = false,
+  actionButtonAriaLabel,
   selectedFileName,
   placeholder = "",
   defaultContent = "",
@@ -106,6 +114,8 @@ const InputField = ({
   const captionId = `${id}-caption`;
   const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
   const isDateInput = type === "date" && !disabled && !readOnly;
+  const hasActionButton =
+    Boolean(actionButtonContent) && Boolean(actionButtonOnClick) && type !== "file";
 
   const triggerDatePicker = () => {
     if (!isDateInput || !inputRef.current) return;
@@ -177,7 +187,7 @@ const InputField = ({
       .trim() || undefined,
     "aria-invalid": hasErrors || undefined,
     "aria-autocomplete": isTextLike(type) ? ariaAutocomplete : undefined,
-    style: styleRules,
+    style: hasActionButton ? undefined : styleRules,
     ...normalizedValueProps,
   };
 
@@ -241,7 +251,23 @@ const InputField = ({
       </Label>
 
       {/* note: for type="file", we don’t pass value/defaultValue */}
-      <input key={elementKey || id} {...inputProps} ref={inputRef} />
+      {hasActionButton ? (
+        <div className={style.inputWithButton} style={styleRules}>
+          <input key={elementKey || id} {...inputProps} ref={inputRef} />
+          <Button
+            color={buttonColor}
+            inputType="button"
+            onClick={actionButtonOnClick}
+            disabled={actionButtonDisabled}
+            aria-label={actionButtonAriaLabel}
+            noMargin
+          >
+            {actionButtonContent}
+          </Button>
+        </div>
+      ) : (
+        <input key={elementKey || id} {...inputProps} ref={inputRef} />
+      )}
 
       {caption ? (
         <p className={style.caption} id={captionId}>

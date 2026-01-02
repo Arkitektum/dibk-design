@@ -32,9 +32,7 @@ export const Default: Story = {
     ),
     closeButton: true,
     modal: true,
-    onClickOutside: () => {
-      console.log("clicked outside");
-    },
+    onClickOutside: () => {},
   },
   render: function Render(args) {
     const [showDialog, setShowDialog] = useState<boolean>(false);

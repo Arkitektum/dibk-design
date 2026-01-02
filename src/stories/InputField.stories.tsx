@@ -212,6 +212,16 @@ export const ContentOnlyWithDefaultContent: Story = {
   render: Uncontrolled(),
 };
 
+export const InputWithActionButton: Story = {
+  args: {
+    id: "inputField14",
+    label: "Input with action button",
+    actionButtonContent: "Action button",
+    actionButtonOnClick: () => console.log("Action button clicked"),
+  },
+  render: Uncontrolled(),
+};
+
 export const FileInput: Story = {
   args: {
     id: "inputField14",
@@ -228,6 +238,7 @@ export const FileInputWithButtonContentAndSelectedFile: Story = {
     type: "file",
     buttonContent: "Legg til fil",
     selectedFileName: "file.txt",
+    buttonColor: "secondary",
   },
   render: Uncontrolled(),
 };

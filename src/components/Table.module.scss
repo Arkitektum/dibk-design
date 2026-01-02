@@ -46,7 +46,7 @@
         width: 100%;
         padding: 10px 12px;
         cursor: default; 
-        border-radius: 6px; 
+        
       }
 
       .sortable {
@@ -171,7 +171,7 @@
 .pagination {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 28px;
   margin-top: 12px;
 }
 
@@ -179,23 +179,35 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
   margin-top: 12px;
+  justify-content: center;
+}
+
+.paginationWithPageSize {
+  justify-content: space-between;
 }
 
 .pageSizeSelector {
   min-width: 140px;
 }
 
-.pageButton {
-  border: 1px solid var(--color-border, colors.$color-border);
-  background: #fff;
+.pageNavButton {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--color-primary-text, colors.$color-primary-text);
-  padding: 6px 10px;
-  border-radius: 6px;
   cursor: pointer;
   font-family: typography.$default-font;
-  font-size: 15px;
+  font-size: 20px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  &:focus-visible {
+    outline: 2px solid var(--color-primary, colors.$color-primary);
+    outline-offset: 2px;
+  }
   &:hover:not(:disabled) {
     background-color: var(
       --color-secondary-x-light,
@@ -204,12 +216,55 @@
   }
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    color: var(--color-border, colors.$color-border);
   }
 }
 
-.pageInfo {
-  font-family: typography.$default-font;
-  font-size: 15px;
+.pageNavIcon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+}
+
+.pageList {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageNumber {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
   color: var(--color-primary-text, colors.$color-primary-text);
+  cursor: pointer;
+  font-family: typography.$default-font;
+  font-size: 24px;
+  line-height: 1;
+  &:hover {
+    background-color: var(
+      --color-secondary-x-light,
+      colors.$color-secondary-x-light
+    );
+  }
+  &:focus-visible {
+    outline: 2px solid var(--color-primary, colors.$color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.pageNumberActive {
+  background-color: var(--color-secondary-light, colors.$color-secondary-light);
+}
+
+.pageEllipsis {
+  color: var(--color-primary-text, colors.$color-primary-text);
+  font-family: typography.$default-font;
+  font-size: 24px;
+  line-height: 1;
+  padding: 0 4px;
 }

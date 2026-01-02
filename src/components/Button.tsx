@@ -59,6 +59,8 @@ const Button = ({
   className: classNameProp,
   ...rest
 }: ButtonProps) => {
+  const renderIcon = (icon: React.ReactNode) =>
+    icon ? <span className={style.buttonIcon}>{icon}</span> : null;
   const getArrowClass = (arrow: ArrowDirection): string => {
     switch (arrow) {
       case "left":
@@ -120,19 +122,19 @@ const Button = ({
             key: `button-${element.key}`,
             to: element.props.to,
           },
-          iconLeft,
+          renderIcon(iconLeft),
           <span className={style.buttonContent}>{element.props.children}</span>,
-          iconRight,
+          renderIcon(iconRight),
         );
       }
 
       return (
         <button {...buttonProps} key={`button-${element.key}`}>
-          {iconLeft}
+          {renderIcon(iconLeft)}
           <span className={style.buttonContent}>
             {content || (element.props ? element.props.children : null)}
           </span>
-          {iconRight}
+          {renderIcon(iconRight)}
         </button>
       );
     });
@@ -144,9 +146,9 @@ const Button = ({
     delete inputProps.href;
     return (
       <button type="button" {...buttonProps}>
-        {iconLeft}
+        {renderIcon(iconLeft)}
         <span className={style.buttonContent}>{content || children}</span>
-        {iconRight}
+        {renderIcon(iconRight)}
       </button>
     );
   }
@@ -160,9 +162,9 @@ const Button = ({
           {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)}
           type="radio"
         />
-        {iconLeft}
+        {renderIcon(iconLeft)}
         <span className={style.buttonContent}>{content}</span>
-        {iconRight}
+        {renderIcon(iconRight)}
       </label>
     );
   }
@@ -174,9 +176,9 @@ const Button = ({
     if ("type" in anchorProps) delete anchorProps.type;
     return (
       <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
-        {iconLeft}
+        {renderIcon(iconLeft)}
         <span className={style.buttonContent}>{content || children}</span>
-        {iconRight}
+        {renderIcon(iconRight)}
       </a>
     );
   }
@@ -194,9 +196,9 @@ const Button = ({
 
   return (
     <button {...buttonProps}>
-      {iconLeft}
+      {renderIcon(iconLeft)}
       <span className={style.buttonContent}>{content || children}</span>
-      {iconRight}
+      {renderIcon(iconRight)}
     </button>
   );
 };

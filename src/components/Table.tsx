@@ -11,6 +11,22 @@ export type SortState = {
   direction: "asc" | "desc";
 };
 
+const buildPageItems = (current: number, total: number) => {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, "...", total];
+  }
+
+  if (current >= total - 3) {
+    return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+  }
+
+  return [1, "...", current - 1, current, current + 1, "...", total];
+};
+
 export type TableColumn<T> = {
   key: string;
   label: string;
@@ -215,6 +231,14 @@ const Table = <T extends object>({
 
   const showPagination = totalPages > 1;
   const showPageSizeSelector = Boolean(pageSizeOptions?.length);
+  const pageItems = useMemo(
+    () => buildPageItems(currentPage, totalPages),
+    [currentPage, totalPages],
+  );
+  const paginationControlsClassName = classNameArrayToClassNameString([
+    style.paginationControls,
+    showPageSizeSelector && style.paginationWithPageSize,
+  ]);
 
   return (
     <>
@@ -414,7 +438,7 @@ const Table = <T extends object>({
         </tbody>
       </table>
       {(showPagination || showPageSizeSelector) && (
-        <div className={style.paginationControls}>
+        <div className={paginationControlsClassName}>
           {showPageSizeSelector && (
             <div className={style.pageSizeSelector}>
               <Select
@@ -432,24 +456,70 @@ const Table = <T extends object>({
             <div className={style.pagination}>
               <button
                 type="button"
-                className={style.pageButton}
+                className={style.pageNavButton}
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage <= 1}
                 aria-label="Forrige side"
               >
+                <span className={style.pageNavIcon} aria-hidden="true">
+                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10.5 3.5L6 8l4.5 4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
                 Forrige
               </button>
-              <span className={style.pageInfo}>
-                Side {currentPage} av {totalPages}
-              </span>
+              <div className={style.pageList} role="list">
+                {pageItems.map((item, index) =>
+                  item === "..." ? (
+                    <span
+                      key={`ellipsis-${index}`}
+                      className={style.pageEllipsis}
+                    >
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={item}
+                      type="button"
+                      className={classNameArrayToClassNameString([
+                        style.pageNumber,
+                        item === currentPage && style.pageNumberActive,
+                      ])}
+                      onClick={() => goToPage(Number(item))}
+                      aria-current={item === currentPage ? "page" : undefined}
+                    >
+                      {item}
+                    </button>
+                  ),
+                )}
+              </div>
               <button
                 type="button"
-                className={style.pageButton}
+                className={style.pageNavButton}
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
                 aria-label="Neste side"
               >
                 Neste
+                <span className={style.pageNavIcon} aria-hidden="true">
+                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M5.5 3.5L10 8l-4.5 4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </button>
             </div>
           )}

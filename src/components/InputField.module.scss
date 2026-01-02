@@ -15,6 +15,7 @@
         display: block;
     }
     .requiredSymbol {
+        display: inline-block;
         width: 1em;
         height: 1em;
         font-size: 0.4em;
@@ -79,6 +80,15 @@
                 cursor: default;
                 border-color: #afaba8;
             }
+        }
+    }
+    .inputWithButton {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        input {
+            flex: 1;
         }
     }
     &.file {

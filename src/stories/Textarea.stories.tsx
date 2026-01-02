@@ -12,25 +12,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { onChange: (e) => console.log(e.target.value), id: 'textarea1' },
+  args: { onChange: () => {}, id: 'textarea1' },
 };
 export const WithValue: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea2',
     value: 'Textarea with value',
   },
 };
 export const WithDefaultValue: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea3',
     defaultValue: 'Textarea with default value',
   },
 };
 export const WithLabel: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea4',
     value: 'Textarea with label and value',
     label: 'Textarea with label and value',
@@ -38,7 +38,7 @@ export const WithLabel: Story = {
 };
 export const Required: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea5',
     required: true,
     label: 'Required textarea',
@@ -47,7 +47,7 @@ export const Required: Story = {
 };
 export const WithLinkInLabel: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea6',
     value: 'Textarea with link in label',
     label: [
@@ -61,7 +61,7 @@ export const WithLinkInLabel: Story = {
 };
 export const WithError: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea7',
     value: 'Textarea with label, value, errors and error message',
     label: 'Textarea with label, value, errors and error message',
@@ -71,7 +71,7 @@ export const WithError: Story = {
 };
 export const ReadOnly: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea8',
     readOnly: true,
     value: 'Read only',
@@ -80,7 +80,7 @@ export const ReadOnly: Story = {
 };
 export const Disabled: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea9',
     disabled: true,
     value: 'Disabled',
@@ -89,7 +89,7 @@ export const Disabled: Story = {
 };
 export const ContentOnly: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea10',
     value: 'Value for Textarea',
     label: 'Textarea with contentOnly',
@@ -98,7 +98,7 @@ export const ContentOnly: Story = {
 };
 export const ContentOnlyAndDefaultContent: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea11',
     label: 'Textarea with defaultContent',
     contentOnly: true,
@@ -107,7 +107,7 @@ export const ContentOnlyAndDefaultContent: Story = {
 };
 export const WithCustomWidth: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea12',
     value: 'Textarea with custom width',
     width: '320px',
@@ -115,7 +115,7 @@ export const WithCustomWidth: Story = {
 };
 export const WithCustomWidthAndVerticalResizing: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea13',
     value: 'Textarea with resizing',
     width: '450px',
@@ -124,7 +124,7 @@ export const WithCustomWidthAndVerticalResizing: Story = {
 };
 export const WithCustomElementKey: Story = {
   args: {
-    onChange: (e) => console.log(e.target.value),
+    onChange: () => {},
     id: 'textarea14',
     value: 'Textarea with key',
     elementKey: 'textareaKeyHere',

@@ -146,7 +146,7 @@
                 transform: translateY(-50%);
                 height: 2px;
                 width: 22px;
-                border-radius: 3px;
+                
                 background-color: var(--color-primary, colors.$color-primary);
                 &::before,
                 &::after {
@@ -155,7 +155,7 @@
                     height: 2px;
                     left: 0;
                     right: 0;
-                    border-radius: 3px;
+                    
                     background-color: var(--color-primary, colors.$color-primary);
                     transition: transform 0.3s ease-out;
                 }
@@ -338,7 +338,7 @@
                 font-size: 18px;
                 font-weight: 500;
                 cursor: pointer;
-                border-radius: 6px;
+                
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
@@ -357,7 +357,7 @@
                     left: 0;
                     right: 0;
                     height: 2px;
-                    border-radius: 2px;
+                    
                     background-color: var(--color-primary, colors.$color-primary);
                     transform-origin: center;
                     &:first-of-type {

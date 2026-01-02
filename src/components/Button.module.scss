@@ -135,7 +135,7 @@
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(
-        --color-secondary-light,
+        --color-secondary-x-light,
         colors.$color-secondary-x-light
       );
       color: var(--color-primary, colors.$color-primary);
@@ -375,6 +375,18 @@
   &.hasIcon {
     display: flex;
     align-items: center;
+    .buttonIcon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      font-size: 1em;
+      > svg,
+      > img {
+        width: 1em;
+        height: 1em;
+      }
+    }
     .buttonContent {
       margin: 0 0.5em;
     }
