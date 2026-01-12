@@ -121,7 +121,7 @@ export const WithErrors: Story = {
     value: "Input field value",
     label: "Input with label, value, errors and error message",
     hasErrors: true,
-    errorMessage: "Wrong value",
+    errorMessage: "Feil input",
   },
   render: (args) => {
     const [val, setVal] = useState(args.value ?? "");
@@ -192,30 +192,11 @@ export const NumberInput: Story = {
   },
 };
 
-export const ContentOnly: Story = {
-  args: {
-    id: "inputField12",
-    value: "Input field value",
-    label: "Input with contentOnly set to true",
-    contentOnly: true,
-  },
-  render: Uncontrolled(),
-};
-
-export const ContentOnlyWithDefaultContent: Story = {
-  args: {
-    id: "inputField13",
-    label: "Input with contentOnly set to true and default content",
-    contentOnly: true,
-    defaultContent: "Default content",
-  },
-  render: Uncontrolled(),
-};
-
 export const InputWithActionButton: Story = {
   args: {
     id: "inputField14",
     label: "Input with action button",
+    placeholder: "Placeholder text",
     actionButtonContent: "Action button",
     actionButtonOnClick: () => console.log("Action button clicked"),
   },

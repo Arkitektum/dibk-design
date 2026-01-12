@@ -39,3 +39,18 @@ export const LabelStyledSpan: Story = {
   },
   render,
 };
+
+export const WithSubLabel: Story = {
+  args: {
+    children: 'Label',
+    subLabel: 'Støtter PDF, PNG og JPG. Maks 15MB.',
+  },
+  render,
+};
+
+export const WithLabelOnly: Story = {
+  args: {
+    children: 'Label',
+  },
+  render,
+};

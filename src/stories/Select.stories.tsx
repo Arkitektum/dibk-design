@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import Select, { type MultipleSelectProps, type SingleSelectProps } from "../components/Select";
+import Select, {
+  type MultipleSelectProps,
+  type SingleSelectProps,
+} from "../components/Select";
 
 type SelectArgs = SingleSelectProps | MultipleSelectProps;
-
 
 const meta: Meta<SelectArgs> = {
   title: "Example/Select",
@@ -59,7 +61,7 @@ export const Default: Story = {
     id: "select1",
     options,
   },
-};  
+};
 export const WithLabel: Story = {
   args: {
     id: "select2",
@@ -131,34 +133,6 @@ export const WithPlaceholder: Story = {
     placeholder: "Select from list",
     placeholderValue: "notSelected",
     value: "notSelected",
-    options,
-  },
-};
-export const WithContentOnly: Story = {
-  args: {
-    id: "select10",
-    label: "Content only",
-    value: "value 3",
-    contentOnly: true,
-    options,
-  },
-};
-export const WithContentOnlyAndKeyAsContent: Story = {
-  args: {
-    id: "select11",
-    label: "Key as content",
-    value: "value 3",
-    contentOnly: true,
-    keyAsContent: true,
-    options,
-  },
-};
-export const WithContentOnlyAndDefaultContent: Story = {
-  args: {
-    id: "select12",
-    label: "Default content fallback",
-    contentOnly: true,
-    defaultContent: "No value selected",
     options,
   },
 };

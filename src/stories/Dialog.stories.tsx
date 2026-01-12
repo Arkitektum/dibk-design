@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-
-import Header from "../components/Header";
-import Dialog from "@/components/Dialog";
 import Button from "@/components/Button";
+import Dialog from "@/components/Dialog";
 
 const meta: Meta<typeof Dialog> = {
   title: "Example/Dialog",
@@ -24,13 +22,13 @@ type Story = StoryObj<typeof Dialog>;
 
 export const Default: Story = {
   args: {
+    title: "Dialog title",
     children: (
       <>
-        <Header size={1}>Dialog title</Header>
         <p>Dialog paragraph</p>
       </>
     ),
-    closeButton: true,
+
     modal: true,
     onClickOutside: () => {},
   },

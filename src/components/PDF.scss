@@ -74,7 +74,7 @@ body {
     padding: 0;
     background-color: #eee;
     font-family: Carlito, sans-serif;
-    color: #000;
+    color: var(--color-default-text, colors.$color-default-text);
     font-size: $font-size-body;
     font-weight: normal;
     font-style: normal;
@@ -84,7 +84,7 @@ body {
     background: #fff;
     box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
     font-family: Carlito, sans-serif;
-    color: #000;
+    color: var(--color-default-text, colors.$color-default-text);
     font-size: $font-size-body;
     line-height: $line-height-default;
     &:not(.landscape) {
@@ -313,7 +313,7 @@ body {
         thead {
             tr {
                 background-color: #ededed;
-                border: 1px solid #000;
+                border: 1px solid var(--color-default-text, colors.$color-default-text);
                 th {
                     text-align: left;
                     font-size: $font-size-table-header;
@@ -327,7 +327,7 @@ body {
         }
         tbody {
             tr {
-                border: 1px solid #000;
+                border: 1px solid var(--color-default-text, colors.$color-default-text);
                 td {
                     font-size: $font-size-table-data;
                     word-break: break-word;

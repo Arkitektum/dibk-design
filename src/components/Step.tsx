@@ -1,7 +1,7 @@
-import { classNameArrayToClassNameString } from '../functions/helpers';
-import style from './Step.module.scss';
-import { Link as RouterLink } from 'react-router-dom';
-import checkmarkSymbol from '../assets/svg/checkmark-symbol.svg?url';
+import { Link as RouterLink } from "react-router-dom";
+import checkmarkSymbol from "../assets/svg/checkmark-symbol.svg?url";
+import { classNameArrayToClassNameString } from "../functions/helpers";
+import style from "./Step.module.scss";
 
 export interface StepData {
   id: string | number;
@@ -15,17 +15,17 @@ export interface StepProps {
   step: StepData;
   index: number;
   activeStepId: string | number;
-  direction?: 'vertical' | 'horizontal';
+  direction?: "vertical" | "horizontal";
 }
 
 const Step = ({
   step,
   index,
   activeStepId,
-  direction = 'vertical',
+  direction = "vertical",
 }: StepProps) => {
   const isActive = activeStepId === step.id;
-  const isVertical = direction === 'vertical';
+  const isVertical = direction === "vertical";
 
   const baseClassName = classNameArrayToClassNameString([
     style.wizardTopnavItem,
@@ -35,7 +35,7 @@ const Step = ({
     style[direction],
   ]);
 
-  const ariaCurrent = isActive ? 'step' : undefined;
+  const ariaCurrent = isActive ? "step" : undefined;
 
   const renderStepContent = () => (
     <>

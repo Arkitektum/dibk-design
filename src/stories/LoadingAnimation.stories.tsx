@@ -1,14 +1,14 @@
 // stories/LoadingAnimation.stories.tsx
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import LoadingAnimation from '../components/LoadingAnimation';
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const meta: Meta<typeof LoadingAnimation> = {
-  title: 'Example/LoadingAnimation',
+  title: "Example/LoadingAnimation",
   component: LoadingAnimation,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -16,7 +16,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    message: 'Loading...',
-  },
+  args: {},
 };

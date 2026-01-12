@@ -1,33 +1,25 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Header from '../components/Header';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Header from "../components/Header";
 
 const meta: Meta<typeof Header> = {
-  title: 'Example/Header',
+  title: "Example/Header",
   component: Header,
   argTypes: {
-    size: { control: 'select', options: [1, 2, 3, 4, 5] },
-    htmlTag: { control: 'select', options: ['h1', 'h2', 'h3', 'h4', 'h5'] },
+    size: { control: "select", options: [1, 2, 3, 4, 5] },
+    htmlTag: { control: "select", options: ["h1", "h2", "h3", "h4", "h5"] },
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story['render'] = (args) => <Header {...args} />;
+const render: Story["render"] = (args) => <Header {...args} />;
 
 export const Header1: Story = {
   args: {
     children: <>Title with size 1</>,
-  },
-  render,
-};
-
-export const Header1WithLabel: Story = {
-  args: {
-    children: <>Title with size 1</>,
-    label: 'Veiviser',
   },
   render,
 };
@@ -64,19 +56,11 @@ export const Header5: Story = {
   render,
 };
 
-export const BigHeader: Story = {
-  args: {
-    children: <>Big header</>,
-    big: true,
-  },
-  render,
-};
-
 export const Header2WithH1Tag: Story = {
   args: {
     children: <>Title with size 2 and htmlTag h1</>,
     size: 2,
-    htmlTag: 'h1',
+    htmlTag: "h1",
   },
   render,
 };

@@ -23,11 +23,9 @@ import style from "./Theme.module.scss";
 export interface ThemeProps {
   appName: string;
   logo: string;
+  logoCompact?: string;
   logoPadding?: string;
-  sizes?: {
-    logoSmallWidth: string;
-    logoLargeWidth: string;
-  };
+
   colors?: {
     [key: string]: string;
   };

@@ -2,7 +2,7 @@ import type React from "react";
 import type { JSX } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import asterisk from "../assets/svg/asterisk.svg?url";
-import Button, { type ButtonColor } from "./Button";
+import Button from "./Button";
 import style from "./DragAndDropFileInput.module.scss";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
@@ -13,16 +13,14 @@ export interface DragAndDropFileInputProps {
   onSelectChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDragAndDropChange: (files: FileList) => void;
   label?: string | (string | JSX.Element)[];
-  contentOnly?: boolean;
-  buttonColor?: ButtonColor;
+  subLabel?: string | (string | JSX.Element)[];
   buttonContent?: string;
   buttonContentWhenSelectedFile?: string;
   selectedFileName?: string;
-  defaultContent?: string;
   hasErrors?: boolean;
   errorMessage?: string | (string | JSX.Element)[];
   required?: boolean;
-  children?: React.ReactNode;
+
   "data-transaction-name"?: string;
 }
 
@@ -32,16 +30,14 @@ const DragAndDropFileInput = ({
   onSelectChange,
   onDragAndDropChange,
   label = "",
-  contentOnly = false,
-  buttonColor = "primary",
+  subLabel = "",
   buttonContent,
   buttonContentWhenSelectedFile,
   selectedFileName,
-  defaultContent = "",
   hasErrors = false,
   errorMessage = "",
   required = false,
-  children,
+
   "data-transaction-name": transactionName,
 }: DragAndDropFileInputProps) => {
   const [highlight, setHighlight] = useState(false);
@@ -51,13 +47,6 @@ const DragAndDropFileInput = ({
   const preventDefaults = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
-  };
-
-  const renderValueAsText = (
-    value?: string,
-    fallback?: string,
-  ): string | undefined => {
-    return value ? value : fallback;
   };
 
   const handleAddButtonOnClick = () => {
@@ -98,18 +87,15 @@ const DragAndDropFileInput = ({
     const node = containerElementRef.current;
     if (!node) return;
 
-    ["dragenter", "dragover"].forEach((eventName) =>{
-
-      node.addEventListener(eventName, highlightOn)
+    ["dragenter", "dragover"].forEach((eventName) => {
+      node.addEventListener(eventName, highlightOn);
     });
-    ["dragleave", "drop"].forEach((eventName) =>{
-
-      node.addEventListener(eventName, highlightOff)
+    ["dragleave", "drop"].forEach((eventName) => {
+      node.addEventListener(eventName, highlightOff);
     });
 
-    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) =>{
-
-      node.addEventListener(eventName, preventDefaults)
+    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+      node.addEventListener(eventName, preventDefaults);
     });
 
     node.addEventListener("drop", handleDrop);
@@ -126,62 +112,53 @@ const DragAndDropFileInput = ({
 
   return (
     <div className={style.dragAndDropFileInput}>
-      <Label htmlFor={id}>
+      <Label htmlFor={id} subLabel={subLabel}>
         {label}
+
         {required && (
           <img src={asterisk} alt="" className={style.requiredSymbol} />
         )}
       </Label>
 
-      <div>{children}</div>
-
-      {!contentOnly && (
-        <div
-          ref={containerElementRef}
-          className={`${style.dragAndDropContainer} ${
-            highlight ? style.highlighted : ""
-          }`}
-        >
-          {selectedFileName ? (
+      <div
+        ref={containerElementRef}
+        className={`${style.dragAndDropContainer} ${
+          highlight ? style.highlighted : ""
+        } ${hasErrors ? style.hasErrors : ""}`}
+      >
+        {selectedFileName ? (
+          <div>
+            <span>
+              <b>Valgt fil:</b> {selectedFileName}
+            </span>
+          </div>
+        ) : (
+          <div>Slipp fil her</div>
+        )}
+        <input
+          {...inputElementProps}
+          ref={fileInputElementRef}
+          type="file"
+          onChange={onSelectChange}
+        />
+        {buttonContent && (
+          <>
             <div>
-              <span>
-                <b>Valgt fil:</b> {selectedFileName}
-              </span>
+              {selectedFileName ? "" : "eller klikk på knappen for å velge fil"}
             </div>
-          ) : (
-            <div>Slipp fil her</div>
-          )}
-          <input
-            {...inputElementProps}
-            ref={fileInputElementRef}
-            type="file"
-            onChange={onSelectChange}
-          />
-          {buttonContent && (
-            <>
-              <div>
-                {selectedFileName
-                  ? ""
-                  : "eller klikk på knappen for å velge fil"}
-              </div>
 
-              <Button
-                size="small"
-                inputType="button"
-                color={buttonColor}
-                onClick={handleAddButtonOnClick}
-                content={buttonLabel}
-                hasErrors={hasErrors}
-                data-transaction-name={transactionName}
-              />
-            </>
-          )}
-        </div>
-      )}
+            <Button
+              size="small"
+              inputType="button"
+              color="secondary"
+              onClick={handleAddButtonOnClick}
+              content={buttonLabel}
+              data-transaction-name={transactionName}
+            />
+          </>
+        )}
+      </div>
 
-      {contentOnly && (
-        <span>{renderValueAsText(selectedFileName, defaultContent)}</span>
-      )}
       <ErrorMessage id={getErrorElementId()} content={errorMessage} />
     </div>
   );

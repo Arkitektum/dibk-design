@@ -10,80 +10,26 @@
 @use "../style/abstracts/variables/viewports";
 
 .navigationBarContainer {
-    --navigation-surface: #fff;
-    --navigation-overlay: #ebf4fa;
-
-    &.primary {
-        --navigation-surface: #fff;
-    }
-
-    &.neutral {
-        --navigation-surface: #fff;
-    }
-
-    &.secondary {
-        --navigation-surface: #ebf4fa;
-    }
-    
-    .mainContentLink {
-        display: block;
-        padding: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 19px;
-        position: absolute;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        width: 1px;
-        height: 1px;
-        word-wrap: normal;
-        &:focus,
-        &:active {
-            position: static;
-            overflow: visible;
-            clip: auto;
-            width: auto;
-            height: auto;
-            outline: none;
-            span {
-                z-index: 100;
-                outline-style: solid;
-                outline-width: 2px;
-                outline-offset: 3px;
-                transition: none;
-                text-decoration: none;
-            }
-        }
-    }
+    --navigation-surface: colors.$color-primary-contrast;
+    --navigation-overlay: colors.$color-body-background;
+    padding-top: 38px;
+    padding-bottom: 24px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-inline: clamp(16px, 4vw, 48px);
     &:not(.compact) {
         position: relative;
-        background-color: var(--navigation-surface, #fff);
-        padding: 5px;
-        @media only screen and (min-width: viewports.$screen-sm) {
-            padding: 20px;
-        }
-        @media only screen and (min-width: viewports.$screen-md) {
-            padding-bottom: 40px;
-        }
-        .mainContentLink {
-            background-color: var(--navigation-surface, #fff);
-            color: var(--color-primary-text, colors.$color-primary-text);
-            &:focus,
-            &:active {
-                span {
-                    outline-color: var(--color-primary, colors.$color-primary);
-                }
-            }
-        }
         .navigationBar {
             position: relative;
             display: -ms-flexbox;
+            width: 100%;
+            max-width: 1350px;
             display: flex;
-            
             -ms-flex-wrap: wrap;
             flex-wrap: wrap;
-            max-width: 100%;
-            margin: 0;
+            margin-left: auto;
+            margin-right: auto;
             font-size: 18px;
             padding: 0;
             
@@ -96,301 +42,29 @@
             }
         }
         .logoContainer {
-            width: var(--size-logo-small-width, 85px);
+            
+            
             
             margin-bottom: 0;
-            @media only screen and (min-width: viewports.$screen-sm) {
-                width: var(--size-logo-large-width, 100px);
-            }
+            
             img {
                 display: block;
-                background-color: var(--navigation-surface, #fff);
+                background-color: var(--navigation-surface, colors.$color-primary-contrast);
             }
         }
-        .childElements {
-            display: flex;
-            flex: 1 1;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .menuToggle {
-            transition: background-color transitions.$default-transition;
-            font-family: typography.$default-font;
-            display: inline-block;
-            line-height: 1.1;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            height: auto;
-            margin: auto;
-            border: none;
-            padding: 12px 24px;
-            padding-right: 54px;
-            background-color: transparent;
-            color: var(--color-primary, colors.$color-primary);
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            @media only screen and (min-width: viewports.$screen-sm) {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin-right: 0;
-                height: 53px;
-            }
-
-            .hamburgerIcon {
-                position: absolute;
-                top: 50%;
-                right: 15px;
-                transform: translateY(-50%);
-                height: 2px;
-                width: 22px;
-                
-                background-color: var(--color-primary, colors.$color-primary);
-                &::before,
-                &::after {
-                    content: "";
-                    position: absolute;
-                    height: 2px;
-                    left: 0;
-                    right: 0;
-                    
-                    background-color: var(--color-primary, colors.$color-primary);
-                    transition: transform 0.3s ease-out;
-                }
-                &::before {
-                    top: -8px;
-                }
-                &::after {
-                    bottom: -8px;
-                }
-            }
-            &:hover,
-            &:focus,
-            &:active {
-                color: var(--color-primary, colors.$color-primary);
-                background-color: transparent;
-                .hamburgerIcon {
-                    background-color: var(--color-primary, colors.$color-primary);
-                    &::before,
-                    &::after {
-                        background-color: var(--color-primary, colors.$color-primary);
-                    }
-                }
-            }
-            &.active {
-                .hamburgerIcon {
-                    background-color: transparent;
-                    &::before {
-                        transform: translate(0, 8px) rotate(45deg);
-                    }
-                    &::after {
-                        transform: translate(0, -8px) rotate(-45deg);
-                    }
-                }
-            }
-        }
-        .dropdownContainer {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: none;
-            width: 100%;
-            height: 100vh;
-            overflow: auto;
-            transition: opacity transitions.$default-transition;
-            background-color: var(--navigation-surface, #fff);
-            padding: 24px 16px;
-            &.active {
-                display: flex;
-                opacity: 1;
-                background-color: var(--navigation-overlay, #ebf4fa);
-            }
-        }
-        .dropdown {
-            margin: 0 auto;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            width: min(1240px, 100%);
-            padding: 20px;
-            background-color: var(--navigation-surface, #fff);
-            position: relative;
-            @media only screen and (min-width: viewports.$screen-sm) {
-                padding: 40px 5%;
-            }
-            > ul.primaryList,
-            > ul.secondaryList {
-                width: 100%;
-                padding: 0;
-                list-style: none;
-                margin: 0;
-                @media only screen and (min-width: viewports.$screen-sm) {
-                    padding: 20px 0;
-                }
-            }
-            > ul.primaryList {
-                float: left;
-                @media only screen and (min-width: viewports.$screen-sm) {
-                    width: 60%;
-                }
-                > li {
-                    line-height: 1.6;
-                    padding: 15px 0;
-                    @media only screen and (min-width: viewports.$screen-sm) {
-                        margin-left: 100px;
-                    }
-                    > a,
-                    > span {
-                        font-size: 18px;
-                        line-height: 1.56;
-                        font-weight: 600;
-                        text-decoration: underline;
-                        color: var(--color-primary, colors.$color-primary);
-                        cursor: pointer;
-                        &:hover {
-                            text-decoration: none;
-                        }
-                        @media only screen and (min-width: viewports.$screen-sm) {
-                            font-size: 26px;
-                            line-height: 1.58;
-                        }
-                    }
-                    > ul.primaryList {
-                        display: none;
-                        list-style: none;
-                        @media only screen and (min-width: viewports.$screen-sm) {
-                            display: -ms-flexbox;
-                            display: flex;
-                            -ms-flex-direction: row;
-                            flex-direction: row;
-                            -ms-flex-wrap: wrap;
-                            flex-wrap: wrap;
-                            margin-left: -5px;
-                        }
-                        li {
-                            padding: 5px;
-                            line-height: 1.6;
-                            font-size: 16px;
-                            @media only screen and (min-width: viewports.$screen-md) {
-                                font-size: 20px;
-                            }
-                            &:not(:last-of-type)::after {
-                                @media only screen and (min-width: viewports.$screen-sm) {
-                                    content: "-";
-                                    padding-left: 10px;
-                                }
-                            }
-                            a,
-                            span {
-                                cursor: pointer;
-                                text-decoration: underline;
-                                &:hover {
-                                    text-decoration: none;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            > ul.secondaryList {
-                float: right;
-                margin: 20px 0;
-                @media only screen and (min-width: viewports.$screen-sm) {
-                    margin: 0;
-                    width: 40%;
-                    padding-left: 20px;
-                }
-                li {
-                    padding: 5px 0;
-                    line-height: 1.6;
-                    @media only screen and (min-width: viewports.$screen-sm) {
-                        padding: 10px 0;
-                        position: relative;
-                    }
-                    a,
-                    span {
-                        font-size: 17px;
-                        text-decoration: underline;
-                        font-weight: 600;
-                        line-height: 1.5;
-                        cursor: pointer;
-                        &:hover {
-                            text-decoration: none;
-                        }
-                        @media only screen and (min-width: viewports.$screen-sm) {
-                            font-size: 22px;
-                        }
-                    }
-                }
-            }
-            .closeOverlay {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                font-family: typography.$default-font;
-                border: none;
-                background: transparent;
-                color: var(--color-primary, colors.$color-primary);
-                padding: 8px 12px;
-                font-size: 18px;
-                font-weight: 500;
-                cursor: pointer;
-                
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                .closeText {
-                    line-height: 1;
-                }
-                .closeIcon {
-                    position: relative;
-                    width: 18px;
-                    height: 18px;
-                    display: inline-block;
-                }
-                .closeLine {
-                    position: absolute;
-                    top: 50%;
-                    left: 0;
-                    right: 0;
-                    height: 2px;
-                    
-                    background-color: var(--color-primary, colors.$color-primary);
-                    transform-origin: center;
-                    &:first-of-type {
-                        transform: translateY(-50%) rotate(45deg);
-                    }
-                    &:last-of-type {
-                        transform: translateY(-50%) rotate(-45deg);
-                    }
-                }
-                &:hover,
-                &:focus-visible {
-                    background-color: var(
-                        --color-secondary-x-light,
-                        colors.$color-secondary-x-light
-                    );
-                    outline: none;
-                }
-            }
-        }
-        .dropdownContainer.active .dropdown {
-            background-color: var(--navigation-overlay, #ebf4fa);
-        }
+        
     }
     &.secondary:not(.compact) {
+        background-color: colors.$color-body-background;
         .logoContainer img {
             mix-blend-mode: multiply;
         }
     }
     &.compact {
+        
         @include box-shadow.box-shadow(0 2px 4px -2px rgba(0, 0, 0, 0.2));
         position: relative;
         z-index: 1;
-
         .mainContentLink {
             background-color: var(--color-primary, colors.$color-primary);
             
@@ -408,7 +82,6 @@
             height: 54px;
             display: flex;
             justify-content: space-between;
-            
             align-items: center;
             @media only screen and (min-width: viewports.$screen-sm) {
                 height: 73px;
@@ -418,7 +91,6 @@
         .logoContainer {
             width: 200px;
             height: 54px;
-            
             display: inline-block;
             img {
                 height: 54px;
@@ -429,127 +101,6 @@
                 height: 73px;
                 img {
                     height: 73px;
-                }
-            }
-        }
-
-        .childElements {
-            display: block;
-            color: var(--color-primary-contrast, colors.$color-primary-contrast);
-            flex: 1;
-        }
-
-        .menuToggle {
-            @include appearance.appearance(none);
-            @include transition.transition(background-color 300ms ease-out);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            background-color: transparent;
-            float: right;
-            margin: 0 12px;
-            .hamburgerIcon {
-                width: 30px;
-                display: block;
-                .line {
-                    background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
-                    height: 2px;
-                    margin: 6px 0;
-                    display: block;
-                }
-            }
-            @media only screen and (min-width: viewports.$screen-sm) {
-                margin: 0 21px;
-            }
-        }
-
-        .dropdownContainer {
-            @include transition.transition(max-height 0.15s ease-out);
-            max-height: 0;
-            overflow: hidden;
-            &.active {
-                @include transition.transition(max-height 0.15s ease-out);
-                max-height: 500px;
-            }
-        }
-
-        .dropdown {
-            @include box-shadow.box-shadow(0 2px 4px -2px rgba(0, 0, 0, 0.2));
-            background-color: var(--color-primary, colors.$color-primary);
-            z-index: 2;
-            > ul.primaryList {
-                list-style: none;
-                padding: 20px;
-                margin: 0;
-                li {
-                    a,
-                    span {
-                        color: var(--color-primary-contrast, colors.$color-primary-contrast);
-                        text-transform: uppercase;
-                        text-decoration: none;
-                        font-family: typography.$default-font;
-                        padding: 10px 0;
-                        display: block;
-                        border-bottom: 1px solid var(--color-primary, colors.$color-primary);
-                        font-size: 14px;
-                        line-height: 1.6;
-                    }
-                    > ul.primaryList {
-                        list-style: none;
-                        padding: 0;
-                        li {
-                            a,
-                            span {
-                                color: var(--color-primary-contrast, colors.$color-primary-contrast);
-                                text-transform: none;
-                                text-decoration: none;
-                                font-family: typography.$default-font;
-                                padding: 10px 0;
-                                margin-left: 20px;
-                                display: block;
-                                border-bottom: 1px solid #1b3a48;
-                                font-size: 14px;
-                                line-height: 1.6;
-                            }
-                        }
-                    }
-                }
-            }
-            > ul.secondaryList {
-                list-style: none;
-                padding: 20px;
-                margin: 0;
-
-                li {
-                    a,
-                    span {
-                        color: #fff;
-                        text-decoration: underline;
-                        font-family: "Arial";
-                        font-size: 14px;
-                        padding: 10px 0;
-                        line-height: 1;
-                    }
-                }
-            }
-        }
-
-        @media only screen and (min-width: viewports.$screen-sm) {
-            .dropdownContainer {
-                position: relative;
-                overflow: visible;
-                .dropdown {
-                    @include transition.transition(max-height 0.15s ease-out);
-                    width: 300px;
-                    position: absolute;
-                    right: 0;
-                    max-height: 0;
-                    overflow: hidden;
-                }
-                &.active {
-                    .dropdown {
-                        max-height: 500px;
-                    }
                 }
             }
         }

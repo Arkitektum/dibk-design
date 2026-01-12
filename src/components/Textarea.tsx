@@ -20,9 +20,7 @@ export interface TextareaProps {
   elementKey?: string;
   rows?: string;
   label?: React.ReactNode;
-  contentOnly?: boolean;
   placeholder?: string;
-  defaultContent?: string;
   "aria-describedby"?: string;
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
@@ -43,9 +41,7 @@ const Textarea = ({
   elementKey,
   rows,
   label = "",
-  contentOnly = false,
   placeholder = "",
-  defaultContent = "",
   "aria-describedby": ariaDescribedBy,
   hasErrors = false,
   errorMessage = "",
@@ -88,11 +84,7 @@ const Textarea = ({
           <img src={asterisk} alt="" className={style.requiredSymbol} />
         )}
       </Label>
-      {!contentOnly ? (
-        <textarea key={key} {...textareaProps} />
-      ) : (
-        <span>{value || defaultValue || defaultContent}</span>
-      )}
+      <textarea key={key} {...textareaProps} />
       <ErrorMessage id={getErrorElementId()} content={errorMessage} />
     </div>
   );

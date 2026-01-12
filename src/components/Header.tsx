@@ -7,8 +7,6 @@ export interface HeaderProps {
   id?: string;
   content?: string;
   size?: 1 | 2 | 3 | 4 | 5;
-  big?: boolean;
-  label?: string;
   htmlTag?: keyof JSX.IntrinsicElements;
   htmlFor?: string;
   children?: React.ReactNode;
@@ -18,8 +16,6 @@ const Header = ({
   id,
   content,
   size = 1,
-  big,
-  label,
   htmlTag,
   htmlFor,
   children,
@@ -29,13 +25,7 @@ const Header = ({
   const className = classNameArrayToClassNameString([
     style.header,
     style[`size-${size}`],
-    big && style.bigHeader,
   ]);
-
-  const labelStyle =
-    label?.length && typeof label === "string"
-      ? ({ "--label": `"${label}"` } as React.CSSProperties)
-      : undefined;
 
   const headerElement = React.createElement(
     tag,
@@ -43,7 +33,6 @@ const Header = ({
       className,
       id: id || undefined,
       htmlFor: htmlFor || undefined,
-      style: labelStyle,
     },
     content?.length ? content : children,
   );

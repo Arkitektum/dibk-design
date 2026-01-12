@@ -1,19 +1,12 @@
 // Mixins
 @use "../style/abstracts/mixins/appearance";
-@use "../style/abstracts/mixins/border-radius";
 @use "../style/abstracts/mixins/box-shadow";
 
 // Variables
 @use "../style/abstracts/variables/colors";
 
 .inputField {
-    font-size: 18px;
-    &:not(.noMargin) {
-        margin-bottom: 8px;
-    }
-    > div {
-        display: block;
-    }
+
     .requiredSymbol {
         display: inline-block;
         width: 1em;
@@ -24,13 +17,15 @@
     }
     input,
     &.file span.input {
-        @include appearance.appearance(none);
-        @include border-radius.border-radius(0);
-        @include box-shadow.box-shadow(none);
-        height: 54px;
+        padding-top: 11px;
+        height: 48px; /* FJERN MEG! */
+        line-height: 24px;
+        padding-bottom: 11px;
+        font-size: 18px;
+        padding-left: 10px;
+        gap: 10px;
         width: 100%;
         display: block;
-        padding: 12px;
         margin-bottom: 0;
         background-color: #fff;
         box-shadow: none;
@@ -38,7 +33,7 @@
         font-family: inherit;
         font-size: 18px;
         box-sizing: border-box;
-        border: 1px solid var(--color-primary, colors.$color-primary);
+        border: 1px solid var(--color-input-border, colors.$color-input-border);
 
         &:hover {
             border-color: var(--color-primary, colors.$color-primary);
@@ -47,14 +42,12 @@
         &:focus {
             border-color: var(--color-primary, colors.$color-primary);
             outline: none;
-            box-shadow: none;
+            box-shadow: 0 0 0 3px var(--color-focus, colors.$color-focus);
         }
 
         &:focus-visible {
             border-color: var(--color-primary, colors.$color-primary);
-            outline: 2px solid var(--color-focus, colors.$color-focus);
-            outline-offset: 1px;
-            box-shadow: 0 0 0 2px var(--color-focus, colors.$color-focus);
+            box-shadow: 0 0 0 3px var(--color-focus, colors.$color-focus);
         }
 
         &[disabled],
@@ -65,15 +58,8 @@
 
         &.hasErrors {
             border-color: var(--color-error, colors.$color-error);
-            &:focus {
-                border-color: var(--color-error, colors.$color-error);
-                outline-color: #b8565d;
-            }
-            &:focus-visible {
-                outline: 2px solid var(--color-error, colors.$color-error);
-                outline-offset: 1px;
-                box-shadow: 0 0 0 2px var(--color-error, colors.$color-error);
-            }
+            margin-bottom: 6px;
+            
             &[disabled],
             &[readonly] {
                 background-color: var(--color-secondary-background, colors.$color-secondary-background);
@@ -82,11 +68,29 @@
             }
         }
     }
+    .dateInput {
+        background-image: url("../assets/svg/calendar.icon.svg");
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        padding-right: 40px;
+        &::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        &::-webkit-inner-spin-button,
+        &::-webkit-clear-button {
+            display: none;
+        }
+        &::-ms-clear {
+            display: none;
+        }
+    }
     .inputWithButton {
         display: flex;
         align-items: center;
         gap: 8px;
-
         input {
             flex: 1;
         }
@@ -112,8 +116,9 @@
     .visuallyHidden {
         position: absolute !important;
         width: 1px;
+        background-color: red !important; 
         height: 1px;
-        padding: 0;
+        
         margin: -1px;
         overflow: hidden;
         clip: rect(0, 0, 0, 0);

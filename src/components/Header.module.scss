@@ -9,13 +9,15 @@
 		font-weight: normal;
 		line-height: 1.4;
 		font-style: normal;
-		color: var(--color-heading-text, colors.$color-heading-text);
+		color: var(--color-default-text, colors.$color-default-text);
+		
 		&.size-1 {
 			font-family: typography.$default-font;
+			color: var(--color-heading-text, colors.$color-heading-text);
 			font-style: normal;
 			font-size: 32px;
 			font-weight: 600;
-			line-height: 44px;
+			line-height: 130%;
 			letter-spacing: 0px;
 			&.bigHeader {
 				font-family: typography.$default-font;
@@ -30,6 +32,7 @@
 		}
 		&.size-2 {
 			font-family: typography.$default-font;
+			
 			font-style: normal;
 			font-size: 24px;
 			font-weight: 600;

@@ -1,7 +1,9 @@
 import type React from "react";
 import { useEffect, useId, useMemo, useState } from "react";
 import { classNameArrayToClassNameString } from "../functions/helpers";
+import Button from "./Button";
 import CheckBoxInput from "./CheckBoxInput";
+import LoadingAnimation from "./LoadingAnimation";
 import RadioButtonInput from "./RadioButtonInput";
 import Select from "./Select";
 import style from "./Table.module.scss";
@@ -41,7 +43,9 @@ export type TableColumn<T> = {
 export interface TableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
-  caption?: string;
+
+  loading?: boolean;
+  loadingAriaLabel?: string;
   getRowId?: (row: T, index: number) => React.Key;
   selectionType?: "single" | "multiple";
   selectionLabel?: string;
@@ -62,7 +66,9 @@ export interface TableProps<T> {
 const Table = <T extends object>({
   columns,
   data,
-  caption,
+
+  loading = false,
+  loadingAriaLabel,
   getRowId,
   selectionType,
   selectionLabel = "Velg rad",
@@ -210,6 +216,8 @@ const Table = <T extends object>({
     return sortedData.slice(start, start + pageSizeValue);
   }, [sortedData, currentPage, pageSizeValue]);
 
+  const columnCount = columns.length + (selectionType ? 1 : 0);
+
   const goToPage = (nextPage: number) => {
     const clamped = Math.min(Math.max(nextPage, 1), totalPages);
     if (page !== undefined) {
@@ -229,8 +237,8 @@ const Table = <T extends object>({
     }
   };
 
-  const showPagination = totalPages > 1;
-  const showPageSizeSelector = Boolean(pageSizeOptions?.length);
+  const showPagination = !loading && totalPages > 1;
+  const showPageSizeSelector = !loading && Boolean(pageSizeOptions?.length);
   const pageItems = useMemo(
     () => buildPageItems(currentPage, totalPages),
     [currentPage, totalPages],
@@ -243,7 +251,6 @@ const Table = <T extends object>({
   return (
     <>
       <table className={style.table}>
-        {caption && <caption>{caption}</caption>}
         <thead>
           <tr>
             {selectionType && (
@@ -331,110 +338,119 @@ const Table = <T extends object>({
         </thead>
 
         <tbody>
-          {paginatedData.map((row, i) => {
-            const rowId = resolveRowId(row, i);
-            const selectionControlId = `${selectionGroupName}-${rowId}`;
-            const isSelectedSingle =
-              selectionType === "single" && selectedRowId === rowId;
-            const isSelectedMulti =
-              selectionType === "multiple" && selectedRowIdSet.has(rowId);
+          {loading ? (
+            <tr className={style.loadingRow}>
+              <td className={style.loadingCell} colSpan={columnCount}>
+                <LoadingAnimation ariaLabel={loadingAriaLabel} />
+              </td>
+            </tr>
+          ) : (
+            paginatedData.map((row, i) => {
+              const rowId = resolveRowId(row, i);
+              const selectionControlId = `${selectionGroupName}-${rowId}`;
+              const isSelectedSingle =
+                selectionType === "single" && selectedRowId === rowId;
+              const isSelectedMulti =
+                selectionType === "multiple" && selectedRowIdSet.has(rowId);
 
-            const isSelectableSingle = selectionType === "single" && !!onSelect;
-            const isSelectableMulti =
-              selectionType === "multiple" && !!onSelectMany;
-            const clickable =
-              Boolean(onRowClick) || isSelectableSingle || isSelectableMulti;
+              const isSelectableSingle =
+                selectionType === "single" && !!onSelect;
+              const isSelectableMulti =
+                selectionType === "multiple" && !!onSelectMany;
+              const clickable =
+                Boolean(onRowClick) || isSelectableSingle || isSelectableMulti;
 
-            const handleRowClick = () => {
-              if (selectionType === "single") {
-                onSelect?.(row);
-              } else if (selectionType === "multiple" && onSelectMany) {
-                const nextSelected = new Set(selectedRowIdSet);
-                if (nextSelected.has(rowId)) {
-                  nextSelected.delete(rowId);
-                } else {
-                  nextSelected.add(rowId);
+              const handleRowClick = () => {
+                if (selectionType === "single") {
+                  onSelect?.(row);
+                } else if (selectionType === "multiple" && onSelectMany) {
+                  const nextSelected = new Set(selectedRowIdSet);
+                  if (nextSelected.has(rowId)) {
+                    nextSelected.delete(rowId);
+                  } else {
+                    nextSelected.add(rowId);
+                  }
+                  const selectedRows = data.filter((item, idx) => {
+                    const currentId = resolveRowId(item, idx);
+                    return nextSelected.has(currentId);
+                  });
+                  onSelectMany(selectedRows);
                 }
-                const selectedRows = data.filter((item, idx) => {
-                  const currentId = resolveRowId(item, idx);
-                  return nextSelected.has(currentId);
-                });
-                onSelectMany(selectedRows);
-              }
-              onRowClick?.(row);
-            };
+                onRowClick?.(row);
+              };
 
-            return (
-              <tr
-                key={rowId}
-                className={classNameArrayToClassNameString([
-                  i % 2 === 0 ? style.evenRow : style.oddRow,
-                  clickable && style.rowClickable,
-                ])}
-                onClick={clickable ? handleRowClick : undefined}
-              >
-                {selectionType === "single" && (
-                  <td className={style.selectionCell}>
-                    <button
-                      type="button"
-                      className={style.selectionControl}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <RadioButtonInput
-                        id={selectionControlId}
-                        name={selectionGroupName}
-                        inputValue={String(rowId)}
-                        checked={isSelectedSingle}
-                        onChange={(event) => {
-                          event?.stopPropagation();
-                          onSelect?.(row);
-                        }}
-                        aria-label={selectionLabel}
-                      />
-                    </button>
-                  </td>
-                )}
-                {selectionType === "multiple" && (
-                  <td className={style.selectionCell}>
-                    <button
-                      type="button"
-                      className={style.selectionControl}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <CheckBoxInput
-                        id={selectionControlId}
-                        value={String(rowId)}
-                        checked={isSelectedMulti}
-                        onChange={(event) => {
-                          event?.stopPropagation();
-                          if (!onSelectMany) return;
-                          const nextSelected = new Set(selectedRowIdSet);
-                          if (nextSelected.has(rowId)) {
-                            nextSelected.delete(rowId);
-                          } else {
-                            nextSelected.add(rowId);
-                          }
-                          const selectedRows = data.filter((item, idx) => {
-                            const currentId = resolveRowId(item, idx);
-                            return nextSelected.has(currentId);
-                          });
-                          onSelectMany(selectedRows);
-                        }}
-                        aria-label={selectionLabel}
-                      />
-                    </button>
-                  </td>
-                )}
-                {columns.map((col) => (
-                  <td key={col.key}>
-                    {col.render
-                      ? col.render(row)
-                      : String(col.accessor?.(row) ?? "")}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
+              return (
+                <tr
+                  key={rowId}
+                  className={classNameArrayToClassNameString([
+                    i % 2 === 0 ? style.evenRow : style.oddRow,
+                    clickable && style.rowClickable,
+                  ])}
+                  onClick={clickable ? handleRowClick : undefined}
+                >
+                  {selectionType === "single" && (
+                    <td className={style.selectionCell}>
+                      <button
+                        type="button"
+                        className={style.selectionControl}
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <RadioButtonInput
+                          id={selectionControlId}
+                          name={selectionGroupName}
+                          inputValue={String(rowId)}
+                          checked={isSelectedSingle}
+                          onChange={(event) => {
+                            event?.stopPropagation();
+                            onSelect?.(row);
+                          }}
+                          aria-label={selectionLabel}
+                        />
+                      </button>
+                    </td>
+                  )}
+                  {selectionType === "multiple" && (
+                    <td className={style.selectionCell}>
+                      <button
+                        type="button"
+                        className={style.selectionControl}
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <CheckBoxInput
+                          id={selectionControlId}
+                          value={String(rowId)}
+                          checked={isSelectedMulti}
+                          onChange={(event) => {
+                            event?.stopPropagation();
+                            if (!onSelectMany) return;
+                            const nextSelected = new Set(selectedRowIdSet);
+                            if (nextSelected.has(rowId)) {
+                              nextSelected.delete(rowId);
+                            } else {
+                              nextSelected.add(rowId);
+                            }
+                            const selectedRows = data.filter((item, idx) => {
+                              const currentId = resolveRowId(item, idx);
+                              return nextSelected.has(currentId);
+                            });
+                            onSelectMany(selectedRows);
+                          }}
+                          aria-label={selectionLabel}
+                        />
+                      </button>
+                    </td>
+                  )}
+                  {columns.map((col) => (
+                    <td key={col.key}>
+                      {col.render
+                        ? col.render(row)
+                        : String(col.accessor?.(row) ?? "")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
       {(showPagination || showPageSizeSelector) && (
@@ -454,32 +470,39 @@ const Table = <T extends object>({
           )}
           {showPagination && (
             <div className={style.pagination}>
-              <button
+              <Button
                 type="button"
-                className={style.pageNavButton}
+                color="neutral"
+                noMargin
+                className={classNameArrayToClassNameString([
+                  style.pageNavButtonPrevious,
+                  currentPage <= 1 && style.pageNavButtonHidden,
+                ])}
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage <= 1}
                 aria-label="Forrige side"
-              >
-                <span className={style.pageNavIcon} aria-hidden="true">
-                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10.5 3.5L6 8l4.5 4.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                Forrige
-              </button>
-              <div className={style.pageList} role="list">
-                {pageItems.map((item, index) =>
+                content="Forrige"
+                iconLeft={
+                  <span className={style.pageNavIcon} aria-hidden="true">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                      <title>Forrige side</title>
+                      <path
+                        d="M10.5 3.5L6 8l4.5 4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                }
+              />
+              <div className={style.pageList}>
+                {pageItems.map((item) =>
                   item === "..." ? (
                     <span
-                      key={`ellipsis-${index}`}
+                      key={`ellipsis-${item}`}
                       className={style.pageEllipsis}
                     >
                       ...
@@ -500,27 +523,34 @@ const Table = <T extends object>({
                   ),
                 )}
               </div>
-              <button
+              <Button
                 type="button"
-                className={style.pageNavButton}
+                color="neutral"
+                noMargin
+                className={classNameArrayToClassNameString([
+                  style.pageNavButtonNext,
+                  currentPage >= totalPages && style.pageNavButtonHidden,
+                ])}
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
                 aria-label="Neste side"
-              >
-                Neste
-                <span className={style.pageNavIcon} aria-hidden="true">
-                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M5.5 3.5L10 8l-4.5 4.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </button>
+                content="Neste"
+                iconRight={
+                  <span className={style.pageNavIcon} aria-hidden="true">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                      <title>Neste side</title>
+                      <path
+                        d="M5.5 3.5L10 8l-4.5 4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                }
+              />
             </div>
           )}
         </div>

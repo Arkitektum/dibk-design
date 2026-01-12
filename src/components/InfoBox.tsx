@@ -4,6 +4,7 @@ import infoIcon from "../assets/svg/info-icon.svg?url";
 import successIcon from "../assets/svg/success-icon.svg?url";
 import warningIcon from "../assets/svg/warning-icon.svg?url";
 import { classNameArrayToClassNameString } from "../functions/helpers";
+import Header from "./Header";
 import style from "./InfoBox.module.scss";
 
 export type InfoBoxVariant = "info" | "warning" | "error" | "tip" | "success";
@@ -53,7 +54,8 @@ const InfoBox = ({
       <div className={style.inner}>
         {shouldRenderIcon ? <div className={style.icon}>{iconNode}</div> : null}
         <div className={style.content}>
-          {title ? <div className={style.title}>{title}</div> : null}
+          {title ? <Header size={3}>{title}</Header> : null}
+
           {children ? <div className={style.body}>{children}</div> : null}
         </div>
       </div>

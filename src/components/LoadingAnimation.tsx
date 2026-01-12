@@ -1,22 +1,27 @@
 // LoadingAnimation.tsx
 
-import style from './LoadingAnimation.module.scss';
+import style from "./LoadingAnimation.module.scss";
 
 export interface LoadingAnimationProps {
-  fixed?: boolean;
-  message?: string;
+  ariaLabel?: string;
 }
 
 const LoadingAnimation = ({
-  fixed = false,
-
-  message = '',
+  ariaLabel = "Laster inn",
 }: LoadingAnimationProps) => {
-  const className = fixed
-    ? `${style.loadingAnimation} ${style.fixed}`
-    : style.loadingAnimation;
+  const delays = [0, 0.15, 0.3];
 
-  return <div className={className}>{message}</div>;
+  return (
+    <div role="img" aria-label={ariaLabel} className={style.LoadingAnimation}>
+      {delays.map((delay) => (
+        <span
+          key={delay}
+          className={style.dot}
+          style={{ animationDelay: `${delay}s` }}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default LoadingAnimation;

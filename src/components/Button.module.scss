@@ -42,7 +42,7 @@
 
 .button {
   @include appearance.appearance(none);
-  @include border-radius.border-radius(0);
+  
   @include transition.transition(
     filter transitions.$default-transition,
     background-color transitions.$default-transition,
@@ -51,20 +51,18 @@
   );
   font-family: typography.$default-font;
   border-style: solid;
-  border-width: 1px;
+  
   border-color: var(--color-primary, colors.$color-primary);
   cursor: pointer;
-  line-height: 1;
+  line-height: 28px;
   position: relative;
   text-align: center;
   text-decoration: none;
   display: inline-block;
 
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 500;
-  @media only screen and (min-width: viewports.$screen-sm) {
-    font-size: 20px;
-  }
+  
   &:not(.noMargin) {
     margin-right: 5px;
     margin-bottom: 8px;
@@ -76,11 +74,14 @@
 
   &:focus-visible,
   &:focus-within {
-    outline-color: var(--color-primary, colors.$color-primary);
+    outline-width:3px;
+    outline-style: solid;
+    outline-offset: 0px;
+    outline-color: var(--color-secondary-light, colors.$color-secondary-light);
   }
 
   &.regular {
-    padding: 16px 24px;
+    padding: 10px 20px;
   }
 
   &.small {
@@ -88,13 +89,11 @@
     font-size: 14px;
     min-width: 80px;
     line-height: 18px;
-    @media only screen and (min-width: viewports.$screen-sm) {
-      line-height: 21px;
-      padding: 8px 10px;
-    }
+    
   }
 
   &.primary {
+    border-width: 0px;
     background-color: var(--color-primary, colors.$color-primary);
     color: var(--color-primary-contrast, colors.$color-primary-contrast);
     &:hover:not(.noHover),
@@ -127,6 +126,7 @@
 
   &.secondary {
     background-color: var(--color-secondary-light, colors.$color-secondary-light);
+    border-width: 0px;
     color: var(--color-primary, colors.$color-primary);
     border-color: var(
       --color-secondary-x-light,
@@ -163,18 +163,19 @@
       }
     }
   }
-
+/* color-secondary-x-light */
   &.neutral {
-    background-color: transparent;
+    background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
     color: var(--color-primary, colors.$color-primary);
     border-color: var(--color-primary, colors.$color-primary);
+    border-width: 1px;
+    padding: 9px 20px;
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(
-        --color-primary-light,
+        --color-secondary-x-light,
         colors.$color-primary-light
       );
-      color: var(--color-secondary, colors.$color-secondary);
       &:after,
       &:before {
         border-color: var(
@@ -245,9 +246,7 @@
     border-color: var(--color-error, colors.$color-error);
   }
 
-  &.rounded {
-    @include border-radius.border-radius(20px);
-  }
+  
 
   &.hasArrowLeft {
     &:before {
@@ -388,7 +387,13 @@
       }
     }
     .buttonContent {
-      margin: 0 0.5em;
+      margin: 0;
+      &.hasIconLeft {
+        margin-left: 0.5rem;
+      }
+      &.hasIconRight {
+        margin-right: 0.5rem;
+      }
     }
   }
 }

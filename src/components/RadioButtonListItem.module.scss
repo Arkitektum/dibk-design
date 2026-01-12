@@ -25,22 +25,14 @@
   position: relative;
   font-size: 16px;
   line-height: 24px;
-  color: #000;
+  color: var(--color-default-text, colors.$color-default-text);
 
-  &:not(.contentOnly):not(.compact) {
+  &:not(.compact) {
     border: 1px solid var(--color-secondary-light, colors.$color-secondary-light);
     background: white;
     margin-bottom: 8px;
     label {
       padding: 20px;
-    }
-  }
-
-  &.contentOnly {
-    cursor: auto;
-    label {
-      cursor: auto;
-      padding: 5px 10px;
     }
   }
 
@@ -50,11 +42,11 @@
     }
   }
 
-  &.checked:not(.contentOnly):not(.compact):not(.disabled) {
+  &.checked:not(.compact):not(.disabled) {
     background-color: var(--color-secondary-light, colors.$color-secondary-light);
   }
 
-  &:not(.checked):not(.contentOnly):not(.compact):not(.disabled) {
+  &:not(.checked):not(.compact):not(.disabled) {
     &:hover {
       background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
     }

@@ -2,12 +2,14 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
-import type { Decorator, Preview } from "@storybook/react";
+import type { Decorator, Preview } from "@storybook/react-vite";
 
-const withThemeProvider: Decorator = (Story, { parameters }) => {
+const withThemeProvider: Decorator = (Story, context) => {
+  const themeKey = context.globals.theme ?? "dibk";
+  const theme = customThemes[themeKey as keyof typeof customThemes];
   return (
     <MemoryRouter>
-      <ThemeProvider theme={parameters.theme}>
+      <ThemeProvider theme={theme}>
         <Story />
       </ThemeProvider>
     </MemoryRouter>
@@ -15,29 +17,40 @@ const withThemeProvider: Decorator = (Story, { parameters }) => {
 };
 
 const preview: Preview = {
+  argTypes: {theme: {
+    control: "select",
+    options: ["dibk", "arbeidstilsynet"],
+    defaultValue: "dibk",
+  }},
   parameters: {
     controls: {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/,
+        
       },
     },
   },
   decorators: [withThemeProvider],
+  
+  globalTypes: {
+    theme: {
+      description: "Global theme for components",
+      toolbar: {
+        title: "Theme",
+        icon: "circlehollow",
+        items: [
+          { value: "dibk", title: "DiBK" },
+          { value: "arbeidstilsynet", title: "Arbeidstilsynet" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    theme: "dibk",
+  },
 };
 
 export default preview;
 
-// All stories expect a theme arg
-export const argTypes = {
-  theme: {
-    control: "select",
-    options: ["Default", "DiBK", "Arbeidstilsynet"],
-
-    mapping: {
-      Default: undefined,
-      DiBK: customThemes.dibk,
-      Arbeidstilsynet: customThemes.arbeidstilsynet,
-    },
-  },
-};

@@ -87,24 +87,6 @@ export const Disabled: Story = {
     label: 'Disabled',
   },
 };
-export const ContentOnly: Story = {
-  args: {
-    onChange: () => {},
-    id: 'textarea10',
-    value: 'Value for Textarea',
-    label: 'Textarea with contentOnly',
-    contentOnly: true,
-  },
-};
-export const ContentOnlyAndDefaultContent: Story = {
-  args: {
-    onChange: () => {},
-    id: 'textarea11',
-    label: 'Textarea with defaultContent',
-    contentOnly: true,
-    defaultContent: 'Please insert a value',
-  },
-};
 export const WithCustomWidth: Story = {
   args: {
     onChange: () => {},

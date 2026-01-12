@@ -8,6 +8,7 @@ export interface CheckBoxIconProps {
   showBox?: boolean;
   hasErrors?: boolean;
   checkmarkCharacter?: string;
+  checkmarkIconSrc?: string;
 }
 
 const CheckBoxIcon = ({
@@ -17,6 +18,7 @@ const CheckBoxIcon = ({
   showBox = true,
   hasErrors = false,
   checkmarkCharacter = "✔",
+  checkmarkIconSrc,
 }: CheckBoxIconProps) => {
   const inlineStyle: React.CSSProperties = {
     height: size,
@@ -37,7 +39,18 @@ const CheckBoxIcon = ({
   return (
     <span className={className} style={inlineStyle}>
       <span aria-hidden className={style.checkmark}>
-        {checked ? checkmarkCharacter : ""}
+        {checked
+          ? checkmarkIconSrc
+            ? (
+              <img
+                src={checkmarkIconSrc}
+                alt=""
+                aria-hidden="true"
+                className={style.checkmarkIcon}
+              />
+            )
+            : checkmarkCharacter
+          : ""}
       </span>
     </span>
   );

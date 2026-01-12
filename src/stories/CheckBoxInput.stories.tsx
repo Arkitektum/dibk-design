@@ -41,25 +41,6 @@ export const CheckedDisabled: Story = {
   render,
 };
 
-export const UncheckedContentOnly: Story = {
-  args: {
-    id: 'checkBoxInput-4',
-    children: 'Label for unchecked checkbox with content only',
-    contentOnly: true,
-  },
-  render,
-};
-
-export const CheckedContentOnly: Story = {
-  args: {
-    id: 'checkBoxInput-5',
-    children: 'Label for checked checkbox with content only',
-    checked: true,
-    contentOnly: true,
-  },
-  render,
-};
-
 export const CheckedCustomCheckmark: Story = {
   args: {
     id: 'checkBoxInput-6',

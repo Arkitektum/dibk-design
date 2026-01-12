@@ -41,27 +41,6 @@ export const CheckedDisabled: Story = {
   },
 };
 
-export const UncheckedContentOnly: Story = {
-  args: {
-    id: 'radioButtonListItem-4',
-    contentOnly: true,
-    name: 'radioButtonListItem',
-    children: 'Label for unchecked radio button with content only',
-    inputValue: 'value',
-  },
-};
-
-export const CheckedContentOnly: Story = {
-  args: {
-    id: 'radioButtonListItem-5',
-    checked: true,
-    contentOnly: true,
-    name: 'radioButtonListItem',
-    children: 'Label for checked radio button with content only',
-    inputValue: 'value',
-  },
-};
-
 export const HasErrors: Story = {
   args: {
     id: 'radioButtonListItem-7',

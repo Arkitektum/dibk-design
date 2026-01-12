@@ -30,7 +30,6 @@ export interface ButtonProps
   hasErrors?: boolean;
   "aria-describedby"?: string;
   noHover?: boolean;
-  rounded?: boolean;
   href?: string;
   noMargin?: boolean;
   children?: React.ReactNode;
@@ -50,7 +49,6 @@ const Button = ({
   defaultChecked,
   hasErrors = false,
   noHover = false,
-  rounded = false,
   noMargin = false,
   href,
   children,
@@ -81,12 +79,17 @@ const Button = ({
     style[size],
     getArrowClass(arrow),
     noHover || inputType === "radio" ? style.noHover : null,
-    rounded && style.rounded,
     hasErrors && style.hasErrors,
     disabled ? style.disabled : null,
     noMargin ? style.noMargin : null,
     iconLeft || iconRight ? style.hasIcon : null,
     classNameProp,
+  ]);
+
+  const contentClassName = classNameArrayToClassNameString([
+    style.buttonContent,
+    iconLeft ? style.hasIconLeft : null,
+    iconRight ? style.hasIconRight : null,
   ]);
 
   const buttonProps = {
@@ -123,7 +126,7 @@ const Button = ({
             to: element.props.to,
           },
           renderIcon(iconLeft),
-          <span className={style.buttonContent}>{element.props.children}</span>,
+          <span className={contentClassName}>{element.props.children}</span>,
           renderIcon(iconRight),
         );
       }
@@ -131,7 +134,7 @@ const Button = ({
       return (
         <button {...buttonProps} key={`button-${element.key}`}>
           {renderIcon(iconLeft)}
-          <span className={style.buttonContent}>
+          <span className={contentClassName}>
             {content || (element.props ? element.props.children : null)}
           </span>
           {renderIcon(iconRight)}
@@ -147,7 +150,7 @@ const Button = ({
     return (
       <button type="button" {...buttonProps}>
         {renderIcon(iconLeft)}
-        <span className={style.buttonContent}>{content || children}</span>
+        <span className={contentClassName}>{content || children}</span>
         {renderIcon(iconRight)}
       </button>
     );
@@ -163,7 +166,7 @@ const Button = ({
           type="radio"
         />
         {renderIcon(iconLeft)}
-        <span className={style.buttonContent}>{content}</span>
+        <span className={contentClassName}>{content}</span>
         {renderIcon(iconRight)}
       </label>
     );
@@ -177,7 +180,7 @@ const Button = ({
     return (
       <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
         {renderIcon(iconLeft)}
-        <span className={style.buttonContent}>{content || children}</span>
+        <span className={contentClassName}>{content || children}</span>
         {renderIcon(iconRight)}
       </a>
     );
@@ -197,7 +200,7 @@ const Button = ({
   return (
     <button {...buttonProps}>
       {renderIcon(iconLeft)}
-      <span className={style.buttonContent}>{content || children}</span>
+      <span className={contentClassName}>{content || children}</span>
       {renderIcon(iconRight)}
     </button>
   );

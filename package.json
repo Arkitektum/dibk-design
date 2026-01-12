@@ -1,6 +1,6 @@
 {
 	"name": "dibk-design",
-	"version": "10.1.1",
+	"version": "10.3.0",
 	"homepage": "https://Ojself.github.io/dibk-design",
 	"main": "dist/index.cjs.js",
 	"module": "dist/index.es.js",
@@ -15,6 +15,7 @@
 		"README.md"
 	],
 	"dependencies": {
+		"react-select": "^5.10.2",
 		"sass": "^1.97.1",
 		"typed-scss-modules": "^8.1.1",
 		"vite-tsconfig-paths": "^6.0.3"

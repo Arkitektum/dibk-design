@@ -1,5 +1,4 @@
 // Mixins
-@use "../style/abstracts/mixins/appearance";
 @use "../style/abstracts/mixins/border-radius";
 @use "../style/abstracts/mixins/box-shadow";
 @use "../style/abstracts/mixins/transition";
@@ -10,7 +9,6 @@
 @use "../style/abstracts/variables/viewports";
 
 .select {
-    
     .requiredSymbol {
         width: 1em;
         height: 1em;
@@ -18,6 +16,7 @@
         vertical-align: top;
         margin-top: 2px;
     }
+    
     .selectContainer {
         position: relative;
         &.small {
@@ -61,34 +60,19 @@
             }
         }
 
-        .multipleSelectDropdown {
-            //@include border-radius.border-radius(4px);
-            @include box-shadow.box-shadow(
-                rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
-                rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
-                rgba(0, 0, 0, 0.12) 0px 3px 14px 2px
-            );
-            width: 100%;
-            position: absolute;
-            background-color: #fff;
-            padding: 6px 10px;
-        }
-
-        select,
-        .multipleSelectElement {
+        :global(.reactSelect__control) {
             @include border-radius.border-radius(0);
             @include transition.transition(background transitions.$default-transition);
-            @include appearance.appearance(none);
             @include box-shadow.box-shadow(none);
             color: rgba(0, 0, 0, 0.75);
             width: 100%;
             font-family: inherit;
             font-size: 18px;
-            padding: 10px 40px 10px 10px;
             border: 1px solid var(--color-primary, colors.$color-primary);
             line-height: 1.7;
             background: white;
             cursor: pointer;
+            min-height: 54px;
 
             &:hover {
                 border-color: var(--color-primary, colors.$color-primary);
@@ -96,41 +80,98 @@
             }
 
             &:focus {
-                outline-color: var(--color-primary, colors.$color-primary);
+                
+                outline: none;
+                outline-width:3px;
+                outline-style: solid;
+                outline-offset: 0px;
+                outline-color: var(--color-focus, colors.$color-focus);
             }
 
-            &[disabled],
-            &[readonly] {
-                background-color: #ddd;
-                cursor: default;
-            }
-            &:not(.multiple) {
-                height: 54px;
-                padding: 12px 40px 12px 12px;
-            }
-            &.small,
-            &[data-size="small"] {
-                font-size: 15px;
-                height: 40px;
-                padding: 8px 32px 8px 10px;
-            }
-            &.multiple {
-                max-height: 100px;
-                padding: 12px;
-            }
+        }
 
-            &.hasErrors {
+        :global(.reactSelect__control--is-focused) {
+            outline: none;
+            outline-width: 3px;
+            outline-style: solid;
+            outline-offset: 0px;
+            outline-color: var(--color-focus, colors.$color-focus);
+            box-shadow: none;
+        }
+
+        :global(.reactSelect__control--is-disabled) {
+            background-color: #ddd;
+            cursor: default;
+        }
+
+        :global(.reactSelect__value-container) {
+            padding: 12px 40px 12px 12px;
+        }
+
+        :global(.reactSelect__input-container) {
+            margin: 0;
+            padding: 0;
+        }
+
+        :global(.reactSelect__single-value),
+        :global(.reactSelect__placeholder) {
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        :global(.reactSelect__menu) {
+            @include box-shadow.box-shadow(
+                rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+                rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+                rgba(0, 0, 0, 0.12) 0px 3px 14px 2px
+            );
+            padding: 6px 10px;
+        }
+
+        :global(.reactSelect__menu-list) {
+            padding: 0;
+        }
+
+        :global(.reactSelect__option) {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        :global(.reactSelect__multi-value) {
+            background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+        }
+
+        :global(.reactSelect__multi-value__label) {
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        :global(.reactSelect__multi-value__remove) {
+            cursor: pointer;
+        }
+
+        .hasErrors {
+            :global(.reactSelect__control) {
                 border-color: var(--color-error, colors.$color-error);
-                &:focus {
-                    border-color: var(--color-error, colors.$color-error);
-                    outline-color: #b8565d;
-                }
-                &[disabled],
-                &[readonly] {
-                    background-color: #ddd;
-                    cursor: default;
-                    border-color: #afaba8;
-                }
+                margin-bottom: 6px;
+            }
+
+            :global(.reactSelect__control--is-focused) {
+                border-color: var(--color-error, colors.$color-error);
+                outline-color: #b8565d;
+            }
+
+            :global(.reactSelect__control--is-disabled) {
+                border-color: #afaba8;
+            }
+        }
+
+        .small {
+            :global(.reactSelect__control) {
+                font-size: 15px;
+                min-height: 40px;
+            }
+
+            :global(.reactSelect__value-container) {
+                padding: 8px 32px 8px 10px;
             }
         }
     }

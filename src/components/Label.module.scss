@@ -1,13 +1,14 @@
 // Variables
 @use "../style/abstracts/variables/typography";
+@use "../style/abstracts/variables/colors";
 
 .label {
-    color: #000;
+    color: var(--color-default-text, colors.$color-default-text);
     display: block;
     font-size: 1rem;
     font-weight: bold;
-    line-height: 1.2;
-    margin-bottom: 2px;
+    line-height: 22px;
+    margin-bottom: 6px;
     font-family: typography.$default-font;
     overflow-wrap: break-word;
     &.inline {
@@ -16,4 +17,18 @@
     &:not(.normalCursor) {
         cursor: pointer;
     }
+}
+
+.labelText {
+    display: block;
+    margin: 0;
+}
+
+.subLabel {
+    display: block;
+    line-height: 22px;
+    color: #595959;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0;
 }

@@ -1,12 +1,13 @@
 // Variables
 @use "../style/abstracts/variables/typography";
+@use "../style/abstracts/variables/colors";
 
 fieldset.radioButtonList {
     margin: 0;
     padding: 0;
     border: none;
     legend {
-        color: #000;
+        color: var(--color-default-text, colors.$color-default-text);
         display: block;
         font-size: 1rem;
         font-weight: bold;

@@ -13,13 +13,14 @@
 
 .box {
   background-color: #fff;
-  border: 2px solid
+  border: 1px solid
     var(--color-secondary-light, colors.$color-secondary-light);
   
   color: var(--color-default-text, colors.$color-default-text);
   font-family: typography.$default-font;
   line-height: 1.5;
   animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running messageIn;
+
 
   &.fullScreen {
     border-width: 0 0 4px 0;
@@ -34,7 +35,7 @@
   }
 
   &.warning {
-    background-color: var(--color-warning-light, colors.$color-warning-light);
+    background-color: var(--color-warning-x-light, colors.$color-warning-light);
     border-color: var(--color-warning, colors.$color-warning);
   }
 
@@ -60,11 +61,12 @@
 .inner {
   display: grid;
   gap: 12px;
+  
   grid-template-columns: 1fr;
-  padding: 24px;
+  padding: 20px;
 
   @media only screen and (min-width: viewports.$screen-md) {
-    padding: 24px 32px;
+    padding: 20px;
   }
 
   .fullScreen & {
@@ -75,31 +77,37 @@
 
 .hasIcon {
   --has-icon: 1;
+  
 }
 
 .hasIcon .inner {
   grid-template-columns: auto 1fr;
-  gap: 16px;
+  gap: 10px;
+  
 }
 
 .icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 28px;
+  
+  
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  padding-top: 2px;
 }
 
 .iconImage {
-  width: 32px;
-  height: 32px;
+  height: 24px;
+  width: 24px;
+  
   display: inline-block;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+
 }
 
 .title {
@@ -115,7 +123,8 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-
+  padding-top: 5px;
+  padding-bottom: 5px;
   ul {
     padding-left: 24px;
     margin: 0;

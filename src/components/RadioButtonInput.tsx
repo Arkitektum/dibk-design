@@ -13,7 +13,6 @@ export interface RadioButtonInputProps {
   id: string;
   name?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  contentOnly?: boolean;
   hasErrors?: boolean;
   inputValue: string;
   tabIndex?: number;
@@ -30,7 +29,6 @@ const RadioButtonInput = ({
   id,
   name = "",
   onChange,
-  contentOnly = false,
   hasErrors = false,
   inputValue,
   tabIndex,
@@ -50,7 +48,7 @@ const RadioButtonInput = ({
   const iconProps = {
     checked,
     disabled,
-    hasErrors: !contentOnly && hasErrors,
+    hasErrors,
   };
 
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
@@ -70,12 +68,8 @@ const RadioButtonInput = ({
 
   return (
     <label htmlFor={id} className={labelClassName}>
-      {!contentOnly && (
-        <>
-          <RadioButtonIcon {...iconProps} />
-          <input {...inputProps} />
-        </>
-      )}
+      <RadioButtonIcon {...iconProps} />
+      <input {...inputProps} />
       <span className={style.labelText}>
         {children}
         {required && (

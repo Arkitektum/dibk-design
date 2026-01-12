@@ -40,25 +40,6 @@ export const CheckedDisabled: Story = {
   },
 };
 
-export const UncheckedContentOnly: Story = {
-  args: {
-    id: 'radioButtonInput-4',
-    children: 'Label for unchecked radio button with content only',
-    contentOnly: true,
-    inputValue: 'value',
-  },
-};
-
-export const CheckedContentOnly: Story = {
-  args: {
-    id: 'radioButtonInput-5',
-    children: 'Label for checked radio button with content only',
-    checked: true,
-    contentOnly: true,
-    inputValue: 'value',
-  },
-};
-
 export const HasErrors: Story = {
   args: {
     id: 'radioButtonInput-6',

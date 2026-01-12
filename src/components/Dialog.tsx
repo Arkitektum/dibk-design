@@ -1,16 +1,19 @@
-import { createPortal } from "react-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import xSymbol from "../assets/svg/x-symbol.svg?url";
 import {
   addFocusTrapInsideElement,
   classNameArrayToClassNameString,
 } from "../functions/helpers";
+import Button from "./Button";
 import style from "./Dialog.module.scss";
+import Header from "./Header";
 
 export interface DialogProps {
   maxWidth?: string;
   noPadding?: boolean;
-  closeButton?: boolean;
+
+  title?: React.ReactNode;
   onClickOutside: () => void;
   modal?: boolean;
   attachTo?: "left" | "right" | "top" | "bottom" | string;
@@ -21,7 +24,8 @@ export interface DialogProps {
 const Dialog = ({
   maxWidth = "none",
   noPadding,
-  closeButton,
+
+  title,
   onClickOutside,
   modal = true,
   attachTo,
@@ -123,15 +127,21 @@ const Dialog = ({
         style.dialog,
         sideBarClassNames,
       ])}
-      onClick={onClickOutside}
       {...dialogRoleProps}
     >
-      {modal && <div className={style.backdrop} aria-hidden="true" />}
+      <button
+        type="button"
+        className={classNameArrayToClassNameString([
+          style.backdrop,
+          !modal && style.backdropTransparent,
+        ])}
+        onClick={onClickOutside}
+        aria-label="Lukk dialog"
+      />
       <div
         ref={dialogContainerRef}
         className={style.dialogContainer}
         style={dialogContentStyleProps}
-        onClick={(event) => event.stopPropagation()}
       >
         <div
           ref={dialogContentRef}
@@ -140,20 +150,22 @@ const Dialog = ({
             noPadding && style.noPadding,
           ])}
         >
-          {closeButton && (
-            <button
-              type="button"
-              aria-label="Lukk dialog"
-              onClick={onClickOutside}
-              className={classNameArrayToClassNameString([
-                style.closeButton,
-                noPadding && style.noPadding,
-              ])}
-            >
-              <img src={xSymbol} alt="" />
-            </button>
+          {title && (
+            <div className={style.dialogHeader}>
+              {title ? <Header size={2}>{title}</Header> : <span />}
+              <Button
+                color="neutral"
+                aria-label="Lukk dialog"
+                onClick={onClickOutside}
+                iconRight={<img src={xSymbol} alt="" />}
+              >
+                Lukk
+              </Button>
+            </div>
           )}
-          <div aria-live="assertive">{children}</div>
+          <div className={style.dialogBody} aria-live="assertive">
+            {children}
+          </div>
         </div>
       </div>
     </div>,

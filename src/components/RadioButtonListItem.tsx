@@ -11,7 +11,6 @@ export interface RadioButtonListItemProps {
   name?: string;
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  contentOnly?: boolean;
   compact?: boolean;
   hasErrors?: boolean;
   'aria-controls'?: string;
@@ -28,7 +27,6 @@ const RadioButtonListItem = ({
   name = '',
   id,
   onChange,
-  contentOnly = false,
   compact = false,
   hasErrors = false,
   'aria-controls': ariaControls,
@@ -40,7 +38,6 @@ const RadioButtonListItem = ({
     checked && style.checked,
     disabled && style.disabled,
     compact && style.compact,
-    contentOnly && style.contentOnly,
     hasErrors && style.hasErrors,
   ]);
 
@@ -51,7 +48,6 @@ const RadioButtonListItem = ({
     disabled,
     required,
     requiredGroup,
-    contentOnly,
     hasErrors,
     'aria-controls': ariaControls,
     'aria-describedby': ariaDescribedBy,

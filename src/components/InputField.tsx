@@ -24,16 +24,16 @@ export interface InputFieldProps {
   defaultValue?: string | number | Date;
   elementKey?: string;
   label?: React.ReactNode;
-  contentOnly?: boolean;
   buttonColor?: "primary" | "secondary";
   buttonContent?: string;
   actionButtonContent?: React.ReactNode;
+  actionButtonIconLeft?: React.ReactNode;
+  actionButtonIconRight?: React.ReactNode;
   actionButtonOnClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   actionButtonDisabled?: boolean;
   actionButtonAriaLabel?: string;
   selectedFileName?: string;
   placeholder?: string;
-  defaultContent?: string;
   min?: string;
   max?: string;
   role?: string;
@@ -44,16 +44,6 @@ export interface InputFieldProps {
   noMargin?: boolean;
   caption?: React.ReactNode;
 }
-
-/** Format a Date (or date-like string) to DD.MM.YYYY for read-only display */
-const formatDateForDisplay = (input: Date | string): string => {
-  const d = typeof input === "string" ? new Date(input) : input;
-  if (Number.isNaN(d.getTime())) return String(input ?? "");
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const yyyy = d.getFullYear();
-  return `${dd}.${mm}.${yyyy}`;
-};
 
 /** Normalize value for <input type="date"> → "YYYY-MM-DD" */
 const toDateInputValue = (
@@ -89,16 +79,16 @@ const InputField = ({
   defaultValue,
   elementKey,
   label = "",
-  contentOnly = false,
   buttonColor = "primary",
   buttonContent,
   actionButtonContent,
+  actionButtonIconLeft,
+  actionButtonIconRight,
   actionButtonOnClick,
   actionButtonDisabled = false,
   actionButtonAriaLabel,
   selectedFileName,
   placeholder = "",
-  defaultContent = "",
   min,
   max,
   role,
@@ -115,7 +105,9 @@ const InputField = ({
   const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
   const isDateInput = type === "date" && !disabled && !readOnly;
   const hasActionButton =
-    Boolean(actionButtonContent) && Boolean(actionButtonOnClick) && type !== "file";
+    Boolean(actionButtonContent) &&
+    Boolean(actionButtonOnClick) &&
+    type !== "file";
 
   const triggerDatePicker = () => {
     if (!isDateInput || !inputRef.current) return;
@@ -131,6 +123,18 @@ const InputField = ({
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     triggerDatePicker();
     onFocus?.(event);
+  };
+  const handleFileClick = () => {
+    if (type !== "file") return;
+    if (disabled) return;
+    inputRef.current?.click();
+  };
+  const handleFileKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (type !== "file" || disabled) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      inputRef.current?.click();
+    }
   };
 
   /** Build value/defaultValue safely for the given type */
@@ -159,6 +163,7 @@ const InputField = ({
 
   const inputClassName = classNameArrayToClassNameString([
     hasErrors && style.hasErrors,
+    type === "date" && style.dateInput,
     type === "file" && style.visuallyHidden,
   ]);
 
@@ -177,50 +182,20 @@ const InputField = ({
     onFocus: handleFocus,
     placeholder: type === "file" ? undefined : placeholder,
     className: inputClassName || undefined,
-    "aria-describedby": [
-      hasErrors && errorMessage ? getErrorElementId() : null,
-      caption ? captionId : null,
-      ariaDescribedBy,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .trim() || undefined,
+    "aria-describedby":
+      [
+        hasErrors && errorMessage ? getErrorElementId() : null,
+        caption ? captionId : null,
+        ariaDescribedBy,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .trim() || undefined,
     "aria-invalid": hasErrors || undefined,
     "aria-autocomplete": isTextLike(type) ? ariaAutocomplete : undefined,
     style: hasActionButton ? undefined : styleRules,
     ...normalizedValueProps,
   };
-
-  if (contentOnly) {
-    const rendered = value ?? defaultValue ?? "";
-    const text =
-      type === "date"
-        ? rendered
-          ? formatDateForDisplay(rendered as Date | string)
-          : defaultContent
-        : String(rendered ?? "") || defaultContent;
-
-    return (
-      <div
-        className={classNameArrayToClassNameString([
-          style.inputField,
-          style[type],
-          noMargin && style.noMargin,
-        ])}
-      >
-        <Label htmlFor={id}>
-          {label}
-          {required && (
-            <img src={asterisk} alt="" className={style.requiredSymbol} />
-          )}
-        </Label>
-        <span>{text}</span>
-        {hasErrors && errorMessage ? (
-          <ErrorMessage id={getErrorElementId()} content={errorMessage} />
-        ) : null}
-      </div>
-    );
-  }
 
   return (
     <div
@@ -236,7 +211,15 @@ const InputField = ({
           <img src={asterisk} alt="" className={style.requiredSymbol} />
         )}
         {type === "file" && (
-          <div className={style.fileInputContainer}>
+          // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
+          <div
+            className={style.fileInputContainer}
+            onClick={handleFileClick}
+            onKeyDown={handleFileKeyDown}
+            role="button"
+            tabIndex={disabled ? -1 : 0}
+            aria-disabled={disabled || undefined}
+          >
             <span className={style.input}>{selectedFileName}</span>
             {buttonContent && (
               <Button
@@ -254,12 +237,15 @@ const InputField = ({
       {hasActionButton ? (
         <div className={style.inputWithButton} style={styleRules}>
           <input key={elementKey || id} {...inputProps} ref={inputRef} />
+
           <Button
             color={buttonColor}
             inputType="button"
             onClick={actionButtonOnClick}
             disabled={actionButtonDisabled}
             aria-label={actionButtonAriaLabel}
+            iconLeft={actionButtonIconLeft}
+            iconRight={actionButtonIconRight}
             noMargin
           >
             {actionButtonContent}
@@ -268,13 +254,11 @@ const InputField = ({
       ) : (
         <input key={elementKey || id} {...inputProps} ref={inputRef} />
       )}
-
       {caption ? (
         <p className={style.caption} id={captionId}>
           {caption}
         </p>
       ) : null}
-
       {hasErrors && errorMessage ? (
         <ErrorMessage id={getErrorElementId()} content={errorMessage} />
       ) : null}

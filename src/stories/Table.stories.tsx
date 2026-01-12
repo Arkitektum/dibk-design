@@ -87,7 +87,6 @@ export const Default: Story = {
   args: {
     columns: columns,
     data: sampleData,
-    caption: "A simple sortable table of people",
   },
 };
 
@@ -95,7 +94,17 @@ export const NoSorting: Story = {
   args: {
     columns: columns.map((col) => ({ ...col, sortable: false })),
     data: sampleData,
-    caption: "A table without sorting",
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    columns,
+    data: sampleDataBig,
+
+    loading: true,
+    pageSize: 10,
+    pageSizeOptions: [5, 10, 15],
   },
 };
 
@@ -124,7 +133,6 @@ export const CustomRender: Story = {
       },
     ],
     data: sampleData,
-    caption: "Table with custom cell rendering",
   },
 };
 
@@ -145,7 +153,7 @@ export const SingleSelect: Story = {
   args: {
     columns,
     data: sampleData,
-    caption: "Single select table with radio buttons",
+
     getRowId: (row) => row.id,
   },
 };
@@ -166,7 +174,7 @@ export const MultiSelect: Story = {
   args: {
     columns,
     data: sampleData,
-    caption: "Multiple select table with checkboxes",
+
     getRowId: (row) => row.id,
   },
 };
@@ -187,7 +195,6 @@ export const RowClick: Story = {
   args: {
     columns,
     data: sampleData,
-    caption: "Click a row to trigger onRowClick",
   },
 };
 
@@ -196,7 +203,6 @@ export const Paginated: Story = {
     columns,
     data: sampleDataBig,
     pageSize: 10,
-    caption: "Paginated table (10 rows per page)",
   },
 };
 
@@ -222,6 +228,5 @@ export const PaginatedWithPageSizeSelector: Story = {
     data: sampleDataBig,
     pageSizeOptions: [5, 10, 15, 25],
     pageSize: 5,
-    caption: "Paginated table with selectable page size",
   },
 };

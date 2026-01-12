@@ -43,13 +43,6 @@ export const Small: Story = {
   },
 };
 
-export const Rounded: Story = {
-  args: {
-    rounded: true,
-    content: "Button",
-  },
-};
-
 export const ButtonWithHTMLContent: Story = {
   args: {
     children: (

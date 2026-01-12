@@ -1,30 +1,30 @@
-import style from './ContentBox.module.scss';
+import style from "./ContentBox.module.scss";
 
 export interface ContentBoxProps {
   title?: string;
-  titleSize?: 'regular' | 'large';
+  titleSize?: "regular" | "large";
   content?: string;
   children?: React.ReactNode;
-  color?: 'default' | 'secondary';
+  color?: "default" | "secondary";
   href?: string | null;
 }
 
-const ContentBox: React.FC<ContentBoxProps> = ({
-  title = null,
-  titleSize = 'regular',
-  content = '',
+const ContentBox = ({
+  title = "",
+  titleSize = "regular",
+  content = "",
   children,
-  color = 'default',
+  color = "default",
   href = null,
-}) => {
+}: ContentBoxProps) => {
   const renderTitle = () => {
     if (!title) return null;
     const className = `${style.title} ${style[titleSize]}`;
     return <h2 className={className}>{title}</h2>;
   };
 
-  const colorClass = style[color] || '';
-  const linkClass = href ? style.link : '';
+  const colorClass = style[color] || "";
+  const linkClass = href ? style.link : "";
   const className = `${style.contentBox} ${colorClass} ${linkClass}`.trim();
   const bodyContent = content?.length ? content : children;
 

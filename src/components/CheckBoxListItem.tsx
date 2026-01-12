@@ -14,7 +14,6 @@ export interface CheckBoxListItemProps {
   name?: string;
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  contentOnly?: boolean;
   compact?: boolean;
   checkmarkCharacter?: string;
   hasErrors?: boolean;
@@ -31,7 +30,6 @@ const CheckBoxListItem = ({
   id,
   name = "",
   onChange,
-  contentOnly = false,
   compact = false,
   hasErrors = false,
   checkmarkCharacter = "✔",
@@ -45,7 +43,6 @@ const CheckBoxListItem = ({
     checked && style.checked,
     disabled && style.disabled,
     compact && style.compact,
-    contentOnly && style.contentOnly,
     hasErrors && style.hasErrors,
   ]);
 
@@ -55,7 +52,6 @@ const CheckBoxListItem = ({
     disabled,
     required,
     requiredGroup,
-    contentOnly,
     hasErrors,
     "aria-controls": ariaControls,
     "aria-describedby": ariaDescribedBy,

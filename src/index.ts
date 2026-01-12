@@ -22,11 +22,11 @@ import Lead from "./components/Lead";
 import List from "./components/List";
 import ListItem from "./components/ListItem";
 import LoadingAnimation from "./components/LoadingAnimation";
-import LoadingAnimation2 from "./components/LoadingAnimation2";
+import LoadingAnimation from "./components/LoadingAnimation";
 import NavigationBar from "./components/NavigationBar";
 import NavigationBarListItem from "./components/NavigationBarListItem";
-import Paragraph from "./components/Paragraph";
 import Paper from "./components/Paper";
+import Paragraph from "./components/Paragraph";
 import ProgressBar from "./components/ProgressBar";
 import RadioButtonIcon from "./components/RadioButtonIcon";
 import RadioButtonInput from "./components/RadioButtonInput";
@@ -67,7 +67,7 @@ export {
   List,
   ListItem,
   LoadingAnimation,
-  LoadingAnimation2,
+  LoadingAnimation,
   NavigationBar,
   NavigationBarListItem,
   Paragraph,

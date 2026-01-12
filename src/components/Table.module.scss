@@ -8,17 +8,7 @@
   border-collapse: collapse;
   border-spacing: 0;
 
-  caption {
-    font-family: typography.$default-font;
-    font-weight: normal;
-    font-style: italic;
-    line-height: 1.2;
-    font-size: 17px;
-    color: var(--color-primary, colors.$color-primary);
-    caption-side: top;
-    text-align: left;
-    margin: 0 0 6px 0;
-  }
+  
 
   thead {
     tr {
@@ -119,6 +109,15 @@
   }
 }
 
+.loadingRow {
+  background-color: #ffffff;
+}
+
+.loadingCell {
+  padding: 24px 12px;
+  text-align: center;
+}
+
 .selectionHeader {
   width: 1%;
   text-align: center;
@@ -169,6 +168,7 @@
 }
 
 .pagination {
+  
   display: flex;
   align-items: center;
   gap: 28px;
@@ -192,32 +192,10 @@
   min-width: 140px;
 }
 
-.pageNavButton {
-  all: unset;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-primary-text, colors.$color-primary-text);
-  cursor: pointer;
-  font-family: typography.$default-font;
-  font-size: 20px;
-  line-height: 1;
-  padding: 6px 8px;
-  border-radius: 6px;
-  &:focus-visible {
-    outline: 2px solid var(--color-primary, colors.$color-primary);
-    outline-offset: 2px;
-  }
-  &:hover:not(:disabled) {
-    background-color: var(
-      --color-secondary-x-light,
-      colors.$color-secondary-x-light
-    );
-  }
-  &:disabled {
-    cursor: not-allowed;
-    color: var(--color-border, colors.$color-border);
-  }
+
+
+.pageNavButtonHidden {
+  visibility: hidden;
 }
 
 .pageNavIcon {
@@ -229,7 +207,7 @@
 .pageList {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .pageNumber {
@@ -237,13 +215,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 6px;
-  color: var(--color-primary-text, colors.$color-primary-text);
+  width: 48px;
+  height: 48px;
+  
+  
+  color: var(--color-form-element, colors.$color-form-element);
   cursor: pointer;
   font-family: typography.$default-font;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 1;
   &:hover {
     background-color: var(
@@ -259,12 +238,13 @@
 
 .pageNumberActive {
   background-color: var(--color-secondary-light, colors.$color-secondary-light);
+  color: var(--color-default-text, colors.$color-default-text)
 }
 
 .pageEllipsis {
   color: var(--color-primary-text, colors.$color-primary-text);
   font-family: typography.$default-font;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 1;
   padding: 0 4px;
 }

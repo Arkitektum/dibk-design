@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties } from "react";
-import { imageData } from "../assets/svg/dibk-logo-base64";
+import dibkLogoUrl from "../assets/svg/dibk-logo.svg";
 import PDF, { type PDFProps } from "../components/PDF";
 
 const meta: Meta<typeof PDF> = {
@@ -51,7 +51,7 @@ const render = (args: PDFProps) => {
 
 const logoExample = (
   <img
-    src={imageData}
+    src={dibkLogoUrl}
     alt="Direktoratet for byggkvalitet"
     className="heading-logo"
   />

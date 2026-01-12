@@ -16,7 +16,7 @@ export interface ParagraphProps {
 const Paragraph = ({
   id,
   htmlTag = "p",
-  variant = "large",
+  variant = "small",
   children,
   className,
 }: ParagraphProps) => {

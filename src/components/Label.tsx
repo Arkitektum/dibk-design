@@ -10,6 +10,7 @@ export interface LabelProps
   normalCursor?: boolean;
   htmlTag?: keyof JSX.IntrinsicElements;
   children?: React.ReactNode;
+  subLabel?: React.ReactNode;
 }
 
 const Label = ({
@@ -17,6 +18,7 @@ const Label = ({
   normalCursor = false,
   htmlTag = "label",
   children,
+  subLabel,
   id,
   ...rest
 }: LabelProps) => {
@@ -34,7 +36,14 @@ const Label = ({
     id: id || undefined,
   };
 
-  return React.createElement(htmlTag, tagProps, children);
+  return React.createElement(
+    htmlTag,
+    tagProps,
+    <>
+      <span className={style.labelText}>{children}</span>
+      {subLabel && <span className={style.subLabel}>{subLabel}</span>}
+    </>,
+  );
 };
 
 export default Label;

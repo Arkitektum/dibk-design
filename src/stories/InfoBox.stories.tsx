@@ -43,7 +43,8 @@ export const Warning: Story = {
   args: {
     variant: "warning",
     title: "Vennligst kontroller skjemaet",
-    children: "Det mangler noen opplysninger før du kan gå videre.",
+    children:
+      "Prøv en annen adresse, undersøk om det er skrivefeil eller søk på noe annet.",
   },
   render,
 };
