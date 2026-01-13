@@ -29,6 +29,9 @@ export interface ThemeProps {
   colors?: {
     [key: string]: string;
   };
+  sizes?: {
+    [key: string]: string;
+  };
 }
 
 const Theme = (theme: ThemeProps) => {

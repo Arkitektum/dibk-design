@@ -18,13 +18,13 @@ import Header from "./components/Header";
 import InfoBox from "./components/InfoBox";
 import InputField from "./components/InputField";
 import Label from "./components/Label";
-import Lead from "./components/Lead";
+
 import List from "./components/List";
 import ListItem from "./components/ListItem";
-import LoadingAnimation from "./components/LoadingAnimation";
+
 import LoadingAnimation from "./components/LoadingAnimation";
 import NavigationBar from "./components/NavigationBar";
-import NavigationBarListItem from "./components/NavigationBarListItem";
+
 import Paper from "./components/Paper";
 import Paragraph from "./components/Paragraph";
 import ProgressBar from "./components/ProgressBar";
@@ -63,15 +63,12 @@ export {
   InfoBox,
   InputField,
   Label,
-  Lead,
   List,
   ListItem,
   LoadingAnimation,
-  LoadingAnimation,
   NavigationBar,
-  NavigationBarListItem,
-  Paragraph,
   Paper,
+  Paragraph,
   ProgressBar,
   RadioButtonIcon,
   RadioButtonInput,

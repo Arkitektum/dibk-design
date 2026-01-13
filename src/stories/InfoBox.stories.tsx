@@ -11,6 +11,7 @@ const meta: Meta<typeof InfoBox> = {
     },
     fullScreen: { control: "boolean" },
     hideIcon: { control: "boolean" },
+    noBorder: { control: "boolean" },
   },
   tags: ["autodocs"],
 };
@@ -72,6 +73,16 @@ export const Success: Story = {
     variant: "success",
     title: "Alt er klart",
     children: "Søknaden ble sendt inn uten feil.",
+  },
+  render,
+};
+
+export const NoBorder: Story = {
+  args: {
+    variant: "info",
+    noBorder: true,
+    title: "Ingen kantlinje",
+    children: "Denne info-boksen vises uten kantlinje.",
   },
   render,
 };

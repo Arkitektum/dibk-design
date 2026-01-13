@@ -68,7 +68,7 @@
 
     .dialogContent {
         position: relative;
-        background-color: #fff;
+        background-color: var(--color-body-background, colors.$color-body-background);
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -89,8 +89,6 @@
         padding-left:30px;
         padding-top: 10px;
         
-
-        
     }
 
     .dialogContent.noPadding {
@@ -98,8 +96,6 @@
             padding: 0;
         }
     }
-
-    
 
     &:not(.isSidebar) {
         .dialogContainer {
