@@ -3,7 +3,7 @@ import { useState } from "react";
 import InputField from "../components/InputField";
 
 const meta: Meta<typeof InputField> = {
-  title: "Example/InputField",
+  title: "Primitives/InputField",
   component: InputField,
   argTypes: {
     "aria-autocomplete": {

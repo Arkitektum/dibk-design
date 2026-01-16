@@ -8,7 +8,7 @@ import Select, {
 type SelectArgs = SingleSelectProps | MultipleSelectProps;
 
 const meta: Meta<SelectArgs> = {
-  title: "Example/Select",
+  title: "Primitives/Select",
   component: Select,
   tags: ["autodocs"],
   decorators: [

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import CheckBoxIcon from '../components/CheckBoxIcon';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import CheckBoxIcon from "../components/CheckBoxIcon";
 
 const meta: Meta<typeof CheckBoxIcon> = {
-  title: 'Example/CheckBoxIcon',
+  title: "Primitives/CheckBoxIcon",
   component: CheckBoxIcon,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -24,7 +24,7 @@ export const Checked: Story = {
 export const CheckedCustomCheckmark: Story = {
   args: {
     checked: true,
-    checkmarkCharacter: '✕',
+    checkmarkCharacter: "✕",
   },
 };
 
@@ -45,7 +45,7 @@ export const CheckedDisabledCustomCheckmark: Story = {
   args: {
     checked: true,
     disabled: true,
-    checkmarkCharacter: '✕',
+    checkmarkCharacter: "✕",
   },
 };
 

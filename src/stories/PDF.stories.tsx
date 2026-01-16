@@ -4,7 +4,7 @@ import dibkLogoUrl from "../assets/svg/dibk-logo.svg";
 import PDF, { type PDFProps } from "../components/PDF";
 
 const meta: Meta<typeof PDF> = {
-  title: "Example/PDF",
+  title: "Primitives/PDF",
   component: PDF,
   argTypes: {
     signedDocument: { control: "boolean" },

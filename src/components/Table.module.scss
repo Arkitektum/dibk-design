@@ -16,13 +16,16 @@
     }
 
     th {
-      
       text-align: left;
       overflow: hidden; 
+      line-height: 24px;
+      
+      gap: 6px;
+      
       font-size: 16px;
       font-weight: 600;
       vertical-align: bottom;
-      padding: 0; 
+      padding: 10px 20px;
       border-bottom: 2px solid var(--color-border, colors.$color-border);
       
 
@@ -31,16 +34,17 @@
         all: unset; 
         display: flex;
         box-sizing: border-box;    
-        align-items: center;
+        
         gap: 6px;
         width: 100%;
-        padding: 10px 12px;
+        
         cursor: default; 
         
       }
 
       .sortable {
         cursor: pointer;
+        
         &:hover {
           background-color: var(
             --color-secondary-x-light,
@@ -60,17 +64,21 @@
       }
 
       .sortIndicators {
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
-        line-height: 1;
-        gap: 2px;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
         
       }
 
       .sortArrow {
         display: inline-flex;
-        width: 12px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
+
+        line-height: 24px;
         opacity: 0.35;
 
         &.activeArrow {
@@ -83,8 +91,6 @@
 
   tbody {
     tr {
-      
-
       &.evenRow {
         background-color: #ffffff;
       }
@@ -102,9 +108,10 @@
     }
 
     td {
-      padding: 10px 12px;
+      padding: 10px 20px;
       font-size: 16px;
-      
+      line-height: 28px;
+      gap: 6px;
     }
   }
 }

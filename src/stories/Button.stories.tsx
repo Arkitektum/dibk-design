@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Button from "../components/Button";
 
 const meta: Meta<typeof Button> = {
-  title: "Example/Button",
+  title: "Primitives/Button",
   component: Button,
   tags: ["autodocs"],
 };

@@ -6,7 +6,7 @@ import RadioButtonList from "../components/RadioButtonList";
 import RadioButtonListItem from "../components/RadioButtonListItem";
 
 const meta: Meta<typeof RadioButtonList> = {
-  title: "Example/RadioButtonList",
+  title: "Primitives/RadioButtonList",
   component: RadioButtonList,
   tags: ["autodocs"],
 };

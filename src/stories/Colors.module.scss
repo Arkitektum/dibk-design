@@ -1,0 +1,47 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  color: #1e1e1e;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.groupTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.swatch {
+  border-radius: 8px;
+  border: 1px solid #e3e3e3;
+  height: 88px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.value {
+  font-size: 12px;
+  color: #606060;
+}

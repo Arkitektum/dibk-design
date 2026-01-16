@@ -1,16 +1,16 @@
 // stories/Footer.stories.tsx
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Footer from '../components/Footer';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Footer from "../components/Footer";
 
 const meta: Meta<typeof Footer> = {
-  title: 'Example/Footer',
+  title: "Primitives/Footer",
   component: Footer,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
-const render: Story['render'] = (args) => <Footer {...args} />;
+const render: Story["render"] = (args) => <Footer {...args} />;
 
 export default meta;
 

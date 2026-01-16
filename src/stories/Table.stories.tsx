@@ -10,7 +10,7 @@ type Person = {
 };
 
 const meta: Meta<typeof Table<Person>> = {
-  title: "Example/Table",
+  title: "Primitives/Table",
   component: Table,
   tags: ["autodocs"],
 };

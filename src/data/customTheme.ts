@@ -1,12 +1,11 @@
 import arbeidstilsynetLogo from "../assets/svg/arbeidstilsynet-logo.svg?url";
-import dibkLogo from "../assets/svg/dibk-logo.svg?url";
+
 import dibkLogoWithTitle from "../assets/svg/dibk-logo-with-title.svg?url";
 import type { ThemeProps } from "../components/Theme";
 
 const dibk: ThemeProps = {
   appName: "DiBK",
   logo: dibkLogoWithTitle,
-  logoCompact: dibkLogo,
 
   colors: {
     bodyBackground: "#ebf4fa",
@@ -74,6 +73,21 @@ const arbeidstilsynet: ThemeProps = {
 const customThemes = {
   dibk,
   arbeidstilsynet,
+};
+
+export type CustomThemeName = keyof typeof customThemes;
+
+const customThemeNameByAppName: Record<string, CustomThemeName> = {
+  dibk: "dibk",
+  arbeidstilsynet: "arbeidstilsynet",
+};
+
+export const getCustomThemeName = (
+  appName?: string,
+): CustomThemeName | undefined => {
+  if (!appName) return undefined;
+
+  return customThemeNameByAppName[appName.toLowerCase()];
 };
 
 export default customThemes;

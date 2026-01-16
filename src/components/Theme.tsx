@@ -1,5 +1,5 @@
 import { Fragment, useId } from "react";
-
+import { getCustomThemeName } from "../data/customTheme";
 // Components
 import Accordion from "./Accordion";
 import Button from "./Button";
@@ -23,7 +23,7 @@ import style from "./Theme.module.scss";
 export interface ThemeProps {
   appName: string;
   logo: string;
-  logoCompact?: string;
+
   logoPadding?: string;
 
   colors?: {
@@ -35,6 +35,7 @@ export interface ThemeProps {
 }
 
 const Theme = (theme: ThemeProps) => {
+  const themeName = getCustomThemeName(theme?.appName);
   const renderColors = (theme: ThemeProps) => {
     if (!theme?.colors) return null;
 
@@ -55,7 +56,7 @@ const Theme = (theme: ThemeProps) => {
 
   return (
     <Fragment>
-      <NavigationBar theme={theme} />
+      <NavigationBar theme={themeName} />
       <Container maxWidth="916px">
         <Paper noMargin>
           <section>

@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import CheckBoxListItem from '../components/CheckBoxListItem';
+import CheckBoxListItem from "../components/CheckBoxListItem";
 
 const meta: Meta<typeof CheckBoxListItem> = {
-  title: 'Example/CheckBoxListItem',
+  title: "Primitives/CheckBoxListItem",
   component: CheckBoxListItem,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -14,102 +14,102 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Reusable render function
-const render: Story['render'] = (args) => <CheckBoxListItem {...args} />;
+const render: Story["render"] = (args) => <CheckBoxListItem {...args} />;
 
 export const Unchecked: Story = {
   args: {
-    id: 'checkBoxListItem-1',
-    name: 'checkboxListItem',
-    children: 'Label for unchecked checkbox',
+    id: "checkBoxListItem-1",
+    name: "checkboxListItem",
+    children: "Label for unchecked checkbox",
   },
   render,
 };
 
 export const Checked: Story = {
   args: {
-    id: 'checkBoxListItem-2',
-    name: 'checkboxListItem',
+    id: "checkBoxListItem-2",
+    name: "checkboxListItem",
     checked: true,
-    children: 'Label for checked checkbox',
+    children: "Label for checked checkbox",
   },
   render,
 };
 
 export const CheckedDisabled: Story = {
   args: {
-    id: 'checkBoxListItem-3',
+    id: "checkBoxListItem-3",
     checked: true,
     disabled: true,
-    children: 'Label for checked disabled checkbox',
+    children: "Label for checked disabled checkbox",
   },
   render,
 };
 
 export const CheckedCustomCheckmark: Story = {
   args: {
-    id: 'checkBoxListItem-6',
+    id: "checkBoxListItem-6",
     checked: true,
     disabled: true,
-    checkmarkCharacter: '✕',
-    children: 'Label for checked checkbox with custom checkmark',
+    checkmarkCharacter: "✕",
+    children: "Label for checked checkbox with custom checkmark",
   },
   render,
 };
 
 export const HasErrors: Story = {
   args: {
-    id: 'checkBoxListItem-7',
+    id: "checkBoxListItem-7",
     hasErrors: true,
-    children: 'Label for checkbox with errors',
+    children: "Label for checkbox with errors",
   },
   render,
 };
 
 export const HasErrorsDisabled: Story = {
   args: {
-    id: 'checkBoxListItem-8',
+    id: "checkBoxListItem-8",
     hasErrors: true,
     disabled: true,
-    children: 'Label for disabled checkbox with errors',
+    children: "Label for disabled checkbox with errors",
   },
   render,
 };
 
 export const HasErrorsChecked: Story = {
   args: {
-    id: 'checkBoxListItem-9',
+    id: "checkBoxListItem-9",
     hasErrors: true,
     checked: true,
-    children: 'Label for checked checkbox with errors',
+    children: "Label for checked checkbox with errors",
   },
   render,
 };
 
 export const HasErrorsCheckedDisabled: Story = {
   args: {
-    id: 'checkBoxListItem-10',
+    id: "checkBoxListItem-10",
     hasErrors: true,
     checked: true,
     disabled: true,
-    children: 'Label for checked disabled checkbox with errors',
+    children: "Label for checked disabled checkbox with errors",
   },
   render,
 };
 
 export const Required: Story = {
   args: {
-    id: 'checkBoxListItem-12',
+    id: "checkBoxListItem-12",
     required: true,
-    children: 'Label for required checkbox',
+    children: "Label for required checkbox",
   },
   render,
 };
 
 export const Compact: Story = {
   args: {
-    id: 'checkBoxListItem-13',
+    id: "checkBoxListItem-13",
     compact: true,
-    children: 'Label for compact checkbox',
+    children: "Label for compact checkbox",
   },
   render,
 };

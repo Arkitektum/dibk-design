@@ -4,7 +4,7 @@ import CheckBoxList from "../components/CheckBoxList";
 import CheckBoxListItem from "../components/CheckBoxListItem";
 
 const meta: Meta<typeof CheckBoxList> = {
-  title: "Example/CheckBoxList",
+  title: "Primitives/CheckBoxList",
   component: CheckBoxList,
   argTypes: {},
   tags: ["autodocs"],

@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import Container from '../components/Container';
+import Container from "../components/Container";
 
 const meta: Meta<typeof Container> = {
-  title: 'Example/Container',
+  title: "Primitives/Container",
   component: Container,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story['render'] = (args) => <Container {...args} />;
+const render: Story["render"] = (args) => <Container {...args} />;
 
 export const Default: Story = {
   args: {
@@ -25,7 +25,7 @@ export const Default: Story = {
 export const WithMaxWidth: Story = {
   args: {
     children: <>Container with max width</>,
-    maxWidth: '230px',
+    maxWidth: "230px",
   },
   render,
 };

@@ -1,14 +1,14 @@
 // stories/ProgressBar.stories.tsx
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from "../components/ProgressBar";
 
 const meta: Meta<typeof ProgressBar> = {
-  title: 'Example/ProgressBar',
+  title: "Primitives/ProgressBar",
   component: ProgressBar,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;

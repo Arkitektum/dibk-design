@@ -14,6 +14,7 @@ export interface InfoBoxProps {
   children?: React.ReactNode;
   variant?: InfoBoxVariant;
   fullScreen?: boolean;
+  isAlert?: boolean;
   noBorder?: boolean;
   hideIcon?: boolean;
   icon?: React.ReactNode;
@@ -25,6 +26,7 @@ const InfoBox = ({
   children = "",
   variant = "info",
   fullScreen = false,
+  isAlert = false,
   noBorder = false,
   hideIcon = false,
   icon,
@@ -49,6 +51,7 @@ const InfoBox = ({
         style.box,
         style[variant],
         fullScreen && style.fullScreen,
+        isAlert && style.alert,
         noBorder && style.noBorder,
         shouldRenderIcon ? style.hasIcon : null,
         className,

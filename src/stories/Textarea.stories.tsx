@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Textarea from '../components/Textarea';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Textarea from "../components/Textarea";
 
 const meta: Meta<typeof Textarea> = {
-  title: 'Example/Textarea',
+  title: "Primitives/Textarea",
   component: Textarea,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -12,103 +12,103 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { onChange: () => {}, id: 'textarea1' },
+  args: { onChange: () => {}, id: "textarea1" },
 };
 export const WithValue: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea2',
-    value: 'Textarea with value',
+    id: "textarea2",
+    value: "Textarea with value",
   },
 };
 export const WithDefaultValue: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea3',
-    defaultValue: 'Textarea with default value',
+    id: "textarea3",
+    defaultValue: "Textarea with default value",
   },
 };
 export const WithLabel: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea4',
-    value: 'Textarea with label and value',
-    label: 'Textarea with label and value',
+    id: "textarea4",
+    value: "Textarea with label and value",
+    label: "Textarea with label and value",
   },
 };
 export const Required: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea5',
+    id: "textarea5",
     required: true,
-    label: 'Required textarea',
-    value: 'Textarea with required value',
+    label: "Required textarea",
+    value: "Textarea with required value",
   },
 };
 export const WithLinkInLabel: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea6',
-    value: 'Textarea with link in label',
+    id: "textarea6",
+    value: "Textarea with link in label",
     label: [
-      'Textarea with ',
+      "Textarea with ",
       <a key="link" href="#textarea6">
         link
       </a>,
-      ' in label',
+      " in label",
     ],
   },
 };
 export const WithError: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea7',
-    value: 'Textarea with label, value, errors and error message',
-    label: 'Textarea with label, value, errors and error message',
+    id: "textarea7",
+    value: "Textarea with label, value, errors and error message",
+    label: "Textarea with label, value, errors and error message",
     hasErrors: true,
-    errorMessage: 'Wrong value',
+    errorMessage: "Wrong value",
   },
 };
 export const ReadOnly: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea8',
+    id: "textarea8",
     readOnly: true,
-    value: 'Read only',
-    label: 'Read only',
+    value: "Read only",
+    label: "Read only",
   },
 };
 export const Disabled: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea9',
+    id: "textarea9",
     disabled: true,
-    value: 'Disabled',
-    label: 'Disabled',
+    value: "Disabled",
+    label: "Disabled",
   },
 };
 export const WithCustomWidth: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea12',
-    value: 'Textarea with custom width',
-    width: '320px',
+    id: "textarea12",
+    value: "Textarea with custom width",
+    width: "320px",
   },
 };
 export const WithCustomWidthAndVerticalResizing: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea13',
-    value: 'Textarea with resizing',
-    width: '450px',
-    resize: 'vertical',
+    id: "textarea13",
+    value: "Textarea with resizing",
+    width: "450px",
+    resize: "vertical",
   },
 };
 export const WithCustomElementKey: Story = {
   args: {
     onChange: () => {},
-    id: 'textarea14',
-    value: 'Textarea with key',
-    elementKey: 'textareaKeyHere',
+    id: "textarea14",
+    value: "Textarea with key",
+    elementKey: "textareaKeyHere",
   },
 };

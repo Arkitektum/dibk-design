@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import DragAndDropFileInput from "../components/DragAndDropFileInput";
 
 const meta: Meta<typeof DragAndDropFileInput> = {
-  title: "Example/DragAndDropFileInput",
+  title: "Primitives/DragAndDropFileInput",
   component: DragAndDropFileInput,
   tags: ["autodocs"],
   render: (args) => <DragAndDropFileInput {...args} />,

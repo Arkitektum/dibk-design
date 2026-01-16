@@ -1,5 +1,5 @@
 import type React from "react";
-
+import customThemes, { type CustomThemeName } from "../data/customTheme";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import {
   getThemeAppName,
@@ -20,9 +20,7 @@ export interface NavigationBarProps {
   logoLink?: string;
   logoLinkTitle?: string;
   openLogoLinkInNewTab?: boolean;
-  theme?: ThemeProps;
-  compact?: boolean;
-
+  theme?: CustomThemeName;
   color?: "primary" | "secondary" | "neutral";
   children?: React.ReactNode;
 }
@@ -32,17 +30,17 @@ const NavigationBar = ({
   logoLinkTitle,
   openLogoLinkInNewTab,
   theme,
-  compact,
-
   color = "neutral",
 }: NavigationBarProps) => {
+  const resolvedTheme = theme ? customThemes[theme] : undefined;
+
   const getLogoThemeStyle = (theme?: ThemeProps) => ({
     padding: getThemeLogoPadding(theme),
   });
 
   const renderLogo = (link?: string, title?: string) => {
-    const themeLogo = getThemeLogo(theme, compact);
-    const themeAppName = getThemeAppName(theme);
+    const themeLogo = getThemeLogo(resolvedTheme);
+    const themeAppName = getThemeAppName(resolvedTheme);
 
     const alt =
       link && title
@@ -52,7 +50,7 @@ const NavigationBar = ({
           : "DIBK logo";
 
     const logoElement = themeLogo ? (
-      <img alt={alt} src={themeLogo} style={getLogoThemeStyle(theme)} />
+      <img alt={alt} src={themeLogo} style={getLogoThemeStyle(resolvedTheme)} />
     ) : null;
 
     if (link?.length) {
@@ -74,7 +72,6 @@ const NavigationBar = ({
   return (
     <div
       className={classNameArrayToClassNameString([
-        compact && style.compact,
         color && style[color],
         style.navigationBarContainer,
       ])}

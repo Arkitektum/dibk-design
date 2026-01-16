@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const meta: Meta<typeof LoadingAnimation> = {
-  title: "Example/LoadingAnimation",
+  title: "Primitives/LoadingAnimation",
   component: LoadingAnimation,
   argTypes: {},
   tags: ["autodocs"],

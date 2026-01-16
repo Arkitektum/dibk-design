@@ -1,14 +1,14 @@
 // stories/Paper.stories.tsx
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import Paper from '../components/Paper';
+import Paper from "../components/Paper";
 
 const meta: Meta<typeof Paper> = {
-  title: 'Example/Paper',
+  title: "Primitives/Paper",
   component: Paper,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;

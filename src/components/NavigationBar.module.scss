@@ -16,23 +16,28 @@
     padding-bottom: 24px;
     width: 100%;
     max-width: 1600px;
+    gap: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+            
     margin: 0 auto;
-    padding-inline: clamp(16px, 4vw, 48px);
-    &:not(.compact) {
+    
         position: relative;
         .navigationBar {
             position: relative;
+            height: 62px;
             display: -ms-flexbox;
             width: 100%;
             max-width: 1350px;
             display: flex;
             -ms-flex-wrap: wrap;
+            align-items: center;
             flex-wrap: wrap;
             margin-left: auto;
             margin-right: auto;
             font-size: 18px;
-            padding: 0;
-            
+            padding-left: 20px;
+            padding-right: 20px;
             @media only screen and (min-width: viewports.$screen-sm) {
                 -ms-flex-direction: row;
                 flex-direction: row;
@@ -42,67 +47,20 @@
             }
         }
         .logoContainer {
-            
-            
-            
             margin-bottom: 0;
-            
+            height: fit-content;
             img {
                 display: block;
                 background-color: var(--navigation-surface, colors.$color-primary-contrast);
             }
         }
         
-    }
-    &.secondary:not(.compact) {
+    
+    
         background-color: colors.$color-body-background;
         .logoContainer img {
             mix-blend-mode: multiply;
         }
-    }
-    &.compact {
-        
-        @include box-shadow.box-shadow(0 2px 4px -2px rgba(0, 0, 0, 0.2));
-        position: relative;
-        z-index: 1;
-        .mainContentLink {
-            background-color: var(--color-primary, colors.$color-primary);
-            
-            color: var(--color-primary-contrast, colors.$color-primary-contrast);
-            &:focus,
-            &:active {
-                span {
-                    outline-color: var(--color-primary-contrast, colors.$color-primary-contrast);
-                }
-            }
-        }
-
-        .navigationBar {
-            background-color: var(--color-primary, colors.$color-primary);
-            height: 54px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            @media only screen and (min-width: viewports.$screen-sm) {
-                height: 73px;
-            }
-        }
-
-        .logoContainer {
-            width: 200px;
-            height: 54px;
-            display: inline-block;
-            img {
-                height: 54px;
-                max-width: none;
-            }
-            @media only screen and (min-width: viewports.$screen-sm) {
-                width: 270px;
-                height: 73px;
-                img {
-                    height: 73px;
-                }
-            }
-        }
-    }
+    
+    
 }

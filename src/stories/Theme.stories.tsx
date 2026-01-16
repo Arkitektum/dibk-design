@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Theme from '../components/Theme';
-import customThemes from '../data/customTheme';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Theme from "../components/Theme";
+import customThemes from "../data/customTheme";
 
 const meta: Meta<typeof Theme> = {
-  title: 'Example/Theme',
+  title: "Primitives/Theme",
   component: Theme,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;

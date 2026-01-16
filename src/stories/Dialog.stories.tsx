@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 
 const meta: Meta<typeof Dialog> = {
-  title: "Example/Dialog",
+  title: "Primitives/Dialog",
   component: Dialog,
   tags: ["autodocs"], // <- add this
   argTypes: {

@@ -58,6 +58,8 @@ export interface TableProps<T> {
   page?: number;
   defaultPage?: number;
   onPageChange?: (page: number) => void;
+  totalCount?: number;
+  totalPages?: number;
   pageSizeOptions?: number[];
   defaultPageSize?: number;
   onPageSizeChange?: (size: number) => void;
@@ -81,6 +83,8 @@ const Table = <T extends object>({
   page,
   defaultPage = 1,
   onPageChange,
+  totalCount,
+  totalPages: totalPagesProp,
   pageSizeOptions,
   defaultPageSize,
   onPageSizeChange,
@@ -193,8 +197,14 @@ const Table = <T extends object>({
   }, [pageSize, internalPageSize, sortedData.length, data.length]);
 
   const totalPages = useMemo(() => {
+    if (totalPagesProp !== undefined) {
+      return Math.max(1, Math.floor(totalPagesProp));
+    }
+    if (totalCount !== undefined) {
+      return Math.max(1, Math.ceil(totalCount / pageSizeValue));
+    }
     return Math.max(1, Math.ceil(sortedData.length / pageSizeValue));
-  }, [sortedData.length, pageSizeValue]);
+  }, [sortedData.length, pageSizeValue, totalCount, totalPagesProp]);
 
   const currentPage = useMemo(() => {
     const candidate = page ?? internalPage;
@@ -211,10 +221,13 @@ const Table = <T extends object>({
   }, [currentPage, totalPages, page]);
 
   const paginatedData = useMemo(() => {
+    if (totalPagesProp !== undefined || totalCount !== undefined) {
+      return sortedData;
+    }
     if (pageSizeValue >= sortedData.length) return sortedData;
     const start = (currentPage - 1) * pageSizeValue;
     return sortedData.slice(start, start + pageSizeValue);
-  }, [sortedData, currentPage, pageSizeValue]);
+  }, [sortedData, currentPage, pageSizeValue, totalCount, totalPagesProp]);
 
   const columnCount = columns.length + (selectionType ? 1 : 0);
 

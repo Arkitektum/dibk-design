@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import List from '../components/List';
-import ListItem from '../components/ListItem';
+import List from "../components/List";
+import ListItem from "../components/ListItem";
 
 const meta: Meta<typeof List> = {
-  title: 'Example/List',
+  title: "Primitives/List",
   component: List,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -52,14 +52,14 @@ export const Unordered: Story = {
 export const UnorderedSquareStyled: Story = {
   args: {
     children: listItems,
-    listStyle: 'square',
+    listStyle: "square",
   },
 };
 
 export const UnorderedUnstyled: Story = {
   args: {
     children: listItems,
-    listStyle: 'none',
+    listStyle: "none",
   },
 };
 

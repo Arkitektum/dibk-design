@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import RadioButtonIcon from '../components/RadioButtonIcon';
+import RadioButtonIcon from "../components/RadioButtonIcon";
 
 const meta: Meta<typeof RadioButtonIcon> = {
-  title: 'Example/RadioButtonIcon',
+  title: "Primitives/RadioButtonIcon",
   component: RadioButtonIcon,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;

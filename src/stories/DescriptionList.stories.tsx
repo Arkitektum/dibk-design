@@ -1,14 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import DescriptionList from '../components/DescriptionList';
-import DescriptionTerm from '../components/DescriptionTerm';
-import DescriptionDetails from '../components/DescriptionDetails';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import DescriptionDetails from "../components/DescriptionDetails";
+import DescriptionList from "../components/DescriptionList";
+import DescriptionTerm from "../components/DescriptionTerm";
 
 const meta: Meta<typeof DescriptionList> = {
-  title: 'Example/DescriptionList',
+  title: "Primitives/DescriptionList",
   component: DescriptionList,
   argTypes: {},
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -26,7 +25,7 @@ const commonChildren = (
   </>
 );
 
-const render: Story['render'] = (args) => (
+const render: Story["render"] = (args) => (
   <DescriptionList {...args}>{commonChildren}</DescriptionList>
 );
 
@@ -37,7 +36,7 @@ export const Default: Story = {
 
 export const WithCustomTitleWidth: Story = {
   args: {
-    titleWidth: '160px',
+    titleWidth: "160px",
   },
   render,
 };
@@ -52,7 +51,7 @@ export const Compact: Story = {
 export const CompactWithCustomTitleWidth: Story = {
   args: {
     compact: true,
-    titleWidth: '160px',
+    titleWidth: "160px",
   },
   render,
 };

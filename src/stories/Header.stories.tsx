@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import Header from "../components/Header";
 
 const meta: Meta<typeof Header> = {
-  title: "Example/Header",
+  title: "Primitives/Header",
   component: Header,
   argTypes: {
     size: { control: "select", options: [1, 2, 3, 4, 5] },

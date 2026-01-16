@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import ThemeProvider, {
   type ThemeProviderProps,
-} from '../components/ThemeProvider';
+} from "../components/ThemeProvider";
 
 const meta: Meta<typeof ThemeProvider> = {
-  title: 'Example/ThemeProvider',
+  title: "Primitives/ThemeProvider",
   component: ThemeProvider,
 };
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import Paragraph from "../components/Paragraph";
 
 const meta: Meta<typeof Paragraph> = {
-  title: "Example/Paragraph",
+  title: "Primitives/Paragraph",
   component: Paragraph,
   argTypes: {
     variant: {
