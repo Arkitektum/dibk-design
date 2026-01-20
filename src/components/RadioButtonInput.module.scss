@@ -3,8 +3,11 @@
 
 .radioButtonInput {
     display: flex;
+    align-items: center;
     margin-right: 1em;
     border: 1px solid transparent;
+    
+    
 
     .requiredSymbol {
         width: 1em;
@@ -40,10 +43,12 @@
     }
 
     &:focus-within {
-        outline-width: 2px;
+        outline-width: 1px;
         outline-color: var(--color-focus, colors.$color-focus);
+        
         outline-style: auto;
         outline-offset: 1px;
+        
     }
 
     input[type="radio"] {

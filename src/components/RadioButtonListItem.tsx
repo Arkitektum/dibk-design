@@ -1,6 +1,6 @@
-import RadioButtonInput from './RadioButtonInput';
-import { classNameArrayToClassNameString } from '../functions/helpers';
-import style from './RadioButtonListItem.module.scss';
+import { classNameArrayToClassNameString } from "../functions/helpers";
+import RadioButtonInput from "./RadioButtonInput";
+import style from "./RadioButtonListItem.module.scss";
 
 export interface RadioButtonListItemProps {
   inputValue: string;
@@ -13,8 +13,8 @@ export interface RadioButtonListItemProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   compact?: boolean;
   hasErrors?: boolean;
-  'aria-controls'?: string;
-  'aria-describedby'?: string;
+  "aria-controls"?: string;
+  "aria-describedby"?: string;
   children?: React.ReactNode;
 }
 
@@ -24,13 +24,13 @@ const RadioButtonListItem = ({
   disabled = false,
   required = false,
   requiredGroup = false,
-  name = '',
+  name = "",
   id,
   onChange,
   compact = false,
   hasErrors = false,
-  'aria-controls': ariaControls,
-  'aria-describedby': ariaDescribedBy,
+  "aria-controls": ariaControls,
+  "aria-describedby": ariaDescribedBy,
   children,
 }: RadioButtonListItemProps) => {
   const className = classNameArrayToClassNameString([
@@ -49,8 +49,8 @@ const RadioButtonListItem = ({
     required,
     requiredGroup,
     hasErrors,
-    'aria-controls': ariaControls,
-    'aria-describedby': ariaDescribedBy,
+    "aria-controls": ariaControls,
+    "aria-describedby": ariaDescribedBy,
     id,
     name,
   };

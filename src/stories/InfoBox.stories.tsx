@@ -10,7 +10,7 @@ const meta: Meta<typeof InfoBox> = {
       options: ["info", "warning", "error", "tip", "success"],
     },
     fullScreen: { control: "boolean" },
-    isAlert: { control: "boolean" },
+
     hideIcon: { control: "boolean" },
     noBorder: { control: "boolean" },
   },
@@ -20,23 +20,22 @@ const meta: Meta<typeof InfoBox> = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-const render: Story["render"] = (args) => <InfoBox {...args} />;
+const render: Story["render"] = (args) => (
+  <InfoBox {...args}>
+    <ul>
+      <li>
+        Du må krysse av for at foretaket erklærer ansvar i henhold til plan- og
+        bygningsloven.
+      </li>
+      <li>Du må fylle ut mobil- eller telefonnummeret til kontaktpersonen.</li>
+    </ul>
+  </InfoBox>
+);
 
 export const Default: Story = {
   args: {
     variant: "info",
     title: "Du kan ikke signere erklæringen før alle opplysningene er fylt ut:",
-    children: (
-      <ul>
-        <li>
-          Du må krysse av for at foretaket erklærer ansvar i henhold til plan-
-          og bygningsloven.
-        </li>
-        <li>
-          Du må fylle ut mobil- eller telefonnummeret til kontaktpersonen.
-        </li>
-      </ul>
-    ),
   },
   render,
 };
@@ -84,16 +83,6 @@ export const NoBorder: Story = {
     noBorder: true,
     title: "Ingen kantlinje",
     children: "Denne info-boksen vises uten kantlinje.",
-  },
-  render,
-};
-
-export const Alert: Story = {
-  args: {
-    variant: "success",
-    isAlert: true,
-    title: "Bruker opprettet",
-    children: "Denne info-boksen vises i full bredde.",
   },
   render,
 };

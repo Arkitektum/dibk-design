@@ -23,11 +23,6 @@ type Story = StoryObj<typeof Dialog>;
 export const Default: Story = {
   args: {
     title: "Dialog title",
-    children: (
-      <>
-        <p>Dialog paragraph</p>
-      </>
-    ),
 
     modal: true,
     onClickOutside: () => {},
@@ -45,7 +40,9 @@ export const Default: Story = {
             setShowDialog(false);
             (args.onClickOutside as () => void)();
           }}
-        />
+        >
+          <p>Dialog paragraph</p>
+        </Dialog>
       </>
     );
   },

@@ -170,3 +170,12 @@ export const MultipleWithDefaultValue: Story = {
     options,
   },
 };
+
+export const WithCustomBackgroundColor: Story = {
+  args: {
+    id: "select18",
+    label: "Custom background color",
+    backgroundColor: "chartreuse",
+    options,
+  },
+};

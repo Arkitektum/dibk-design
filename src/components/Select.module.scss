@@ -11,7 +11,7 @@
 .select {
     .requiredSymbol {
         width: 1em;
-        height: 1em;
+        
         font-size: 0.4em;
         vertical-align: top;
         margin-top: 2px;
@@ -19,19 +19,8 @@
     
     .selectContainer {
         position: relative;
-        &.small {
-            .selectListArrow {
-                top: 10px;
-                right: 10px;
-                width: 10px;
-                height: calc(50% - 4px);
-                &::after {
-                    width: 10px;
-                    height: 10px;
-                }
-            }
-        }
-
+        color: var(--select-text, rgba(0, 0, 0, 0.75));
+        
         .selectListArrow {
             @include border-radius.border-radius(100px);
             box-sizing: border-box;
@@ -64,21 +53,18 @@
             @include border-radius.border-radius(0);
             @include transition.transition(background transitions.$default-transition);
             @include box-shadow.box-shadow(none);
-            color: rgba(0, 0, 0, 0.75);
+            color: inherit;
             width: 100%;
             font-family: inherit;
             font-size: 18px;
-            border: 1px solid var(--color-primary, colors.$color-primary);
-            line-height: 1.7;
-            background: white;
+            border: 1px solid var(--color-input-border, colors.$color-input-border);
+            line-height: 24px;
+            background: var(--select-background, white);
             cursor: pointer;
-            min-height: 54px;
-
+            
             &:hover {
-                border-color: var(--color-primary, colors.$color-primary);
-                background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+                border-color: var(--color-primary, colors.$color-primary);   
             }
-
             &:focus {
                 
                 outline: none;
@@ -100,7 +86,7 @@
         }
 
         :global(.reactSelect__control--is-disabled) {
-            background-color: #ddd;
+            background-color: var(--select-disabled-background, #ddd);
             cursor: default;
         }
 
@@ -115,7 +101,10 @@
 
         :global(.reactSelect__single-value),
         :global(.reactSelect__placeholder) {
-            color: rgba(0, 0, 0, 0.75);
+            color: var(
+                --select-placeholder,
+                var(--select-text, rgba(0, 0, 0, 0.75))
+            );
         }
 
         :global(.reactSelect__menu) {
@@ -134,6 +123,17 @@
         :global(.reactSelect__option) {
             padding: 8px 10px;
             cursor: pointer;
+        }
+
+        :global(.reactSelect__option--is-focused) {
+            background-color: #f5f9fc;
+            color: var(--color-default-text, colors.$color-default-text);
+            
+        }
+
+        :global(.reactSelect__option--is-selected) {
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
+            color: var(--color-default-text, colors.$color-default-text);
         }
 
         :global(.reactSelect__multi-value) {
@@ -164,15 +164,6 @@
             }
         }
 
-        .small {
-            :global(.reactSelect__control) {
-                font-size: 15px;
-                min-height: 40px;
-            }
-
-            :global(.reactSelect__value-container) {
-                padding: 8px 32px 8px 10px;
-            }
-        }
+        
     }
 }

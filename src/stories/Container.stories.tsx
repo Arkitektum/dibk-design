@@ -13,18 +13,17 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story["render"] = (args) => <Container {...args} />;
+const render: Story["render"] = (args) => (
+  <Container {...args}>Container with max width</Container>
+);
 
 export const Default: Story = {
-  args: {
-    children: <>Container content here</>,
-  },
+  args: {},
   render,
 };
 
 export const WithMaxWidth: Story = {
   args: {
-    children: <>Container with max width</>,
     maxWidth: "230px",
   },
   render,

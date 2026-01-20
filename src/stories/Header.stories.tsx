@@ -15,18 +15,19 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story["render"] = (args) => <Header {...args} />;
+const render: Story["render"] = (args) => (
+  <Header {...args}>Title with size {args.size}</Header>
+);
 
 export const Header1: Story = {
   args: {
-    children: <>Title with size 1</>,
+    size: 1,
   },
   render,
 };
 
 export const Header2: Story = {
   args: {
-    children: <>Title with size 2</>,
     size: 2,
   },
   render,
@@ -34,7 +35,6 @@ export const Header2: Story = {
 
 export const Header3: Story = {
   args: {
-    children: <>Title with size 3</>,
     size: 3,
   },
   render,
@@ -42,7 +42,6 @@ export const Header3: Story = {
 
 export const Header4: Story = {
   args: {
-    children: <>Title with size 4</>,
     size: 4,
   },
   render,
@@ -50,7 +49,6 @@ export const Header4: Story = {
 
 export const Header5: Story = {
   args: {
-    children: <>Title with size 5</>,
     size: 5,
   },
   render,
@@ -58,7 +56,6 @@ export const Header5: Story = {
 
 export const Header2WithH1Tag: Story = {
   args: {
-    children: <>Title with size 2 and htmlTag h1</>,
     size: 2,
     htmlTag: "h1",
   },

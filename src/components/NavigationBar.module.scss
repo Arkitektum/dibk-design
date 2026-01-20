@@ -10,25 +10,22 @@
 @use "../style/abstracts/variables/viewports";
 
 .navigationBarContainer {
-    --navigation-surface: colors.$color-primary-contrast;
+    --navigation-surface: transparent;
     --navigation-overlay: colors.$color-body-background;
+    --navigation-text: colors.$color-default-text;
     padding-top: 38px;
     padding-bottom: 24px;
     width: 100%;
     max-width: 1600px;
     gap: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-            
     margin: 0 auto;
-    
         position: relative;
         .navigationBar {
             position: relative;
             height: 62px;
             display: -ms-flexbox;
             width: 100%;
-            max-width: 1350px;
+            max-width: 1310px;
             display: flex;
             -ms-flex-wrap: wrap;
             align-items: center;
@@ -36,8 +33,7 @@
             margin-left: auto;
             margin-right: auto;
             font-size: 18px;
-            padding-left: 20px;
-            padding-right: 20px;
+            
             @media only screen and (min-width: viewports.$screen-sm) {
                 -ms-flex-direction: row;
                 flex-direction: row;
@@ -54,13 +50,21 @@
                 background-color: var(--navigation-surface, colors.$color-primary-contrast);
             }
         }
-        
-    
-    
-        background-color: colors.$color-body-background;
+        background-color: var(--navigation-overlay, colors.$color-body-background);
+        color: var(--navigation-text, colors.$color-default-text);
         .logoContainer img {
             mix-blend-mode: multiply;
         }
     
     
+}
+
+.secondary {
+    --navigation-overlay: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+    --navigation-text: var(--color-secondary-x-light, colors.$color-secondary-x-light);    
+}
+
+.neutral {
+    --navigation-overlay: colors.$color-body-background;
+    --navigation-text: colors.$color-default-text;
 }

@@ -10,15 +10,14 @@ import style from "./InfoBox.module.scss";
 export type InfoBoxVariant = "info" | "warning" | "error" | "tip" | "success";
 
 export interface InfoBoxProps {
-  title?: React.ReactNode;
+  title: string;
   children?: React.ReactNode;
   variant?: InfoBoxVariant;
   fullScreen?: boolean;
-  isAlert?: boolean;
+
   noBorder?: boolean;
   hideIcon?: boolean;
   icon?: React.ReactNode;
-  className?: string;
 }
 
 const InfoBox = ({
@@ -26,11 +25,9 @@ const InfoBox = ({
   children = "",
   variant = "info",
   fullScreen = false,
-  isAlert = false,
   noBorder = false,
   hideIcon = false,
   icon,
-  className,
 }: InfoBoxProps) => {
   const defaultIcons: Record<InfoBoxVariant, string> = {
     info: infoIcon,
@@ -51,16 +48,15 @@ const InfoBox = ({
         style.box,
         style[variant],
         fullScreen && style.fullScreen,
-        isAlert && style.alert,
+
         noBorder && style.noBorder,
         shouldRenderIcon ? style.hasIcon : null,
-        className,
       ])}
     >
       <div className={style.inner}>
         {shouldRenderIcon ? <div className={style.icon}>{iconNode}</div> : null}
         <div className={style.content}>
-          {title ? <Header size={3}>{title}</Header> : null}
+          <Header size={3}>{title}</Header>
 
           {children ? <div className={style.body}>{children}</div> : null}
         </div>

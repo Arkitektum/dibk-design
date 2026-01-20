@@ -217,9 +217,9 @@ export const FileInputWithButtonContentAndSelectedFile: Story = {
     id: "inputField15",
     label: "File input",
     type: "file",
-    buttonContent: "Legg til fil",
+    actionButtonContent: "Legg til fil",
     selectedFileName: "file.txt",
-    buttonColor: "secondary",
+    actionButtonColor: "secondary",
   },
   render: Uncontrolled(),
 };

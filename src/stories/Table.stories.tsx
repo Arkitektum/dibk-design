@@ -205,28 +205,3 @@ export const Paginated: Story = {
     pageSize: 10,
   },
 };
-
-export const PaginatedWithPageSizeSelector: Story = {
-  render: (args) => {
-    const [pageSize, setPageSize] = useState(5);
-    const [page, setPage] = useState(1);
-    return (
-      <Table
-        {...args}
-        page={page}
-        onPageChange={setPage}
-        pageSize={pageSize}
-        onPageSizeChange={(size) => {
-          setPageSize(size);
-          setPage(1);
-        }}
-      />
-    );
-  },
-  args: {
-    columns,
-    data: sampleDataBig,
-    pageSizeOptions: [5, 10, 15, 25],
-    pageSize: 5,
-  },
-};

@@ -21,7 +21,6 @@
   line-height: 1.5;
   animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running messageIn;
 
-
   &.fullScreen {
     border-width: 0 0 4px 0;
   }
@@ -74,7 +73,7 @@
   }
 
   .fullScreen & {
-    max-width: sizes.$content-width;
+    max-width: 1310px;
     margin: auto;
   }
 }

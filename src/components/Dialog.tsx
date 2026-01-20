@@ -24,7 +24,6 @@ export interface DialogProps {
 const Dialog = ({
   maxWidth = "none",
   noPadding,
-
   title,
   onClickOutside,
   modal = true,

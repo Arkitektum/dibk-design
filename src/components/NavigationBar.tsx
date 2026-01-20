@@ -21,14 +21,14 @@ export interface NavigationBarProps {
   logoLinkTitle?: string;
   openLogoLinkInNewTab?: boolean;
   theme?: CustomThemeName;
-  color?: "primary" | "secondary" | "neutral";
+  color?: "secondary" | "neutral";
   children?: React.ReactNode;
 }
 
 const NavigationBar = ({
-  logoLink = "",
-  logoLinkTitle,
-  openLogoLinkInNewTab,
+  logoLink = "https://www.dibk.no/",
+  logoLinkTitle = "DIBK logo",
+  openLogoLinkInNewTab = true,
   theme,
   color = "neutral",
 }: NavigationBarProps) => {
@@ -49,9 +49,9 @@ const NavigationBar = ({
           ? `${themeAppName} logo`
           : "DIBK logo";
 
-    const logoElement = themeLogo ? (
+    const logoElement = (
       <img alt={alt} src={themeLogo} style={getLogoThemeStyle(resolvedTheme)} />
-    ) : null;
+    );
 
     if (link?.length) {
       return (

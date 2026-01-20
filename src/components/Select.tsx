@@ -28,7 +28,10 @@ interface SelectPropsBase {
   "aria-describedby"?: string;
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
-  size?: "small" | "medium";
+
+  backgroundColor?: string;
+  textColor?: string;
+  placeholderColor?: string;
 }
 
 export interface SingleSelectProps extends SelectPropsBase {
@@ -67,7 +70,10 @@ const Select = (props: SelectProps) => {
     "aria-describedby": ariaDescribedBy,
     hasErrors = false,
     errorMessage = "",
-    size = "medium",
+
+    backgroundColor,
+    textColor,
+    placeholderColor,
   } = props;
 
   const getErrorElementId = () => `${id}-errorMessage`;
@@ -97,6 +103,16 @@ const Select = (props: SelectProps) => {
   };
 
   const placeholderText = placeholder || defaultContent || "";
+  const containerStyle = {
+    ...(width ? { maxWidth: width } : {}),
+    ...(backgroundColor
+      ? { ["--select-background" as string]: backgroundColor }
+      : {}),
+    ...(textColor ? { ["--select-text" as string]: textColor } : {}),
+    ...(placeholderColor
+      ? { ["--select-placeholder" as string]: placeholderColor }
+      : {}),
+  } as React.CSSProperties;
 
   const handleChange = (
     nextValue: MultiValue<SelectOption> | SingleValue<SelectOption>,
@@ -126,11 +142,8 @@ const Select = (props: SelectProps) => {
       </Label>
 
       <div
-        className={classNameArrayToClassNameString([
-          style.selectContainer,
-          size === "small" && style.small,
-        ])}
-        style={width ? { maxWidth: width } : undefined}
+        className={classNameArrayToClassNameString([style.selectContainer])}
+        style={containerStyle}
         role={role}
       >
         <span className={style.selectListArrow} />
@@ -152,11 +165,9 @@ const Select = (props: SelectProps) => {
           options={selectOptions}
           className={classNameArrayToClassNameString([
             hasErrors && style.hasErrors,
-            size === "small" && style.small,
           ])}
           classNamePrefix="reactSelect"
           components={{
-            DropdownIndicator: () => null,
             IndicatorSeparator: () => null,
           }}
           {...(props.value !== undefined

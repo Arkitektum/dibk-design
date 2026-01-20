@@ -24,9 +24,9 @@ export interface InputFieldProps {
   defaultValue?: string | number | Date;
   elementKey?: string;
   label?: React.ReactNode;
-  buttonColor?: "primary" | "secondary";
-  buttonContent?: string;
-  actionButtonContent?: React.ReactNode;
+  actionButtonColor?: "primary" | "secondary";
+
+  actionButtonContent?: string;
   actionButtonIconLeft?: React.ReactNode;
   actionButtonIconRight?: React.ReactNode;
   actionButtonOnClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -79,8 +79,7 @@ const InputField = ({
   defaultValue,
   elementKey,
   label = "",
-  buttonColor = "primary",
-  buttonContent,
+  actionButtonColor = "secondary",
   actionButtonContent,
   actionButtonIconLeft,
   actionButtonIconRight,
@@ -104,10 +103,12 @@ const InputField = ({
   const captionId = `${id}-caption`;
   const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
   const isDateInput = type === "date" && !disabled && !readOnly;
+  const isFileInput = type === "file";
   const hasActionButton =
     Boolean(actionButtonContent) &&
     Boolean(actionButtonOnClick) &&
-    type !== "file";
+    !isFileInput;
+  const fileButtonContent = actionButtonContent || "Velg fil";
 
   const triggerDatePicker = () => {
     if (!isDateInput || !inputRef.current) return;
@@ -125,12 +126,12 @@ const InputField = ({
     onFocus?.(event);
   };
   const handleFileClick = () => {
-    if (type !== "file") return;
+    if (!isFileInput) return;
     if (disabled) return;
     inputRef.current?.click();
   };
   const handleFileKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (type !== "file" || disabled) return;
+    if (!isFileInput || disabled) return;
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       inputRef.current?.click();
@@ -139,7 +140,7 @@ const InputField = ({
 
   /** Build value/defaultValue safely for the given type */
   const normalizedValueProps = (() => {
-    if (type === "file") return {};
+    if (isFileInput) return {};
     if (type === "date") {
       const v = value !== undefined ? toDateInputValue(value) : undefined;
       const d =
@@ -164,7 +165,7 @@ const InputField = ({
   const inputClassName = classNameArrayToClassNameString([
     hasErrors && style.hasErrors,
     type === "date" && style.dateInput,
-    type === "file" && style.visuallyHidden,
+    isFileInput && style.visuallyHidden,
   ]);
 
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
@@ -180,7 +181,7 @@ const InputField = ({
     onChange,
     onBlur,
     onFocus: handleFocus,
-    placeholder: type === "file" ? undefined : placeholder,
+    placeholder: isFileInput ? undefined : placeholder,
     className: inputClassName || undefined,
     "aria-describedby":
       [
@@ -210,7 +211,7 @@ const InputField = ({
         {required && (
           <img src={asterisk} alt="" className={style.requiredSymbol} />
         )}
-        {type === "file" && (
+        {isFileInput && (
           // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
           <div
             className={style.fileInputContainer}
@@ -221,14 +222,14 @@ const InputField = ({
             aria-disabled={disabled || undefined}
           >
             <span className={style.input}>{selectedFileName}</span>
-            {buttonContent && (
-              <Button
-                color={buttonColor}
-                inputType="button"
-                onClick={() => inputRef.current?.click()}
-                content={buttonContent}
-              />
-            )}
+            <Button
+              color={actionButtonColor}
+              inputType="button"
+              onClick={() => inputRef.current?.click()}
+              content={fileButtonContent}
+              disabled={disabled || actionButtonDisabled}
+              aria-label={actionButtonAriaLabel}
+            />
           </div>
         )}
       </Label>
@@ -239,7 +240,7 @@ const InputField = ({
           <input key={elementKey || id} {...inputProps} ref={inputRef} />
 
           <Button
-            color={buttonColor}
+            color={actionButtonColor}
             inputType="button"
             onClick={actionButtonOnClick}
             disabled={actionButtonDisabled}

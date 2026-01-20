@@ -5,7 +5,7 @@ import Button from "./Button";
 import CheckBoxInput from "./CheckBoxInput";
 import LoadingAnimation from "./LoadingAnimation";
 import RadioButtonInput from "./RadioButtonInput";
-import Select from "./Select";
+
 import style from "./Table.module.scss";
 
 export type SortState = {
@@ -85,21 +85,10 @@ const Table = <T extends object>({
   onPageChange,
   totalCount,
   totalPages: totalPagesProp,
-  pageSizeOptions,
-  defaultPageSize,
-  onPageSizeChange,
 }: TableProps<T>) => {
   const [sortState, setSortState] = useState<SortState | null>(null);
   const selectionGroupName = useId();
   const [internalPage, setInternalPage] = useState(defaultPage);
-  const [internalPageSize, setInternalPageSize] = useState<number | undefined>(
-    () => {
-      if (pageSize !== undefined) return undefined;
-      if (defaultPageSize && defaultPageSize > 0) return defaultPageSize;
-      if (pageSizeOptions?.length) return pageSizeOptions[0];
-      return undefined;
-    },
-  );
 
   // Pick first sortable column by default
   useEffect(() => {
@@ -189,12 +178,11 @@ const Table = <T extends object>({
   }, [selectedRowIds, selectionType]);
 
   const pageSizeValue = useMemo(() => {
-    const candidate = pageSize ?? internalPageSize;
-    if (!candidate || candidate <= 0) {
+    if (!pageSize || pageSize <= 0) {
       return sortedData.length || data.length || 1;
     }
-    return candidate;
-  }, [pageSize, internalPageSize, sortedData.length, data.length]);
+    return pageSize;
+  }, [pageSize, sortedData.length, data.length]);
 
   const totalPages = useMemo(() => {
     if (totalPagesProp !== undefined) {
@@ -240,25 +228,14 @@ const Table = <T extends object>({
     }
   };
 
-  const handlePageSizeChange = (nextSize: number) => {
-    const normalized = nextSize > 0 ? Math.floor(nextSize) : 1;
-    if (pageSize !== undefined) {
-      onPageSizeChange?.(normalized);
-    } else {
-      setInternalPageSize(normalized);
-      setInternalPage(1);
-    }
-  };
-
   const showPagination = !loading && totalPages > 1;
-  const showPageSizeSelector = !loading && Boolean(pageSizeOptions?.length);
+
   const pageItems = useMemo(
     () => buildPageItems(currentPage, totalPages),
     [currentPage, totalPages],
   );
   const paginationControlsClassName = classNameArrayToClassNameString([
     style.paginationControls,
-    showPageSizeSelector && style.paginationWithPageSize,
   ]);
 
   return (
@@ -360,23 +337,27 @@ const Table = <T extends object>({
           ) : (
             paginatedData.map((row, i) => {
               const rowId = resolveRowId(row, i);
-              const selectionControlId = `${selectionGroupName}-${rowId}`;
-              const isSelectedSingle =
-                selectionType === "single" && selectedRowId === rowId;
-              const isSelectedMulti =
-                selectionType === "multiple" && selectedRowIdSet.has(rowId);
 
-              const isSelectableSingle =
-                selectionType === "single" && !!onSelect;
+              const selectionControlId = `${selectionGroupName}-${rowId}`;
+
+              const selectionTypeIsSingle = selectionType === "single";
+              const selectionTypeIsMultiple = selectionType === "multiple";
+
+              const isSelectedSingle =
+                selectionTypeIsSingle && selectedRowId === rowId;
+              const isSelectedMulti =
+                selectionTypeIsMultiple && selectedRowIdSet.has(rowId);
+
+              const isSelectableSingle = selectionTypeIsSingle && !!onSelect;
               const isSelectableMulti =
-                selectionType === "multiple" && !!onSelectMany;
+                selectionTypeIsMultiple && !!onSelectMany;
               const clickable =
                 Boolean(onRowClick) || isSelectableSingle || isSelectableMulti;
 
               const handleRowClick = () => {
-                if (selectionType === "single") {
+                if (selectionTypeIsSingle) {
                   onSelect?.(row);
-                } else if (selectionType === "multiple" && onSelectMany) {
+                } else if (selectionTypeIsMultiple && onSelectMany) {
                   const nextSelected = new Set(selectedRowIdSet);
                   if (nextSelected.has(rowId)) {
                     nextSelected.delete(rowId);
@@ -401,7 +382,7 @@ const Table = <T extends object>({
                   ])}
                   onClick={clickable ? handleRowClick : undefined}
                 >
-                  {selectionType === "single" && (
+                  {selectionTypeIsSingle && (
                     <td className={style.selectionCell}>
                       <button
                         type="button"
@@ -422,7 +403,7 @@ const Table = <T extends object>({
                       </button>
                     </td>
                   )}
-                  {selectionType === "multiple" && (
+                  {selectionTypeIsMultiple && (
                     <td className={style.selectionCell}>
                       <button
                         type="button"
@@ -466,106 +447,88 @@ const Table = <T extends object>({
           )}
         </tbody>
       </table>
-      {(showPagination || showPageSizeSelector) && (
+      {showPagination && (
         <div className={paginationControlsClassName}>
-          {showPageSizeSelector && (
-            <div className={style.pageSizeSelector}>
-              <Select
-                id={`${selectionGroupName}-page-size`}
-                label="Rader per side"
-                options={pageSizeOptions}
-                value={pageSizeValue}
-                onChange={(val) => handlePageSizeChange(Number(val))}
-                width="120px"
-                size="small"
-              />
-            </div>
-          )}
-          {showPagination && (
-            <div className={style.pagination}>
-              <Button
-                type="button"
-                color="neutral"
-                noMargin
-                className={classNameArrayToClassNameString([
-                  style.pageNavButtonPrevious,
-                  currentPage <= 1 && style.pageNavButtonHidden,
-                ])}
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage <= 1}
-                aria-label="Forrige side"
-                content="Forrige"
-                iconLeft={
-                  <span className={style.pageNavIcon} aria-hidden="true">
-                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                      <title>Forrige side</title>
-                      <path
-                        d="M10.5 3.5L6 8l4.5 4.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+          <div className={style.pagination}>
+            <Button
+              type="button"
+              color="neutral"
+              noMargin
+              className={classNameArrayToClassNameString([
+                style.pageNavButtonPrevious,
+                currentPage <= 1 && style.pageNavButtonHidden,
+              ])}
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage <= 1}
+              aria-label="Forrige side"
+              content="Forrige"
+              iconLeft={
+                <span className={style.pageNavIcon} aria-hidden="true">
+                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <title>Forrige side</title>
+                    <path
+                      d="M10.5 3.5L6 8l4.5 4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              }
+            />
+            <div className={style.pageList}>
+              {pageItems.map((item) =>
+                item === "..." ? (
+                  <span key={`ellipsis-${item}`} className={style.pageEllipsis}>
+                    ...
                   </span>
-                }
-              />
-              <div className={style.pageList}>
-                {pageItems.map((item) =>
-                  item === "..." ? (
-                    <span
-                      key={`ellipsis-${item}`}
-                      className={style.pageEllipsis}
-                    >
-                      ...
-                    </span>
-                  ) : (
-                    <button
-                      key={item}
-                      type="button"
-                      className={classNameArrayToClassNameString([
-                        style.pageNumber,
-                        item === currentPage && style.pageNumberActive,
-                      ])}
-                      onClick={() => goToPage(Number(item))}
-                      aria-current={item === currentPage ? "page" : undefined}
-                    >
-                      {item}
-                    </button>
-                  ),
-                )}
-              </div>
-              <Button
-                type="button"
-                color="neutral"
-                noMargin
-                className={classNameArrayToClassNameString([
-                  style.pageNavButtonNext,
-                  currentPage >= totalPages && style.pageNavButtonHidden,
-                ])}
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage >= totalPages}
-                aria-label="Neste side"
-                content="Neste"
-                iconRight={
-                  <span className={style.pageNavIcon} aria-hidden="true">
-                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                      <title>Neste side</title>
-                      <path
-                        d="M5.5 3.5L10 8l-4.5 4.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                }
-              />
+                ) : (
+                  <button
+                    key={item}
+                    type="button"
+                    className={classNameArrayToClassNameString([
+                      style.pageNumber,
+                      item === currentPage && style.pageNumberActive,
+                    ])}
+                    onClick={() => goToPage(Number(item))}
+                    aria-current={item === currentPage ? "page" : undefined}
+                  >
+                    {item}
+                  </button>
+                ),
+              )}
             </div>
-          )}
+            <Button
+              type="button"
+              color="neutral"
+              noMargin
+              className={classNameArrayToClassNameString([
+                style.pageNavButtonNext,
+                currentPage >= totalPages && style.pageNavButtonHidden,
+              ])}
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+              aria-label="Neste side"
+              content="Neste"
+              iconRight={
+                <span className={style.pageNavIcon} aria-hidden="true">
+                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <title>Neste side</title>
+                    <path
+                      d="M5.5 3.5L10 8l-4.5 4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              }
+            />
+          </div>
         </div>
       )}
     </>

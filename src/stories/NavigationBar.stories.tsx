@@ -11,6 +11,11 @@ const meta: Meta<typeof NavigationBar> = {
       options: ["dibk", "arbeidstilsynet"],
       defaultValue: "dibk",
     },
+    color: {
+      control: "radio",
+      options: ["secondary", "neutral"],
+      defaultValue: "neutral",
+    },
   },
   tags: ["autodocs"],
 };
@@ -22,15 +27,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     theme: "dibk",
-  },
-};
-
-export const WithLogoLink: Story = {
-  args: {
-    theme: "dibk",
-    logoLink: "https://dibk.no/",
-    logoLinkTitle: "Gå til forside",
-    openLogoLinkInNewTab: true,
   },
 };
 

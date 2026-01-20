@@ -66,16 +66,20 @@ const RadioButtonInput = ({
     "aria-describedby": ariaDescribedBy,
   };
 
+  const hasLabelContent = Boolean(children) || required;
+
   return (
     <label htmlFor={id} className={labelClassName}>
       <RadioButtonIcon {...iconProps} />
       <input {...inputProps} />
-      <span className={style.labelText}>
-        {children}
-        {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
-        )}
-      </span>
+      {hasLabelContent && (
+        <span className={style.labelText}>
+          {children}
+          {required && (
+            <img src={asterisk} alt="" className={style.requiredSymbol} />
+          )}
+        </span>
+      )}
     </label>
   );
 };
