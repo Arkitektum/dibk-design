@@ -12,8 +12,7 @@ import Header from "./Header";
 export interface DialogProps {
   maxWidth?: string;
   noPadding?: boolean;
-
-  title?: React.ReactNode;
+  title?: React.ReactNode | string;
   onClickOutside: () => void;
   modal?: boolean;
   attachTo?: "left" | "right" | "top" | "bottom" | string;
@@ -35,7 +34,6 @@ const Dialog = ({
     null,
   );
   const dialogContainerRef = useRef<HTMLDivElement>(null);
-
   const dialogContentRef = useCallback(
     (element: HTMLDivElement | null): void => {
       if (element) {
@@ -151,7 +149,11 @@ const Dialog = ({
         >
           {title && (
             <div className={style.dialogHeader}>
-              {title ? <Header size={2}>{title}</Header> : <span />}
+              {typeof title === "string" ? (
+                <Header size={2}>{title}</Header>
+              ) : (
+                title
+              )}
               <Button
                 color="neutral"
                 aria-label="Lukk dialog"

@@ -11,7 +11,7 @@
 
 .navigationBarContainer {
     --navigation-surface: transparent;
-    --navigation-overlay: colors.$color-body-background;
+    --navigation-overlay: colors.$color-background-secondary;
     --navigation-text: colors.$color-default-text;
     padding-top: 38px;
     padding-bottom: 24px;
@@ -47,10 +47,10 @@
             height: fit-content;
             img {
                 display: block;
-                background-color: var(--navigation-surface, colors.$color-primary-contrast);
+                background-color: var(--navigation-surface, colors.$color-background-default);
             }
         }
-        background-color: var(--navigation-overlay, colors.$color-body-background);
+        background-color: var(--navigation-overlay, colors.$color-background-secondary);
         color: var(--navigation-text, colors.$color-default-text);
         .logoContainer img {
             mix-blend-mode: multiply;
@@ -60,11 +60,11 @@
 }
 
 .secondary {
-    --navigation-overlay: var(--color-secondary-x-light, colors.$color-secondary-x-light);
-    --navigation-text: var(--color-secondary-x-light, colors.$color-secondary-x-light);    
+    --navigation-overlay: var(--color-secondary-light, colors.$color-secondary-light);
+    --navigation-text: var(--color-secondary-light, colors.$color-secondary-light);    
 }
 
 .neutral {
-    --navigation-overlay: colors.$color-body-background;
+    --navigation-overlay: colors.$color-background-secondary;
     --navigation-text: colors.$color-default-text;
 }

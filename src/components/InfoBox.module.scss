@@ -12,9 +12,9 @@
 }
 
 .box {
-  background-color: #fff;
+  background-color: var(--color-background-default, colors.$color-background-default);
   border: 1px solid
-    var(--color-secondary-light, colors.$color-secondary-light);
+    var(--color-secondary, colors.$color-secondary);
   
   color: var(--color-default-text, colors.$color-default-text);
   font-family: typography.$default-font;
@@ -29,10 +29,10 @@
     border: 0;
   }
 
-  &.info {
+  &.secondary {
     background-color: var(
-      --color-secondary-x-light,
-      colors.$color-secondary-x-light
+      --color-secondary-light,
+      colors.$color-secondary-light
     );
     border-color: var(--color-primary, colors.$color-primary);
   }
@@ -47,17 +47,17 @@
     border-color: var(--color-error, colors.$color-error);
   }
 
-  &.tip {
+  &.info {
     background-color: var(
-      --color-secondary-background,
-      colors.$color-secondary-background
+      --color-background-info,
+      colors.$color-background-info
     );
-    border-color: var(--color-secondary-background, colors.$color-secondary-background);
+    border-color: var(--color-background-info, colors.$color-background-info);
   }
 
   &.success {
-    background-color: #f1fae3;
-    border-color: #1a8714;
+    background-color: var(--color-success-x-light, colors.$color-success-x-light);
+    border-color: var(--color-success, colors.$color-success);
   }
 }
 

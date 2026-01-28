@@ -2,38 +2,41 @@ import arbeidstilsynetLogo from "../assets/svg/arbeidstilsynet-logo.svg?url";
 
 import dibkLogoWithTitle from "../assets/svg/dibk-logo-with-title.svg?url";
 import type { ThemeProps } from "../components/Theme";
+import { colorTokens } from "./generated/colors";
 
 const dibk: ThemeProps = {
   appName: "DiBK",
   logo: dibkLogoWithTitle,
 
   colors: {
-    bodyBackground: "#ebf4fa",
-    defaultText: "#202020",
-    headingText: "#003045",
-    primaryText: "#005275",
-    primary: "#003045",
-    primaryLight: "#264f61",
-    primaryXLight: "#406474",
-    primaryContrast: "#ffffff",
-    secondary: "#ffffff",
-    secondaryLight: "#c7e0f2",
-    secondaryXLight: "#ebf4fa",
-    secondaryContrast: "#005275",
-    formElement: "#003045",
-    border: "#89bad6",
-    focus: "rgba(0, 92, 173, 0.4)",
-    defaultBackground: "#f1fae3",
-    secondaryBackground: "#f5f0f0",
-    success: "#177912",
-    successLight: "#cbebb0",
-    successXLight: "#f1fae3",
-    warning: "#ffbe00",
-    warningLight: "#fcefb6",
-    warningXLight: "#fff8db",
-    error: "#db0000",
-    errorLight: "#ffc5c2",
-    errorXLight: "#fceceb",
+    backgroundDefault: colorTokens["color-background-default"],
+    backgroundSecondary: colorTokens["color-background-secondary"],
+    backgroundInfo: colorTokens["color-background-info"],
+
+    defaultText: colorTokens["color-default-text"],
+    defaultContrastText: colorTokens["color-default-contrast-text"],
+    headingText: colorTokens["color-heading-text"],
+    formElement: colorTokens["color-form-element"],
+
+    primary: colorTokens["color-primary"],
+    primaryLight: colorTokens["color-primary-light"],
+    primaryXLight: colorTokens["color-primary-x-light"],
+
+    secondary: colorTokens["color-secondary"],
+    secondaryLight: colorTokens["color-secondary-light"],
+
+    border: colorTokens["color-border"],
+    focus: colorTokens["color-focus"],
+
+    success: colorTokens["color-success"],
+    successLight: colorTokens["color-success-light"],
+    successXLight: colorTokens["color-success-x-light"],
+    warning: colorTokens["color-warning"],
+    warningLight: colorTokens["color-warning-light"],
+    warningXLight: colorTokens["color-warning-x-light"],
+    error: colorTokens["color-error"],
+    errorLight: colorTokens["color-error-light"],
+    errorXLight: colorTokens["color-error-x-light"],
   },
 };
 const arbeidstilsynet: ThemeProps = {

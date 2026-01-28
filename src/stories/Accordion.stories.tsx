@@ -20,7 +20,25 @@ const render: Story["render"] = (args) => (
 );
 export const Default: Story = {
   args: {
-    color: "default",
+    title: "Accordion title",
+    noMargin: false,
+    color: "primary",
+  },
+  render,
+};
+
+export const Primary: Story = {
+  args: {
+    color: "primary",
+    title: "Accordion title",
+    noMargin: false,
+  },
+  render,
+};
+
+export const Neutral: Story = {
+  args: {
+    color: "neutral",
     title: "Accordion title",
     noMargin: false,
   },
@@ -38,14 +56,6 @@ export const Secondary: Story = {
 export const Info: Story = {
   args: {
     color: "info",
-    title: "Accordion title",
-    noMargin: false,
-  },
-  render,
-};
-export const Contrast: Story = {
-  args: {
-    color: "contrast",
     title: "Accordion title",
     noMargin: false,
   },

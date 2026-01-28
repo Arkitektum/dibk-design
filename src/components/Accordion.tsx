@@ -7,10 +7,10 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 // Stylesheets
 import style from "./Accordion.module.scss";
 
-type AccordionColor = "default" | "secondary" | "info" | "contrast";
+type AccordionColor = "primary" | "neutral" | "secondary" | "info";
 
 export interface AccordionProps {
-  title?: string;
+  title?: ReactNode;
   color?: AccordionColor;
   expanded?: boolean;
   onToggleExpand?: () => void;
@@ -28,7 +28,7 @@ const RenderPanel = ({
   expanded,
   handleToggleExpand,
 }: {
-  title: string;
+  title: ReactNode;
   buttonProps: ButtonHTMLAttributes<HTMLButtonElement>;
   expanded: boolean;
   handleToggleExpand: () => void;
@@ -50,7 +50,7 @@ const RenderPanel = ({
 
 const Accordion = ({
   title,
-  color = "default",
+  color = "primary",
   expanded: expandedProp = false,
   onToggleExpand,
   buttonProps,
@@ -83,7 +83,7 @@ const Accordion = ({
   return (
     <div className={className} {...rest}>
       <RenderPanel
-        title={title ?? ""}
+        title={title}
         buttonProps={buttonProps ?? {}}
         expanded={expanded ?? false}
         handleToggleExpand={handleToggleExpand}

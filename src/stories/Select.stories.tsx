@@ -179,3 +179,13 @@ export const WithCustomBackgroundColor: Story = {
     options,
   },
 };
+
+export const WithActionButton: Story = {
+  args: {
+    id: "select19",
+    label: "Select with action button",
+    options,
+    actionButtonContent: "Apply",
+    actionButtonOnClick: () => console.log("Select action button clicked"),
+  },
+};

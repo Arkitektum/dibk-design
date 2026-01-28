@@ -1,36 +1,117 @@
-$color-body-background: #ebf4fa;
-$color-default-text: #202020;
-$color-heading-text: #003045;
-$color-primary-text: #005275;
+$color-green-50: #f1fae3;
+$color-green-100: #cbebb0;
+$color-green-200: #85de59;
+$color-green-300: #5bcc35;
+$color-green-400: #52b033;
+$color-green-500: #389929;
+$color-green-600: #1a8714;
+$color-green-700: #147a0c;
+$color-green-800: #086100;
+$color-green-900: #065200;
 
-$color-primary: #003045;
-$color-primary-light: #264f61;
-$color-primary-x-light: #406474;
-$color-primary-contrast: #ffffff;
+$color-blue-25: #F5F9FD;
+$color-blue-50: #ebf4fa;
+$color-blue-100: #c7e0f2;
+$color-blue-200: #acd4e8;
+$color-blue-300: #89bad6;
+$color-blue-400: #4499c7;
+$color-blue-500: #1e7db2;
+$color-blue-600: #006491;
+$color-blue-700: #005275;
+$color-blue-800: #004563;
+$color-blue-900: #003045;
 
-$color-secondary: #ffffff;
-$color-secondary-light: #c7e0f2;
-$color-secondary-x-light: #ebf4fa;
-$color-secondary-contrast: #005275;
 
-$color-border: #89bad6;
-$color-form-element: #003045;
-$color-focus: rgba(0, 92, 173, 0.4);
+$color-sky-50: #ebf3ff;
+$color-sky-100: #c2e2ff;
+$color-sky-200: #80c3ff;
+$color-sky-300: #4899e0;
+$color-sky-400: #1e82db;
+$color-sky-500: #0a76d6;
+$color-sky-600: #0a6cc4;
+$color-sky-700: #005cad;
+$color-sky-800: #004c8f;
+$color-sky-900: #003361;
 
-$color-default-background: #f1fae3; 
-$color-secondary-background: #f5f0f0;
+$color-amber-50: #fff8db;
+$color-amber-100: #ffe969;
+$color-amber-200: #ffa100;
+$color-amber-300: #e07000;
+$color-amber-400: #d46a00;
+$color-amber-500: #c76300;
+$color-amber-600: #b85c00;
+$color-amber-700: #9e4f00;
+$color-amber-800: #7d3800;
+$color-amber-900: #5c2900;
 
-$color-success: #177912;
-$color-success-light: #cbebb0;
-$color-success-x-light: #f1fae3;
+$color-red-50: #fcecebcc;
+$color-red-100: #ffc5c2;
+$color-red-200: #ffaca6;
+$color-red-300: #f58078;
+$color-red-400: #f55e56;
+$color-red-500: #f53b3b;
+$color-red-600: #eb1a1a;
+$color-red-700: #db0000;
+$color-red-800: #ad0000;
+$color-red-900: #730000;
 
-$color-warning: #ffbe00;
-$color-warning-light: #fcefb6;
-$color-warning-x-light: #fff8db;
+$color-warm-gray-25: #F7F5F5;
+$color-warm-gray-50: #f5eeed;
+$color-warm-gray-100: #e5ddda;
+$color-warm-gray-200: #d7ccca;
+$color-warm-gray-300: #b0a6a4;
+$color-warm-gray-400: #998b8b;
+$color-warm-gray-500: #8a7b78;
+$color-warm-gray-600: #7a6c69;
+$color-warm-gray-700: #5c4d4a;
+$color-warm-gray-800: #3b2f29;
+$color-warm-gray-900: #1a0505;
 
-$color-error: #db0000;
-$color-error-light: #ffc5c2;
-$color-error-x-light: #fceceb;
+$color-white: #ffffff;
+$color-black: #202020;
 
-$color-input-border: #998B8B; // varmgrå 400
-$color-tab-border: #F7F5F5;
+/* BACKGROUNDS */
+
+$color-background-default: $color-white;
+$color-background-secondary: $color-blue-50;
+$color-background-info: $color-warm-gray-50;
+
+
+/* TEXT & FORMS */
+
+$color-default-text: $color-black;
+$color-default-contrast-text: $color-white;
+$color-heading-text: $color-blue-900;
+$color-form-element: $color-blue-900;
+$color-input-border: $color-warm-gray-400;  
+$color-tab-border: $color-warm-gray-50;  
+
+/* BRAND */
+
+$color-primary: $color-blue-900;
+$color-primary-light: $color-blue-700;
+$color-primary-x-light: $color-blue-600;
+
+$color-secondary: $color-blue-100;
+$color-secondary-light: $color-blue-50;
+$color-secondary-x-light: $color-blue-25;
+
+$color-border: $color-blue-300;
+$color-focus: rgba($color-sky-700, 0.4);
+
+
+/* STATUS COLORS */
+
+$color-success: $color-green-600;
+$color-success-light: $color-green-100;
+$color-success-x-light: $color-green-50;
+
+$color-warning: $color-amber-200;
+$color-warning-light: $color-amber-100;
+$color-warning-x-light: $color-amber-50;
+
+$color-error: $color-red-700;
+$color-error-light: $color-red-100;
+$color-error-x-light: $color-red-50;
+
+

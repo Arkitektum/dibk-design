@@ -7,7 +7,7 @@ const meta: Meta<typeof InfoBox> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["info", "warning", "error", "tip", "success"],
+      options: ["secondary", "warning", "error", "info", "success"],
     },
     fullScreen: { control: "boolean" },
 
@@ -34,7 +34,7 @@ const render: Story["render"] = (args) => (
 
 export const Default: Story = {
   args: {
-    variant: "info",
+    variant: "secondary",
     title: "Du kan ikke signere erklæringen før alle opplysningene er fylt ut:",
   },
   render,
@@ -59,9 +59,9 @@ export const ErrorBox: Story = {
   render,
 };
 
-export const Tip: Story = {
+export const Info: Story = {
   args: {
-    variant: "tip",
+    variant: "info",
     title: "Tips",
     children: "Du kan lagre utkastet og fortsette senere.",
   },
@@ -79,7 +79,7 @@ export const Success: Story = {
 
 export const NoBorder: Story = {
   args: {
-    variant: "info",
+    variant: "secondary",
     noBorder: true,
     title: "Ingen kantlinje",
     children: "Denne info-boksen vises uten kantlinje.",

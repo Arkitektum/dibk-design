@@ -7,10 +7,15 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 import Header from "./Header";
 import style from "./InfoBox.module.scss";
 
-export type InfoBoxVariant = "info" | "warning" | "error" | "tip" | "success";
+export type InfoBoxVariant =
+  | "secondary"
+  | "warning"
+  | "error"
+  | "info"
+  | "success";
 
 export interface InfoBoxProps {
-  title: string;
+  title: React.ReactNode | string;
   children?: React.ReactNode;
   variant?: InfoBoxVariant;
   fullScreen?: boolean;
@@ -23,17 +28,17 @@ export interface InfoBoxProps {
 const InfoBox = ({
   title,
   children = "",
-  variant = "info",
+  variant = "secondary",
   fullScreen = false,
   noBorder = false,
   hideIcon = false,
   icon,
 }: InfoBoxProps) => {
   const defaultIcons: Record<InfoBoxVariant, string> = {
-    info: infoIcon,
+    secondary: infoIcon,
     warning: warningIcon,
     error: errorIcon,
-    tip: infoIcon,
+    info: infoIcon,
     success: successIcon,
   };
 
@@ -56,7 +61,11 @@ const InfoBox = ({
       <div className={style.inner}>
         {shouldRenderIcon ? <div className={style.icon}>{iconNode}</div> : null}
         <div className={style.content}>
-          <Header size={3}>{title}</Header>
+          {typeof title === "string" ? (
+            <Header size={3}>{title}</Header>
+          ) : (
+            title
+          )}
 
           {children ? <div className={style.body}>{children}</div> : null}
         </div>

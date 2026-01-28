@@ -4,7 +4,7 @@
 @use "../style/abstracts/variables/typography";
 
 .toggleNavigationButton {
-    background-color: var(--color-body-background, colors.$color-body-background);
+    background-color: var(--color-background-default, colors.$color-background-default);
     color: var(--color-primary, colors.$color-primary);
     border: 1px solid var(--color-primary, colors.$color-primary);
     font-family: typography.$default-font;
@@ -23,7 +23,7 @@
     position: relative;
     text-decoration: none;
     &:hover {
-        color: var(--color-primary-text, colors.$color-primary-text);
+        color: var(--color-default-text, colors.$color-default-text);
     }
     &:focus {
         outline-width: 2px;

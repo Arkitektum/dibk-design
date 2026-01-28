@@ -156,22 +156,6 @@ const Button = ({
     );
   }
 
-  if (inputType === "radio") {
-    const inputProps = { ...buttonProps };
-    delete inputProps.href;
-    return (
-      <label className={className}>
-        <input
-          {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)}
-          type="radio"
-        />
-        {renderIcon(iconLeft)}
-        <span className={contentClassName}>{content}</span>
-        {renderIcon(iconRight)}
-      </label>
-    );
-  }
-
   if (href?.length && !disabled) {
     // Only pass anchor-allowed props
     const anchorProps = { ...buttonProps };

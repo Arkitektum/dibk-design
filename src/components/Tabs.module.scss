@@ -44,8 +44,8 @@
   &:hover {
     color: var(--color-heading-text, colors.$color-heading-text);
     background-color: var(
-      --color-secondary-x-light,
-      colors.$color-secondary-x-light
+      --color-secondary-light,
+      colors.$color-secondary-light
     );
   }
 
@@ -58,8 +58,8 @@
   &.active {
     border-bottom-color: var(--color-primary, colors.$color-primary);
     background-color: var(
-      --color-secondary-x-light,
-      colors.$color-secondary-x-light
+      --color-secondary-light,
+      colors.$color-secondary-light
     );
     color: var(--color-heading-text, colors.$color-heading-text);
     

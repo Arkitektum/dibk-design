@@ -18,7 +18,7 @@
     width: 10px;
     height: 10px;
     background: white;
-    margin-right: 0.4em;
+    
     border: 0.3em solid white;
     cursor: pointer;
 
@@ -42,7 +42,7 @@
         }
     }
     &.disabled {
-        border-color: #fff;
+        border-color: var(--color-background-default, colors.$color-background-default);
         opacity: 0.4;
     }
 }

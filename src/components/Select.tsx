@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import ReactSelect, { type MultiValue, type SingleValue } from "react-select";
 import asterisk from "../assets/svg/asterisk.svg?url";
 import { classNameArrayToClassNameString } from "../functions/helpers";
+import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 import style from "./Select.module.scss";
@@ -28,6 +29,18 @@ interface SelectPropsBase {
   "aria-describedby"?: string;
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
+  formatOptionLabel?: (
+    option: Option,
+    meta: { context: "menu" | "value" },
+  ) => React.ReactNode;
+
+  actionButtonColor?: "primary" | "secondary";
+  actionButtonContent?: string;
+  actionButtonIconLeft?: React.ReactNode;
+  actionButtonIconRight?: React.ReactNode;
+  actionButtonOnClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  actionButtonDisabled?: boolean;
+  actionButtonAriaLabel?: string;
 
   backgroundColor?: string;
   textColor?: string;
@@ -53,6 +66,7 @@ export type SelectProps = SingleSelectProps | MultipleSelectProps;
 type SelectOption = {
   value: string | number;
   label: string;
+  raw: Option;
 };
 
 const Select = (props: SelectProps) => {
@@ -70,6 +84,13 @@ const Select = (props: SelectProps) => {
     "aria-describedby": ariaDescribedBy,
     hasErrors = false,
     errorMessage = "",
+    actionButtonColor = "secondary",
+    actionButtonContent,
+    actionButtonIconLeft,
+    actionButtonIconRight,
+    actionButtonOnClick,
+    actionButtonDisabled = false,
+    actionButtonAriaLabel,
 
     backgroundColor,
     textColor,
@@ -83,15 +104,15 @@ const Select = (props: SelectProps) => {
     () =>
       options.map((option) =>
         typeof option === "object"
-          ? { value: option.value, label: String(option.key) }
-          : { value: option, label: String(option) },
+          ? { value: option.value, label: String(option.key), raw: option }
+          : { value: option, label: String(option), raw: option },
       ),
     [options],
   );
 
   const getOptionByValue = (value: string | number): SelectOption => {
     const match = selectOptions.find((opt) => opt.value === value);
-    return match ?? { value, label: String(value) };
+    return match ?? { value, label: String(value), raw: value };
   };
 
   const toSelectValue = (
@@ -103,6 +124,8 @@ const Select = (props: SelectProps) => {
   };
 
   const placeholderText = placeholder || defaultContent || "";
+  const hasActionButton =
+    Boolean(actionButtonContent) && Boolean(actionButtonOnClick);
   const containerStyle = {
     ...(width ? { maxWidth: width } : {}),
     ...(backgroundColor
@@ -113,6 +136,7 @@ const Select = (props: SelectProps) => {
       ? { ["--select-placeholder" as string]: placeholderColor }
       : {}),
   } as React.CSSProperties;
+  const selectContainerStyle = hasActionButton ? undefined : containerStyle;
 
   const handleChange = (
     nextValue: MultiValue<SelectOption> | SingleValue<SelectOption>,
@@ -141,42 +165,104 @@ const Select = (props: SelectProps) => {
         )}
       </Label>
 
-      <div
-        className={classNameArrayToClassNameString([style.selectContainer])}
-        style={containerStyle}
-        role={role}
-      >
-        <span className={style.selectListArrow} />
+      {hasActionButton ? (
+        <div className={style.selectWithButton} style={containerStyle}>
+          <div
+            className={classNameArrayToClassNameString([style.selectContainer])}
+            role={role}
+          >
+            <span className={style.selectListArrow} />
 
-        <ReactSelect
-          inputId={id}
-          name={name}
-          aria-describedby={
-            hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy
-          }
-          aria-invalid={hasErrors || undefined}
-          aria-required={required || undefined}
-          isDisabled={disabled}
-          isMulti={isMulti}
-          isSearchable={false}
-          closeMenuOnSelect={!isMulti}
-          placeholder={placeholderText}
-          onChange={handleChange}
-          options={selectOptions}
-          className={classNameArrayToClassNameString([
-            hasErrors && style.hasErrors,
-          ])}
-          classNamePrefix="reactSelect"
-          components={{
-            IndicatorSeparator: () => null,
-          }}
-          {...(props.value !== undefined
-            ? { value: toSelectValue(props.value) }
-            : props.defaultValue !== undefined
-              ? { defaultValue: toSelectValue(props.defaultValue) }
-              : {})}
-        />
-      </div>
+            <ReactSelect
+              inputId={id}
+              name={name}
+              aria-describedby={
+                hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy
+              }
+              aria-invalid={hasErrors || undefined}
+              aria-required={required || undefined}
+              isDisabled={disabled}
+              isMulti={isMulti}
+              isSearchable={false}
+              closeMenuOnSelect={!isMulti}
+              placeholder={placeholderText}
+              onChange={handleChange}
+              options={selectOptions}
+              className={classNameArrayToClassNameString([
+                hasErrors && style.hasErrors,
+              ])}
+              classNamePrefix="reactSelect"
+              formatOptionLabel={
+                props.formatOptionLabel
+                  ? (option, meta) => props.formatOptionLabel?.(option.raw, meta)
+                  : undefined
+              }
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              {...(props.value !== undefined
+                ? { value: toSelectValue(props.value) }
+                : props.defaultValue !== undefined
+                  ? { defaultValue: toSelectValue(props.defaultValue) }
+                  : {})}
+            />
+          </div>
+          <Button
+            color={actionButtonColor}
+            inputType="button"
+            onClick={actionButtonOnClick}
+            disabled={actionButtonDisabled}
+            aria-label={actionButtonAriaLabel}
+            iconLeft={actionButtonIconLeft}
+            iconRight={actionButtonIconRight}
+            noMargin
+          >
+            {actionButtonContent}
+          </Button>
+        </div>
+      ) : (
+        <div
+          className={classNameArrayToClassNameString([style.selectContainer])}
+          style={selectContainerStyle}
+          role={role}
+        >
+          <span className={style.selectListArrow} />
+
+          <ReactSelect
+            inputId={id}
+            name={name}
+            aria-describedby={
+              hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy
+            }
+            aria-invalid={hasErrors || undefined}
+            aria-required={required || undefined}
+            isDisabled={disabled}
+            isMulti={isMulti}
+            isSearchable={false}
+            closeMenuOnSelect={!isMulti}
+            placeholder={placeholderText}
+            onChange={handleChange}
+            options={selectOptions}
+            className={classNameArrayToClassNameString([
+              hasErrors && style.hasErrors,
+            ])}
+            classNamePrefix="reactSelect"
+            formatOptionLabel={
+              props.formatOptionLabel
+                ? (option, meta) => props.formatOptionLabel?.(option.raw, meta)
+                : undefined
+            }
+            components={{
+              IndicatorSeparator: () => null,
+            }}
+            {...(props.value !== undefined
+              ? { value: toSelectValue(props.value) }
+              : props.defaultValue !== undefined
+                ? { defaultValue: toSelectValue(props.defaultValue) }
+                : {})}
+          />
+        </div>
+      )}
 
       <ErrorMessage id={getErrorElementId()} content={errorMessage} />
     </div>

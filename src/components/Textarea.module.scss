@@ -32,7 +32,7 @@
         padding: 10px;
         margin-bottom: 0;
         font-weight: 300;
-        background-color: #fff;
+        background-color: var(--color-background-default, colors.$color-background-default);
         color: rgba(0, 0, 0, 0.75);
         font-family: inherit;
         font-size: 16px;

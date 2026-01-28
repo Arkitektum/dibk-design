@@ -27,7 +27,7 @@
         width: 100%;
         display: block;
         margin-bottom: 0;
-        background-color: #fff;
+        background-color: var(--color-background-default, colors.$color-background-default);
         box-shadow: none;
         color: colors.$color-default-text;
         font-family: inherit;
@@ -52,7 +52,7 @@
 
         &[disabled],
         &[readonly] {
-            background-color: var(--color-secondary-background, colors.$color-secondary-background);
+            background-color: var(--color-background-info, colors.$color-background-info);
             cursor: default;
         }
 
@@ -62,7 +62,7 @@
             
             &[disabled],
             &[readonly] {
-                background-color: var(--color-secondary-background, colors.$color-secondary-background);
+                background-color: var(--color-background-info, colors.$color-background-info);
                 cursor: default;
                 border-color: #afaba8;
             }

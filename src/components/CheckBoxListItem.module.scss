@@ -28,7 +28,7 @@
     color: var(--color-default-text, colors.$color-default-text);
 
     &:not(.compact) {
-        border: 1px solid var(--color-secondary-light, colors.$color-secondary-light);
+        border: 1px solid var(--color-secondary, colors.$color-secondary);
         background: white;
         margin-bottom: 8px;
         label {
@@ -43,15 +43,15 @@
     }
 
     &.checked:not(.compact):not(.disabled) {
-        background-color: var(--color-secondary-light, colors.$color-secondary-light);
+        background-color: var(--color-secondary, colors.$color-secondary);
     }
 
     &:not(.checked):not(.compact):not(.disabled) {
         &:hover {
-            background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }
         &:focus-within {
-            background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }
     }
 

@@ -9,21 +9,21 @@ export interface ParagraphProps {
   id?: string;
   htmlTag?: keyof JSX.IntrinsicElements;
   variant?: ParagraphVariant;
+  noMargin?: boolean;
   children?: React.ReactNode;
-  className?: string;
 }
 
 const Paragraph = ({
   id,
   htmlTag = "p",
   variant = "small",
+  noMargin = false,
   children,
-  className,
 }: ParagraphProps) => {
   const classNames = classNameArrayToClassNameString([
     style.paragraph,
     style[variant],
-    className,
+    noMargin && style.noMargin,
   ]);
 
   return React.createElement(

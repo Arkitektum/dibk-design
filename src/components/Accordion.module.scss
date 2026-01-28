@@ -81,11 +81,34 @@
   text-decoration: none;
   width: 100%;
   display: block;
-  &.default {
-    background-color: var(
-      --color-default-background,
-      colors.$color-default-background
+  &.primary {
+    background-color: var(--color-primary, colors.$color-primary);
+    color: var(
+      --color-default-contrast-text,
+      colors.$color-default-contrast-text
     );
+
+    .panel span,
+    .content {
+      color: var(
+        --color-default-contrast-text,
+        colors.$color-default-contrast-text
+      );
+    }
+    .content {
+      --color-default-text: var(
+        --color-default-contrast-text,
+        colors.$color-default-contrast-text
+      );
+    }
+  }
+  &.neutral {
+    background-color: var(
+      --color-background-default,
+      colors.$color-background-default
+    );
+    color: var(--color-default-text, colors.$color-default-text);
+
     .panel span,
     .content {
       color: var(--color-default-text, colors.$color-default-text);
@@ -93,8 +116,8 @@
   }
   &.secondary {
     background-color: var(
-      --color-secondary-background,
-      colors.$color-secondary-background
+      --color-background-secondary,
+      colors.$color-background-secondary
     );
     color: var(--color-default-text, colors.$color-default-text);
     .panel span,
@@ -104,24 +127,13 @@
   }
   &.info {
     background-color: var(
-      --color-body-background,
-      colors.$color-body-background
+      --color-background-info,
+      colors.$color-background-info
     );
     color: var(--color-primary, colors.$color-primary);
     .panel span,
     .content {
       color: var(--color-primary, colors.$color-primary);
-    }
-  }
-  &.contrast {
-    background-color: var(
-      --color-primary-contrast,
-      colors.$color-primary-contrast
-    );
-    color: var(--color-default-text, colors.$color-default-text);
-    .panel span,
-    .content {
-      color: var(--color-default-text, colors.$color-default-text);
     }
   }
   &.margin {

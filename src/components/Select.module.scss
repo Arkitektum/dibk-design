@@ -11,7 +11,6 @@
 .select {
     .requiredSymbol {
         width: 1em;
-        
         font-size: 0.4em;
         vertical-align: top;
         margin-top: 2px;
@@ -132,12 +131,12 @@
         }
 
         :global(.reactSelect__option--is-selected) {
-            background-color: var(--color-secondary-light, colors.$color-secondary-light);
+            background-color: var(--color-secondary, colors.$color-secondary);
             color: var(--color-default-text, colors.$color-default-text);
         }
 
         :global(.reactSelect__multi-value) {
-            background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }
 
         :global(.reactSelect__multi-value__label) {
@@ -156,7 +155,7 @@
 
             :global(.reactSelect__control--is-focused) {
                 border-color: var(--color-error, colors.$color-error);
-                outline-color: #b8565d;
+                outline-color: var(--color-error, colors.$color-error);
             }
 
             :global(.reactSelect__control--is-disabled) {
@@ -165,5 +164,15 @@
         }
 
         
+    }
+
+    .selectWithButton {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        .selectContainer {
+            flex: 1;
+        }
     }
 }

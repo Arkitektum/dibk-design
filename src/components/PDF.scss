@@ -393,7 +393,7 @@ body {
     }
 
     blockquote {
-        background: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+        background: var(--color-secondary-light, colors.$color-secondary-light);
         border-left: $border-left-width-blockquote solid var(--color-border, colors.$color-border);
         margin: $margin-vertical-blockquote $margin-horizontal-blockquote;
         padding: 0.5em $padding-horizontal-blockquote;
@@ -684,7 +684,7 @@ body {
         }
 
         blockquote {
-            background: var(--color-secondary-x-light, colors.$color-secondary-x-light);
+            background: var(--color-secondary-light, colors.$color-secondary-light);
             border-left: calc($border-left-width-blockquote * $scaling-for-signed-documents) solid
                 var(--color-border, colors.$color-border);
             margin: calc($margin-vertical-blockquote * $scaling-for-signed-documents)

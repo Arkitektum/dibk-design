@@ -82,15 +82,6 @@ export const InputButton: Story = {
   },
 };
 
-export const RadioButton: Story = {
-  args: {
-    content: "RadioButton",
-    inputType: "radio",
-    name: "radio-button",
-    defaultChecked: false,
-  },
-};
-
 const caretIconLeft = (
   <span
     aria-hidden="true"

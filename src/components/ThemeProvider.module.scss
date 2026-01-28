@@ -11,7 +11,7 @@
 body {
     margin: 0;
     font-family: typography.$default-font;
-    background-color: var(--color-body-background, colors.$color-body-background);
+    background-color: var(--color-background-default, colors.$color-background-default);
     color: var(--color-default-text, colors.$color-default-text);
     font-size: 16px;
     line-height: 24px;

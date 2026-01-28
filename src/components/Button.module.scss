@@ -77,7 +77,7 @@
     outline-width:3px;
     outline-style: solid;
     outline-offset: 0px;
-    outline-color: var(--color-secondary-light, colors.$color-secondary-light);
+    outline-color: var(--color-secondary, colors.$color-secondary);
   }
 
   &.regular {
@@ -95,12 +95,12 @@
   &.primary {
     border-width: 0px;
     background-color: var(--color-primary, colors.$color-primary);
-    color: var(--color-primary-contrast, colors.$color-primary-contrast);
+    color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(--color-primary-light, colors.$color-primary-light);
       border-color: var(--color-primary-light, colors.$color-primary-light);
-      color: var(--color-primary-contrast, colors.$color-primary-contrast);
+      color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
       &:after,
       &:before {
         border-color: var(--color-primary-light, colors.$color-primary-light);
@@ -113,7 +113,7 @@
         colors.$color-primary-x-light
       );
       border-color: var(--color-primary-x-light, colors.$color-primary-x-light);
-      color: var(--color-primary-contrast, colors.$color-primary-contrast);
+      color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
       &:after,
       &:before {
         border-color: var(
@@ -125,47 +125,47 @@
   }
 
   &.secondary {
-    background-color: var(--color-secondary-light, colors.$color-secondary-light);
+    background-color: var(--color-secondary, colors.$color-secondary);
     border-width: 0px;
     color: var(--color-primary, colors.$color-primary);
     border-color: var(
-      --color-secondary-x-light,
-      colors.$color-secondary-x-light
+      --color-secondary-light,
+      colors.$color-secondary-light
     );
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(
-        --color-secondary-x-light,
-        colors.$color-secondary-x-light
+        --color-secondary-light,
+        colors.$color-secondary-light
       );
       color: var(--color-primary, colors.$color-primary);
       &:after,
       &:before {
         border-color: var(
-          --color-secondary-light,
-          colors.$color-secondary-x-light
+          --color-secondary,
+          colors.$color-secondary-light
         );
       }
     }
     &:active:not(.noHover),
     &:active:hover:not(.noHover) {
       background-color: var(
-        --color-secondary-x-light,
-        colors.$color-secondary-light
+        --color-secondary-light,
+        colors.$color-secondary
       );
-      color: var(--color-secondary-contrast, colors.$color-secondary-contrast);
+      color: var(--color-primary-light, colors.$color-primary-light);
       &:after,
       &:before {
         border-color: var(
-          --color-secondary-x-light,
-          colors.$color-secondary-light
+          --color-secondary-light,
+          colors.$color-secondary
         );
       }
     }
   }
-/* color-secondary-x-light */
+/* color-secondary-light */
   &.neutral {
-    background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
+    background-color: var(--color-background-default, colors.$color-background-default);
     color: var(--color-primary, colors.$color-primary);
     border-color: var(--color-primary, colors.$color-primary);
     border-width: 1px;
@@ -173,21 +173,21 @@
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(
-        --color-secondary-x-light,
+        --color-secondary-light,
         colors.$color-primary-light
       );
       &:after,
       &:before {
         border-color: var(
           --color-primary-light,
-          colors.$color-secondary-x-light
+          colors.$color-secondary-light
         );
       }
     }
     &:active:not(.noHover),
     &:active:hover:not(.noHover) {
       background-color: var(
-        --color-secondary-x-light,
+        --color-secondary-light,
         colors.$color-primary-light
       );
       color: var(--color-primary, colors.$color-primary);
@@ -208,7 +208,7 @@
     &.neutral {
       background-color: var(--color-primary, colors.$color-primary);
       cursor: default;
-      color: var(--color-primary-contrast, colors.$color-primary-contrast);
+      color: var(--color-background-default, colors.$color-background-default);
       border: 1px solid var(--color-primary, colors.$color-primary);
       opacity: 0.2;
       filter: saturate(3);
@@ -218,21 +218,21 @@
       &:active:hover:not(.noHover) {
         background-color: var(--color-primary, colors.$color-primary);
         cursor: default;
-        color: var(--color-primary-contrast, colors.$color-primary-contrast);
+        color: var(--color-background-default, colors.$color-background-default);
         border: 1px solid var(--color-primary, colors.$color-primary);
         &:before,
         &:after {
           border-color: var(
-            --color-primary-contrast,
-            colors.$color-primary-contrast
+            --color-background-default,
+            colors.$color-background-default
           );
         }
       }
       &:before,
       &:after {
         border-color: var(
-          --color-primary-contrast,
-          colors.$color-primary-contrast
+          --color-background-default,
+          colors.$color-background-default
         );
       }
     }
@@ -269,16 +269,16 @@
       &.primary {
         &:before {
           border-color: var(
-            --color-primary-contrast,
-            colors.$color-primary-contrast
+            --color-background-default,
+            colors.$color-background-default
           );
         }
       }
       &.secondary {
         &:before {
           border-color: var(
-            --color-secondary-contrast,
-            colors.$color-secondary-contrast
+            --color-primary-light,
+            colors.$color-primary-light
           );
         }
       }
@@ -292,16 +292,16 @@
         &.primary {
           &:before {
             border-color: var(
-              --color-primary-contrast,
-              colors.$color-primary-contrast
+              --color-background-default,
+              colors.$color-background-default
             );
           }
         }
         &.secondary {
           &:before {
             border-color: var(
-              --color-secondary-contrast,
-              colors.$color-secondary-contrast
+              --color-primary-light,
+              colors.$color-primary-light
             );
           }
         }
@@ -331,16 +331,16 @@
       &.primary {
         &:after {
           border-color: var(
-            --color-primary-contrast,
-            colors.$color-primary-contrast
+            --color-background-default,
+            colors.$color-background-default
           );
         }
       }
       &.secondary {
         &:after {
           border-color: var(
-            --color-secondary-contrast,
-            colors.$color-secondary-contrast
+            --color-primary-light,
+            colors.$color-primary-light
           );
         }
       }
@@ -355,16 +355,16 @@
         &.primary {
           &:after {
             border-color: var(
-              --color-primary-contrast,
-              colors.$color-primary-contrast
+              --color-background-default,
+              colors.$color-background-default
             );
           }
         }
         &.secondary {
           &:after {
             border-color: var(
-              --color-secondary-contrast,
-              colors.$color-secondary-contrast
+              --color-primary-light,
+              colors.$color-primary-light
             );
           }
         }
@@ -398,9 +398,3 @@
   }
 }
 
-label.button {
-  input[type='radio'] {
-    @include appearance.appearance(none);
-    margin: 0;
-  }
-}

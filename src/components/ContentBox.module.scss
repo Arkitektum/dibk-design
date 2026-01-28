@@ -23,14 +23,14 @@
         }
     }
     &.default {
-        background-color: var(--color-default-background, colors.$color-default-background);
+        background-color: var(--color-background-default, colors.$color-background-default);
         .content,
         .title {
             color: colors.$color-default-text;
         }
     }
     &.secondary {
-        background-color: var(--color-secondary-background, colors.$color-secondary-background);
+        background-color: var(--color-background-info, colors.$color-background-info);
         color: var(--color-default-text, colors.$color-default-text);
         .content,
         .title {

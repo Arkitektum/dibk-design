@@ -27,14 +27,11 @@ section:last-of-type {
   }
 
   .color {
-    &.bodyBackground {
-      background-color: var(--color-body-background, colors.$color-body-background);
+    &.backgroundDefault {
+      background-color: var(--color-background-default, colors.$color-background-default);
     }
     &.defaultText {
       background-color: var(--color-default-text, colors.$color-default-text);
-    }
-    &.primaryText {
-      background-color: var(--color-primary-text, colors.$color-primary-text);
     }
     &.secondaryText {
       background-color: var(--color-border, colors.$color-border);
@@ -48,30 +45,19 @@ section:last-of-type {
     &.primaryXLight {
       background-color: var(--color-primary-x-light, colors.$color-primary-x-light);
     }
-    &.primaryContrast {
-      background-color: var(--color-primary-contrast, colors.$color-primary-contrast);
-    }
+    
     &.secondary {
       background-color: var(--color-secondary, colors.$color-secondary);
     }
     &.secondaryLight {
       background-color: var(--color-secondary-light, colors.$color-secondary-light);
     }
-    &.secondaryXLight {
-      background-color: var(--color-secondary-x-light, colors.$color-secondary-x-light);
-    }
-    &.secondaryContrast {
-      background-color: var(--color-secondary-contrast, colors.$color-secondary-contrast);
-    }
+    
     &.focus {
       background-color: var(--color-focus, colors.$color-focus);
     }
-    &.defaultBackground {
-      background-color: var(--color-default-background, colors.$color-default-background);
-    }
-    &.secondaryBackground {
-      background-color: var(--color-secondary-background, colors.$color-secondary-background);
-    }
+    
+    
     &.success {
       background-color: var(--color-success, colors.$color-success);
     }
