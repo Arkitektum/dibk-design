@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import checkmarkSymbol from "../assets/svg/checkmark-symbol.svg?url";
+import { checkmarkSymbolIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import style from "./Step.module.scss";
 
@@ -42,7 +42,11 @@ const Step = ({
       <span className={style.stepNumber}>{index + 1}</span>
       <span className={style.stepName}>{step.name}</span>
       {isVertical && step.finished && !isActive && (
-        <img src={checkmarkSymbol} alt="" className={style.checkmarkSymbol} />
+        <img
+          src={checkmarkSymbolIcon}
+          alt=""
+          className={style.checkmarkSymbol}
+        />
       )}
     </>
   );

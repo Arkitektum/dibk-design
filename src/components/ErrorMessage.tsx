@@ -1,5 +1,5 @@
 import type React from "react";
-import errorIcon from "../assets/svg/error-icon.svg?url";
+import { errorIcon } from "../icons";
 import style from "./ErrorMessage.module.scss";
 
 export interface ErrorMessageProps {

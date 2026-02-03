@@ -1,8 +1,7 @@
 // CheckBoxInput.tsx
 
 import type React from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
-import checkmarkSymbol from "../assets/svg/checkmark-symbol.svg?url";
+import { asteriskIcon, checkmarkSymbolIcon } from "../icons";
 import CheckBoxIcon from "./CheckBoxIcon";
 import style from "./CheckBoxInput.module.scss";
 
@@ -53,7 +52,7 @@ const CheckBoxInput = ({
     showBox: true,
     hasErrors,
     checkmarkCharacter,
-    checkmarkIconSrc: checkmarkSymbol,
+    checkmarkIconSrc: checkmarkSymbolIcon,
   };
 
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
@@ -78,7 +77,7 @@ const CheckBoxInput = ({
       <span className={style.labelText}>
         {children}
         {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
         )}
       </span>
     </label>

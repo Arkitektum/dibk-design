@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useRef } from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
@@ -209,7 +209,7 @@ const InputField = ({
       <Label htmlFor={id}>
         {label}
         {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
         )}
         {isFileInput && (
           // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>

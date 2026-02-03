@@ -1,8 +1,5 @@
 import type React from "react";
-import errorIcon from "../assets/svg/error-icon.svg?url";
-import infoIcon from "../assets/svg/info-icon.svg?url";
-import successIcon from "../assets/svg/success-icon.svg?url";
-import warningIcon from "../assets/svg/warning-icon.svg?url";
+import { errorIcon, infoIcon, successIcon, warningIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import Header from "./Header";
 import style from "./InfoBox.module.scss";

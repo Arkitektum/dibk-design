@@ -18,7 +18,7 @@
     
     .selectContainer {
         position: relative;
-        color: var(--select-text, rgba(0, 0, 0, 0.75));
+        color: var(--select-text);
         
         .selectListArrow {
             @include border-radius.border-radius(100px);
@@ -58,7 +58,7 @@
             font-size: 18px;
             border: 1px solid var(--color-input-border, colors.$color-input-border);
             line-height: 24px;
-            background: var(--select-background, white);
+            background: var(--select-background);
             cursor: pointer;
             
             &:hover {
@@ -85,7 +85,7 @@
         }
 
         :global(.reactSelect__control--is-disabled) {
-            background-color: var(--select-disabled-background, #ddd);
+            background-color: var(--select-disabled-background);
             cursor: default;
         }
 
@@ -101,9 +101,7 @@
         :global(.reactSelect__single-value),
         :global(.reactSelect__placeholder) {
             color: var(
-                --select-placeholder,
-                var(--select-text, rgba(0, 0, 0, 0.75))
-            );
+                --select-placeholder);
         }
 
         :global(.reactSelect__menu) {

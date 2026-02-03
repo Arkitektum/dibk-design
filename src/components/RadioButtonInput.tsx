@@ -1,7 +1,7 @@
 // RadioButtonInput.tsx
 
 import type React from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import RadioButtonIcon from "./RadioButtonIcon";
 import style from "./RadioButtonInput.module.scss";
 
@@ -76,7 +76,7 @@ const RadioButtonInput = ({
         <span className={style.labelText}>
           {children}
           {required && (
-            <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
           )}
         </span>
       )}

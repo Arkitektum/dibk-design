@@ -11,6 +11,8 @@
     padding: 20px;
     width: 100%;
     display: block;
+    background-color: var(--color-background-default, colors.$color-background-default);
+    color: var(--color-default-text, colors.$color-default-text);
     &.link {
         color: var(--color-primary, colors.$color-primary);
         @include transition.transition(filter 0.3s);
@@ -22,39 +24,29 @@
             filter: brightness(85%);
         }
     }
-    &.default {
-        background-color: var(--color-background-default, colors.$color-background-default);
-        .content,
-        .title {
-            color: colors.$color-default-text;
-        }
-    }
     &.secondary {
-        background-color: var(--color-background-info, colors.$color-background-info);
-        color: var(--color-default-text, colors.$color-default-text);
-        .content,
-        .title {
-            color: var(--color-default-text, colors.$color-default-text);
-        }
+        background-color: var(--color-secondary-light, colors.$color-secondary-light);
     }
-
+    &.warning {
+        background-color: var(--color-warning-x-light, colors.$color-warning-x-light);
+    }
+    &.error {
+        background-color: var(--color-error-x-light, colors.$color-error-x-light);
+    }
+    &.info {
+        background-color: var(--color-background-info, colors.$color-background-info);
+    }
+    &.success {
+        background-color: var(--color-success-x-light, colors.$color-success-x-light);
+    }
+    &.tight {
+        padding: 20px;
+    }
+    &.spacious {
+        padding: 30px;
+    }
+    .content,
     .title {
-        &.regular {
-            font-family: typography.$default-font;
-            font-weight: bold;
-            font-size: 21px;
-            font-style: normal;
-            line-height: 1.4;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.075);
-        }
-        &.large {
-            font-family: typography.$default-font;
-            font-weight: normal;
-            font-size: 24px;
-            margin: 0;
-            margin-bottom: 20px;
-            font-style: normal;
-        }
+        color: var(--color-default-text, colors.$color-default-text);
     }
 }

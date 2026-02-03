@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement, type ReactNode } from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import { cloneThroughFragments } from "../functions/helpers";
 import style from "./CheckBoxList.module.scss";
 import Header from "./Header";
@@ -46,7 +46,7 @@ const CheckBoxList = ({
         <legend>
           {legendSize ? <Header size={legendSize}>{legend}</Header> : legend}
           {required && (
-            <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
           )}
         </legend>
       )}

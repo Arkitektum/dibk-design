@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Link as RouterLink } from "react-router-dom";
-
+import { ArrowLeftIcon, ArrowRightIcon } from "@/icons";
 import Button from "../components/Button";
 
 const meta: Meta<typeof Button> = {
@@ -82,39 +82,11 @@ export const InputButton: Story = {
   },
 };
 
-const caretIconLeft = (
-  <span
-    aria-hidden="true"
-    style={{
-      display: "inline-block",
-      width: 0,
-      height: 0,
-      borderTop: "6px solid transparent",
-      borderBottom: "6px solid transparent",
-      borderRight: "8px solid currentColor",
-    }}
-  />
-);
-
-const caretIconRight = (
-  <span
-    aria-hidden="true"
-    style={{
-      display: "inline-block",
-      width: 0,
-      height: 0,
-      borderTop: "6px solid transparent",
-      borderBottom: "6px solid transparent",
-      borderLeft: "8px solid currentColor",
-    }}
-  />
-);
-
 export const IconLeft: Story = {
   args: {
     color: "primary",
     content: "Icon left",
-    iconLeft: caretIconLeft,
+    iconLeft: <ArrowLeftIcon />,
   },
 };
 
@@ -122,6 +94,6 @@ export const IconRight: Story = {
   args: {
     color: "secondary",
     content: "Icon right",
-    iconRight: caretIconRight,
+    iconRight: <ArrowRightIcon />,
   },
 };

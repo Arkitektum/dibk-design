@@ -41,12 +41,37 @@ Builds the Storybook as a static web application. The output is saved to the `/s
 pnpm run build-storybook
 ```
 
-## Use with Next.js
+## Styles & tokens
 
-1. Import `dibk-design.css` file in your `globals.css`
+This package ships two CSS entrypoints:
+
+- `dibk-design/theme.css` — Tailwind-friendly theme tokens (via `@theme`)
+- `dibk-design/tokens.css` — plain CSS variables for non-Tailwind apps
+
+### Use with Tailwind (recommended)
+
+Import the theme tokens in your global CSS:
 
 ```css
-@import './node_modules/dibk-design/dist/dibk-design.css';
+@import "tailwindcss";
+@import "dibk-design/theme.css";
+```
+
+### Use without Tailwind
+
+Import the plain tokens instead:
+
+```css
+@import "dibk-design/tokens.css";
+```
+
+## Use with Next.js
+
+1. Import the CSS entrypoint in your `globals.css`
+
+```css
+@import "tailwindcss";
+@import "dibk-design/theme.css";
 ```
 
 2. Import component from the library

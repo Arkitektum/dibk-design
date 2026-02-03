@@ -1,5 +1,5 @@
 import type React from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import { generateRandomString } from "../functions/generators";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
@@ -81,7 +81,7 @@ const Textarea = ({
       <Label htmlFor={id}>
         {label}
         {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
         )}
       </Label>
       <textarea key={key} {...textareaProps} />

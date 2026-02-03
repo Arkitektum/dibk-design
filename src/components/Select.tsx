@@ -1,7 +1,7 @@
 import type React from "react";
 import { useMemo } from "react";
 import ReactSelect, { type MultiValue, type SingleValue } from "react-select";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
@@ -161,7 +161,7 @@ const Select = (props: SelectProps) => {
       <Label htmlFor={id}>
         {label}
         {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
         )}
       </Label>
 
@@ -177,7 +177,9 @@ const Select = (props: SelectProps) => {
               inputId={id}
               name={name}
               aria-describedby={
-                hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy
+                hasErrors && errorMessage
+                  ? getErrorElementId()
+                  : ariaDescribedBy
               }
               aria-invalid={hasErrors || undefined}
               aria-required={required || undefined}
@@ -194,7 +196,8 @@ const Select = (props: SelectProps) => {
               classNamePrefix="reactSelect"
               formatOptionLabel={
                 props.formatOptionLabel
-                  ? (option, meta) => props.formatOptionLabel?.(option.raw, meta)
+                  ? (option, meta) =>
+                      props.formatOptionLabel?.(option.raw, meta)
                   : undefined
               }
               components={{

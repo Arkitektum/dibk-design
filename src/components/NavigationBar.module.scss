@@ -47,7 +47,35 @@
             height: fit-content;
             img {
                 display: block;
-                background-color: var(--navigation-surface, colors.$color-background-default);
+                background-color: var(--navigation-surface, colors.$color-background-default); /* should this be transp? */
+            }
+        }
+        .linksContainer {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .linksList {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            font-size: 18px;
+            align-items: center;
+            gap: 32px;
+            font-weight: 600;
+            a {
+                color: var(--navigation-text, colors.$color-default-text);
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+                &:focus-visible {
+                    outline: 2px solid colors.$color-secondary;
+                    outline-offset: 3px;
+                    border-radius: 2px;
+                }
             }
         }
         background-color: var(--navigation-overlay, colors.$color-background-secondary);

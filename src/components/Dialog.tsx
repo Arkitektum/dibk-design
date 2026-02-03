@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import xSymbol from "../assets/svg/x-symbol.svg?url";
 import {
   addFocusTrapInsideElement,
   classNameArrayToClassNameString,
 } from "../functions/helpers";
+import { ArrowRightIcon } from "../icons";
 import Button from "./Button";
 import style from "./Dialog.module.scss";
 import Header from "./Header";
@@ -158,7 +158,7 @@ const Dialog = ({
                 color="neutral"
                 aria-label="Lukk dialog"
                 onClick={onClickOutside}
-                iconRight={<img src={xSymbol} alt="" />}
+                iconRight={<ArrowRightIcon />}
               >
                 Lukk
               </Button>

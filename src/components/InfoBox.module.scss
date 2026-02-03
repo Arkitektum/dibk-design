@@ -38,7 +38,7 @@
   }
 
   &.warning {
-    background-color: var(--color-warning-x-light, colors.$color-warning-light);
+    background-color: var(--color-warning-x-light, colors.$color-warning-x-light);
     border-color: var(--color-warning, colors.$color-warning);
   }
 

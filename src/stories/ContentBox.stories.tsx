@@ -12,31 +12,55 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story["render"] = (args) => <ContentBox {...args} />;
+const render: Story["render"] = (args) => (
+  <ContentBox {...args}>
+    <p>Box with content</p>
+  </ContentBox>
+);
 
 export const DefaultWithoutTitle: Story = {
   args: {
-    color: "default",
-    children: <>Box with default color</>,
-    titleSize: "regular",
+    variant: "secondary",
   },
   render,
 };
 
 export const Default: Story = {
   args: {
-    color: "default",
+    variant: "secondary",
     title: "Box title",
-    children: <>Box with default color</>,
   },
   render,
 };
 
-export const Secondary: Story = {
+export const Warning: Story = {
   args: {
-    color: "secondary",
+    variant: "warning",
     title: "Box title",
-    children: <>Box with secondary color</>,
+  },
+  render,
+};
+
+export const ErrorBox: Story = {
+  args: {
+    variant: "error",
+    title: "Box title",
+  },
+  render,
+};
+
+export const Info: Story = {
+  args: {
+    variant: "info",
+    title: "Box title",
+  },
+  render,
+};
+
+export const Success: Story = {
+  args: {
+    variant: "success",
+    title: "Box title",
   },
   render,
 };

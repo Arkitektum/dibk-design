@@ -1,6 +1,4 @@
-import arbeidstilsynetLogo from "../assets/svg/arbeidstilsynet-logo.svg?url";
-
-import dibkLogoWithTitle from "../assets/svg/dibk-logo-with-title.svg?url";
+import { arbeidstilsynetLogo, dibkLogoWithTitle } from "../icons";
 import type { ThemeProps } from "../components/Theme";
 import { colorTokens } from "./generated/colors";
 

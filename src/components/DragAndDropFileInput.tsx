@@ -1,7 +1,7 @@
 import type React from "react";
 import type { JSX } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import Button from "./Button";
 import style from "./DragAndDropFileInput.module.scss";
 import ErrorMessage from "./ErrorMessage";
@@ -116,7 +116,7 @@ const DragAndDropFileInput = ({
         {label}
 
         {required && (
-          <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
         )}
       </Label>
 

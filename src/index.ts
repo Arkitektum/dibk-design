@@ -39,6 +39,8 @@ import ToggleNavigationButton from "./components/ToggleNavigationButton";
 import WizardNavigation from "./components/WizardNavigation";
 import "./style/base/_fonts.scss";
 
+export * from "./icons";
+
 export {
   Accordion,
   Button,

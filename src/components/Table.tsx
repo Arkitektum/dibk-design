@@ -1,11 +1,11 @@
 import type React from "react";
 import { useEffect, useId, useMemo, useState } from "react";
 import { classNameArrayToClassNameString } from "../functions/helpers";
+import { ArrowLeftIcon, ArrowRightIcon } from "../icons";
 import Button from "./Button";
 import CheckBoxInput from "./CheckBoxInput";
 import LoadingAnimation from "./LoadingAnimation";
 import RadioButtonInput from "./RadioButtonInput";
-
 import style from "./Table.module.scss";
 
 export type SortState = {
@@ -462,21 +462,7 @@ const Table = <T extends object>({
               disabled={currentPage <= 1}
               aria-label="Forrige side"
               content="Forrige"
-              iconLeft={
-                <span className={style.pageNavIcon} aria-hidden="true">
-                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <title>Forrige side</title>
-                    <path
-                      d="M10.5 3.5L6 8l4.5 4.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              }
+              iconLeft={<ArrowLeftIcon />}
             />
             <div className={style.pageList}>
               {pageItems.map((item) =>
@@ -512,21 +498,7 @@ const Table = <T extends object>({
               disabled={currentPage >= totalPages}
               aria-label="Neste side"
               content="Neste"
-              iconRight={
-                <span className={style.pageNavIcon} aria-hidden="true">
-                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <title>Neste side</title>
-                    <path
-                      d="M5.5 3.5L10 8l-4.5 4.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              }
+              iconRight={<ArrowRightIcon />}
             />
           </div>
         </div>

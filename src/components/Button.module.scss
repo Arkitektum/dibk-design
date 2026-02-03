@@ -142,7 +142,7 @@
       &:after,
       &:before {
         border-color: var(
-          --color-secondary,
+          --color-secondary-light,
           colors.$color-secondary-light
         );
       }
@@ -151,14 +151,14 @@
     &:active:hover:not(.noHover) {
       background-color: var(
         --color-secondary-light,
-        colors.$color-secondary
+        colors.$color-secondary-light
       );
       color: var(--color-primary-light, colors.$color-primary-light);
       &:after,
       &:before {
         border-color: var(
           --color-secondary-light,
-          colors.$color-secondary
+          colors.$color-secondary-light
         );
       }
     }

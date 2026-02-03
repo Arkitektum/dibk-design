@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties } from "react";
-import dibkLogoUrl from "../assets/svg/dibk-logo.svg";
+import { dibkLogo as dibkLogoUrl } from "../icons";
 import PDF, { type PDFProps } from "../components/PDF";
 
 const meta: Meta<typeof PDF> = {

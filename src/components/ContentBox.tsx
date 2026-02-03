@@ -1,36 +1,40 @@
 import style from "./ContentBox.module.scss";
+import Header from "./Header";
+import type { InfoBoxVariant } from "./InfoBox";
 
 export interface ContentBoxProps {
-  title?: string;
-  titleSize?: "regular" | "large";
+  title?: string | React.ReactNode;
   content?: string;
   children?: React.ReactNode;
-  color?: "default" | "secondary";
+  variant?: InfoBoxVariant;
+  spacing?: "tight" | "spacious";
   href?: string | null;
 }
 
 const ContentBox = ({
   title = "",
-  titleSize = "regular",
   content = "",
   children,
-  color = "default",
+  variant = "secondary",
+  spacing = "tight",
   href = null,
 }: ContentBoxProps) => {
-  const renderTitle = () => {
-    if (!title) return null;
-    const className = `${style.title} ${style[titleSize]}`;
-    return <h2 className={className}>{title}</h2>;
-  };
-
-  const colorClass = style[color] || "";
+  const colorClass = style[variant] || "";
+  const spacingClass = style[spacing] || "";
   const linkClass = href ? style.link : "";
-  const className = `${style.contentBox} ${colorClass} ${linkClass}`.trim();
+  const className =
+    `${style.contentBox} ${colorClass} ${spacingClass} ${linkClass}`.trim();
   const bodyContent = content?.length ? content : children;
 
   const Inner = (
     <>
-      {renderTitle()}
+      {title ? (
+        typeof title === "string" ? (
+          <Header size={2} content={title} />
+        ) : (
+          title
+        )
+      ) : null}
       <div className={style.content}>{bodyContent}</div>
     </>
   );

@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement, type ReactNode } from "react";
-import asterisk from "../assets/svg/asterisk.svg?url";
+import { asteriskIcon } from "../icons";
 import { cloneThroughFragments } from "../functions/helpers";
 import Header from "./Header";
 import style from "./RadioButtonList.module.scss";
@@ -43,7 +43,7 @@ const RadioButtonList = ({
         <legend>
           {legendSize ? <Header size={legendSize}>{legend}</Header> : legend}
           {required && (
-            <img src={asterisk} alt="" className={style.requiredSymbol} />
+          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
           )}
         </legend>
       )}

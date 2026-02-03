@@ -62,6 +62,7 @@ typings/
 
 # misc
 .DS_Store
+.storybook/.DS_Store
 .env.local
 .env.development.local
 .env.test.local

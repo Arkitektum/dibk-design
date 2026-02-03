@@ -6,11 +6,11 @@
   padding: 16px 0;
   text-align: right;
   * {
-    color: #fff;
+    color: colors.$color-white;
   }
   a,
   .link {
-    color: #fff;
+    color: colors.$color-white;
     text-decoration: underline;
     cursor: pointer;
     display: block;
