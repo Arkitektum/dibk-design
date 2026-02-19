@@ -26,6 +26,8 @@ export { default as ExternalLinkIcon } from "../assets/svg/external-link-icon.sv
 export { default as externalLinkIcon } from "../assets/svg/external-link-icon.svg?url";
 export { default as InfoIcon } from "../assets/svg/info-icon.svg?react";
 export { default as infoIcon } from "../assets/svg/info-icon.svg?url";
+export { default as FilterIcon } from "../assets/svg/filter-icon.svg?react";
+export { default as filterIcon } from "../assets/svg/filter-icon.svg?url";
 export { default as LogoutIcon } from "../assets/svg/logout-icon.svg?react";
 export { default as logoutIcon } from "../assets/svg/logout-icon.svg?url";
 export { default as MailIcon } from "../assets/svg/mail.svg?react";
@@ -34,6 +36,8 @@ export { default as PersonAddFilledIcon } from "../assets/svg/person-add-filled.
 export { default as personAddFilledIcon } from "../assets/svg/person-add-filled.svg?url";
 export { default as PhoneIcon } from "../assets/svg/phone.svg?react";
 export { default as phoneIcon } from "../assets/svg/phone.svg?url";
+export { default as SearchIcon } from "../assets/svg/search-icon.svg?react";
+export { default as searchIcon } from "../assets/svg/search-icon.svg?url";
 export { default as SuccessIcon } from "../assets/svg/success-icon.svg?react";
 export { default as successIcon } from "../assets/svg/success-icon.svg?url";
 export { default as WarningIcon } from "../assets/svg/warning-icon.svg?react";

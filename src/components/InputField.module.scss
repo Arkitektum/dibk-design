@@ -52,8 +52,15 @@
 
         &[disabled],
         &[readonly] {
-            background-color: var(--color-background-info, colors.$color-background-info);
+            background-color: var(--color-warm-gray-25, colors.$color-warm-gray-25);
+            color: var(--color-warm-gray-600, colors.$color-warm-gray-600);
+            border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
             cursor: default;
+        }
+
+        &[disabled]:hover,
+        &[readonly]:hover {
+            border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
         }
 
         &.hasErrors {
@@ -62,9 +69,15 @@
             
             &[disabled],
             &[readonly] {
-                background-color: var(--color-background-info, colors.$color-background-info);
+                background-color: var(--color-warm-gray-25, colors.$color-warm-gray-25);
+                color: var(--color-warm-gray-600, colors.$color-warm-gray-600);
                 cursor: default;
-                border-color: #afaba8;
+                border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
+            }
+
+            &[disabled]:hover,
+            &[readonly]:hover {
+                border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
             }
         }
     }

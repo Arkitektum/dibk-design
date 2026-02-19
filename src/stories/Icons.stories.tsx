@@ -10,6 +10,7 @@ import {
   DibkLogoWithTitle,
   ErrorIcon,
   ExternalLinkIcon,
+  FilterIcon,
   InfoIcon,
   AddIcon,
   DeleteBinIcon,
@@ -17,6 +18,7 @@ import {
   MailIcon,
   PersonAddFilledIcon,
   PhoneIcon,
+  SearchIcon,
   SuccessIcon,
   WarningIcon,
   XSymbolIcon,
@@ -46,11 +48,13 @@ const iconComponents = [
   { name: "DeleteBinIcon", Component: DeleteBinIcon },
   { name: "ErrorIcon", Component: ErrorIcon },
   { name: "ExternalLinkIcon", Component: ExternalLinkIcon },
+  { name: "FilterIcon", Component: FilterIcon },
   { name: "InfoIcon", Component: InfoIcon },
   { name: "LogoutIcon", Component: LogoutIcon },
   { name: "MailIcon", Component: MailIcon },
   { name: "PersonAddFilledIcon", Component: PersonAddFilledIcon },
   { name: "PhoneIcon", Component: PhoneIcon },
+  { name: "SearchIcon", Component: SearchIcon },
   { name: "SuccessIcon", Component: SuccessIcon },
   { name: "WarningIcon", Component: WarningIcon },
   { name: "XSymbolIcon", Component: XSymbolIcon },
@@ -126,15 +130,37 @@ export const IconStylingExample: Story = {
         }}
       >
         <div style={{ fontSize: "14px", color: "#111827", marginBottom: "8px" }}>
-          Styling example (currentColor)
+          Styling example (currentColor via props/style)
         </div>
-        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
           <div style={{ color: "#005275", display: "flex", alignItems: "center" }}>
             <MailIcon style={{ width: 24, height: 24 }} aria-hidden="true" />
           </div>
           <div style={{ color: "#b91c1c", display: "flex", alignItems: "center" }}>
             <DeleteBinIcon style={{ width: 20, height: 20 }} aria-hidden="true" />
           </div>
+          <SearchIcon
+            style={{
+              width: 22,
+              height: 22,
+              color: "#0f766e",
+              background: "#ccfbf1",
+              padding: "6px",
+              borderRadius: "10px",
+            }}
+            aria-hidden="true"
+          />
+          <FilterIcon
+            style={{
+              width: 22,
+              height: 22,
+              color: "#1f2937",
+              background: "#e5e7eb",
+              padding: "6px",
+              borderRadius: "999px",
+            }}
+            aria-hidden="true"
+          />
           <div
             style={{
               background: "#111827",
@@ -175,10 +201,30 @@ export const IconStylingExample: Story = {
             lineHeight: 1.5,
           }}
         >
-          <code>{`import { MailIcon, DeleteBinIcon } from "dibk-design";
+          <code>{`import { MailIcon, DeleteBinIcon, SearchIcon, FilterIcon } from "dibk-design";
 
 <MailIcon style={{ color: "#005275", width: 24, height: 24 }} />
 <DeleteBinIcon style={{ color: "#b91c1c", width: 20, height: 20 }} />
+<SearchIcon
+  style={{
+    color: "#0f766e",
+    background: "#ccfbf1",
+    padding: "6px",
+    borderRadius: "10px",
+    width: 22,
+    height: 22,
+  }}
+/>
+<FilterIcon
+  style={{
+    color: "#1f2937",
+    background: "#e5e7eb",
+    padding: "6px",
+    borderRadius: "999px",
+    width: 22,
+    height: 22,
+  }}
+/>
 `}</code>
         </pre>
       </div>

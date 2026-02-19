@@ -137,6 +137,10 @@ const Select = (props: SelectProps) => {
       : {}),
   } as React.CSSProperties;
   const selectContainerStyle = hasActionButton ? undefined : containerStyle;
+  const selectComponents = {
+    IndicatorSeparator: () => null,
+    DropdownIndicator: () => null,
+  };
 
   const handleChange = (
     nextValue: MultiValue<SelectOption> | SingleValue<SelectOption>,
@@ -201,7 +205,7 @@ const Select = (props: SelectProps) => {
                   : undefined
               }
               components={{
-                IndicatorSeparator: () => null,
+                ...selectComponents,
               }}
               {...(props.value !== undefined
                 ? { value: toSelectValue(props.value) }
@@ -256,7 +260,7 @@ const Select = (props: SelectProps) => {
                 : undefined
             }
             components={{
-              IndicatorSeparator: () => null,
+              ...selectComponents,
             }}
             {...(props.value !== undefined
               ? { value: toSelectValue(props.value) }

@@ -85,8 +85,21 @@
         }
 
         :global(.reactSelect__control--is-disabled) {
-            background-color: var(--select-disabled-background);
+            background-color: var(--color-warm-gray-25, colors.$color-warm-gray-25);
+            border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
             cursor: default;
+        }
+
+        :global(.reactSelect__control--is-disabled:hover) {
+            border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
+        }
+
+        :global(.reactSelect__control--is-disabled .reactSelect__single-value),
+        :global(.reactSelect__single-value--is-disabled),
+        :global(.reactSelect__control--is-disabled .reactSelect__placeholder),
+        :global(.reactSelect__control--is-disabled .reactSelect__input-container),
+        :global(.reactSelect__control--is-disabled .reactSelect__indicators) {
+            color: var(--color-warm-gray-600, colors.$color-warm-gray-600);
         }
 
         :global(.reactSelect__value-container) {
@@ -157,7 +170,11 @@
             }
 
             :global(.reactSelect__control--is-disabled) {
-                border-color: #afaba8;
+                border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
+            }
+
+            :global(.reactSelect__control--is-disabled:hover) {
+                border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
             }
         }
 
