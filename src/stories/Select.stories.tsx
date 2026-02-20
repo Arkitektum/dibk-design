@@ -126,6 +126,37 @@ export const Required: Story = {
     options,
   },
 };
+
+export const RequirementIndicators: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 max-w-md">
+      <Select
+        id="select-indicator-required"
+        label="Required mode (required=true)"
+        required
+        requirementIndicatorMode="required"
+        options={options}
+        onChange={() => {}}
+      />
+      <Select
+        id="select-indicator-optional"
+        label="Optional mode (required=false)"
+        required={false}
+        requirementIndicatorMode="optional"
+        options={options}
+        onChange={() => {}}
+      />
+      <Select
+        id="select-indicator-none"
+        label="None mode (required=true)"
+        required
+        requirementIndicatorMode="none"
+        options={options}
+        onChange={() => {}}
+      />
+    </div>
+  ),
+};
 export const WithPlaceholder: Story = {
   args: {
     id: "select9",

@@ -1,6 +1,8 @@
 import { Children, cloneElement, isValidElement, type ReactNode } from "react";
-import { asteriskIcon } from "../icons";
 import { cloneThroughFragments } from "../functions/helpers";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import Header from "./Header";
 import style from "./RadioButtonList.module.scss";
 
@@ -10,6 +12,8 @@ export interface RadioButtonListProps {
   required?: boolean;
   compact?: boolean;
   children?: ReactNode;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 const RadioButtonList = ({
@@ -18,6 +22,8 @@ const RadioButtonList = ({
   required = false,
   compact = false,
   children,
+  requirementIndicatorMode,
+  optionalLabel,
 }: RadioButtonListProps) => {
   const renderChildElements = (childElements: ReactNode[]) => {
     const flattened = cloneThroughFragments(childElements);
@@ -42,9 +48,12 @@ const RadioButtonList = ({
       {!!legend?.length && (
         <legend>
           {legendSize ? <Header size={legendSize}>{legend}</Header> : legend}
-          {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-          )}
+          <FieldRequirementIndicator
+            required={required}
+            mode={requirementIndicatorMode}
+            optionalLabel={optionalLabel}
+            requiredClassName={style.requiredSymbol}
+          />
         </legend>
       )}
       {renderChildElements(Children.toArray(children))}

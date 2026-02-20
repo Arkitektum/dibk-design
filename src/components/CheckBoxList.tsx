@@ -1,6 +1,8 @@
 import { Children, cloneElement, isValidElement, type ReactNode } from "react";
-import { asteriskIcon } from "../icons";
 import { cloneThroughFragments } from "../functions/helpers";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import style from "./CheckBoxList.module.scss";
 import Header from "./Header";
 
@@ -10,6 +12,8 @@ export interface CheckBoxListProps {
   required?: boolean;
   compact?: boolean;
   children?: ReactNode;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 const CheckBoxList = ({
@@ -18,6 +22,8 @@ const CheckBoxList = ({
   required = false,
   compact = false,
   children,
+  requirementIndicatorMode,
+  optionalLabel,
 }: CheckBoxListProps) => {
   const renderChildElements = (childElements: ReactNode[]) => {
     const flattenedChildren = cloneThroughFragments(childElements);
@@ -45,9 +51,12 @@ const CheckBoxList = ({
       {!!legend?.length && (
         <legend>
           {legendSize ? <Header size={legendSize}>{legend}</Header> : legend}
-          {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-          )}
+          <FieldRequirementIndicator
+            required={required}
+            mode={requirementIndicatorMode}
+            optionalLabel={optionalLabel}
+            requiredClassName={style.requiredSymbol}
+          />
         </legend>
       )}
       {renderChildElements(Children.toArray(children))}

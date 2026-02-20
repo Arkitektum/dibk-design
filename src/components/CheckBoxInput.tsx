@@ -1,8 +1,11 @@
 // CheckBoxInput.tsx
 
 import type React from "react";
-import { asteriskIcon, checkmarkSymbolIcon } from "../icons";
+import { checkmarkSymbolIcon } from "../icons";
 import CheckBoxIcon from "./CheckBoxIcon";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import style from "./CheckBoxInput.module.scss";
 
 export interface CheckBoxInputProps {
@@ -20,6 +23,8 @@ export interface CheckBoxInputProps {
   tabIndex?: number;
   children?: React.ReactNode;
   value?: string | number;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 const CheckBoxInput = ({
@@ -37,6 +42,8 @@ const CheckBoxInput = ({
   "aria-controls": ariaControls,
   "aria-describedby": ariaDescribedBy,
   value,
+  requirementIndicatorMode,
+  optionalLabel,
 }: CheckBoxInputProps) => {
   const labelClassName = [
     style.checkBoxInput,
@@ -76,9 +83,12 @@ const CheckBoxInput = ({
       <input {...inputProps} />
       <span className={style.labelText}>
         {children}
-        {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-        )}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
       </span>
     </label>
   );

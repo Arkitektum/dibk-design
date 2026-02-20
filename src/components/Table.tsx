@@ -245,6 +245,7 @@ const Table = <T extends object>({
           <tr>
             {selectionType && (
               <th className={style.selectionHeader} aria-label={selectionLabel}>
+                <span aria-hidden="true">Velg</span>
                 <span className={style.srOnly}>{selectionLabel}</span>
               </th>
             )}

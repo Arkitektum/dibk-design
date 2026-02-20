@@ -9,11 +9,13 @@
 
     .requiredSymbol {
         display: inline-block;
-        width: 1em;
-        height: 1em;
-        font-size: 0.4em;
+        width: 7px;
+        height: 7px;
+        color: var(--color-error, colors.$color-error);
+        flex-shrink: 0;
         vertical-align: top;
         margin-top: 2px;
+        margin-left: 2px;
     }
     input,
     &.file span.input {

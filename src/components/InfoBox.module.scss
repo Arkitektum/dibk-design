@@ -21,6 +21,10 @@
   line-height: 1.5;
   animation: 1000ms cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running messageIn;
 
+  &.noAnimation {
+    animation: none;
+  }
+
   &.fullScreen {
     border-width: 0 0 4px 0;
   }

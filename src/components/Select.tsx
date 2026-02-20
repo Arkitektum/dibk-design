@@ -1,10 +1,12 @@
 import type React from "react";
 import { useMemo } from "react";
 import ReactSelect, { type MultiValue, type SingleValue } from "react-select";
-import { asteriskIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import Label from "./Label";
 import style from "./Select.module.scss";
 
@@ -45,6 +47,8 @@ interface SelectPropsBase {
   backgroundColor?: string;
   textColor?: string;
   placeholderColor?: string;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 export interface SingleSelectProps extends SelectPropsBase {
@@ -95,6 +99,8 @@ const Select = (props: SelectProps) => {
     backgroundColor,
     textColor,
     placeholderColor,
+    requirementIndicatorMode,
+    optionalLabel,
   } = props;
 
   const getErrorElementId = () => `${id}-errorMessage`;
@@ -164,9 +170,12 @@ const Select = (props: SelectProps) => {
     <div className={style.select}>
       <Label htmlFor={id}>
         {label}
-        {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-        )}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
       </Label>
 
       {hasActionButton ? (

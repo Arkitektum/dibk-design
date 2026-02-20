@@ -1,10 +1,12 @@
 import type React from "react";
 import type { JSX } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { asteriskIcon } from "../icons";
 import Button from "./Button";
 import style from "./DragAndDropFileInput.module.scss";
 import ErrorMessage from "./ErrorMessage";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import Label from "./Label";
 
 export interface DragAndDropFileInputProps {
@@ -20,6 +22,8 @@ export interface DragAndDropFileInputProps {
   hasErrors?: boolean;
   errorMessage?: string | (string | JSX.Element)[];
   required?: boolean;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 
   "data-transaction-name"?: string;
 }
@@ -37,6 +41,8 @@ const DragAndDropFileInput = ({
   hasErrors = false,
   errorMessage = "",
   required = false,
+  requirementIndicatorMode,
+  optionalLabel,
 
   "data-transaction-name": transactionName,
 }: DragAndDropFileInputProps) => {
@@ -62,8 +68,8 @@ const DragAndDropFileInput = ({
         ? getErrorElementId()
         : undefined,
     "aria-invalid": hasErrors ? "true" : undefined,
+    "aria-required": required ? "true" : undefined,
     name,
-    required,
   };
 
   const buttonLabel = selectedFileName
@@ -114,10 +120,12 @@ const DragAndDropFileInput = ({
     <div className={style.dragAndDropFileInput}>
       <Label htmlFor={id} subLabel={subLabel}>
         {label}
-
-        {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-        )}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
       </Label>
 
       <div

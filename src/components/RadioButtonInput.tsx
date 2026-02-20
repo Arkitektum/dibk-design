@@ -1,7 +1,9 @@
 // RadioButtonInput.tsx
 
 import type React from "react";
-import { asteriskIcon } from "../icons";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import RadioButtonIcon from "./RadioButtonIcon";
 import style from "./RadioButtonInput.module.scss";
 
@@ -19,6 +21,8 @@ export interface RadioButtonInputProps {
   children?: React.ReactNode;
   "aria-controls"?: string;
   "aria-describedby"?: string;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 const RadioButtonInput = ({
@@ -35,6 +39,8 @@ const RadioButtonInput = ({
   children,
   "aria-controls": ariaControls,
   "aria-describedby": ariaDescribedBy,
+  requirementIndicatorMode,
+  optionalLabel,
 }: RadioButtonInputProps) => {
   const labelClassName = [
     style.radioButtonInput,
@@ -66,20 +72,19 @@ const RadioButtonInput = ({
     "aria-describedby": ariaDescribedBy,
   };
 
-  const hasLabelContent = Boolean(children) || required;
-
   return (
     <label htmlFor={id} className={labelClassName}>
       <RadioButtonIcon {...iconProps} />
       <input {...inputProps} />
-      {hasLabelContent && (
-        <span className={style.labelText}>
-          {children}
-          {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-          )}
-        </span>
-      )}
+      <span className={style.labelText}>
+        {children}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
+      </span>
     </label>
   );
 };

@@ -2,10 +2,12 @@
 
 import type React from "react";
 import { useRef } from "react";
-import { asteriskIcon } from "../icons";
 import { classNameArrayToClassNameString } from "../functions/helpers";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import style from "./InputField.module.scss";
 import Label from "./Label";
 
@@ -43,6 +45,8 @@ export interface InputFieldProps {
   errorMessage?: React.ReactNode;
   noMargin?: boolean;
   caption?: React.ReactNode;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 /** Normalize value for <input type="date"> → "YYYY-MM-DD" */
@@ -97,6 +101,8 @@ const InputField = ({
   errorMessage = "",
   noMargin = false,
   caption,
+  requirementIndicatorMode,
+  optionalLabel,
 }: InputFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const getErrorElementId = () => `${id}-errorMessage`;
@@ -172,7 +178,6 @@ const InputField = ({
     name,
     readOnly,
     disabled,
-    required,
     type,
     role,
     id,
@@ -193,6 +198,7 @@ const InputField = ({
         .join(" ")
         .trim() || undefined,
     "aria-invalid": hasErrors || undefined,
+    "aria-required": required || undefined,
     "aria-autocomplete": isTextLike(type) ? ariaAutocomplete : undefined,
     style: hasActionButton ? undefined : styleRules,
     ...normalizedValueProps,
@@ -208,9 +214,12 @@ const InputField = ({
     >
       <Label htmlFor={id}>
         {label}
-        {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-        )}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
         {isFileInput && (
           // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
           <div

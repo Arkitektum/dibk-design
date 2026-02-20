@@ -1,4 +1,5 @@
 import Accordion from "./components/Accordion";
+import InfoBox from "./components/InfoBox";
 import Button from "./components/Button";
 import CheckBoxIcon from "./components/CheckBoxIcon";
 import CheckBoxInput from "./components/CheckBoxInput";
@@ -13,9 +14,11 @@ import Dialog from "./components/Dialog";
 import DragAndDropFileInput from "./components/DragAndDropFileInput";
 import ErrorBox from "./components/ErrorBox";
 import ErrorMessage from "./components/ErrorMessage";
+import FieldRequirementIndicator, {
+  FieldRequirementProvider,
+} from "./components/FieldRequirementIndicator";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import InfoBox from "./components/InfoBox";
 import InputField from "./components/InputField";
 import Label from "./components/Label";
 import List from "./components/List";
@@ -40,9 +43,14 @@ import WizardNavigation from "./components/WizardNavigation";
 import "./style/base/_fonts.scss";
 
 export * from "./icons";
+export {
+  useFieldRequirementIndicator,
+  type RequirementIndicatorMode,
+} from "./components/FieldRequirementIndicator";
 
 export {
   Accordion,
+  InfoBox,
   Button,
   CheckBoxIcon,
   CheckBoxInput,
@@ -57,9 +65,10 @@ export {
   DragAndDropFileInput,
   ErrorBox,
   ErrorMessage,
+  FieldRequirementIndicator,
+  FieldRequirementProvider,
   Footer,
   Header,
-  InfoBox,
   InputField,
   Label,
   List,

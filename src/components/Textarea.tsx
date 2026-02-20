@@ -1,7 +1,9 @@
 import type React from "react";
-import { asteriskIcon } from "../icons";
 import { generateRandomString } from "../functions/generators";
 import ErrorMessage from "./ErrorMessage";
+import FieldRequirementIndicator, {
+  type RequirementIndicatorMode,
+} from "./FieldRequirementIndicator";
 import Label from "./Label";
 import style from "./Textarea.module.scss";
 
@@ -24,6 +26,8 @@ export interface TextareaProps {
   "aria-describedby"?: string;
   hasErrors?: boolean;
   errorMessage?: React.ReactNode;
+  requirementIndicatorMode?: RequirementIndicatorMode;
+  optionalLabel?: string;
 }
 
 const Textarea = ({
@@ -45,6 +49,8 @@ const Textarea = ({
   "aria-describedby": ariaDescribedBy,
   hasErrors = false,
   errorMessage = "",
+  requirementIndicatorMode,
+  optionalLabel,
 }: TextareaProps) => {
   const getErrorElementId = () => `${id}-errorMessage`;
 
@@ -61,7 +67,6 @@ const Textarea = ({
     name,
     readOnly,
     disabled,
-    required,
     id,
     onChange,
     onBlur,
@@ -73,6 +78,7 @@ const Textarea = ({
     "aria-describedby":
       hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy,
     "aria-invalid": hasErrors ? "true" : undefined,
+    "aria-required": required ? "true" : undefined,
     style: styleRules,
   };
 
@@ -80,9 +86,12 @@ const Textarea = ({
     <div className={style.textarea}>
       <Label htmlFor={id}>
         {label}
-        {required && (
-          <img src={asteriskIcon} alt="" className={style.requiredSymbol} />
-        )}
+        <FieldRequirementIndicator
+          required={required}
+          mode={requirementIndicatorMode}
+          optionalLabel={optionalLabel}
+          requiredClassName={style.requiredSymbol}
+        />
       </Label>
       <textarea key={key} {...textareaProps} />
       <ErrorMessage id={getErrorElementId()} content={errorMessage} />

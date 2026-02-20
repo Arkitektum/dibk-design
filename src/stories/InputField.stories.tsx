@@ -27,33 +27,6 @@ export const Default: Story = {
   render: Uncontrolled(),
 };
 
-export const Required: Story = {
-  args: { id: "inputField2", required: true },
-  render: Uncontrolled(),
-};
-
-export const WithValue: Story = {
-  args: { id: "inputField3", value: "Input field value" },
-  render: (args) => {
-    const [val, setVal] = useState(args.value ?? "");
-    return (
-      <InputField
-        {...args}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-      />
-    );
-  },
-};
-
-export const WithDefaultValue: Story = {
-  args: {
-    id: "inputField4",
-    defaultValue: "Input field default value", // <-- fixed
-  },
-  render: Uncontrolled(),
-};
-
 export const WithLabelAndValue: Story = {
   args: {
     id: "inputField5",
@@ -72,36 +45,40 @@ export const WithLabelAndValue: Story = {
   },
 };
 
+export const RequirementIndicators: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 max-w-md">
+      <InputField
+        id="inputField-indicator-required"
+        label="Required mode (required=true)"
+        required
+        requirementIndicatorMode="required"
+        placeholder="Placeholder"
+      />
+      <InputField
+        id="inputField-indicator-optional"
+        label="Optional mode (required=false)"
+        required={false}
+        requirementIndicatorMode="optional"
+        placeholder="Placeholder"
+      />
+      <InputField
+        id="inputField-indicator-none"
+        label="None mode (required=true)"
+        required
+        requirementIndicatorMode="none"
+        placeholder="Placeholder"
+      />
+    </div>
+  ),
+};
+
 export const RequiredWithLabelAndValue: Story = {
   args: {
     id: "inputField6",
     value: "Input field value",
     label: "Input field label",
     required: true,
-  },
-  render: (args) => {
-    const [val, setVal] = useState(args.value ?? "");
-    return (
-      <InputField
-        {...args}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-      />
-    );
-  },
-};
-
-export const WithLinkInLabel: Story = {
-  args: {
-    id: "inputField7",
-    value: "Input field value",
-    label: [
-      "Input with ",
-      <a key="labelLink" href="#label-link">
-        link
-      </a>,
-      " in label",
-    ],
   },
   render: (args) => {
     const [val, setVal] = useState(args.value ?? "");
@@ -141,44 +118,6 @@ export const Readonly: Story = {
     value: "Input field value",
     label: "Readonly input",
     readOnly: true,
-  },
-  render: (args) => {
-    const [val, setVal] = useState(args.value ?? "");
-    return (
-      <InputField
-        {...args}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-      />
-    );
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    id: "inputField10",
-    value: "Input field value",
-    label: "Disabled input",
-    disabled: true,
-  },
-  render: (args) => {
-    const [val, setVal] = useState(args.value ?? "");
-    return (
-      <InputField
-        {...args}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-      />
-    );
-  },
-};
-
-export const NumberInput: Story = {
-  args: {
-    id: "inputField11",
-    value: 3,
-    label: "Input with number values",
-    type: "number",
   },
   render: (args) => {
     const [val, setVal] = useState(args.value ?? "");
@@ -252,41 +191,11 @@ export const DateInputWithValue: Story = {
   },
 };
 
-export const DateInputWithValueAndError: Story = {
-  args: {
-    id: "inputField18",
-    label: "Date input with error",
-    value: "2020-05-10",
-    type: "date",
-    hasErrors: true,
-    errorMessage: "Wrong date value",
-  },
-  render: (args) => {
-    const [val, setVal] = useState(args.value ?? "");
-    return (
-      <InputField
-        {...args}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-      />
-    );
-  },
-};
-
 export const InputWithCustomWidth: Story = {
   args: {
     id: "inputField19",
     label: "Input with custom width",
     width: "400px",
-  },
-  render: Uncontrolled(),
-};
-
-export const InputWithCustomElementKey: Story = {
-  args: {
-    id: "inputField20",
-    label: "Input with custom element key",
-    elementKey: "inputKeyHere",
   },
   render: Uncontrolled(),
 };
