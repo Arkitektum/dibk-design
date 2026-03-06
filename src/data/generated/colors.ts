@@ -13,7 +13,7 @@ export const colorTokens = {
   "color-amber-800": "#7d3800",
   "color-amber-900": "#5c2900",
   "color-background-default": "#ffffff",
-  "color-background-info": "#f5eeed",
+  "color-background-info": "#F7F5F5",
   "color-background-secondary": "#ebf4fa",
   "color-black": "#202020",
   "color-blue-100": "#c7e0f2",

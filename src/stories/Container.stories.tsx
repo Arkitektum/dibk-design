@@ -28,3 +28,17 @@ export const WithMaxWidth: Story = {
   },
   render,
 };
+
+export const Normal: Story = {
+  args: {
+    size: "normal",
+  },
+  render,
+};
+
+export const Small: Story = {
+  args: {
+    size: "small",
+  },
+  render,
+};

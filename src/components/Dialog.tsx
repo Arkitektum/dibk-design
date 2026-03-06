@@ -156,6 +156,7 @@ const Dialog = ({
 							)}
 							<Button
 								color="neutral"
+								size="small"
 								aria-label="Lukk dialog"
 								onClick={onClickOutside}
 								iconLeft={<XSymbolIcon />}
