@@ -13,6 +13,17 @@ const prettyName = (name: string) => {
     .trim();
 };
 
+const toKebabCase = (name: string) =>
+  name
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/_/g, "-")
+    .toLowerCase();
+
+const getTokenNameFromSemanticKey = (key: string) => {
+  const tokenName = `color-${toKebabCase(key)}` as keyof typeof colorTokens;
+  return tokenName in colorTokens ? `--${tokenName}` : undefined;
+};
+
 const semanticGroups = [
   {
     title: "Backgrounds",
@@ -170,6 +181,7 @@ export const Default: Story = {
               const colors = theme.colors ?? {};
               const value = colors[colorKey as keyof typeof colors];
               if (!value) return null;
+              const tokenName = getTokenNameFromSemanticKey(colorKey);
               return (
                 <div key={colorKey} className={styles.card}>
                   <div
@@ -177,6 +189,9 @@ export const Default: Story = {
                     style={{ backgroundColor: value }}
                   />
                   <div className={styles.label}>{prettyName(colorKey)}</div>
+                  {tokenName ? (
+                    <div className={styles.token}>{tokenName}</div>
+                  ) : null}
                   <div className={styles.value}>{value}</div>
                 </div>
               );
@@ -192,6 +207,7 @@ export const Default: Story = {
               const tokenKey = `color-${colorName}` as keyof typeof colorTokens;
               const value = colorTokens[tokenKey];
               if (!value) return null;
+              const tokenName = `--${tokenKey}`;
               return (
                 <div key={colorName} className={styles.card}>
                   <div
@@ -199,6 +215,7 @@ export const Default: Story = {
                     style={{ backgroundColor: value }}
                   />
                   <div className={styles.label}>{prettyName(colorName)}</div>
+                  <div className={styles.token}>{tokenName}</div>
                   <div className={styles.value}>{value}</div>
                 </div>
               );

@@ -20,6 +20,8 @@ export { default as DibkLogo } from "../assets/svg/dibk-logo.svg?react";
 export { default as dibkLogo } from "../assets/svg/dibk-logo.svg?url";
 export { default as DibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title.svg?react";
 export { default as dibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title.svg?url";
+export { default as EditIcon } from "../assets/svg/edit-icon.svg?react";
+export { default as editIcon } from "../assets/svg/edit-icon.svg?url";
 export { default as ErrorIcon } from "../assets/svg/error-icon.svg?react";
 export { default as errorIcon } from "../assets/svg/error-icon.svg?url";
 export { default as ExternalLinkIcon } from "../assets/svg/external-link-icon.svg?react";
