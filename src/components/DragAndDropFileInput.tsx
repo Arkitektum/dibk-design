@@ -50,10 +50,10 @@ const DragAndDropFileInput = ({
   const containerElementRef = useRef<HTMLDivElement>(null);
   const fileInputElementRef = useRef<HTMLInputElement>(null);
 
-  const preventDefaults = (e: Event) => {
+  const preventDefaults = useCallback((e: Event) => {
     e.preventDefault();
     e.stopPropagation();
-  };
+  }, []);
 
   const handleAddButtonOnClick = () => {
     fileInputElementRef.current?.click();
@@ -114,7 +114,7 @@ const DragAndDropFileInput = ({
       });
       node.removeEventListener("drop", handleDrop);
     };
-  }, [onDragAndDropChange]);
+  }, [handleDrop, highlightOn, highlightOff, preventDefaults]);
 
   return (
     <div className={style.dragAndDropFileInput}>

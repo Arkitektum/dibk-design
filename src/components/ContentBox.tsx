@@ -1,6 +1,7 @@
 import style from "./ContentBox.module.scss";
 import Header from "./Header";
 import type { InfoBoxVariant } from "./InfoBox";
+import { ArrowRightIcon } from "../icons";
 
 export interface ContentBoxProps {
 	title?: string | React.ReactNode;
@@ -28,14 +29,17 @@ const ContentBox = ({
 
 	const Inner = (
 		<>
-			{title ? (
-				typeof title === "string" ? (
-					<Header size={3} content={title} />
-				) : (
-					title
-				)
-			) : null}
-			<div className={style.content}>{bodyContent}</div>
+			<div className={style.body}>
+				{title ? (
+					typeof title === "string" ? (
+						<Header size={3} content={title} />
+					) : (
+						title
+					)
+				) : null}
+				<div className={style.content}>{bodyContent}</div>
+			</div>
+			{href ? <ArrowRightIcon className={style.arrowIcon} aria-hidden="true" /> : null}
 		</>
 	);
 

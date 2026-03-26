@@ -12,6 +12,8 @@ export { default as AsteriskIcon } from "../assets/svg/asterisk-icon.svg?react";
 export { default as asteriskIcon } from "../assets/svg/asterisk-icon.svg?url";
 export { default as CalendarIcon } from "../assets/svg/calendar-icon.svg?react";
 export { default as calendarIcon } from "../assets/svg/calendar-icon.svg?url";
+export { default as CheckmarkCircleIcon } from "../assets/svg/checkmark-circle-icon.svg?react";
+export { default as checkmarkCircleIcon } from "../assets/svg/checkmark-circle-icon.svg?url";
 export { default as CheckmarkSymbolIcon } from "../assets/svg/checkmark-symbol-icon.svg?react";
 export { default as checkmarkSymbolIcon } from "../assets/svg/checkmark-symbol-icon.svg?url";
 export { default as DeleteBinIcon } from "../assets/svg/delete-bin.svg?react";
@@ -22,6 +24,8 @@ export { default as DibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title
 export { default as dibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title.svg?url";
 export { default as EditIcon } from "../assets/svg/edit-icon.svg?react";
 export { default as editIcon } from "../assets/svg/edit-icon.svg?url";
+export { default as ErrorCircleIcon } from "../assets/svg/error-circle-icon.svg?react";
+export { default as errorCircleIcon } from "../assets/svg/error-circle-icon.svg?url";
 export { default as ErrorIcon } from "../assets/svg/error-icon.svg?react";
 export { default as errorIcon } from "../assets/svg/error-icon.svg?url";
 export { default as ExternalLinkIcon } from "../assets/svg/external-link-icon.svg?react";

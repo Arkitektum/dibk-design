@@ -24,7 +24,7 @@
       
       font-size: 16px;
       font-weight: 600;
-      vertical-align: bottom;
+      vertical-align: middle;
       padding: 10px 20px;
       border-bottom: 2px solid var(--color-border, colors.$color-border);
       
@@ -33,6 +33,7 @@
       .thButton {
         all: unset; 
         display: flex;
+        align-items: center;
         box-sizing: border-box;    
         
         gap: 6px;

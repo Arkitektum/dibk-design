@@ -14,38 +14,38 @@ const meta: Meta<SelectArgs> = {
   decorators: [
     (Story, context) => {
       const isMultiple = Boolean((context.args as SelectArgs).multiple);
+      const singleArgs = context.args as SingleSelectProps;
+      const multiArgs = context.args as MultipleSelectProps;
+
+      const [singleValue, setSingleValue] = useState<
+        string | number | undefined
+      >(singleArgs.value ?? singleArgs.defaultValue);
+      const [multiValue, setMultiValue] = useState<
+        (string | number)[] | undefined
+      >(multiArgs.value ?? multiArgs.defaultValue);
 
       if (isMultiple) {
-        const typedArgs = context.args as MultipleSelectProps;
-        const [value, setValue] = useState<(string | number)[] | undefined>(
-          typedArgs.value ?? typedArgs.defaultValue,
-        );
         return (
           <Story
             {...context}
             args={{
-              ...typedArgs,
-              value,
-              onChange: setValue as (value: (string | number)[]) => void,
-            }}
-          />
-        );
-      } else {
-        const typedArgs = context.args as SingleSelectProps;
-        const [value, setValue] = useState<string | number | undefined>(
-          typedArgs.value ?? typedArgs.defaultValue,
-        );
-        return (
-          <Story
-            {...context}
-            args={{
-              ...typedArgs,
-              value,
-              onChange: setValue as (value: string | number) => void,
+              ...multiArgs,
+              value: multiValue,
+              onChange: setMultiValue as (value: (string | number)[]) => void,
             }}
           />
         );
       }
+      return (
+        <Story
+          {...context}
+          args={{
+            ...singleArgs,
+            value: singleValue,
+            onChange: setSingleValue as (value: string | number) => void,
+          }}
+        />
+      );
     },
   ],
 };

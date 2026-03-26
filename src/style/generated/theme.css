@@ -32,7 +32,7 @@
   --color-default-text: #202020;
   --color-error: #db0000;
   --color-error-light: #ffc5c2;
-  --color-error-x-light: rgba(252, 236, 235, 0.8);
+  --color-error-x-light: #fceceb;
   --color-focus: rgba(0, 92, 173, 0.4);
   --color-form-element: #003045;
   --color-green-100: #cbebb0;
@@ -54,7 +54,7 @@
   --color-red-200: #ffaca6;
   --color-red-300: #f58078;
   --color-red-400: #f55e56;
-  --color-red-50: rgba(252, 236, 235, 0.8);
+  --color-red-50: #fceceb;
   --color-red-500: #f53b3b;
   --color-red-600: #eb1a1a;
   --color-red-700: #db0000;

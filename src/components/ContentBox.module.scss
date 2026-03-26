@@ -10,7 +10,8 @@
     text-decoration: none;
     padding: 20px;
     width: 100%;
-    display: block;
+    display: flex;
+    align-items: center;
     background-color: var(--color-background-default, colors.$color-background-default);
     color: var(--color-default-text, colors.$color-default-text);
     &.link {
@@ -45,8 +46,18 @@
     &.spacious {
         padding: 30px;
     }
+    .body {
+        flex: 1;
+    }
     .content,
     .title {
+        color: var(--color-default-text, colors.$color-default-text);
+    }
+    .arrowIcon {
+        flex-shrink: 0;
+        margin-left: 16px;
+        width: 24px;
+        height: 24px;
         color: var(--color-default-text, colors.$color-default-text);
     }
 }

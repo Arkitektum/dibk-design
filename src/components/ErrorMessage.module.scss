@@ -1,8 +1,10 @@
+@use "../style/abstracts/variables/colors";
+
 .errorMessage {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--color-error);
+  color: var(--color-error, colors.$color-error);
   line-height: 1.4;
   font-weight: 500;
 }
