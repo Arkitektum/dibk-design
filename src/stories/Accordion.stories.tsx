@@ -61,3 +61,32 @@ export const Info: Story = {
   },
   render,
 };
+
+export const CustomHexColor: Story = {
+  args: {
+    color: "#e8f4f8",
+    title: "Accordion with hex color",
+    noMargin: false,
+  },
+  render,
+};
+
+export const DifferentBodyColor: Story = {
+  args: {
+    color: "primary",
+    bodyColor: "neutral",
+    title: "Primary title, neutral body",
+    noMargin: false,
+  },
+  render,
+};
+
+export const HexBodyColor: Story = {
+  args: {
+    color: "primary",
+    bodyColor: "#fff3cd",
+    title: "Primary title, hex body color",
+    noMargin: false,
+  },
+  render,
+};

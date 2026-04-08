@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+<g transform="translate(0 -352)">
+  <path xmlns="http://www.w3.org/2000/svg" d="M17 373V374H7V373H17ZM18 372V360H6V372C6 372.552 6.44772 373 7 373V374L6.7959 373.989C5.85435 373.894 5.1062 373.146 5.01074 372.204L5 372V359H19V372L18.9893 372.204C18.8938 373.146 18.1457 373.894 17.2041 373.989L17 374V373C17.5523 373 18 372.552 18 372Z" fill="currentColor" />
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="9" y="363" width="1" height="7" fill="currentColor" />
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="14" y="363" width="1" height="7" fill="currentColor" />
+
+  <path xmlns="http://www.w3.org/2000/svg" d="M11 356V357H13V356H11ZM14 357H20V358H4V357H10V355H14V357Z" fill="currentColor" />
+
+</g>
+</svg>

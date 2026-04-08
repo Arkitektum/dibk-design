@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+<g transform="translate(0 -220)">
+  <rect xmlns="http://www.w3.org/2000/svg" x="4.5" y="224.5" width="15" height="15" stroke="currentColor" />
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="11" y="228" width="2" height="8" fill="currentColor" />
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="16" y="231" width="2" height="8" transform="rotate(90 16 231)" fill="currentColor" />
+
+</g>
+</svg>

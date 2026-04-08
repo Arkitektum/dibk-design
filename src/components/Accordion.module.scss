@@ -226,5 +226,22 @@
         padding: 8px 30px 15px;
       }
     }
+
+    &.bodyPrimary {
+      background-color: var(--color-primary, colors.$color-primary);
+      color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
+    }
+    &.bodyNeutral {
+      background-color: var(--color-background-default, colors.$color-background-default);
+      color: var(--color-default-text, colors.$color-default-text);
+    }
+    &.bodySecondary {
+      background-color: var(--color-background-secondary, colors.$color-background-secondary);
+      color: var(--color-default-text, colors.$color-default-text);
+    }
+    &.bodyInfo {
+      background-color: var(--color-background-info, colors.$color-background-info);
+      color: var(--color-primary, colors.$color-primary);
+    }
   }
 }

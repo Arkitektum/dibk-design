@@ -1,5 +1,7 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M16 18H5V13.5459H6V17H15V3H6V6.5459H5V2H16V18Z" fill="currentColor"/>
-  <path d="M9.76484 14.5L8.71484 13.35L12.3648 10L8.71484 6.65L9.76484 5.5L14.7148 10L9.76484 14.5Z" fill="currentColor"/>
-  <rect x="2.98828" y="9.20703" width="10.1016" height="1.57812" fill="currentColor"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<g transform="translate(-80 -640.2197)">
+  <path d="M94 658.22H83V653.766H84V657.22H93V643.22H84V646.766H83V642.22H94V658.22Z" fill="currentColor" />
+  <path d="M87.7648 654.72L86.7148 653.57L90.3648 650.22L86.7148 646.87L87.7648 645.72L92.7148 650.22L87.7648 654.72Z" fill="currentColor" />
+  <rect x="80.9883" y="649.427" width="10.1016" height="1.57812" fill="currentColor" />
+</g>
 </svg>
