@@ -1,0 +1,45 @@
+@use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/typography";
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: typography.$default-font;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+
+  &.success {
+    background-color: var(--color-success-x-light, colors.$color-success-x-light);
+    border-color: var(--color-success, colors.$color-success);
+    color: var(--color-success, colors.$color-success);
+  }
+
+  &.warning {
+    background-color: var(--color-warning-x-light, colors.$color-warning-x-light);
+    border-color: var(--color-warning, colors.$color-warning);
+    color: var(--color-amber-700, colors.$color-amber-700);
+  }
+
+  &.error {
+    background-color: var(--color-error-x-light, colors.$color-error-x-light);
+    border-color: var(--color-error, colors.$color-error);
+    color: var(--color-error, colors.$color-error);
+  }
+
+  &.secondary {
+    background-color: var(--color-secondary-light, colors.$color-secondary-light);
+    border-color: var(--color-secondary, colors.$color-secondary);
+    color: var(--color-primary, colors.$color-primary);
+  }
+
+  &.neutral {
+    background-color: var(--color-background-info, colors.$color-background-info);
+    border-color: var(--color-input-border, colors.$color-input-border);
+    color: var(--color-default-text, colors.$color-default-text);
+  }
+}

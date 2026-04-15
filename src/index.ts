@@ -1,4 +1,5 @@
 import Accordion from "./components/Accordion";
+import Badge from "./components/Badge";
 import InfoBox from "./components/InfoBox";
 import Button from "./components/Button";
 import CheckBoxIcon from "./components/CheckBoxIcon";
@@ -50,6 +51,7 @@ export {
 
 export {
   Accordion,
+  Badge,
   InfoBox,
   Button,
   CheckBoxIcon,

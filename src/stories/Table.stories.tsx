@@ -205,3 +205,35 @@ export const Paginated: Story = {
     pageSize: 10,
   },
 };
+
+type ImportRow = {
+  line: number;
+  name: string;
+  status: string;
+  error?: string;
+};
+
+const importData: ImportRow[] = [
+  { line: 2, name: "Alice", status: "Active" },
+  { line: 3, name: "Bob", status: "INVALID_STATUS", error: "Unknown status value" },
+  { line: 4, name: "Charlie", status: "Inactive" },
+  { line: 5, name: "", status: "Active", error: "Name is required" },
+  { line: 6, name: "Eve", status: "Active" },
+  { line: 7, name: "Frank", status: "UNKNOWN", error: "Unknown status value" },
+];
+
+const importColumns: TableColumn<ImportRow>[] = [
+  { key: "line", label: "Line", sortable: true, accessor: (r) => r.line },
+  { key: "name", label: "Name", sortable: true, accessor: (r) => r.name },
+  { key: "status", label: "Status", sortable: true, accessor: (r) => r.status },
+  { key: "error", label: "Error", sortable: false, accessor: (r) => r.error ?? "" },
+];
+
+export const RowClassName: StoryObj<typeof Table<ImportRow>> = {
+  args: {
+    columns: importColumns,
+    data: importData,
+    getRowId: (row) => row.line,
+    getRowClassName: (row) => (row.error ? "bg-red-50" : undefined),
+  },
+};

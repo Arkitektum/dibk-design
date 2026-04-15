@@ -54,6 +54,7 @@ export interface TableProps<T> {
   selectedRowIds?: React.Key[];
   onSelectMany?: (rows: T[]) => void;
   onRowClick?: (row: T) => void;
+  getRowClassName?: (row: T, index: number) => string | undefined;
   pageSize?: number;
   page?: number;
   defaultPage?: number;
@@ -79,6 +80,7 @@ const Table = <T extends object>({
   selectedRowIds,
   onSelectMany,
   onRowClick,
+  getRowClassName,
   pageSize,
   page,
   defaultPage = 1,
@@ -219,6 +221,31 @@ const Table = <T extends object>({
 
   const columnCount = columns.length + (selectionType ? 1 : 0);
 
+  const allPageRowIds = paginatedData.map((row, i) => resolveRowId(row, i));
+  const allSelected =
+    selectionType === "multiple" &&
+    allPageRowIds.length > 0 &&
+    allPageRowIds.every((id) => selectedRowIdSet.has(id));
+
+  const selectAllId = `${selectionGroupName}-select-all`;
+
+  const handleSelectAll = () => {
+    if (!onSelectMany) return;
+    const pageIds = paginatedData.map((row, i) => resolveRowId(row, i));
+    const isAllSelected =
+      pageIds.length > 0 && pageIds.every((id) => selectedRowIdSet.has(id));
+    const nextSelected = new Set(selectedRowIdSet);
+    if (isAllSelected) {
+      for (const id of pageIds) nextSelected.delete(id);
+    } else {
+      for (const id of pageIds) nextSelected.add(id);
+    }
+    const selectedRows = data.filter((item, idx) =>
+      nextSelected.has(resolveRowId(item, idx)),
+    );
+    onSelectMany(selectedRows);
+  };
+
   const goToPage = (nextPage: number) => {
     const clamped = Math.min(Math.max(nextPage, 1), totalPages);
     if (page !== undefined) {
@@ -245,8 +272,20 @@ const Table = <T extends object>({
           <tr>
             {selectionType && (
               <th className={style.selectionHeader} aria-label={selectionLabel}>
-                <span aria-hidden="true">Velg</span>
-                <span className={style.srOnly}>{selectionLabel}</span>
+                {selectionType === "multiple" ? (
+                  <CheckBoxInput
+                    id={selectAllId}
+                    checked={allSelected}
+                    onChange={() => handleSelectAll()}
+                  >
+                    <span className={style.srOnly}>Velg alle rader</span>
+                  </CheckBoxInput>
+                ) : (
+                  <>
+                    <span aria-hidden="true">Velg</span>
+                    <span className={style.srOnly}>{selectionLabel}</span>
+                  </>
+                )}
               </th>
             )}
             {columns.map(({ key, label, sortable, ariaLabel }) => {
@@ -374,11 +413,12 @@ const Table = <T extends object>({
                 onRowClick?.(row);
               };
 
+              const customRowClass = getRowClassName?.(row, i);
               return (
                 <tr
                   key={rowId}
                   className={classNameArrayToClassNameString([
-                    i % 2 === 0 ? style.evenRow : style.oddRow,
+                    customRowClass ?? (i % 2 === 0 ? style.evenRow : style.oddRow),
                     clickable && style.rowClickable,
                   ])}
                   onClick={clickable ? handleRowClick : undefined}

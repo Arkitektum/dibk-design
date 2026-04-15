@@ -8,7 +8,7 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 import style from "./Accordion.module.scss";
 
 type AccordionColor = "primary" | "neutral" | "secondary" | "info";
-type AccordionColorValue = AccordionColor | string;
+type AccordionColorValue = AccordionColor | (string & {});
 
 const namedColors: AccordionColor[] = ["primary", "neutral", "secondary", "info"];
 const isNamedColor = (value: string): value is AccordionColor =>
