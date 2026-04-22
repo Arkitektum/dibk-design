@@ -5,41 +5,36 @@
   display: inline-flex;
   align-items: center;
   font-family: typography.$default-font;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1;
-  padding: 3px 10px;
-  border-radius: 999px;
-  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.0025em;
+  padding: 3px 6px;
+  border-radius: 0;
   white-space: nowrap;
+  color: var(--color-default-text, colors.$color-default-text);
 
   &.success {
     background-color: var(--color-success-x-light, colors.$color-success-x-light);
-    border-color: var(--color-success, colors.$color-success);
-    color: var(--color-success, colors.$color-success);
   }
 
   &.warning {
     background-color: var(--color-warning-x-light, colors.$color-warning-x-light);
-    border-color: var(--color-warning, colors.$color-warning);
-    color: var(--color-amber-700, colors.$color-amber-700);
   }
 
   &.error {
     background-color: var(--color-error-x-light, colors.$color-error-x-light);
-    border-color: var(--color-error, colors.$color-error);
-    color: var(--color-error, colors.$color-error);
   }
 
   &.secondary {
     background-color: var(--color-secondary-light, colors.$color-secondary-light);
-    border-color: var(--color-secondary, colors.$color-secondary);
-    color: var(--color-primary, colors.$color-primary);
   }
 
   &.neutral {
     background-color: var(--color-background-info, colors.$color-background-info);
-    border-color: var(--color-input-border, colors.$color-input-border);
-    color: var(--color-default-text, colors.$color-default-text);
+  }
+
+  &.purple {
+    background-color: colors.$color-purple-50;
   }
 }

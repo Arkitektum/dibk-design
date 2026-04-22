@@ -49,6 +49,8 @@ export {
   type RequirementIndicatorMode,
 } from "./components/FieldRequirementIndicator";
 
+export type { BadgeVariant, BadgeProps } from "./components/Badge";
+
 export {
   Accordion,
   Badge,
