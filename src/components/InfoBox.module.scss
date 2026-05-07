@@ -68,7 +68,7 @@
 .inner {
   display: grid;
   gap: 12px;
-  
+  align-items: start;
   grid-template-columns: 1fr;
   padding: 20px;
 
