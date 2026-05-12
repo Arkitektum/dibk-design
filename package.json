@@ -11,7 +11,8 @@
 			"require": "./dist/index.cjs.js"
 		},
 		"./tokens.css": "./dist/tokens.css",
-		"./theme.css": "./dist/theme.css"
+		"./theme.css": "./dist/theme.css",
+		"./dibk-design.css": "./dist/dibk-design.css"
 	},
 	"type": "module",
 	"files": [
