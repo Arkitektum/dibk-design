@@ -19,7 +19,7 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react-router-dom"],
+      external: ["react", "react/jsx-runtime", "react/jsx-dev-runtime", "react-dom", "react-router-dom"],
       output: {
         globals: {
           react: "React",
