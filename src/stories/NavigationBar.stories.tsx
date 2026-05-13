@@ -8,7 +8,7 @@ const meta: Meta<typeof NavigationBar> = {
 	argTypes: {
 		theme: {
 			control: "select",
-			options: ["dibk", "arbeidstilsynet"],
+			options: ["dibk", "dibkNireg", "arbeidstilsynet"],
 			defaultValue: "dibk",
 		},
 		color: {

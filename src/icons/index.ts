@@ -40,6 +40,8 @@ export { default as DeleteIcon } from "../assets/svg/delete-icon.svg?react";
 export { default as deleteIcon } from "../assets/svg/delete-icon.svg?url";
 export { default as DibkLogo } from "../assets/svg/dibk-logo.svg?react";
 export { default as dibkLogo } from "../assets/svg/dibk-logo.svg?url";
+export { default as DibkLogoWithNiregTitle } from "../assets/svg/dibk-logo-with-nireg-title.svg?react";
+export { default as dibkLogoWithNiregTitle } from "../assets/svg/dibk-logo-with-nireg-title.svg?url";
 export { default as DibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title.svg?react";
 export { default as dibkLogoWithTitle } from "../assets/svg/dibk-logo-with-title.svg?url";
 export { default as DownloadIcon } from "../assets/svg/download-icon.svg?react";
