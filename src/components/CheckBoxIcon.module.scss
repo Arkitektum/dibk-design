@@ -17,13 +17,12 @@
     width: 10px;
     height: 10px;
     min-width: 20px;
-    
+
     line-height: 1;
     text-align: center;
     cursor: pointer;
 
     &.showBox {
-        
         background: white;
         &:not(.hasErrors) {
             @include box-shadow.box-shadow(0 0 0 1px var(--color-form-element, colors.$color-form-element));

@@ -1,55 +1,47 @@
-import style from "./ContentBox.module.scss";
+// Dependencies
+import type React from "react";
+
+// Components
+import { ArrowRightIcon } from "../icons";
 import Header from "./Header";
 import type { InfoBoxVariant } from "./InfoBox";
-import { ArrowRightIcon } from "../icons";
+
+// Stylesheets
+import style from "./ContentBox.module.scss";
 
 export interface ContentBoxProps {
-	title?: string | React.ReactNode;
-	content?: string;
-	children?: React.ReactNode;
-	variant?: InfoBoxVariant;
-	spacing?: "tight" | "spacious";
-	href?: string | null;
+    title?: string | React.ReactNode;
+    content?: string;
+    children?: React.ReactNode;
+    variant?: InfoBoxVariant;
+    spacing?: "tight" | "spacious";
+    href?: string | null;
 }
 
-const ContentBox = ({
-	title = "",
-	content = "",
-	children,
-	variant = "secondary",
-	spacing = "tight",
-	href = null,
-}: ContentBoxProps) => {
-	const colorClass = style[variant] || "";
-	const spacingClass = style[spacing] || "";
-	const linkClass = href ? style.link : "";
-	const className =
-		`${style.contentBox} ${colorClass} ${spacingClass} ${linkClass}`.trim();
-	const bodyContent = content?.length ? content : children;
+const ContentBox = ({ title = "", content = "", children, variant = "secondary", spacing = "tight", href = null }: ContentBoxProps) => {
+    const colorClass = style[variant] || "";
+    const spacingClass = style[spacing] || "";
+    const linkClass = href ? style.link : "";
+    const className = `${style.contentBox} ${colorClass} ${spacingClass} ${linkClass}`.trim();
+    const bodyContent = content?.length ? content : children;
 
-	const Inner = (
-		<>
-			<div className={style.body}>
-				{title ? (
-					typeof title === "string" ? (
-						<Header size={3} content={title} />
-					) : (
-						title
-					)
-				) : null}
-				<div className={style.content}>{bodyContent}</div>
-			</div>
-			{href ? <ArrowRightIcon className={style.arrowIcon} aria-hidden="true" /> : null}
-		</>
-	);
+    const Inner = (
+        <>
+            <div className={style.body}>
+                {title ? typeof title === "string" ? <Header size={3} content={title} /> : title : null}
+                <div className={style.content}>{bodyContent}</div>
+            </div>
+            {href ? <ArrowRightIcon className={style.arrowIcon} aria-hidden="true" /> : null}
+        </>
+    );
 
-	return href ? (
-		<a href={href} className={className}>
-			{Inner}
-		</a>
-	) : (
-		<div className={className}>{Inner}</div>
-	);
+    return href ? (
+        <a href={href} className={className}>
+            {Inner}
+        </a>
+    ) : (
+        <div className={className}>{Inner}</div>
+    );
 };
 
 export default ContentBox;
