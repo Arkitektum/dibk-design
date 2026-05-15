@@ -81,7 +81,7 @@
   }
 
   &.regular {
-    padding: 10px 20px;
+    padding: 13px 20px;
   }
 
   &.small {
@@ -169,7 +169,7 @@
     color: var(--color-primary, colors.$color-primary);
     border-color: var(--color-primary, colors.$color-primary);
     border-width: 1px;
-    padding: 9px 20px;
+    padding: 12px 19px;
     &:hover:not(.noHover),
     &:focus-visible {
       background-color: var(
