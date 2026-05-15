@@ -6,6 +6,11 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    modules: {
+      generateScopedName: "[name]__[local]",
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
