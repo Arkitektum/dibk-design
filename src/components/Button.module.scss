@@ -398,3 +398,9 @@
   }
 }
 
+label.button {
+  input[type='radio'] {
+    @include appearance.appearance(none);
+    margin: 0;
+  }
+}

@@ -95,7 +95,6 @@ const Button = ({
   const buttonProps = {
     "aria-invalid": hasErrors || undefined,
     href: !disabled && href?.length ? href : undefined,
-    className, // Always include className in buttonProps for all elements
     ...rest,
   };
 
@@ -132,7 +131,7 @@ const Button = ({
       }
 
       return (
-        <button {...buttonProps} key={`button-${element.key}`}>
+        <button {...buttonProps} key={`button-${element.key}`} className={className}>
           {renderIcon(iconLeft)}
           <span className={contentClassName}>
             {content || (element.props ? element.props.children : null)}
@@ -148,11 +147,27 @@ const Button = ({
     const inputProps = { ...buttonProps };
     delete inputProps.href;
     return (
-      <button type="button" {...buttonProps}>
+      <button type="button" {...buttonProps} className={className}>
         {renderIcon(iconLeft)}
         <span className={contentClassName}>{content || children}</span>
         {renderIcon(iconRight)}
       </button>
+    );
+  }
+
+  if (inputType === "radio") {
+    const inputProps = { ...buttonProps };
+    delete inputProps.href;
+    return (
+      <label className={className}>
+        <input
+          {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)}
+          type="radio"
+        />
+        {renderIcon(iconLeft)}
+        <span className={contentClassName}>{content}</span>
+        {renderIcon(iconRight)}
+      </label>
     );
   }
 
@@ -162,7 +177,7 @@ const Button = ({
     // Remove 'type' if present
     if ("type" in anchorProps) delete anchorProps.type;
     return (
-      <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
+      <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} className={className}>
         {renderIcon(iconLeft)}
         <span className={contentClassName}>{content || children}</span>
         {renderIcon(iconRight)}
@@ -182,7 +197,7 @@ const Button = ({
   }
 
   return (
-    <button {...buttonProps}>
+    <button {...buttonProps} className={className}>
       {renderIcon(iconLeft)}
       <span className={contentClassName}>{content || children}</span>
       {renderIcon(iconRight)}
