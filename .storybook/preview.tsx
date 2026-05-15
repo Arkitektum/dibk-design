@@ -19,7 +19,7 @@ const withThemeProvider: Decorator = (Story, context) => {
 const preview: Preview = {
   argTypes: {theme: {
     control: "select",
-    options: ["dibk", "arbeidstilsynet"],
+    options: ["dibk", "dibkNireg", "arbeidstilsynet"],
     defaultValue: "dibk",
   }},
   parameters: {
@@ -48,6 +48,7 @@ const preview: Preview = {
         icon: "circlehollow",
         items: [
           { value: "dibk", title: "DiBK" },
+          { value: "dibkNireg", title: "DiBK Nireg" },
           { value: "arbeidstilsynet", title: "Arbeidstilsynet" },
         ],
         dynamicTitle: true,

@@ -39,6 +39,7 @@ const NavigationBar = ({
 
 	const getLogoThemeStyle = (theme?: ThemeProps) => ({
 		padding: getThemeLogoPadding(theme),
+		maxHeight: "47px",
 	});
 
 	const renderLogo = (link?: string, title?: string) => {

@@ -10,12 +10,17 @@
   margin: 0 0 16px;
   &.noMargin {
     margin: 0;
-  } 
+  }
 }
 
 .lead {
-  font-size: 24px;
-  line-height: 38px;
+  color: var(--color-heading-text, colors.$color-heading-text);
+  font-family: typography.$default-font;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 26px;
+  margin: 0 0 24px;
 }
 
 .large {

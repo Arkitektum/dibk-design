@@ -9,15 +9,14 @@
 		font-weight: normal;
 		line-height: 1.4;
 		font-style: normal;
-		color: var(--color-default-text, colors.$color-default-text);
-		
+		color: var(--color-heading-text, colors.$color-heading-text);
 		&.size-1 {
 			font-family: typography.$default-font;
 			color: var(--color-heading-text, colors.$color-heading-text);
 			font-style: normal;
-			font-size: 32px;
+			font-size: 28px;
 			font-weight: 600;
-			line-height: 130%;
+			line-height: 36px;
 			letter-spacing: 0px;
 			&.bigHeader {
 				font-family: typography.$default-font;
@@ -32,35 +31,34 @@
 		}
 		&.size-2 {
 			font-family: typography.$default-font;
-			
 			font-style: normal;
-			font-size: 24px;
+			font-size: 22px;
 			font-weight: 600;
-			line-height: 36px;
+			line-height: 30px;
 			letter-spacing: 0px;
 		}
 		&.size-3 {
 			font-family: typography.$default-font;
 			font-style: normal;
-			font-size: 20px;
+			font-size: 18px;
 			font-weight: 600;
-			line-height: 30px;
+			line-height: 24px;
 			letter-spacing: 0px;
 		}
 		&.size-4 {
 			font-family: typography.$default-font;
-			font-style: normal;
-			font-size: 18px;
-			font-weight: 600;
-			line-height: 26px;
+			font-style: italic;
+			font-size: 17px;
+			font-weight: normal;
+			line-height: 1;
 			letter-spacing: 0px;
 		}
 		&.size-5 {
 			font-family: typography.$default-font;
 			font-style: normal;
-			font-size: 16px;
+			font-size: 15px;
 			font-weight: 600;
-			line-height: 24px;
+			line-height: 1;
 			letter-spacing: 0px;
 		}
 		&[style*="--label"] {

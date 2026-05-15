@@ -6,6 +6,11 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    modules: {
+      generateScopedName: "[name]__[local]",
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -19,7 +24,7 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react-router-dom"],
+      external: ["react", "react/jsx-runtime", "react/jsx-dev-runtime", "react-dom", "react-router-dom"],
       output: {
         globals: {
           react: "React",
