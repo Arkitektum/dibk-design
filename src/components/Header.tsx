@@ -1,6 +1,11 @@
+// Dependencies
 import type { JSX } from "react";
 import React from "react";
+
+// Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
+
+// Stylesheets
 import style from "./Header.module.scss";
 
 export interface HeaderProps {

@@ -1,16 +1,16 @@
 @use "../style/abstracts/variables/colors";
 
 .errorMessage {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--color-error, colors.$color-error);
-  line-height: 1.4;
-  font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-error, colors.$color-error);
+    line-height: 1.4;
+    font-weight: 500;
 }
 
 .errorSign {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
