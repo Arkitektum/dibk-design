@@ -1,8 +1,14 @@
-import { FieldRequirementProvider, type RequirementIndicatorMode } from "./FieldRequirementIndicator";
-import { addGlobalStylesheet, getCssVariablesFromTheme, stringifyCssColorVariables } from "../functions/helpers";
+// Dependencies
 import React from "react";
+
+// Components
+import { FieldRequirementProvider, type RequirementIndicatorMode } from "./FieldRequirementIndicator";
 import type { ThemeProps } from "./Theme";
 
+// Helpers
+import { addGlobalStylesheet, getCssVariablesFromTheme, stringifyCssColorVariables } from "../functions/helpers";
+
+// Stylesheets
 import style from "./ThemeProvider.scss?inline";
 export interface ThemeProviderProps {
     theme?: ThemeProps;
