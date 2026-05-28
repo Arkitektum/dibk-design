@@ -76,3 +76,7 @@ storybook-static
 docs
 .vercel
 .env*.local
+
+# Claude
+.claude
+CLAUDE.md
