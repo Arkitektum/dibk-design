@@ -6,95 +6,82 @@
 @use "../style/abstracts/variables/typography";
 
 .tabs {
-  width: 100%;
+    width: 100%;
 }
 
 .tabList {
-  display: flex;
-  align-items: flex-end;
-  gap: 0px;
-  //border-bottom: 3px solid var(--color-tab-border, colors.$color-tab-border);
-  padding: 0 ;
-  box-shadow: 0 -3px 0 0 var(--color-tab-border, colors.$color-tab-border) inset;
-  
+    display: flex;
+    align-items: flex-end;
+    gap: 0px;
+    //border-bottom: 3px solid var(--color-tab-border, colors.$color-tab-border);
+    padding: 0;
+    box-shadow: 0 -3px 0 0 var(--color-tab-border, colors.$color-tab-border) inset;
 }
 
 .tab {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  line-height: 30px;
-  gap: 8px;
-  height: 67px;
-  padding: 0 30px;
-  white-space: nowrap;
-  margin: 0;
-  background-color: transparent;
-  border: none;
-  border-bottom: 3px solid var(--color-tab-border, colors.$color-tab-border);
-  cursor: pointer;
-  font-family: typography.$default-font;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-default-text, colors.$color-default-text);
-  @include transition.transition(
-    color 0.2s,
-    border-color 0.2s,
-    background-color 0.2s
-  );
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    line-height: 30px;
+    gap: 8px;
+    height: 67px;
+    padding: 0 30px;
+    white-space: nowrap;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid var(--color-tab-border, colors.$color-tab-border);
+    cursor: pointer;
+    font-family: typography.$default-font;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-default-text, colors.$color-default-text);
+    @include transition.transition(color 0.2s, border-color 0.2s, background-color 0.2s);
 
-  &:hover {
-    color: var(--color-heading-text, colors.$color-heading-text);
-    background-color: var(
-      --color-secondary-light,
-      colors.$color-secondary-light
-    );
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-focus, colors.$color-focus);
-    outline-offset: 2px;
-    
-  }
-
-  &.active {
-    border-bottom-color: var(--color-primary, colors.$color-primary);
-    background-color: var(
-      --color-secondary-light,
-      colors.$color-secondary-light
-    );
-    color: var(--color-heading-text, colors.$color-heading-text);
-    
-  }
-
-  &.disabled {
-    cursor: not-allowed;
-    color: var(--color-border, colors.$color-border);
     &:hover {
-      background-color: transparent;
+        color: var(--color-heading-text, colors.$color-heading-text);
+        background-color: var(--color-secondary-light, colors.$color-secondary-light);
     }
-  }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-focus, colors.$color-focus);
+        outline-offset: 2px;
+    }
+
+    &.active {
+        border-bottom-color: var(--color-primary, colors.$color-primary);
+        background-color: var(--color-secondary-light, colors.$color-secondary-light);
+        color: var(--color-heading-text, colors.$color-heading-text);
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+        color: var(--color-border, colors.$color-border);
+        &:hover {
+            background-color: transparent;
+        }
+    }
 }
 
 .tabLabel {
-  line-height: normal;
+    line-height: normal;
 }
 
 .tabAmount {
-  font-size: 20px;
-  color: var(--color-primary-light, colors.$color-primary-light);
-  font-weight: 600;
-  line-height: 30px;
+    font-size: 20px;
+    color: var(--color-primary-light, colors.$color-primary-light);
+    font-weight: 600;
+    line-height: 30px;
 }
 
 .tabPanels {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 .tabPanel {
-  padding: 4px 0;
+    padding: 4px 0;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }

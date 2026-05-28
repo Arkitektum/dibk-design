@@ -18,11 +18,11 @@
         vertical-align: top;
         margin-top: 2px;
     }
-    
+
     .selectContainer {
         position: relative;
         color: var(--select-text);
-        
+
         .selectListArrow {
             @include border-radius.border-radius(100px);
             box-sizing: border-box;
@@ -63,19 +63,17 @@
             line-height: 24px;
             background: var(--select-background);
             cursor: pointer;
-            
+
             &:hover {
-                border-color: var(--color-primary, colors.$color-primary);   
+                border-color: var(--color-primary, colors.$color-primary);
             }
             &:focus {
-                
                 outline: none;
-                outline-width:3px;
+                outline-width: 3px;
                 outline-style: solid;
                 outline-offset: 0px;
                 outline-color: var(--color-focus, colors.$color-focus);
             }
-
         }
 
         :global(.reactSelect__control--is-focused) {
@@ -116,8 +114,7 @@
 
         :global(.reactSelect__single-value),
         :global(.reactSelect__placeholder) {
-            color: var(
-                --select-placeholder);
+            color: var(--select-placeholder);
         }
 
         :global(.reactSelect__menu) {
@@ -141,7 +138,6 @@
         :global(.reactSelect__option--is-focused) {
             background-color: #f5f9fc;
             color: var(--color-default-text, colors.$color-default-text);
-            
         }
 
         :global(.reactSelect__option--is-selected) {
@@ -180,15 +176,13 @@
                 border-color: var(--color-warm-gray-200, colors.$color-warm-gray-200);
             }
         }
-
-        
     }
 
     .selectWithButton {
         display: flex;
         align-items: center;
         gap: 8px;
-        
+
         .selectContainer {
             flex: 1;
         }

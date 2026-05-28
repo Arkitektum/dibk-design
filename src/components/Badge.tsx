@@ -1,21 +1,22 @@
+// Dependencies
 import type React from "react";
+
+// Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
+
+// Stylesheets
 import style from "./Badge.module.scss";
 
 export type BadgeVariant = "success" | "warning" | "error" | "secondary" | "neutral" | "purple";
 
 export interface BadgeProps {
-  children: React.ReactNode;
-  variant?: BadgeVariant;
-  className?: string;
+    children: React.ReactNode;
+    variant?: BadgeVariant;
+    className?: string;
 }
 
 const Badge = ({ children, variant = "neutral", className }: BadgeProps) => (
-  <span
-    className={classNameArrayToClassNameString([style.badge, style[variant], className ?? null])}
-  >
-    {children}
-  </span>
+    <span className={classNameArrayToClassNameString([style.badge, style[variant], className ?? null])}>{children}</span>
 );
 
 export default Badge;

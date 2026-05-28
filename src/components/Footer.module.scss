@@ -2,20 +2,20 @@
 @use "../style/abstracts/variables/colors";
 
 .footer {
-  background-color: var(--color-primary, colors.$color-primary);
-  padding: 16px 0;
-  text-align: right;
-  * {
-    color: colors.$color-white;
-  }
-  a,
-  .link {
-    color: colors.$color-white;
-    text-decoration: underline;
-    cursor: pointer;
-    display: block;
-    &:hover {
-      text-decoration: none;
+    background-color: var(--color-primary, colors.$color-primary);
+    padding: 16px 0;
+    text-align: right;
+    * {
+        color: colors.$color-white;
     }
-  }
+    a,
+    .link {
+        color: colors.$color-white;
+        text-decoration: underline;
+        cursor: pointer;
+        display: block;
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }

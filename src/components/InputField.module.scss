@@ -6,7 +6,6 @@
 @use "../style/abstracts/variables/colors";
 
 .inputField {
-
     .requiredSymbol {
         display: inline-block;
         width: 7px;
@@ -68,7 +67,7 @@
         &.hasErrors {
             border-color: var(--color-error, colors.$color-error);
             margin-bottom: 6px;
-            
+
             &[disabled],
             &[readonly] {
                 background-color: var(--color-warm-gray-25, colors.$color-warm-gray-25);
@@ -131,9 +130,9 @@
     .visuallyHidden {
         position: absolute !important;
         width: 1px;
-        background-color: red !important; 
+        background-color: red !important;
         height: 1px;
-        
+
         margin: -1px;
         overflow: hidden;
         clip: rect(0, 0, 0, 0);

@@ -1,80 +1,65 @@
-import { createContext, useContext, type ReactNode } from "react";
+// Dependencies
+import { type ReactNode, createContext, useContext } from "react";
+
+// Components
 import { AsteriskIcon } from "../icons";
 
 export type RequirementIndicatorMode = "required" | "optional" | "none";
 
 interface FieldRequirementIndicatorContextValue {
-  mode: RequirementIndicatorMode;
-  optionalLabel: string;
+    mode: RequirementIndicatorMode;
+    optionalLabel: string;
 }
 
 const defaultContextValue: FieldRequirementIndicatorContextValue = {
-  mode: "required",
-  optionalLabel: "Valgfritt",
+    mode: "required",
+    optionalLabel: "Valgfritt"
 };
 
-const FieldRequirementIndicatorContext =
-  createContext<FieldRequirementIndicatorContextValue>(defaultContextValue);
+const FieldRequirementIndicatorContext = createContext<FieldRequirementIndicatorContextValue>(defaultContextValue);
 
 export interface FieldRequirementProviderProps {
-  children: ReactNode;
-  mode?: RequirementIndicatorMode;
-  optionalLabel?: string;
+    children: ReactNode;
+    mode?: RequirementIndicatorMode;
+    optionalLabel?: string;
 }
 
 export const FieldRequirementProvider = ({
-  children,
-  mode = defaultContextValue.mode,
-  optionalLabel = defaultContextValue.optionalLabel,
+    children,
+    mode = defaultContextValue.mode,
+    optionalLabel = defaultContextValue.optionalLabel
 }: FieldRequirementProviderProps) => (
-  <FieldRequirementIndicatorContext.Provider value={{ mode, optionalLabel }}>
-    {children}
-  </FieldRequirementIndicatorContext.Provider>
+    <FieldRequirementIndicatorContext.Provider value={{ mode, optionalLabel }}>{children}</FieldRequirementIndicatorContext.Provider>
 );
 
-export const useFieldRequirementIndicator = () =>
-  useContext(FieldRequirementIndicatorContext);
+export const useFieldRequirementIndicator = () => useContext(FieldRequirementIndicatorContext);
 
 export interface FieldRequirementIndicatorProps {
-  required: boolean;
-  mode?: RequirementIndicatorMode;
-  optionalLabel?: string;
-  requiredClassName?: string;
-  optionalClassName?: string;
+    required: boolean;
+    mode?: RequirementIndicatorMode;
+    optionalLabel?: string;
+    requiredClassName?: string;
+    optionalClassName?: string;
 }
 
-const FieldRequirementIndicator = ({
-  required,
-  mode,
-  optionalLabel,
-  requiredClassName,
-  optionalClassName,
-}: FieldRequirementIndicatorProps) => {
-  const {
-    mode: contextMode,
-    optionalLabel: contextOptionalLabel,
-  } = useFieldRequirementIndicator();
+const FieldRequirementIndicator = ({ required, mode, optionalLabel, requiredClassName, optionalClassName }: FieldRequirementIndicatorProps) => {
+    const { mode: contextMode, optionalLabel: contextOptionalLabel } = useFieldRequirementIndicator();
 
-  const effectiveMode = mode ?? contextMode;
-  const effectiveOptionalLabel = optionalLabel ?? contextOptionalLabel;
+    const effectiveMode = mode ?? contextMode;
+    const effectiveOptionalLabel = optionalLabel ?? contextOptionalLabel;
 
-  if (effectiveMode === "none") return null;
+    if (effectiveMode === "none") return null;
 
-  if (effectiveMode === "required") {
-    return required ? (
-      <AsteriskIcon aria-hidden="true" className={requiredClassName} />
+    if (effectiveMode === "required") {
+        return required ? <AsteriskIcon aria-hidden="true" className={requiredClassName} /> : null;
+    }
+
+    return !required ? (
+        <span className={optionalClassName} style={{ color: "#828282", fontWeight: 400 }}>
+            {" "}
+            ({effectiveOptionalLabel})
+        </span>
     ) : null;
-  }
-
-  return !required ? (
-    <span
-      className={optionalClassName}
-      style={{ color: "#828282", fontWeight: 400 }}
-    >
-      {" "}
-      ({effectiveOptionalLabel})
-    </span>
-  ) : null;
 };
 
 export default FieldRequirementIndicator;

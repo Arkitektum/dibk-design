@@ -3,32 +3,32 @@
 @use "../style/abstracts/variables/typography";
 
 .paragraph {
-  font-family: typography.$default-font;
-  color: var(--color-default-text, colors.$color-default-text);
-  font-weight: 400;
-  letter-spacing: 0;
-  margin: 0 0 16px;
-  &.noMargin {
-    margin: 0;
-  }
+    font-family: typography.$default-font;
+    color: var(--color-default-text, colors.$color-default-text);
+    font-weight: 400;
+    letter-spacing: 0;
+    margin: 0 0 16px;
+    &.noMargin {
+        margin: 0;
+    }
 }
 
 .lead {
-  color: var(--color-heading-text, colors.$color-heading-text);
-  font-family: typography.$default-font;
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 26px;
-  margin: 0 0 24px;
+    color: var(--color-heading-text, colors.$color-heading-text);
+    font-family: typography.$default-font;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 26px;
+    margin: 0 0 24px;
 }
 
 .large {
-  font-size: 20px;
-  line-height: 32px;
+    font-size: 20px;
+    line-height: 32px;
 }
 
 .small {
-  font-size: 16px;
-  line-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
 }

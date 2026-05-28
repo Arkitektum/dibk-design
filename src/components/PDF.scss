@@ -685,8 +685,7 @@ body {
 
         blockquote {
             background: var(--color-secondary-light, colors.$color-secondary-light);
-            border-left: calc($border-left-width-blockquote * $scaling-for-signed-documents) solid
-                var(--color-border, colors.$color-border);
+            border-left: calc($border-left-width-blockquote * $scaling-for-signed-documents) solid var(--color-border, colors.$color-border);
             margin: calc($margin-vertical-blockquote * $scaling-for-signed-documents)
                 calc($margin-horizontal-blockquote * $scaling-for-signed-documents);
             padding: 0.5em calc($padding-horizontal-blockquote * $scaling-for-signed-documents);

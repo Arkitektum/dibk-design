@@ -7,7 +7,6 @@
     //margin-right: 1em;
     border: 1px solid transparent;
     border-radius: 100%;
-    
 
     .requiredSymbol {
         width: 1em;
@@ -41,8 +40,6 @@
             color: var(--color-error, colors.$color-error);
         }
     }
-
-    
 
     input[type="radio"] {
         opacity: 0;

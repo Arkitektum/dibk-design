@@ -1,16 +1,22 @@
-import Container from './Container';
-import style from './Footer.module.scss';
+// Dependencies
+import type { ReactNode } from "react";
+
+// Components
+import Container from "./Container";
+
+// Stylesheets
+import style from "./Footer.module.scss";
 
 export interface FooterProps {
-  children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 const Footer = ({ children }: FooterProps) => {
-  return (
-    <footer className={style.footer}>
-      <Container>{children}</Container>
-    </footer>
-  );
+    return (
+        <footer className={style.footer}>
+            <Container>{children}</Container>
+        </footer>
+    );
 };
 
 export default Footer;

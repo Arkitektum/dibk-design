@@ -1,3 +1,4 @@
+// Dependencies
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { useEffect, useState } from "react";
 

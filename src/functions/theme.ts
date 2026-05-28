@@ -1,13 +1,13 @@
 import type { ThemeProps } from "../components/Theme";
 
 export const getThemeLogo = (theme?: ThemeProps): string => {
-  return theme?.logo ?? "";
+    return theme?.logo ?? "";
 };
 
 export const getThemeLogoPadding = (theme?: ThemeProps): string => {
-  return theme?.logoPadding ?? "";
+    return theme?.logoPadding ?? "";
 };
 
 export const getThemeAppName = (theme?: ThemeProps): string => {
-  return theme?.appName ?? "";
+    return theme?.appName ?? "";
 };
