@@ -55,7 +55,6 @@ export const addGlobalStylesheet = (styleElementId: string, styles: string): voi
 };
 
 export const stringifyCssColorVariables = (colorVariables: CSSVariables): string => {
-  console.log("colorVariables", colorVariables);
     return Object.entries(colorVariables)
         .map(([key, value]) => `${key}: ${value};`)
         .join("");
