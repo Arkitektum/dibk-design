@@ -1,190 +1,175 @@
 // Variables
-@use '../style/abstracts/variables/colors';
-@use '../style/abstracts/variables/transitions';
-@use '../style/abstracts/variables/viewports';
+@use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/transitions";
+@use "../style/abstracts/variables/viewports";
 
 .wizardTopnavItem {
-  a {
-    text-decoration: none;
-  }
-  .wizardTopnavItemContent {
-    display: flex;
-  }
-  &.vertical {
-    transition: background-color transitions.$long-transition;
+    a {
+        text-decoration: none;
+    }
     .wizardTopnavItemContent {
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: center;
-      text-decoration: none;
-      border-radius: 0px;
-      padding: 12px;
-      margin-bottom: 4px;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: 0.01em;
-      .stepNumber {
         display: flex;
-        align-self: stretch;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-        overflow: hidden;
-        min-width: 12px;
-        max-width: 100%;
-        color: var(
-          --color-primary-light,
-          colors.$color-primary-light
-        );
-      }
-      .stepName {
-        -webkit-box-flex: 1;
-        flex-grow: 1;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0.01em;
-        margin: 0px 0px 0px 12px;
-        color: var(--color-default-text, colors.$color-default-text);
-      }
     }
-    &:hover:not(.active):not(.finished):not(.hasErrors) {
-      background-color: var(
-        --color-secondary-light,
-        colors.$color-secondary-light
-      );
-    }
-    &.active {
-      background-color: var(
-        --color-secondary,
-        colors.$color-secondary
-      );
-    }
-    &.finished:not(.active) {
-      background-color: var(
-        --color-success-x-light,
-        colors.$color-success-x-light
-      );
-      &:hover {
-        background-color: var(
-          --color-success-light,
-          colors.$color-success-light
-        );
-      }
-    }
-    &.hasErrors:not(.active) {
-      background-color: var(--color-error-x-light, colors.$color-error-x-light);
-      &:hover {
-        background-color: var(--color-error-light, colors.$color-error-light);
-      }
-    }
-  }
-  &.horizontal {
-    flex: 1;
-    .wizardTopnavItemContent {
-      height: 60px;
-      align-items: center;
-      @media only screen and (min-width: viewports.$screen-sm) {
-        display: block;
-        height: auto;
-      }
-      &:before {
-        @media only screen and (max-width: viewports.$screen-xs-max) {
-          display: block;
-          content: ' ';
-          height: 36px;
-          background-color: #e2e1e0;
-          left: 10px;
-          top: 33px;
-          position: relative;
-          margin-top: -3px;
-          margin-bottom: -3px;
-          width: 15px;
-          margin-right: -15px;
+    &.vertical {
+        transition: background-color transitions.$long-transition;
+        .wizardTopnavItemContent {
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 0px;
+            padding: 12px;
+            margin-bottom: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0.01em;
+            .stepNumber {
+                display: flex;
+                align-self: stretch;
+                -webkit-box-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                justify-content: center;
+                overflow: hidden;
+                min-width: 12px;
+                max-width: 100%;
+                color: var(--color-primary-light, colors.$color-primary-light);
+            }
+            .stepName {
+                -webkit-box-flex: 1;
+                flex-grow: 1;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 0.01em;
+                margin: 0px 0px 0px 12px;
+                color: var(--color-default-text, colors.$color-default-text);
+            }
         }
-        @media only screen and (min-width: viewports.$screen-sm) {
-          display: inline-block;
-          content: ' ';
-          height: 15px;
-          background-color: #e2e1e0;
-          width: 100%;
-          left: 50%;
-          position: relative;
-          margin-bottom: -30px;
+        &:hover:not(.active):not(.finished):not(.hasErrors) {
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }
-      }
-      .stepNumber {
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        display: block;
-        text-align: center;
-        background-color: #e2e1e0;
-        color: var(--color-default-text, colors.$color-default-text);
-        position: relative;
-        font-size: 20px;
-        line-height: 1.75em;
-        z-index: 1;
-        margin-right: 8px;
-        @media only screen and (min-width: viewports.$screen-sm) {
-          margin: auto;
+        &.active {
+            background-color: var(--color-secondary, colors.$color-secondary);
         }
-      }
-      .stepName {
-        display: block;
-        text-align: left;
-        color: var(--color-default-text, colors.$color-default-text);
+        &.finished:not(.active) {
+            background-color: var(--color-success-x-light, colors.$color-success-x-light);
+            &:hover {
+                background-color: var(--color-success-light, colors.$color-success-light);
+            }
+        }
+        &.hasErrors:not(.active) {
+            background-color: var(--color-error-x-light, colors.$color-error-x-light);
+            &:hover {
+                background-color: var(--color-error-light, colors.$color-error-light);
+            }
+        }
+    }
+    &.horizontal {
         flex: 1;
-        flex-basis: min-content;
-        @media only screen and (min-width: viewports.$screen-sm) {
-          display: block;
-          text-align: center;
+        .wizardTopnavItemContent {
+            height: 60px;
+            align-items: center;
+            @media only screen and (min-width: viewports.$screen-sm) {
+                display: block;
+                height: auto;
+            }
+            &:before {
+                @media only screen and (max-width: viewports.$screen-xs-max) {
+                    display: block;
+                    content: " ";
+                    height: 36px;
+                    background-color: #e2e1e0;
+                    left: 10px;
+                    top: 33px;
+                    position: relative;
+                    margin-top: -3px;
+                    margin-bottom: -3px;
+                    width: 15px;
+                    margin-right: -15px;
+                }
+                @media only screen and (min-width: viewports.$screen-sm) {
+                    display: inline-block;
+                    content: " ";
+                    height: 15px;
+                    background-color: #e2e1e0;
+                    width: 100%;
+                    left: 50%;
+                    position: relative;
+                    margin-bottom: -30px;
+                }
+            }
+            .stepNumber {
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                display: block;
+                text-align: center;
+                background-color: #e2e1e0;
+                color: var(--color-default-text, colors.$color-default-text);
+                position: relative;
+                font-size: 20px;
+                line-height: 1.75em;
+                z-index: 1;
+                margin-right: 8px;
+                @media only screen and (min-width: viewports.$screen-sm) {
+                    margin: auto;
+                }
+            }
+            .stepName {
+                display: block;
+                text-align: left;
+                color: var(--color-default-text, colors.$color-default-text);
+                flex: 1;
+                flex-basis: min-content;
+                @media only screen and (min-width: viewports.$screen-sm) {
+                    display: block;
+                    text-align: center;
+                }
+            }
         }
-      }
-    }
 
-    &.active {
-      :local(.stepNumber) {
-        background-color: var(--color-primary, colors.$color-primary);
-        color: #fff;
-      }
+        &.active {
+            :local(.stepNumber) {
+                background-color: var(--color-primary, colors.$color-primary);
+                color: #fff;
+            }
+        }
+        &.finished {
+            .wizardTopnavItemContent {
+                &:before {
+                    background-color: var(--color-primary, colors.$color-primary);
+                }
+                .stepNumber {
+                    background-color: var(--color-primary, colors.$color-primary);
+                    color: #fff;
+                }
+            }
+        }
+        &.hasErrors {
+            .wizardTopnavItemContent {
+                &:before {
+                    background-color: var(--color-warning, colors.$color-warning);
+                }
+                .stepNumber {
+                    background-color: var(--color-warning, colors.$color-warning);
+                    color: #fff;
+                }
+            }
+        }
+        &:last-child {
+            .wizardTopnavItemContent {
+                &:before {
+                    @media only screen and (max-width: viewports.$screen-xs-max) {
+                        height: 0;
+                    }
+                    @media only screen and (min-width: viewports.$screen-sm) {
+                        width: 0;
+                    }
+                }
+            }
+        }
     }
-    &.finished {
-      .wizardTopnavItemContent {
-        &:before {
-          background-color: var(--color-primary, colors.$color-primary);
-        }
-        .stepNumber {
-          background-color: var(--color-primary, colors.$color-primary);
-          color: #fff;
-        }
-      }
-    }
-    &.hasErrors {
-      .wizardTopnavItemContent {
-        &:before {
-          background-color: var(--color-warning, colors.$color-warning);
-        }
-        .stepNumber {
-          background-color: var(--color-warning, colors.$color-warning);
-          color: #fff;
-        }
-      }
-    }
-    &:last-child {
-      .wizardTopnavItemContent {
-        &:before {
-          @media only screen and (max-width: viewports.$screen-xs-max) {
-            height: 0;
-          }
-          @media only screen and (min-width: viewports.$screen-sm) {
-            width: 0;
-          }
-        }
-      }
-    }
-  }
 }

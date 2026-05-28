@@ -3,249 +3,228 @@
 @use "../style/abstracts/variables/typography";
 
 .table {
-  font-family: typography.$default-font;
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+    font-family: typography.$default-font;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
 
-  
-
-  thead {
-    tr {
-      background-color: var(--color-background-default, colors.$color-background-default);
-    }
-
-    th {
-      text-align: left;
-      overflow: hidden; 
-      line-height: 24px;
-      
-      gap: 6px;
-      
-      font-size: 16px;
-      font-weight: 600;
-      vertical-align: middle;
-      padding: 10px 20px;
-      border-bottom: 2px solid var(--color-border, colors.$color-border);
-      
-
-      
-      .thButton {
-        all: unset; 
-        display: flex;
-        align-items: center;
-        box-sizing: border-box;    
-        
-        gap: 6px;
-        width: 100%;
-        
-        cursor: default; 
-        
-      }
-
-      .sortable {
-        cursor: pointer;
-        
-        &:hover {
-          background-color: var(
-            --color-secondary-light,
-            colors.$color-secondary-light
-          );
+    thead {
+        tr {
+            background-color: var(--color-background-default, colors.$color-background-default);
         }
-      }
 
-      .thButton:focus-visible {
-        outline: 2px solid var(--color-primary, colors.$color-primary);
-        outline-offset: 2px;
-      }
+        th {
+            text-align: left;
+            overflow: hidden;
+            line-height: 24px;
 
-      .label {
-        flex: 0 1 auto;
-        min-width: 0;
-      }
+            gap: 6px;
 
-      .sortIndicators {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
-        
-      }
+            font-size: 16px;
+            font-weight: 600;
+            vertical-align: middle;
+            padding: 10px 20px;
+            border-bottom: 2px solid var(--color-border, colors.$color-border);
 
-      .sortArrow {
-        display: inline-flex;
-        width: 10px;
-        height: 10px;
+            .thButton {
+                all: unset;
+                display: flex;
+                align-items: center;
+                box-sizing: border-box;
 
-        line-height: 24px;
-        opacity: 0.35;
+                gap: 6px;
+                width: 100%;
 
-        &.activeArrow {
-          color: var(--color-primary, colors.$color-primary);
-          opacity: 1;
+                cursor: default;
+            }
+
+            .sortable {
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--color-secondary-light, colors.$color-secondary-light);
+                }
+            }
+
+            .thButton:focus-visible {
+                outline: 2px solid var(--color-primary, colors.$color-primary);
+                outline-offset: 2px;
+            }
+
+            .label {
+                flex: 0 1 auto;
+                min-width: 0;
+            }
+
+            .sortIndicators {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+            }
+
+            .sortArrow {
+                display: inline-flex;
+                width: 10px;
+                height: 10px;
+
+                line-height: 24px;
+                opacity: 0.35;
+
+                &.activeArrow {
+                    color: var(--color-primary, colors.$color-primary);
+                    opacity: 1;
+                }
+            }
         }
-      }
-    }
-  }
-
-  tbody {
-    tr {
-      &.evenRow {
-        background-color: var(--color-background-default, colors.$color-background-default);
-      }
-
-      &.oddRow {
-        background-color: var(
-          --color-secondary-light,
-          colors.$color-secondary-light
-        );
-      }
-
-      &:hover {
-        filter: brightness(0.99);
-      }
     }
 
-    td {
-      padding: 10px 20px;
-      font-size: 16px;
-      line-height: 28px;
-      gap: 6px;
+    tbody {
+        tr {
+            &.evenRow {
+                background-color: var(--color-background-default, colors.$color-background-default);
+            }
+
+            &.oddRow {
+                background-color: var(--color-secondary-light, colors.$color-secondary-light);
+            }
+
+            &:hover {
+                filter: brightness(0.99);
+            }
+        }
+
+        td {
+            padding: 10px 20px;
+            font-size: 16px;
+            line-height: 28px;
+            gap: 6px;
+        }
     }
-  }
 }
 
 .loadingRow {
-  background-color: var(--color-background-default, colors.$color-background-default);
+    background-color: var(--color-background-default, colors.$color-background-default);
 }
 
 .loadingCell {
-  padding: 24px 12px;
-  text-align: center;
+    padding: 24px 12px;
+    text-align: center;
 }
 
 .selectionHeader {
-  width: 1%;
-  text-align: center;
-  padding: 0 8px;
+    width: 1%;
+    text-align: center;
+    padding: 0 8px;
 }
 
 .selectionCell {
-  width: 1%;
-  text-align: center;
-  padding: 6px 8px;
+    width: 1%;
+    text-align: center;
+    padding: 6px 8px;
 
-  // Remove default form control spacing so the standalone selectors stay centered
-  :global(.radioButtonInput),
-  :global(.checkBoxInput) {
-    margin-right: 0;
-  }
+    // Remove default form control spacing so the standalone selectors stay centered
+    :global(.radioButtonInput),
+    :global(.checkBoxInput) {
+        margin-right: 0;
+    }
 
-  :global(.radioButtonIcon),
-  :global(.checkBoxIcon) {
-    margin-right: 0;
-  }
+    :global(.radioButtonIcon),
+    :global(.checkBoxIcon) {
+        margin-right: 0;
+    }
 }
 
 .selectionControl {
-  all: unset;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .rowClickable {
-  cursor: pointer;
-  &:hover {
-    filter: brightness(0.97);
-  }
+    cursor: pointer;
+    &:hover {
+        filter: brightness(0.97);
+    }
 }
 
 .srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
 .pagination {
-  
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 12px;
 }
 
 .paginationControls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 24px;
-  margin-top: 12px;
-  justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    margin-top: 12px;
+    justify-content: center;
 }
 
-
-
-
 .pageNavButtonHidden {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .pageNavIcon {
-  display: inline-flex;
-  width: 24px;
-  height: 24px;
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
 }
 
 .pageList {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .pageNumber {
-  all: unset;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  
-  
-  color: var(--color-form-element, colors.$color-form-element);
-  cursor: pointer;
-  font-family: typography.$default-font;
-  font-size: 16px;
-  line-height: 1;
-  &:hover {
-    background-color: var(
-      --color-secondary-light,
-      colors.$color-secondary-light
-    );
-  }
-  &:focus-visible {
-    outline: 2px solid var(--color-primary, colors.$color-primary);
-    outline-offset: 2px;
-  }
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+
+    color: var(--color-form-element, colors.$color-form-element);
+    cursor: pointer;
+    font-family: typography.$default-font;
+    font-size: 16px;
+    line-height: 1;
+    &:hover {
+        background-color: var(--color-secondary-light, colors.$color-secondary-light);
+    }
+    &:focus-visible {
+        outline: 2px solid var(--color-primary, colors.$color-primary);
+        outline-offset: 2px;
+    }
 }
 
 .pageNumberActive {
-  background-color: var(--color-secondary, colors.$color-secondary);
-  color: var(--color-default-text, colors.$color-default-text)
+    background-color: var(--color-secondary, colors.$color-secondary);
+    color: var(--color-default-text, colors.$color-default-text);
 }
 
 .pageEllipsis {
-  color: var(--color-default-text, colors.$color-default-text);
-  font-family: typography.$default-font;
-  font-size: 16px;
-  line-height: 1;
-  padding: 0 4px;
+    color: var(--color-default-text, colors.$color-default-text);
+    font-family: typography.$default-font;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
 }
