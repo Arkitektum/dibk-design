@@ -14,8 +14,8 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
-        conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0);
+    background:
+        radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0), conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0);
     font-family: Helvetica, Arial, sans-serif;
     @include calc.calc("font-size", var(--size) / 4);
     color: var(--fg);

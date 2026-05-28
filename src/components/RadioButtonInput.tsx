@@ -1,8 +1,11 @@
-// RadioButtonInput.tsx
+// Dependencies
+import type React from "react";
 
+// Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
 import RadioButtonIcon from "./RadioButtonIcon";
-import type React from "react";
+
+// Stylesheets
 import style from "./RadioButtonInput.module.scss";
 
 export interface RadioButtonInputProps {
