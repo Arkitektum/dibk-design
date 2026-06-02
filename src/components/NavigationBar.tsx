@@ -24,7 +24,7 @@ export interface NavigationBarProps {
     logoLink?: string;
     logoLinkTitle?: string;
     openLogoLinkInNewTab?: boolean;
-    theme?: CustomThemeName;
+    themeId?: CustomThemeName;
     color?: "secondary" | "neutral";
     links?: ListItemObject[];
     children?: React.ReactNode;
@@ -34,16 +34,17 @@ const NavigationBar = ({
     logoLink = "https://www.dibk.no/",
     logoLinkTitle = "DIBK logo",
     openLogoLinkInNewTab = true,
-    theme,
+    themeId,
     color = "neutral",
     links = [],
     children
 }: NavigationBarProps) => {
     const resolvedTheme = theme ? customThemes[theme] : undefined;
+    const resolvedTheme = themeId ? customThemes[themeId] : undefined;
 
     const getLogoThemeStyle = (theme?: ThemeProps) => ({
         padding: getThemeLogoPadding(theme),
-        maxHeight: "47px"
+        height: "47px"
     });
 
     const renderLogo = (link?: string, title?: string) => {

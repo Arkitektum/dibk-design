@@ -6,9 +6,9 @@ const meta: Meta<typeof NavigationBar> = {
 	title: "Primitives/NavigationBar",
 	component: NavigationBar,
 	argTypes: {
-		theme: {
+		themeId: {
 			control: "select",
-			options: ["dibk", "dibkNireg", "arbeidstilsynet"],
+			options: ["dibk", "arbeidstilsynet"],
 			defaultValue: "dibk",
 		},
 		color: {
@@ -26,14 +26,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		theme: "dibk",
+		themeId: "dibk",
 		color: "neutral",
 	},
 };
 
 export const WithLinks: Story = {
 	args: {
-		theme: "dibk",
+		themeId: "dibk",
 		color: "neutral",
 		links: [
 			{ name: "Oversikt", href: "/oversikt" },
@@ -44,7 +44,7 @@ export const WithLinks: Story = {
 
 export const WithSecondaryColor: Story = {
 	args: {
-		theme: "dibk",
+		themeId: "dibk",
 		color: "secondary",
 		links: [
 			{ name: "Oversikt", href: "/oversikt" },

@@ -19,7 +19,7 @@ import RadioButtonList from "./RadioButtonList";
 import RadioButtonListItem from "./RadioButtonListItem";
 
 // Data
-import { getCustomThemeName } from "../data/customTheme";
+import { getCustomThemeId } from "../data/customTheme";
 
 // Stylesheets
 import style from "./Theme.module.scss";
@@ -39,7 +39,7 @@ export interface ThemeProps {
 }
 
 const Theme = (theme: ThemeProps) => {
-    const themeName = getCustomThemeName(theme?.appName);
+    const themeId = getCustomThemeId(theme?.appName);
     const renderColors = (theme: ThemeProps) => {
         if (!theme?.colors) return null;
 
@@ -60,7 +60,7 @@ const Theme = (theme: ThemeProps) => {
 
     return (
         <Fragment>
-            <NavigationBar theme={themeName} />
+            <NavigationBar themeId={themeId} />
             <Container maxWidth="916px">
                 <Paper noMargin>
                     <section>
