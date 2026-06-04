@@ -14,15 +14,14 @@
     @include box-sizing.box-sizing(content-box);
     display: inline-block;
     vertical-align: middle;
-    margin-right: 0.4em;
-    margin-top: -0.2em;
     min-width: 10px;
     width: 10px;
     height: 10px;
+    line-height: 1;
+    text-align: center;
     background: white;
-
-    border: 0.3em solid white;
     cursor: pointer;
+    border: 0.3em solid white;
 
     &:not(.hasErrors) {
         @include box-shadow.box-shadow(0 0 0 1px var(--color-form-element, colors.$color-form-element));

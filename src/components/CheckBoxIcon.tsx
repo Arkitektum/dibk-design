@@ -26,6 +26,7 @@ const CheckBoxIcon = ({
     const inlineStyle: React.CSSProperties = {
         height: size,
         width: size,
+        minWidth: size,
         fontSize: size
     };
 

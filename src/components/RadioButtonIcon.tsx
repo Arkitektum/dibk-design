@@ -14,7 +14,8 @@ export interface RadioButtonIconProps {
 const RadioButtonIcon = ({ size = "10px", checked = false, disabled = false, hasErrors = false }: RadioButtonIconProps) => {
     const inlineStyle: React.CSSProperties = {
         height: size,
-        width: size
+        width: size,
+        minWidth: size
     };
 
     const className = [style.radioButtonIcon, checked && style.checked, disabled && style.disabled, hasErrors && style.hasErrors]
