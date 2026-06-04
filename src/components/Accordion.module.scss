@@ -8,222 +8,222 @@
 @use "../style/abstracts/variables/typography";
 
 @keyframes show {
-  0% {
-    opacity: 0;
-    margin-top: 0px;
-    padding: 0 15px 0;
-    line-height: 0;
-    max-height: 0;
-  }
-  100% {
-    opacity: 1;
-    margin-top: 0px;
-    padding: 8px 15px 15px;
-    line-height: inherit;
-    max-height: 1000px;
-  }
+    0% {
+        opacity: 0;
+        margin-top: 0px;
+        padding: 0 15px 0;
+        line-height: 0;
+        max-height: 0;
+    }
+    100% {
+        opacity: 1;
+        margin-top: 0px;
+        padding: 8px 15px 15px;
+        line-height: inherit;
+        max-height: 1000px;
+    }
 }
 
 @keyframes hide {
-  100% {
-    opacity: 0;
-    margin-top: 0px;
-    padding: 0 15px 0;
-    line-height: 0;
-    max-height: 0;
-  }
-  0% {
-    opacity: 1;
-    margin-top: 0px;
-    padding: 8px 15px 15px;
-    line-height: inherit;
-    max-height: 1000px;
-  }
+    100% {
+        opacity: 0;
+        margin-top: 0px;
+        padding: 0 15px 0;
+        line-height: 0;
+        max-height: 0;
+    }
+    0% {
+        opacity: 1;
+        margin-top: 0px;
+        padding: 8px 15px 15px;
+        line-height: inherit;
+        max-height: 1000px;
+    }
 }
 
 @media only screen and (min-width: viewports.$screen-sm) {
-  @keyframes show {
-    0% {
-      opacity: 0;
-      margin-top: 0px;
-      padding: 0 30px 0;
-      line-height: 0;
-      max-height: 0;
+    @keyframes show {
+        0% {
+            opacity: 0;
+            margin-top: 0px;
+            padding: 0 30px 0;
+            line-height: 0;
+            max-height: 0;
+        }
+        100% {
+            opacity: 1;
+            margin-top: 0px;
+            padding: 8px 30px 15px;
+            line-height: inherit;
+            max-height: 1000px;
+        }
     }
-    100% {
-      opacity: 1;
-      margin-top: 0px;
-      padding: 8px 30px 15px;
-      line-height: inherit;
-      max-height: 1000px;
+    @keyframes hide {
+        100% {
+            opacity: 0;
+            margin-top: 0px;
+            padding: 0 30px 0;
+            line-height: 0;
+            max-height: 0;
+        }
+        0% {
+            opacity: 1;
+            margin-top: 0px;
+            padding: 8px 30px 15px;
+            line-height: inherit;
+            max-height: 1000px;
+        }
     }
-  }
-  @keyframes hide {
-    100% {
-      opacity: 0;
-      margin-top: 0px;
-      padding: 0 30px 0;
-      line-height: 0;
-      max-height: 0;
-    }
-    0% {
-      opacity: 1;
-      margin-top: 0px;
-      padding: 8px 30px 15px;
-      line-height: inherit;
-      max-height: 1000px;
-    }
-  }
 }
 
 .accordion {
-  font-family: typography.$default-font;
-  text-decoration: none;
-  width: 100%;
-  display: block;
-  &.primary {
-    background-color: var(--color-primary, colors.$color-primary);
-    color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
-
-    .panel span,
-    .content {
-      color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
-    }
-    .content {
-      --color-default-text: var(--color-default-contrast-text, colors.$color-default-contrast-text);
-    }
-  }
-  &.neutral {
-    background-color: var(--color-background-default, colors.$color-background-default);
-    color: var(--color-default-text, colors.$color-default-text);
-
-    .panel span,
-    .content {
-      color: var(--color-default-text, colors.$color-default-text);
-    }
-  }
-  &.secondary {
-    background-color: var(--color-background-secondary, colors.$color-background-secondary);
-    color: var(--color-default-text, colors.$color-default-text);
-    .panel span,
-    .content {
-      color: var(--color-default-text, colors.$color-default-text);
-    }
-  }
-  &.info {
-    background-color: var(--color-background-info, colors.$color-background-info);
-    color: var(--color-primary, colors.$color-primary);
-    .panel span,
-    .content {
-      color: var(--color-primary, colors.$color-primary);
-    }
-  }
-  &.margin {
-    margin-bottom: 8px;
-  }
-
-  .panel {
-    @include appearance.appearance(none);
-    @include border-radius.border-radius(0);
     font-family: typography.$default-font;
-    padding: 15px 15px;
-    display: flex;
-    align-items: center;
-    position: relative;
     text-decoration: none;
-    overflow-wrap: break-word;
-    line-height: 1.7;
-    cursor: pointer;
-    border: none;
     width: 100%;
-    background: none;
-    text-align: left;
-    @media only screen and (min-width: viewports.$screen-sm) {
-      padding: 15px 30px;
-    }
-    &:focus-visible {
-      outline-color: var(--color-primary, colors.$color-primary);
-      outline-style: auto;
-      outline-width: 2px;
-      outline-offset: 0px;
-    }
-    .panelText {
-      font-family: typography.$default-font;
-      font-weight: bold;
-      font-size: 18px;
-      flex: 1;
-    }
-    .panelChevron {
-      @include border-radius.border-radius(100px);
-      box-sizing: border-box;
-      position: relative;
-      display: block;
-      width: 18px;
-      height: 18px;
-      margin-right: 6px;
-      @media only screen and (min-width: viewports.$screen-sm) {
-        margin-right: 0;
-      }
-      &::after {
-        content: "";
-        display: block;
-        box-sizing: border-box;
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        border-bottom: 2px solid;
-        border-right: 2px solid;
-        transform: translateY(-30%) rotate(45deg);
-        transition: transform 0.3s ease-in-out;
-      }
-      &.expanded {
-        &::after {
-          transform: translateY(30%) rotate(225deg);
+    display: block;
+    &.primary {
+        background-color: var(--color-primary, colors.$color-primary);
+        color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
+
+        .panel span,
+        .content {
+            color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
         }
-      }
+        .content {
+            --color-default-text: var(--color-default-contrast-text, colors.$color-default-contrast-text);
+        }
     }
-  }
-  .content {
-    opacity: 0;
-    margin-top: 0px;
-    line-height: 0;
-    max-height: 0;
-    overflow: hidden;
-    padding: 0 15px 0;
-    @media only screen and (min-width: viewports.$screen-sm) {
-      padding: 0 30px 0;
+    &.neutral {
+        background-color: var(--color-background-default, colors.$color-background-default);
+        color: var(--color-default-text, colors.$color-default-text);
+
+        .panel span,
+        .content {
+            color: var(--color-default-text, colors.$color-default-text);
+        }
     }
-    &.initialized {
-      animation: hide 0.3s ease-in-out;
+    &.secondary {
+        background-color: var(--color-background-secondary, colors.$color-background-secondary);
+        color: var(--color-default-text, colors.$color-default-text);
+        .panel span,
+        .content {
+            color: var(--color-default-text, colors.$color-default-text);
+        }
+    }
+    &.info {
+        background-color: var(--color-background-info, colors.$color-background-info);
+        color: var(--color-primary, colors.$color-primary);
+        .panel span,
+        .content {
+            color: var(--color-primary, colors.$color-primary);
+        }
+    }
+    &.margin {
+        margin-bottom: 8px;
     }
 
-    &.expanded {
-      animation: show 0.3s ease-in-out;
-      opacity: 1;
-      margin-top: 0px;
-      padding: 8px 15px 15px;
-      line-height: inherit;
-      max-height: 10000px;
-      @media only screen and (min-width: viewports.$screen-sm) {
-        padding: 8px 30px 15px;
-      }
+    .panel {
+        @include appearance.appearance(none);
+        @include border-radius.border-radius(0);
+        font-family: typography.$default-font;
+        padding: 15px 15px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        text-decoration: none;
+        overflow-wrap: break-word;
+        line-height: 1.7;
+        cursor: pointer;
+        border: none;
+        width: 100%;
+        background: none;
+        text-align: left;
+        @media only screen and (min-width: viewports.$screen-sm) {
+            padding: 15px 30px;
+        }
+        &:focus-visible {
+            outline-color: var(--color-primary, colors.$color-primary);
+            outline-style: auto;
+            outline-width: 2px;
+            outline-offset: 0px;
+        }
+        .panelText {
+            font-family: typography.$default-font;
+            font-weight: bold;
+            font-size: 18px;
+            flex: 1;
+        }
+        .panelChevron {
+            @include border-radius.border-radius(100px);
+            box-sizing: border-box;
+            position: relative;
+            display: block;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+            @media only screen and (min-width: viewports.$screen-sm) {
+                margin-right: 0;
+            }
+            &::after {
+                content: "";
+                display: block;
+                box-sizing: border-box;
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                border-bottom: 2px solid;
+                border-right: 2px solid;
+                transform: translateY(-30%) rotate(45deg);
+                transition: transform 0.3s ease-in-out;
+            }
+            &.expanded {
+                &::after {
+                    transform: translateY(30%) rotate(225deg);
+                }
+            }
+        }
     }
+    .content {
+        opacity: 0;
+        margin-top: 0px;
+        line-height: 0;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 15px 0;
+        @media only screen and (min-width: viewports.$screen-sm) {
+            padding: 0 30px 0;
+        }
+        &.initialized {
+            animation: hide 0.3s ease-in-out;
+        }
 
-    &.bodyPrimary {
-      background-color: var(--color-primary, colors.$color-primary);
-      color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
+        &.expanded {
+            animation: show 0.3s ease-in-out;
+            opacity: 1;
+            margin-top: 0px;
+            padding: 8px 15px 15px;
+            line-height: inherit;
+            max-height: 10000px;
+            @media only screen and (min-width: viewports.$screen-sm) {
+                padding: 8px 30px 15px;
+            }
+        }
+
+        &.bodyPrimary {
+            background-color: var(--color-primary, colors.$color-primary);
+            color: var(--color-default-contrast-text, colors.$color-default-contrast-text);
+        }
+        &.bodyNeutral {
+            background-color: var(--color-background-default, colors.$color-background-default);
+            color: var(--color-default-text, colors.$color-default-text);
+        }
+        &.bodySecondary {
+            background-color: var(--color-background-secondary, colors.$color-background-secondary);
+            color: var(--color-default-text, colors.$color-default-text);
+        }
+        &.bodyInfo {
+            background-color: var(--color-background-info, colors.$color-background-info);
+            color: var(--color-primary, colors.$color-primary);
+        }
     }
-    &.bodyNeutral {
-      background-color: var(--color-background-default, colors.$color-background-default);
-      color: var(--color-default-text, colors.$color-default-text);
-    }
-    &.bodySecondary {
-      background-color: var(--color-background-secondary, colors.$color-background-secondary);
-      color: var(--color-default-text, colors.$color-default-text);
-    }
-    &.bodyInfo {
-      background-color: var(--color-background-info, colors.$color-background-info);
-      color: var(--color-primary, colors.$color-primary);
-    }
-  }
 }
