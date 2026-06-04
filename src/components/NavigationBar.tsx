@@ -39,7 +39,6 @@ const NavigationBar = ({
     links = [],
     children
 }: NavigationBarProps) => {
-    const resolvedTheme = theme ? customThemes[theme] : undefined;
     const resolvedTheme = themeId ? customThemes[themeId] : undefined;
 
     const getLogoThemeStyle = (theme?: ThemeProps) => ({
