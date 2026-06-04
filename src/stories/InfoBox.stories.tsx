@@ -7,7 +7,7 @@ const meta: Meta<typeof InfoBox> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["secondary", "warning", "error", "info", "success"],
+      options: ["default", "secondary", "warning", "error", "info", "success"],
     },
     fullScreen: { control: "boolean" },
 
@@ -33,6 +33,14 @@ const render: Story["render"] = (args) => (
 );
 
 export const Default: Story = {
+  args: {
+    variant: "default",
+    title: "Du kan ikke signere erklæringen før alle opplysningene er fylt ut:",
+  },
+  render,
+};
+
+export const Secondary: Story = {
   args: {
     variant: "secondary",
     title: "Du kan ikke signere erklæringen før alle opplysningene er fylt ut:",

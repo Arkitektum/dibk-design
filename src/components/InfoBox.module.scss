@@ -12,9 +12,8 @@
 }
 
 .box {
-    background-color: var(--color-background-default, colors.$color-background-default);
-    border: 1px solid var(--color-secondary, colors.$color-secondary);
-
+    border-width: 1px;
+    border-style: solid;
     color: var(--color-default-text, colors.$color-default-text);
     font-family: typography.$default-font;
     line-height: 1.5;
@@ -30,6 +29,11 @@
 
     &.noBorder {
         border: 0;
+    }
+
+    &.default {
+        background-color: var(--color-background-default, colors.$color-background-default);
+        border-color: var(--color-secondary, colors.$color-secondary);
     }
 
     &.secondary {

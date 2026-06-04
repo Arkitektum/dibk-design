@@ -11,7 +11,7 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 // Stylesheets
 import style from "./InfoBox.module.scss";
 
-export type InfoBoxVariant = "secondary" | "warning" | "error" | "info" | "success";
+export type InfoBoxVariant = "default" | "secondary" | "warning" | "error" | "info" | "success";
 
 export interface InfoBoxProps {
     title: React.ReactNode | string;
@@ -28,7 +28,7 @@ export interface InfoBoxProps {
 const InfoBox = ({
     title,
     children = "",
-    variant = "secondary",
+    variant = "default",
     fullScreen = false,
     noBorder = false,
     noAnimation = false,
@@ -36,6 +36,7 @@ const InfoBox = ({
     icon
 }: InfoBoxProps) => {
     const defaultIcons: Record<InfoBoxVariant, string> = {
+        default: infoIcon,
         secondary: infoIcon,
         warning: warningIcon,
         error: errorIcon,
@@ -52,7 +53,6 @@ const InfoBox = ({
                 style.box,
                 style[variant],
                 fullScreen && style.fullScreen,
-
                 noBorder && style.noBorder,
                 noAnimation && style.noAnimation,
                 shouldRenderIcon ? style.hasIcon : null
