@@ -3,6 +3,8 @@ import type { ThemeProps } from "../components/Theme";
 import { colorTokens } from "./generated/colors";
 
 const dibkColors = {
+    bodyBackground: colorTokens["color-background-secondary"],
+
     backgroundDefault: colorTokens["color-background-default"],
     backgroundSecondary: colorTokens["color-background-secondary"],
     backgroundInfo: colorTokens["color-background-info"],
