@@ -42,7 +42,6 @@
 
 .button {
   @include appearance.appearance(none);
-
   @include transition.transition(
     filter transitions.$default-transition,
     background-color transitions.$default-transition,
@@ -51,15 +50,13 @@
   );
   font-family: typography.$default-font;
   border-style: solid;
-
   border-color: var(--color-primary, colors.$color-primary);
   cursor: pointer;
-  line-height: 28px;
+  line-height: 23px;
   position: relative;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-
   font-size: 20px;
   font-weight: 500;
 
