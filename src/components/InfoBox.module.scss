@@ -48,8 +48,8 @@
     }
 
     &.info {
-        background-color: var(--color-background-info, colors.$color-background-info);
-        border-color: var(--color-background-info, colors.$color-background-info);
+        background-color: var(--color-info-x-light, colors.$color-info-x-light);
+        border-color: var(--color-info, colors.$color-info);
     }
 
     &.success {

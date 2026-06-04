@@ -30,7 +30,10 @@ const dibkColors = {
     warningXLight: colorTokens["color-warning-x-light"],
     error: colorTokens["color-error"],
     errorLight: colorTokens["color-error-light"],
-    errorXLight: colorTokens["color-error-x-light"]
+    errorXLight: colorTokens["color-error-x-light"],
+    info: colorTokens["color-info"],
+    infoLight: colorTokens["color-info-light"],
+    infoXLight: colorTokens["color-info-x-light"]
 };
 
 const arbeidstilsynetColors = {
@@ -59,7 +62,10 @@ const arbeidstilsynetColors = {
     warningXLight: "#fff7e0",
     error: "#FF3116",
     errorLight: "#ffccc5",
-    errorXLight: "#ffe5e2"
+    errorXLight: "#ffe5e2",
+    info: "#17A2B8",
+    infoLight: "#c2f0f5",
+    infoXLight: "#e5f7fa"
 };
 
 const dibk: ThemeProps = {
