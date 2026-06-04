@@ -50,7 +50,7 @@ export const Warning: Story = {
   render,
 };
 
-export const ErrorBox: Story = {
+export const Error: Story = {
   args: {
     variant: "error",
     title: "Det oppstod en feil",
