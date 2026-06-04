@@ -28,7 +28,7 @@
     color: var(--color-default-text, colors.$color-default-text);
 
     &:not(.compact) {
-        border: 1px solid var(--color-secondary, colors.$color-secondary);
+        border: 1px solid var(--color-secondary-light, colors.$color-secondary);
         background: white;
         margin-bottom: 8px;
         label {
