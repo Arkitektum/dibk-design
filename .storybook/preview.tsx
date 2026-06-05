@@ -1,4 +1,3 @@
-import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
