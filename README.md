@@ -112,7 +112,7 @@ This project uses [pnpm](https://pnpm.io/) as the package manager.
 
 ### Build library
 
-Type-checks, bundles the library (ES/CJS/UMD + a bundled `index.d.ts`), and copies the token files. The output is saved to the `/dist` folder.
+Type-checks, bundles the library (ES/CJS + a bundled `index.d.ts`), and copies the token files. The output is saved to the `/dist` folder.
 ```bash
 pnpm run build:lib
 ```
