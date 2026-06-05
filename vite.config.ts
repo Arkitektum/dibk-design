@@ -19,24 +19,13 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "DibkDesign",
-      formats: ["es", "cjs", "umd"],
-      // The package has "type": "module", so CommonJS bundles must use the
-      // .cjs extension — with .js they would be parsed as ESM and break require().
-      fileName: (format) =>
-        ({ es: "index.es.js", cjs: "index.cjs", umd: "index.umd.cjs" })[
-          format as "es" | "cjs" | "umd"
-        ],
+      formats: ["es", "cjs"],
+      // The package has "type": "module", so the CommonJS bundle must use the
+      // .cjs extension — with .js it would be parsed as ESM and break require().
+      fileName: (format) => (format === "es" ? "index.es.js" : "index.cjs"),
     },
     rollupOptions: {
       external: ["react", "react/jsx-runtime", "react/jsx-dev-runtime", "react-dom", "react-router-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          "react-router-dom": "ReactRouterDOM",
-        },
-      },
     },
     outDir: "dist",
     sourcemap: true,
