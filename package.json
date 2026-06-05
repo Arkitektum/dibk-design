@@ -2,13 +2,19 @@
 	"name": "dibk-design",
 	"version": "11.0.1",
 	"homepage": "https://arkitektum.github.io/dibk-design/",
-	"main": "dist/index.cjs.js",
+	"main": "dist/index.cjs",
 	"module": "dist/index.es.js",
+	"types": "dist/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
 		},
 		"./tokens.css": "./dist/tokens.css",
 		"./theme.css": "./dist/theme.css",
@@ -20,10 +26,7 @@
 		"README.md"
 	],
 	"dependencies": {
-		"react-select": "^5.10.2",
-		"sass": "^1.100.0",
-		"typed-scss-modules": "^8.1.1",
-		"vite-tsconfig-paths": "^6.1.1"
+		"react-select": "^5.10.2"
 	},
 	"scripts": {
 		"generate:colors": "node scripts/generate-colors.mjs",
@@ -34,18 +37,15 @@
 		"prebuild:storybook": "pnpm run generate:colors",
 		"prestorybook": "pnpm run generate:colors",
 		"postbuild:lib": "node scripts/copy-theme-files.mjs",
-		"build:types": "tsc --project tsconfig.json",
 		"dev": "vite",
 		"lint": "biome lint .",
 		"preview": "vite preview",
 		"serve-storybook": "serve -l 5000 ./storybook-static",
 		"storybook": "storybook dev -p 6006",
-		"deploy": "gh-pages -d storybook-static",
-		"predeploy": "pnpm run build:storybook"
+		"test": "vitest run"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.16",
-		"@eslint/js": "^10.0.1",
 		"@microsoft/api-extractor": "^7.58.7",
 		"@storybook/addon-a11y": "^10.4.2",
 		"@storybook/addon-docs": "^10.4.2",
@@ -57,16 +57,14 @@
 		"@types/node": "^25.9.1",
 		"@types/react": "^19.2.16",
 		"@types/react-dom": "^19.2.3",
-		"@typescript-eslint/parser": "^8.60.1",
 		"@vitejs/plugin-react": "^6.0.2",
-		"@vitest/browser": "^4.1.8",
+		"@vitest/browser-playwright": "^4.1.8",
 		"@vitest/coverage-v8": "^4.1.8",
-		"eslint": "^10.4.1",
-		"gh-pages": "^6.3.0",
-		"globals": "^17.6.0",
+		"playwright": "^1.60.0",
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
 		"react-router-dom": "^7.17.0",
+		"sass": "^1.100.0",
 		"serve": "^14.2.6",
 		"storybook": "^10.4.2",
 		"typescript": "6.0.3",
