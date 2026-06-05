@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # for npm provenance
+      id-token: write # for npm trusted publishing (OIDC) + provenance
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,7 +23,10 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing requires npm >= 11.5.1; Node 22 bundles npm 10
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Verify tag matches package.json version
         run: |
@@ -40,10 +43,12 @@ jobs:
       - name: Build library
         run: pnpm run build:lib
 
+      # Authenticates via OIDC trusted publishing — no token needed.
+      # Requires the trusted publisher to be configured on npmjs.com
+      # (package settings -> Trusted Publisher -> GitHub Actions).
+      # Provenance is generated automatically with trusted publishing.
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
 
   publish-github-packages:
     name: Publish to GitHub Packages
