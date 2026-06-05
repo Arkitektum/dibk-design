@@ -16,8 +16,21 @@ const config: StorybookConfig = {
 	},
 
 	viteFinal: async (config) => {
+		// vite-plugin-dts (inherited from vite.config.ts) is only for the library
+		// build — it fails the Storybook build when dist/ doesn't exist (e.g. CI).
+		const plugins = (config.plugins ?? [])
+			.flat(Infinity)
+			.filter(
+				(plugin) =>
+					!(
+						plugin &&
+						typeof plugin === "object" &&
+						"name" in plugin &&
+						plugin.name.includes("dts")
+					),
+			);
 		config.plugins = [
-			...(config.plugins ?? []),
+			...plugins,
 			svgr({ svgrOptions: { exportType: "default" } }),
 		];
 		return config;
