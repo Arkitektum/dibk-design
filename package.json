@@ -2,6 +2,10 @@
 	"name": "dibk-design",
 	"version": "11.0.1",
 	"homepage": "https://arkitektum.github.io/dibk-design/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Arkitektum/dibk-design.git"
+	},
 	"main": "dist/index.cjs",
 	"module": "dist/index.es.js",
 	"types": "dist/index.d.ts",
