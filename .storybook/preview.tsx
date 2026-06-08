@@ -1,7 +1,7 @@
+import type { Decorator, Preview } from "@storybook/react-vite";
 import { MemoryRouter } from "react-router-dom";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
-import type { Decorator, Preview } from "@storybook/react-vite";
 
 const withThemeProvider: Decorator = (Story, context) => {
   const themeKey = context.globals.theme ?? "dibk";
@@ -18,7 +18,7 @@ const withThemeProvider: Decorator = (Story, context) => {
 const preview: Preview = {
   argTypes: {theme: {
     control: "select",
-    options: ["dibk", "dibkNireg", "arbeidstilsynet"],
+    options: ["dibk", "arbeidstilsynet"],
     defaultValue: "dibk",
   }},
   parameters: {
@@ -47,7 +47,6 @@ const preview: Preview = {
         icon: "circlehollow",
         items: [
           { value: "dibk", title: "DiBK" },
-          { value: "dibkNireg", title: "DiBK Nireg" },
           { value: "arbeidstilsynet", title: "Arbeidstilsynet" },
         ],
         dynamicTitle: true,
