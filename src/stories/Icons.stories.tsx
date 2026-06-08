@@ -1,4 +1,3 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   AddIcon,
   AdvarselIcon,
@@ -20,7 +19,6 @@ import {
   DeleteBinIcon,
   DeleteIcon,
   DibkLogo,
-  DibkLogoWithNiregTitle,
   DibkLogoWithTitle,
   DownloadIcon,
   EditIcon,
@@ -54,6 +52,7 @@ import {
   WarningIcon,
   XSymbolIcon,
 } from "../icons";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta: Meta = {
   title: "Assets/Icons",
@@ -87,7 +86,6 @@ const iconComponents = [
   { name: "DeleteBinIcon", Component: DeleteBinIcon },
   { name: "DeleteIcon", Component: DeleteIcon },
   { name: "DibkLogo", Component: DibkLogo, maxWidth: 140 },
-  { name: "DibkLogoWithNiregTitle", Component: DibkLogoWithNiregTitle, maxWidth: 220 },
   { name: "DibkLogoWithTitle", Component: DibkLogoWithTitle, maxWidth: 220 },
   { name: "DownloadIcon", Component: DownloadIcon },
   { name: "EditIcon", Component: EditIcon },
