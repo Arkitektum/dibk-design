@@ -97,6 +97,14 @@ export const NoSorting: Story = {
   },
 };
 
+export const DefaultSortDescending: Story = {
+  args: {
+    columns,
+    data: sampleData,
+    defaultSort: { headerKey: "age", direction: "desc" },
+  },
+};
+
 export const Loading: Story = {
   args: {
     columns,
