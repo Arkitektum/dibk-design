@@ -81,6 +81,7 @@ export interface TableProps<T> {
     defaultPageSize?: number;
     // eslint-disable-next-line no-unused-vars
     onPageSizeChange?: (size: number) => void;
+    defaultSort?: SortState;
 }
 
 const Table = <T extends object>({
@@ -103,21 +104,28 @@ const Table = <T extends object>({
     defaultPage = 1,
     onPageChange,
     totalCount,
-    totalPages: totalPagesProp
+    totalPages: totalPagesProp,
+    defaultSort
 }: TableProps<T>) => {
     const [sortState, setSortState] = useState<SortState | null>(null);
     const selectionGroupName = useId();
     const [internalPage, setInternalPage] = useState(defaultPage);
 
-    // Pick first sortable column by default
+    const defaultSortKey = defaultSort?.headerKey;
+    const defaultSortDirection = defaultSort?.direction;
     useEffect(() => {
+        if (defaultSortKey != null && columns.some((c) => c.sortable && c.key === defaultSortKey)) {
+            setSortState({ headerKey: defaultSortKey, direction: defaultSortDirection ?? "asc" });
+            return;
+        }
+
         const firstSortable = columns.find((c) => c.sortable);
         if (firstSortable) {
             setSortState({ headerKey: firstSortable.key, direction: "asc" });
         } else {
             setSortState(null);
         }
-    }, [columns]);
+    }, [columns, defaultSortKey, defaultSortDirection]);
 
     const headerByKey = useMemo(() => {
         const map = new Map<string, TableColumn<T>>();
