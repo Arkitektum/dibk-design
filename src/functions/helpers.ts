@@ -34,9 +34,9 @@ export const getCssSizeVariablesFromTheme = (theme?: ThemeProps): CSSVariables =
     }, {});
 };
 
-export const getCssVariablesFromTheme = (theme?: ThemeProps): CSSVariables => {
+export const getCssVariablesFromTheme = (theme?: ThemeProps, customThemeColors?: ThemeProps): CSSVariables => {
     return {
-        ...getCssColorVariablesFromTheme(theme),
+        ...getCssColorVariablesFromTheme(customThemeColors),
         ...getCssSizeVariablesFromTheme(theme)
     };
 };

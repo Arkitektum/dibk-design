@@ -19,12 +19,13 @@ import RadioButtonList from "./RadioButtonList";
 import RadioButtonListItem from "./RadioButtonListItem";
 
 // Data
-import { getCustomThemeId } from "../data/customTheme";
+import { type CustomThemeName, getCustomThemeId } from "../data/customTheme";
 
 // Stylesheets
 import style from "./Theme.module.scss";
 
 export interface ThemeProps {
+    themeId?: CustomThemeName;
     appName: string;
     logo: string;
 
@@ -39,7 +40,7 @@ export interface ThemeProps {
 }
 
 const Theme = (theme: ThemeProps) => {
-    const themeId = getCustomThemeId(theme?.appName);
+    const themeId = theme?.themeId ? theme.themeId : theme?.appName ? getCustomThemeId(theme.appName) : undefined;
     const renderColors = (theme: ThemeProps) => {
         if (!theme?.colors) return null;
 

@@ -7,6 +7,7 @@ import type { ThemeProps } from "./Theme";
 
 // Helpers
 import { addGlobalStylesheet, getCssVariablesFromTheme, stringifyCssColorVariables } from "../functions/helpers";
+import { getCustomThemeForThemeId, getCustomThemeId } from "@/data/customTheme";
 
 // Stylesheets
 import style from "./ThemeProvider.scss?inline";
@@ -18,7 +19,9 @@ export interface ThemeProviderProps {
 }
 
 const ThemeProvider = ({ theme, children, fieldRequirementIndicatorMode, fieldOptionalLabel }: ThemeProviderProps) => {
-    const cssVariablesFromTheme = getCssVariablesFromTheme(theme);
+    const themeId = theme?.themeId ? theme.themeId : theme?.appName ? getCustomThemeId(theme.appName) : undefined;
+    const customTheme = themeId ? getCustomThemeForThemeId(themeId) : undefined;
+    const cssVariablesFromTheme = getCssVariablesFromTheme(theme, customTheme);
     const cssColorVariablesString = stringifyCssColorVariables(cssVariablesFromTheme);
     addGlobalStylesheet("theme-provider", `:root {${cssColorVariablesString}} ${style}`);
     return (

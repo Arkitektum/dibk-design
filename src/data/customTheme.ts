@@ -99,4 +99,8 @@ export const getCustomThemeId = (appName?: string): CustomThemeName | undefined 
     return customThemeIdByAppName[appName.toLowerCase()];
 };
 
+export const getCustomThemeForThemeId = (themeId: CustomThemeName): ThemeProps => {
+    return customThemes[themeId];
+};
+
 export default customThemes;
