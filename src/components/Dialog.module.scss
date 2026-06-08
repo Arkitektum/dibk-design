@@ -59,7 +59,7 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        overflow: auto;
+        overflow: hidden;
         width: fit-content;
         min-width: 320px;
         min-height: 200px;
@@ -73,6 +73,23 @@
         width: 100%;
         display: flex;
         flex-direction: column;
+    }
+
+    .closeButton {
+        background: none;
+        border: none;
+        color: var(--color-primary, colors.$color-primary);
+        display: inline-block;
+        position: absolute;
+        cursor: pointer;
+        z-index: 2;
+        &:hover {
+            text-decoration: none;
+        }
+        svg {
+            width: 30px;
+            height: 30px;
+        }
     }
 
     .dialogHeader {
@@ -105,6 +122,20 @@
             min-width: 748px;
             max-height: 90vh;
         }
+        .closeButton {
+            &:not(.noPadding) {
+                right: 5px;
+                top: 8px;
+                @media only screen and (min-width: viewports.$screen-sm) {
+                    right: 10px;
+                    top: 13px;
+                }
+            }
+            &.noPadding {
+                right: 0;
+                top: 0;
+            }
+        }
     }
 
     &.isSidebar {
@@ -118,6 +149,17 @@
             width: var(--max-width, auto);
             max-width: 100vw;
             animation: none;
+        }
+
+        .closeButton {
+            &:not(.noPadding) {
+                top: 3px;
+                right: 0px;
+            }
+            &.noPadding {
+                top: 6px;
+                right: 0px;
+            }
         }
 
         .dialogBody {

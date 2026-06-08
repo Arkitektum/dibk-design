@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // Components
-import Button from "./Button";
 import Header from "./Header";
 import { XSymbolIcon } from "../icons";
 
@@ -17,6 +16,7 @@ export interface DialogProps {
     maxWidth?: string;
     noPadding?: boolean;
     title?: React.ReactNode | string;
+    closeButton?: boolean;
     onClickOutside: () => void;
     modal?: boolean;
     attachTo?: "left" | "right" | "top" | "bottom" | string;
@@ -24,7 +24,17 @@ export interface DialogProps {
     children?: React.ReactNode;
 }
 
-const Dialog = ({ maxWidth = "none", noPadding, title, onClickOutside, modal = true, attachTo, hidden = false, children }: DialogProps) => {
+const Dialog = ({
+    maxWidth = "none",
+    noPadding,
+    title,
+    closeButton = true,
+    onClickOutside,
+    modal = true,
+    attachTo,
+    hidden = false,
+    children
+}: DialogProps) => {
     const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null);
     const dialogContainerRef = useRef<HTMLDivElement>(null);
     const dialogContentRef = useCallback((element: HTMLDivElement | null): void => {
@@ -114,13 +124,15 @@ const Dialog = ({ maxWidth = "none", noPadding, title, onClickOutside, modal = t
             />
             <div ref={dialogContainerRef} className={style.dialogContainer} style={dialogContentStyleProps}>
                 <div ref={dialogContentRef} className={classNameArrayToClassNameString([style.dialogContent, noPadding && style.noPadding])}>
-                    {title && (
-                        <div className={style.dialogHeader}>
-                            {typeof title === "string" ? <Header size={2}>{title}</Header> : title}
-                            <Button color="neutral" size="small" aria-label="Lukk dialog" onClick={onClickOutside} iconLeft={<XSymbolIcon />}>
-                                Lukk
-                            </Button>
-                        </div>
+                    {title && <div className={style.dialogHeader}>{typeof title === "string" ? <Header size={2}>{title}</Header> : title}</div>}
+                    {closeButton && (
+                        <button
+                            aria-label="Lukk dialog"
+                            onClick={onClickOutside}
+                            className={classNameArrayToClassNameString([style.closeButton, noPadding && style.noPadding])}
+                        >
+                            <XSymbolIcon />
+                        </button>
                     )}
                     <div className={style.dialogBody} aria-live="assertive">
                         {children}
