@@ -1,6 +1,7 @@
+// Components
+import FieldRequirementIndicator, { FieldRequirementProvider } from "./components/FieldRequirementIndicator";
 import Accordion from "./components/Accordion";
 import Badge from "./components/Badge";
-import InfoBox from "./components/InfoBox";
 import Button from "./components/Button";
 import CheckBoxIcon from "./components/CheckBoxIcon";
 import CheckBoxInput from "./components/CheckBoxInput";
@@ -15,11 +16,9 @@ import Dialog from "./components/Dialog";
 import DragAndDropFileInput from "./components/DragAndDropFileInput";
 import ErrorBox from "./components/ErrorBox";
 import ErrorMessage from "./components/ErrorMessage";
-import FieldRequirementIndicator, {
-  FieldRequirementProvider,
-} from "./components/FieldRequirementIndicator";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import InfoBox from "./components/InfoBox";
 import InputField from "./components/InputField";
 import Label from "./components/Label";
 import List from "./components/List";
@@ -34,64 +33,63 @@ import RadioButtonInput from "./components/RadioButtonInput";
 import RadioButtonList from "./components/RadioButtonList";
 import RadioButtonListItem from "./components/RadioButtonListItem";
 import Select from "./components/Select";
-import WizardNavigationStep from "./components/Step";
 import Table from "./components/Table";
 import Tabs from "./components/Tabs";
 import Textarea from "./components/Textarea";
 import ThemeProvider from "./components/ThemeProvider";
 import ToggleNavigationButton from "./components/ToggleNavigationButton";
 import WizardNavigation from "./components/WizardNavigation";
+import WizardNavigationStep from "./components/Step";
+
+// Stylesheets
 import "./style/base/_fonts.scss";
 
 export * from "./icons";
-export {
-  useFieldRequirementIndicator,
-  type RequirementIndicatorMode,
-} from "./components/FieldRequirementIndicator";
+export { useFieldRequirementIndicator, type RequirementIndicatorMode } from "./components/FieldRequirementIndicator";
 
 export type { BadgeVariant, BadgeProps } from "./components/Badge";
 
 export {
-  Accordion,
-  Badge,
-  InfoBox,
-  Button,
-  CheckBoxIcon,
-  CheckBoxInput,
-  CheckBoxList,
-  CheckBoxListItem,
-  Container,
-  ContentBox,
-  DescriptionDetails,
-  DescriptionList,
-  DescriptionTerm,
-  Dialog,
-  DragAndDropFileInput,
-  ErrorBox,
-  ErrorMessage,
-  FieldRequirementIndicator,
-  FieldRequirementProvider,
-  Footer,
-  Header,
-  InputField,
-  Label,
-  List,
-  ListItem,
-  LoadingAnimation,
-  NavigationBar,
-  Paper,
-  Paragraph,
-  ProgressBar,
-  RadioButtonIcon,
-  RadioButtonInput,
-  RadioButtonList,
-  RadioButtonListItem,
-  Select,
-  Table,
-  Tabs,
-  Textarea,
-  ThemeProvider,
-  ToggleNavigationButton,
-  WizardNavigation,
-  WizardNavigationStep,
+    Accordion,
+    Badge,
+    InfoBox,
+    Button,
+    CheckBoxIcon,
+    CheckBoxInput,
+    CheckBoxList,
+    CheckBoxListItem,
+    Container,
+    ContentBox,
+    DescriptionDetails,
+    DescriptionList,
+    DescriptionTerm,
+    Dialog,
+    DragAndDropFileInput,
+    ErrorBox,
+    ErrorMessage,
+    FieldRequirementIndicator,
+    FieldRequirementProvider,
+    Footer,
+    Header,
+    InputField,
+    Label,
+    List,
+    ListItem,
+    LoadingAnimation,
+    NavigationBar,
+    Paper,
+    Paragraph,
+    ProgressBar,
+    RadioButtonIcon,
+    RadioButtonInput,
+    RadioButtonList,
+    RadioButtonListItem,
+    Select,
+    Table,
+    Tabs,
+    Textarea,
+    ThemeProvider,
+    ToggleNavigationButton,
+    WizardNavigation,
+    WizardNavigationStep
 };
