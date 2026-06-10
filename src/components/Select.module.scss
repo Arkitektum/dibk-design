@@ -117,34 +117,6 @@
             color: var(--select-placeholder);
         }
 
-        :global(.reactSelect__menu) {
-            @include box-shadow.box-shadow(
-                rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
-                rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
-                rgba(0, 0, 0, 0.12) 0px 3px 14px 2px
-            );
-            padding: 6px 10px;
-        }
-
-        :global(.reactSelect__menu-list) {
-            padding: 0;
-        }
-
-        :global(.reactSelect__option) {
-            padding: 8px 10px;
-            cursor: pointer;
-        }
-
-        :global(.reactSelect__option--is-focused) {
-            background-color: #f5f9fc;
-            color: var(--color-default-text, colors.$color-default-text);
-        }
-
-        :global(.reactSelect__option--is-selected) {
-            background-color: var(--color-secondary, colors.$color-secondary);
-            color: var(--color-default-text, colors.$color-default-text);
-        }
-
         :global(.reactSelect__multi-value) {
             background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }
@@ -186,5 +158,36 @@
         .selectContainer {
             flex: 1;
         }
+    }
+}
+
+:global(.reactSelect__menuPortal) {
+    :global(.reactSelect__menu) {
+        @include box-shadow.box-shadow(
+            rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+            rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+            rgba(0, 0, 0, 0.12) 0px 3px 14px 2px
+        );
+        padding: 6px 10px;
+        font-size: 18px;
+    }
+
+    :global(.reactSelect__menu-list) {
+        padding: 0;
+    }
+
+    :global(.reactSelect__option) {
+        padding: 8px 10px;
+        cursor: pointer;
+    }
+
+    :global(.reactSelect__option--is-focused) {
+        background-color: #f5f9fc;
+        color: var(--color-default-text, colors.$color-default-text);
+    }
+
+    :global(.reactSelect__option--is-selected) {
+        background-color: var(--color-secondary, colors.$color-secondary);
+        color: var(--color-default-text, colors.$color-default-text);
     }
 }

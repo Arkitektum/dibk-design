@@ -1,5 +1,5 @@
 // Dependencies
-import ReactSelect, { type MultiValue, type SingleValue } from "react-select";
+import ReactSelect, { type CSSObjectWithLabel, type MultiValue, type SingleValue } from "react-select";
 import type React from "react";
 import { useMemo } from "react";
 
@@ -73,6 +73,15 @@ type SelectOption = {
     value: string | number;
     label: string;
     raw: Option;
+};
+
+const menuPortalStyles = {
+    menuPortal: (base: CSSObjectWithLabel) => ({ ...base, zIndex: 1100 })
+};
+
+const closeMenuOnScroll = (event: Event): boolean => {
+    const target = event.target;
+    return !(target instanceof HTMLElement && target.closest(".reactSelect__menu"));
 };
 
 const Select = (props: SelectProps) => {
@@ -187,6 +196,10 @@ const Select = (props: SelectProps) => {
                             placeholder={placeholderText}
                             onChange={handleChange}
                             options={selectOptions}
+                            menuPortalTarget={typeof document === "undefined" ? null : document.body}
+                            menuPosition="fixed"
+                            closeMenuOnScroll={closeMenuOnScroll}
+                            styles={menuPortalStyles}
                             className={classNameArrayToClassNameString([hasErrors && style.hasErrors])}
                             classNamePrefix="reactSelect"
                             formatOptionLabel={props.formatOptionLabel ? (option, meta) => props.formatOptionLabel?.(option.raw, meta) : undefined}
@@ -230,6 +243,10 @@ const Select = (props: SelectProps) => {
                         placeholder={placeholderText}
                         onChange={handleChange}
                         options={selectOptions}
+                        menuPortalTarget={typeof document === "undefined" ? null : document.body}
+                        menuPosition="fixed"
+                        closeMenuOnScroll={closeMenuOnScroll}
+                        styles={menuPortalStyles}
                         className={classNameArrayToClassNameString([hasErrors && style.hasErrors])}
                         classNamePrefix="reactSelect"
                         formatOptionLabel={props.formatOptionLabel ? (option, meta) => props.formatOptionLabel?.(option.raw, meta) : undefined}
