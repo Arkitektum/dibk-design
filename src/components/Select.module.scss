@@ -67,22 +67,13 @@
             &:hover {
                 border-color: var(--color-primary, colors.$color-primary);
             }
-            &:focus {
-                outline: none;
-                outline-width: 3px;
-                outline-style: solid;
-                outline-offset: 0px;
-                outline-color: var(--color-focus, colors.$color-focus);
-            }
         }
 
-        :global(.reactSelect__control--is-focused) {
+        :global(.reactSelect__control--is-focused),
+        :global(.reactSelect__control:focus-within) {
+            border-color: var(--color-primary, colors.$color-primary);
             outline: none;
-            outline-width: 3px;
-            outline-style: solid;
-            outline-offset: 0px;
-            outline-color: var(--color-focus, colors.$color-focus);
-            box-shadow: none;
+            box-shadow: 0 0 0 3px var(--color-focus, colors.$color-focus);
         }
 
         :global(.reactSelect__control--is-disabled) {
@@ -135,9 +126,10 @@
                 margin-bottom: 6px;
             }
 
-            :global(.reactSelect__control--is-focused) {
+            :global(.reactSelect__control--is-focused),
+            :global(.reactSelect__control:focus-within) {
                 border-color: var(--color-error, colors.$color-error);
-                outline-color: var(--color-error, colors.$color-error);
+                box-shadow: 0 0 0 3px var(--color-error, colors.$color-error);
             }
 
             :global(.reactSelect__control--is-disabled) {
