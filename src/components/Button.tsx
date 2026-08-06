@@ -27,6 +27,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
     noHover?: boolean;
     href?: string;
     noMargin?: boolean;
+    uniformPadding?: boolean;
     children?: React.ReactNode;
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
@@ -45,6 +46,7 @@ const Button = ({
     hasErrors = false,
     noHover = false,
     noMargin = false,
+    uniformPadding = false,
     href,
     children,
     iconLeft,
@@ -75,6 +77,7 @@ const Button = ({
         hasErrors && style.hasErrors,
         disabled ? style.disabled : null,
         noMargin ? style.noMargin : null,
+        uniformPadding ? style.uniformPadding : null,
         iconLeft || iconRight ? style.hasIcon : null,
         classNameProp
     ]);
