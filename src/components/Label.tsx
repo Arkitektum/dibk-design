@@ -8,13 +8,14 @@ import style from "./Label.module.scss";
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
     inline?: boolean;
     normalCursor?: boolean;
+    srOnly?: boolean;
     htmlTag?: keyof JSX.IntrinsicElements;
     children?: React.ReactNode;
     subLabel?: React.ReactNode;
 }
 
-const Label = ({ inline = false, normalCursor = false, htmlTag = "label", children, subLabel, id, ...rest }: LabelProps) => {
-    const className = [style.label, inline && style.inline, normalCursor && style.normalCursor].filter(Boolean).join(" ");
+const Label = ({ inline = false, normalCursor = false, srOnly = false, htmlTag = "label", children, subLabel, id, ...rest }: LabelProps) => {
+    const className = [style.label, inline && style.inline, normalCursor && style.normalCursor, srOnly && style.srOnly].filter(Boolean).join(" ");
 
     const tagProps = {
         ...rest,

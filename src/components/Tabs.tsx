@@ -174,7 +174,7 @@ const Tab = ({ children, amount, isActive, onSelect, onClick, onKeyDown, tabId, 
             onKeyDown={handleLocalKeyDown}
         >
             <span className={style.tabLabel}>{children}</span>
-            {amount && <span className={style.tabAmount}>{amount}</span>}
+            {typeof amount === "number" && <span className={style.tabAmount}>{amount}</span>}
         </button>
     );
 };

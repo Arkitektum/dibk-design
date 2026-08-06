@@ -25,6 +25,7 @@ interface SelectPropsBase {
     options?: Option[];
     width?: string;
     label?: React.ReactNode;
+    hideLabel?: boolean;
     keyAsContent?: boolean;
     placeholder?: string;
     placeholderValue?: string;
@@ -43,6 +44,7 @@ interface SelectPropsBase {
     actionButtonOnClick?: () => void;
     actionButtonDisabled?: boolean;
     actionButtonAriaLabel?: string;
+    actionButtonMatchHeight?: boolean;
 
     backgroundColor?: string;
     textColor?: string;
@@ -93,6 +95,7 @@ const Select = (props: SelectProps) => {
         options = [],
         width,
         label = "",
+        hideLabel = false,
         placeholder = "",
         defaultContent = "",
         role,
@@ -106,6 +109,7 @@ const Select = (props: SelectProps) => {
         actionButtonOnClick,
         actionButtonDisabled = false,
         actionButtonAriaLabel,
+        actionButtonMatchHeight = false,
 
         backgroundColor,
         textColor,
@@ -168,18 +172,23 @@ const Select = (props: SelectProps) => {
 
     return (
         <div className={style.select}>
-            <Label htmlFor={id}>
-                {label}
-                <FieldRequirementIndicator
-                    required={required}
-                    mode={requirementIndicatorMode}
-                    optionalLabel={optionalLabel}
-                    requiredClassName={style.requiredSymbol}
-                />
-            </Label>
+            {(Boolean(label) || required) && (
+                <Label htmlFor={id} srOnly={hideLabel}>
+                    {label}
+                    <FieldRequirementIndicator
+                        required={required}
+                        mode={requirementIndicatorMode}
+                        optionalLabel={optionalLabel}
+                        requiredClassName={style.requiredSymbol}
+                    />
+                </Label>
+            )}
 
             {hasActionButton ? (
-                <div className={style.selectWithButton} style={containerStyle}>
+                <div
+                    className={classNameArrayToClassNameString([style.selectWithButton, actionButtonMatchHeight && style.matchHeight])}
+                    style={containerStyle}
+                >
                     <div className={classNameArrayToClassNameString([style.selectContainer])} role={role}>
                         <span className={style.selectListArrow} />
 

@@ -39,6 +39,7 @@ const buildPageItems = (current: number, total: number) => {
 export type TableColumn<T> = {
     key: string;
     label: string;
+    srOnlyLabel?: boolean;
     sortable?: boolean;
     // eslint-disable-next-line no-unused-vars
     accessor?: (item: T) => string | number | null | undefined;
@@ -145,7 +146,11 @@ const Table = <T extends object>({
         arr.sort((a, b) => {
             const av = getVal(a);
             const bv = getVal(b);
-            if (av == null || bv == null) return 0;
+            const aMissing = av == null || av === "";
+            const bMissing = bv == null || bv === "";
+            if (aMissing && bMissing) return 0;
+            if (aMissing) return sortState.direction === "asc" ? -1 : 1;
+            if (bMissing) return sortState.direction === "asc" ? 1 : -1;
 
             // number
             if (typeof av === "number" && typeof bv === "number") {
@@ -293,10 +298,11 @@ const Table = <T extends object>({
                                 )}
                             </th>
                         )}
-                        {columns.map(({ key, label, sortable, ariaLabel }) => {
+                        {columns.map(({ key, label, srOnlyLabel, sortable, ariaLabel }) => {
                             const isActive = sortState?.headerKey === key;
                             const isAsc = isActive && sortState.direction === "asc";
                             const isDesc = isActive && sortState.direction === "desc";
+                            const labelClassName = classNameArrayToClassNameString([style.label, srOnlyLabel && style.srOnly]);
 
                             return (
                                 <th key={key} aria-sort={getAriaSort(key, sortable)} scope="col">
@@ -309,7 +315,7 @@ const Table = <T extends object>({
                                                 isActive ? (isAsc ? "descending" : "ascending") : "ascending"
                                             }`}
                                         >
-                                            <span className={style.label}>{label}</span>
+                                            <span className={labelClassName}>{label}</span>
                                             <span className={style.sortIndicators} aria-hidden="true">
                                                 <span className={`${style.sortArrow} ${isAsc ? style.activeArrow : ""}`}>
                                                     <svg viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg" role="presentation">
@@ -339,7 +345,7 @@ const Table = <T extends object>({
                                         </button>
                                     ) : (
                                         <span className={style.thButton}>
-                                            <span className={style.label}>{label}</span>
+                                            <span className={labelClassName}>{label}</span>
                                         </span>
                                     )}
                                 </th>

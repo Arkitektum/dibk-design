@@ -32,6 +32,7 @@ export interface InputFieldProps {
     defaultValue?: string | number | Date;
     elementKey?: string;
     label?: React.ReactNode;
+    hideLabel?: boolean;
     actionButtonColor?: "primary" | "secondary";
 
     actionButtonContent?: string;
@@ -40,6 +41,7 @@ export interface InputFieldProps {
     actionButtonOnClick?: () => void;
     actionButtonDisabled?: boolean;
     actionButtonAriaLabel?: string;
+    actionButtonMatchHeight?: boolean;
     selectedFileName?: string;
     placeholder?: string;
     min?: string;
@@ -83,6 +85,7 @@ const InputField = ({
     defaultValue,
     elementKey,
     label = "",
+    hideLabel = false,
     actionButtonColor = "secondary",
     actionButtonContent,
     actionButtonIconLeft,
@@ -90,6 +93,7 @@ const InputField = ({
     actionButtonOnClick,
     actionButtonDisabled = false,
     actionButtonAriaLabel,
+    actionButtonMatchHeight = false,
     selectedFileName,
     placeholder = "",
     min,
@@ -110,6 +114,7 @@ const InputField = ({
     const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
     const isDateInput = type === "date" && !disabled && !readOnly;
     const isFileInput = type === "file";
+    const hasLabel = Boolean(label) || required || isFileInput;
     const hasActionButton = Boolean(actionButtonContent) && Boolean(actionButtonOnClick) && !isFileInput;
     const fileButtonContent = actionButtonContent || "Velg fil";
 
@@ -187,40 +192,45 @@ const InputField = ({
 
     return (
         <div className={classNameArrayToClassNameString([style.inputField, style[type], noMargin && style.noMargin])}>
-            <Label htmlFor={id}>
-                {label}
-                <FieldRequirementIndicator
-                    required={required}
-                    mode={requirementIndicatorMode}
-                    optionalLabel={optionalLabel}
-                    requiredClassName={style.requiredSymbol}
-                />
-                {isFileInput && (
-                    // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
-                    <div
-                        className={style.fileInputContainer}
-                        onClick={handleFileClick}
-                        onKeyDown={handleFileKeyDown}
-                        role="button"
-                        tabIndex={disabled ? -1 : 0}
-                        aria-disabled={disabled || undefined}
-                    >
-                        <span className={style.input}>{selectedFileName}</span>
-                        <Button
-                            color={actionButtonColor}
-                            inputType="button"
-                            onClick={() => inputRef.current?.click()}
-                            content={fileButtonContent}
-                            disabled={disabled || actionButtonDisabled}
-                            aria-label={actionButtonAriaLabel}
-                        />
-                    </div>
-                )}
-            </Label>
+            {hasLabel && (
+                <Label htmlFor={id} srOnly={hideLabel && !isFileInput}>
+                    {label}
+                    <FieldRequirementIndicator
+                        required={required}
+                        mode={requirementIndicatorMode}
+                        optionalLabel={optionalLabel}
+                        requiredClassName={style.requiredSymbol}
+                    />
+                    {isFileInput && (
+                        // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
+                        <div
+                            className={style.fileInputContainer}
+                            onClick={handleFileClick}
+                            onKeyDown={handleFileKeyDown}
+                            role="button"
+                            tabIndex={disabled ? -1 : 0}
+                            aria-disabled={disabled || undefined}
+                        >
+                            <span className={style.input}>{selectedFileName}</span>
+                            <Button
+                                color={actionButtonColor}
+                                inputType="button"
+                                onClick={() => inputRef.current?.click()}
+                                content={fileButtonContent}
+                                disabled={disabled || actionButtonDisabled}
+                                aria-label={actionButtonAriaLabel}
+                            />
+                        </div>
+                    )}
+                </Label>
+            )}
 
             {/* note: for type="file", we don’t pass value/defaultValue */}
             {hasActionButton ? (
-                <div className={style.inputWithButton} style={styleRules}>
+                <div
+                    className={classNameArrayToClassNameString([style.inputWithButton, actionButtonMatchHeight && style.matchHeight])}
+                    style={styleRules}
+                >
                     <input key={elementKey || id} {...inputProps} ref={inputRef} />
 
                     <Button

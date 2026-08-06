@@ -302,6 +302,7 @@
     &.hasIcon {
         display: flex;
         align-items: center;
+        width: fit-content;
         .buttonIcon {
             display: inline-flex;
             align-items: center;
