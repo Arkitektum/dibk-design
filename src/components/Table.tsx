@@ -330,8 +330,8 @@ const Table = <T extends object>({
                                             type="button"
                                             className={`${style.thButton} ${style.sortable}`}
                                             onClick={() => toggleSort(key)}
-                                            aria-label={`${ariaLabel ?? label}: sort ${
-                                                isActive ? (isAsc ? "descending" : "ascending") : "ascending"
+                                            aria-label={`${ariaLabel ?? label}: ${
+                                                isActive && isAsc ? "sorter synkende" : "sorter stigende"
                                             }`}
                                         >
                                             <span className={labelClassName}>{label}</span>
