@@ -48,6 +48,7 @@ export * from "./icons";
 export { useFieldRequirementIndicator, type RequirementIndicatorMode } from "./components/FieldRequirementIndicator";
 
 export type { BadgeVariant, BadgeProps } from "./components/Badge";
+export type { SortState, TableColumn, TableProps } from "./components/Table";
 
 export {
     Accordion,
