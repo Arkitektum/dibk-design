@@ -424,7 +424,7 @@ const Table = <T extends object>({
                                 >
                                     {selectionTypeIsSingle && (
                                         <td className={style.selectionCell}>
-                                            <button type="button" className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
+                                            <span className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
                                                 <RadioButtonInput
                                                     id={selectionControlId}
                                                     name={selectionGroupName}
@@ -435,12 +435,12 @@ const Table = <T extends object>({
                                                     }}
                                                     aria-label={selectionLabel}
                                                 />
-                                            </button>
+                                            </span>
                                         </td>
                                     )}
                                     {selectionTypeIsMultiple && (
                                         <td className={style.selectionCell}>
-                                            <button type="button" className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
+                                            <span className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
                                                 <CheckBoxInput
                                                     id={selectionControlId}
                                                     value={String(rowId)}
@@ -461,7 +461,7 @@ const Table = <T extends object>({
                                                     }}
                                                     aria-label={selectionLabel}
                                                 />
-                                            </button>
+                                            </span>
                                         </td>
                                     )}
                                     {columns.map((col) => (
