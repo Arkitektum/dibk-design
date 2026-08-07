@@ -145,6 +145,14 @@
         border-color: var(--color-primary, colors.$color-primary);
         border-width: 1px;
         padding: 12px 19px;
+
+        &.uniformPadding {
+            padding: 15px 23px;
+
+            &.small {
+                padding: 7px 9px;
+            }
+        }
         &:hover:not(.noHover),
         &:focus-visible {
             background-color: var(--color-secondary-light, colors.$color-primary-light);

@@ -83,6 +83,9 @@ export interface TableProps<T> {
     // eslint-disable-next-line no-unused-vars
     onPageSizeChange?: (size: number) => void;
     defaultSort?: SortState;
+    sort?: SortState | null;
+    // eslint-disable-next-line no-unused-vars
+    onSortChange?: (sort: SortState) => void;
 }
 
 const Table = <T extends object>({
@@ -106,27 +109,33 @@ const Table = <T extends object>({
     onPageChange,
     totalCount,
     totalPages: totalPagesProp,
-    defaultSort
+    defaultSort,
+    sort,
+    onSortChange
 }: TableProps<T>) => {
-    const [sortState, setSortState] = useState<SortState | null>(null);
+    const [internalSortState, setInternalSortState] = useState<SortState | null>(null);
+    const isSortControlled = sort !== undefined;
+    const sortState = isSortControlled ? sort : internalSortState;
     const selectionGroupName = useId();
     const [internalPage, setInternalPage] = useState(defaultPage);
 
     const defaultSortKey = defaultSort?.headerKey;
     const defaultSortDirection = defaultSort?.direction;
     useEffect(() => {
+        if (isSortControlled) return;
+
         if (defaultSortKey != null && columns.some((c) => c.sortable && c.key === defaultSortKey)) {
-            setSortState({ headerKey: defaultSortKey, direction: defaultSortDirection ?? "asc" });
+            setInternalSortState({ headerKey: defaultSortKey, direction: defaultSortDirection ?? "asc" });
             return;
         }
 
         const firstSortable = columns.find((c) => c.sortable);
         if (firstSortable) {
-            setSortState({ headerKey: firstSortable.key, direction: "asc" });
+            setInternalSortState({ headerKey: firstSortable.key, direction: "asc" });
         } else {
-            setSortState(null);
+            setInternalSortState(null);
         }
-    }, [columns, defaultSortKey, defaultSortDirection]);
+    }, [columns, defaultSortKey, defaultSortDirection, isSortControlled]);
 
     const headerByKey = useMemo(() => {
         const map = new Map<string, TableColumn<T>>();
@@ -135,6 +144,7 @@ const Table = <T extends object>({
     }, [columns]);
 
     const sortedData = useMemo(() => {
+        if (isSortControlled) return data;
         if (!sortState) return data;
         const col = headerByKey.get(sortState.headerKey);
         if (!col) return data;
@@ -170,10 +180,10 @@ const Table = <T extends object>({
                 : bStr.localeCompare(aStr, undefined, { numeric: true });
         });
         return arr;
-    }, [data, sortState, headerByKey]);
+    }, [data, sortState, headerByKey, isSortControlled]);
 
     const toggleSort = (headerKey: string) => {
-        setSortState((prev) => {
+        const next = (prev: SortState | null): SortState => {
             if (!prev || prev.headerKey !== headerKey) {
                 return { headerKey, direction: "asc" };
             }
@@ -181,7 +191,13 @@ const Table = <T extends object>({
                 headerKey,
                 direction: prev.direction === "asc" ? "desc" : "asc"
             };
-        });
+        };
+
+        if (isSortControlled) {
+            onSortChange?.(next(sortState));
+        } else {
+            setInternalSortState(next);
+        }
     };
 
     const getAriaSort = (key: string, sortable?: boolean): React.AriaAttributes["aria-sort"] => {
