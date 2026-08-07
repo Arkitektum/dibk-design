@@ -61,6 +61,8 @@ export interface TableProps<T> {
     getRowId?: (row: T, index: number) => React.Key;
     selectionType?: "single" | "multiple";
     selectionLabel?: string;
+    // eslint-disable-next-line no-unused-vars
+    getSelectionLabel?: (row: T) => string;
     selectedRowId?: React.Key;
     // eslint-disable-next-line no-unused-vars
     onSelect?: (row: T) => void;
@@ -97,6 +99,7 @@ const Table = <T extends object>({
     getRowId,
     selectionType,
     selectionLabel = "Velg rad",
+    getSelectionLabel,
     selectedRowId,
     onSelect,
     selectedRowIds,
@@ -433,8 +436,9 @@ const Table = <T extends object>({
                                                     onChange={() => {
                                                         onSelect?.(row);
                                                     }}
-                                                    aria-label={selectionLabel}
-                                                />
+                                                >
+                                                    <span className={style.srOnly}>{getSelectionLabel?.(row) ?? selectionLabel}</span>
+                                                </RadioButtonInput>
                                             </span>
                                         </td>
                                     )}
@@ -459,8 +463,9 @@ const Table = <T extends object>({
                                                         });
                                                         onSelectMany(selectedRows);
                                                     }}
-                                                    aria-label={selectionLabel}
-                                                />
+                                                >
+                                                    <span className={style.srOnly}>{getSelectionLabel?.(row) ?? selectionLabel}</span>
+                                                </CheckBoxInput>
                                             </span>
                                         </td>
                                     )}
