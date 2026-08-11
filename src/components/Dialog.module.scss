@@ -58,7 +58,7 @@
     .dialogContainer {
         position: relative;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         overflow: hidden;
         width: fit-content;
         min-width: 320px;
@@ -73,6 +73,8 @@
         width: 100%;
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
     }
 
     .closeButton {
@@ -108,10 +110,19 @@
         padding-top: 24px;
         padding-right: var(--dialog-content-padding-x);
         padding-bottom: 24px;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .dialogFooter {
+        flex-shrink: 0;
+        padding: 16px var(--dialog-content-padding-x) 24px;
     }
 
     .dialogContent.noPadding {
-        .dialogBody {
+        .dialogBody,
+        .dialogFooter {
             padding: 0;
         }
     }
@@ -120,7 +131,7 @@
         .dialogContainer {
             max-width: var(--max-width, 540px);
             min-width: 748px;
-            max-height: 90vh;
+            max-height: min(90vh, 100%);
         }
         .closeButton {
             &:not(.noPadding) {
@@ -164,6 +175,10 @@
 
         .dialogBody {
             padding: 24px;
+        }
+
+        .dialogFooter {
+            padding: 16px 24px 24px;
         }
 
         &.left {
