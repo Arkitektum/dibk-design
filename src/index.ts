@@ -14,6 +14,7 @@ import DescriptionList from "./components/DescriptionList";
 import DescriptionTerm from "./components/DescriptionTerm";
 import Dialog from "./components/Dialog";
 import DragAndDropFileInput from "./components/DragAndDropFileInput";
+import DropdownButton from "./components/DropdownButton";
 import ErrorBox from "./components/ErrorBox";
 import ErrorMessage from "./components/ErrorMessage";
 import Footer from "./components/Footer";
@@ -48,6 +49,7 @@ export * from "./icons";
 export { useFieldRequirementIndicator, type RequirementIndicatorMode } from "./components/FieldRequirementIndicator";
 
 export type { BadgeVariant, BadgeProps } from "./components/Badge";
+export type { DropdownButtonItem, DropdownButtonProps } from "./components/DropdownButton";
 export type { SortState, TableColumn, TableProps } from "./components/Table";
 
 export {
@@ -66,6 +68,7 @@ export {
     DescriptionTerm,
     Dialog,
     DragAndDropFileInput,
+    DropdownButton,
     ErrorBox,
     ErrorMessage,
     FieldRequirementIndicator,
