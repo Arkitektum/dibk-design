@@ -1,0 +1,73 @@
+// Mixins
+@use "../style/abstracts/mixins/box-shadow";
+@use "../style/abstracts/mixins/transition";
+
+// Variables
+@use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/typography";
+
+.dropdownButton {
+    display: inline-block;
+
+    .chevron {
+        display: block;
+        @include transition.transition(transform 0.2s ease-in-out);
+    }
+
+    .chevronOpen {
+        transform: rotate(180deg);
+    }
+}
+
+.menu {
+    @include box-shadow.box-shadow(
+        rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+        rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+        rgba(0, 0, 0, 0.12) 0px 3px 14px 2px
+    );
+    position: fixed;
+    z-index: 1100;
+    box-sizing: border-box;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--color-background-default, colors.$color-background-default);
+    font-family: typography.$default-font;
+    font-size: 20px;
+    line-height: 23px;
+
+    li {
+        margin: 0;
+    }
+
+    .menuItem {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 16px 24px;
+        border: none;
+        background: none;
+        color: var(--color-default-text, colors.$color-default-text);
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        text-align: left;
+        text-decoration: none;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            background-color: var(--color-secondary-light, colors.$color-secondary-light);
+        }
+    }
+
+    &.small {
+        font-size: 14px;
+        line-height: 18px;
+
+        .menuItem {
+            padding: 8px 10px;
+        }
+    }
+}
