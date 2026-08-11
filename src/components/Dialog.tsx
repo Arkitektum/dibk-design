@@ -21,6 +21,7 @@ export interface DialogProps {
     modal?: boolean;
     attachTo?: "left" | "right" | "top" | "bottom" | string;
     hidden?: boolean;
+    footer?: React.ReactNode;
     children?: React.ReactNode;
 }
 
@@ -33,6 +34,7 @@ const Dialog = ({
     modal = true,
     attachTo,
     hidden = false,
+    footer,
     children
 }: DialogProps) => {
     const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null);
@@ -137,6 +139,7 @@ const Dialog = ({
                     <div className={style.dialogBody} aria-live="assertive">
                         {children}
                     </div>
+                    {footer && <div className={style.dialogFooter}>{footer}</div>}
                 </div>
             </div>
         </div>,
