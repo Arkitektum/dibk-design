@@ -30,6 +30,15 @@ export const Checked: Story = {
   },
 };
 
+export const HiddenLabel: Story = {
+  args: {
+    id: "radioButtonInput-12",
+    children: "Label only available to screen readers",
+    hideLabel: true,
+    inputValue: "value",
+  },
+};
+
 export const CheckedDisabled: Story = {
   args: {
     id: "radioButtonInput-3",
