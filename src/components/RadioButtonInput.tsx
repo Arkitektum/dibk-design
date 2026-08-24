@@ -18,6 +18,7 @@ export interface RadioButtonInputProps {
     onChange?: () => void;
     hasErrors?: boolean;
     inputValue: string;
+    hideLabel?: boolean;
     tabIndex?: number;
     children?: React.ReactNode;
     "aria-controls"?: string;
@@ -36,6 +37,7 @@ const RadioButtonInput = ({
     onChange,
     hasErrors = false,
     inputValue,
+    hideLabel = false,
     tabIndex,
     children,
     "aria-controls": ariaControls,
@@ -43,7 +45,13 @@ const RadioButtonInput = ({
     requirementIndicatorMode,
     optionalLabel
 }: RadioButtonInputProps) => {
-    const labelClassName = [style.radioButtonInput, checked && style.checked, disabled && style.disabled, hasErrors && style.hasErrors]
+    const labelClassName = [
+        style.radioButtonInput,
+        checked && style.checked,
+        disabled && style.disabled,
+        hasErrors && style.hasErrors,
+        hideLabel && style.hideLabel
+    ]
         .filter(Boolean)
         .join(" ");
 

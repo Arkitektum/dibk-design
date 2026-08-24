@@ -1,5 +1,6 @@
 // Dependencies
 import type React from "react";
+import { useEffect, useRef } from "react";
 
 // Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
@@ -11,6 +12,7 @@ import style from "./CheckBoxInput.module.scss";
 
 export interface CheckBoxInputProps {
     checked?: boolean;
+    indeterminate?: boolean;
     disabled?: boolean;
     required?: boolean;
     requiredGroup?: boolean;
@@ -19,6 +21,7 @@ export interface CheckBoxInputProps {
     onChange?: () => void;
     hasErrors?: boolean;
     checkmarkCharacter?: string;
+    hideLabel?: boolean;
     "aria-controls"?: string;
     "aria-describedby"?: string;
     tabIndex?: number;
@@ -30,6 +33,7 @@ export interface CheckBoxInputProps {
 
 const CheckBoxInput = ({
     checked = false,
+    indeterminate = false,
     disabled = false,
     required = false,
     requiredGroup = false,
@@ -38,6 +42,7 @@ const CheckBoxInput = ({
     onChange,
     hasErrors = false,
     checkmarkCharacter = "✔",
+    hideLabel = false,
     tabIndex = 0,
     children,
     "aria-controls": ariaControls,
@@ -46,10 +51,21 @@ const CheckBoxInput = ({
     requirementIndicatorMode,
     optionalLabel
 }: CheckBoxInputProps) => {
-    const labelClassName = [style.checkBoxInput, disabled && style.disabled, hasErrors && style.hasErrors].filter(Boolean).join(" ");
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.indeterminate = indeterminate;
+        }
+    }, [indeterminate]);
+
+    const labelClassName = [style.checkBoxInput, disabled && style.disabled, hasErrors && style.hasErrors, hideLabel && style.hideLabel]
+        .filter(Boolean)
+        .join(" ");
 
     const iconProps = {
         checked,
+        indeterminate,
         disabled,
         showBox: true,
         hasErrors,
@@ -75,7 +91,7 @@ const CheckBoxInput = ({
     return (
         <label htmlFor={id} className={labelClassName}>
             <CheckBoxIcon {...iconProps} />
-            <input {...inputProps} />
+            <input {...inputProps} ref={inputRef} />
             <span className={style.labelText}>
                 {children}
                 <FieldRequirementIndicator

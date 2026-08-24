@@ -48,6 +48,25 @@
         }
     }
 
+    &.indeterminate {
+        color: var(--color-primary, colors.$color-primary);
+        &.hasErrors {
+            color: var(--color-error, colors.$color-error);
+        }
+
+        .checkmark {
+            width: 100%;
+            height: 100%;
+            line-height: 1;
+        }
+    }
+
+    .indeterminateMark {
+        width: 50%;
+        height: 50%;
+        background: currentColor;
+    }
+
     &.disabled {
         opacity: 0.4;
         background: rgba(0, 0, 0, 0.25);

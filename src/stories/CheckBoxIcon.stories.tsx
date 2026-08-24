@@ -21,6 +21,12 @@ export const Checked: Story = {
   },
 };
 
+export const Indeterminate: Story = {
+  args: {
+    indeterminate: true,
+  },
+};
+
 export const CheckedCustomCheckmark: Story = {
   args: {
     checked: true,

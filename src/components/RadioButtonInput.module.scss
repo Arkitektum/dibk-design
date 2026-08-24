@@ -1,8 +1,12 @@
+// Mixins
+@use "../style/abstracts/mixins/box-shadow";
+
 // Variables
 @use "../style/abstracts/variables/colors";
 
 .radioButtonInput {
-    display: flex;
+    display: inline-flex;
+    vertical-align: middle;
     align-items: center;
     border: 1px solid transparent;
     border-radius: 100%;
@@ -20,6 +24,14 @@
         input {
             cursor: pointer;
         }
+
+        &:hover > span:first-child {
+            @include box-shadow.box-shadow(0 0 0 2px var(--color-form-element, colors.$color-form-element));
+        }
+
+        &.hasErrors:hover > span:first-child {
+            @include box-shadow.box-shadow(0 0 0 2px var(--color-error, colors.$color-error));
+        }
     }
 
     .labelText {
@@ -28,6 +40,23 @@
         margin-left: 0.5em;
         margin-top: 3px;
         color: var(--color-form-element, colors.$color-form-element);
+
+        &:empty {
+            margin: 0;
+        }
+    }
+
+    &.hideLabel {
+        .labelText {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     }
 
     &.disabled {
@@ -42,7 +71,7 @@
         }
     }
 
-    &:focus-within > span:first-child {
+    &:has(input:focus-visible) > span:first-child {
         outline-style: solid;
         outline-width: 2px;
         outline-color: var(--color-focus, colors.$color-focus);

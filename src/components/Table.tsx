@@ -267,6 +267,7 @@ const Table = <T extends object>({
 
     const allPageRowIds = paginatedData.map((row, i) => resolveRowId(row, i));
     const allSelected = selectionType === "multiple" && allPageRowIds.length > 0 && allPageRowIds.every((id) => selectedRowIdSet.has(id));
+    const someSelected = selectionType === "multiple" && !allSelected && allPageRowIds.some((id) => selectedRowIdSet.has(id));
 
     const selectAllId = `${selectionGroupName}-select-all`;
 
@@ -306,8 +307,14 @@ const Table = <T extends object>({
                         {selectionType && (
                             <th className={style.selectionHeader} aria-label={selectionLabel}>
                                 {selectionType === "multiple" ? (
-                                    <CheckBoxInput id={selectAllId} checked={allSelected} onChange={() => handleSelectAll()}>
-                                        <span className={style.srOnly}>Velg alle rader</span>
+                                    <CheckBoxInput
+                                        id={selectAllId}
+                                        checked={allSelected}
+                                        indeterminate={someSelected}
+                                        hideLabel
+                                        onChange={() => handleSelectAll()}
+                                    >
+                                        Velg alle rader
                                     </CheckBoxInput>
                                 ) : (
                                     <>
@@ -433,11 +440,12 @@ const Table = <T extends object>({
                                                     name={selectionGroupName}
                                                     inputValue={String(rowId)}
                                                     checked={isSelectedSingle}
+                                                    hideLabel
                                                     onChange={() => {
                                                         onSelect?.(row);
                                                     }}
                                                 >
-                                                    <span className={style.srOnly}>{getSelectionLabel?.(row) ?? selectionLabel}</span>
+                                                    {getSelectionLabel?.(row) ?? selectionLabel}
                                                 </RadioButtonInput>
                                             </span>
                                         </td>
@@ -449,6 +457,7 @@ const Table = <T extends object>({
                                                     id={selectionControlId}
                                                     value={String(rowId)}
                                                     checked={isSelectedMulti}
+                                                    hideLabel
                                                     onChange={() => {
                                                         if (!onSelectMany) return;
                                                         const nextSelected = new Set(selectedRowIdSet);
@@ -464,7 +473,7 @@ const Table = <T extends object>({
                                                         onSelectMany(selectedRows);
                                                     }}
                                                 >
-                                                    <span className={style.srOnly}>{getSelectionLabel?.(row) ?? selectionLabel}</span>
+                                                    {getSelectionLabel?.(row) ?? selectionLabel}
                                                 </CheckBoxInput>
                                             </span>
                                         </td>

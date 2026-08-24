@@ -7,6 +7,7 @@ import style from "./CheckBoxIcon.module.scss";
 export interface CheckBoxIconProps {
     size?: string;
     checked?: boolean;
+    indeterminate?: boolean;
     disabled?: boolean;
     showBox?: boolean;
     hasErrors?: boolean;
@@ -17,6 +18,7 @@ export interface CheckBoxIconProps {
 const CheckBoxIcon = ({
     size = "20px",
     checked = false,
+    indeterminate = false,
     disabled = false,
     showBox = true,
     hasErrors = false,
@@ -33,6 +35,7 @@ const CheckBoxIcon = ({
     const className = [
         style.checkBoxIcon,
         checked && style.checked,
+        indeterminate && style.indeterminate,
         disabled && style.disabled,
         showBox && style.showBox,
         hasErrors && style.hasErrors
@@ -40,18 +43,20 @@ const CheckBoxIcon = ({
         .filter(Boolean)
         .join(" ");
 
+    const renderMark = () => {
+        if (indeterminate) {
+            return <span className={style.indeterminateMark} />;
+        }
+        if (!checked) {
+            return "";
+        }
+        return checkmarkIconSrc ? <img src={checkmarkIconSrc} alt="" aria-hidden="true" className={style.checkmarkIcon} /> : checkmarkCharacter;
+    };
+
     return (
         <span className={className} style={inlineStyle}>
             <span aria-hidden className={style.checkmark}>
-                {checked ? (
-                    checkmarkIconSrc ? (
-                        <img src={checkmarkIconSrc} alt="" aria-hidden="true" className={style.checkmarkIcon} />
-                    ) : (
-                        checkmarkCharacter
-                    )
-                ) : (
-                    ""
-                )}
+                {renderMark()}
             </span>
         </span>
     );

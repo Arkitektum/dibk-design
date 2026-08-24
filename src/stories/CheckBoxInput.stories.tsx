@@ -92,6 +92,24 @@ export const HasErrorsCheckedDisabled: Story = {
   render,
 };
 
+export const Indeterminate: Story = {
+  args: {
+    id: "checkBoxInput-13",
+    children: "Label for partially selected checkbox",
+    indeterminate: true,
+  },
+  render,
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    id: "checkBoxInput-12",
+    children: "Label only available to screen readers",
+    hideLabel: true,
+  },
+  render,
+};
+
 export const Required: Story = {
   args: {
     id: "checkBoxInput-11",

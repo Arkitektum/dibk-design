@@ -1,3 +1,6 @@
+// Mixins
+@use "../style/abstracts/mixins/box-shadow";
+
 // Variables
 @use "../style/abstracts/variables/colors";
 @use "../style/abstracts/variables/typography";
@@ -124,17 +127,6 @@
     width: 1%;
     text-align: center;
     padding: 6px 8px;
-
-    // Remove default form control spacing so the standalone selectors stay centered
-    :global(.radioButtonInput),
-    :global(.checkBoxInput) {
-        margin-right: 0;
-    }
-
-    :global(.radioButtonIcon),
-    :global(.checkBoxIcon) {
-        margin-right: 0;
-    }
 }
 
 .selectionControl {
@@ -148,6 +140,10 @@
     cursor: pointer;
     &:hover {
         filter: brightness(0.97);
+
+        .selectionCell label > span:first-child {
+            @include box-shadow.box-shadow(0 0 0 2px var(--color-form-element, colors.$color-form-element));
+        }
     }
 }
 
