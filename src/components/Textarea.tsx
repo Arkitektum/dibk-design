@@ -6,9 +6,6 @@ import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./Fiel
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 
-// Helpers
-import { generateRandomString } from "../functions/generators";
-
 // Stylesheets
 import style from "./Textarea.module.scss";
 
@@ -61,8 +58,10 @@ const Textarea = ({
 }: TextareaProps) => {
     const getErrorElementId = () => `${id}-errorMessage`;
 
-    const finalValue = !value?.length && defaultValue?.length ? defaultValue : undefined;
-    const key = elementKey || `${id}-${generateRandomString(6)}`;
+    // `value` wins whenever it is provided — falling back to `defaultValue` when
+    // it happens to be empty would turn a controlled textarea into an
+    // uncontrolled one and repopulate it the moment the user clears it.
+    const valueProps = value !== undefined ? { value } : defaultValue !== undefined ? { defaultValue } : {};
 
     const styleRules: React.CSSProperties = {
         ...(width && { maxWidth: width }),
@@ -76,8 +75,7 @@ const Textarea = ({
         id,
         onChange,
         onBlur,
-        value: finalValue ? undefined : value,
-        defaultValue: finalValue || undefined,
+        ...valueProps,
         placeholder,
         rows: rows ? parseInt(rows, 10) : undefined,
         className: hasErrors ? style.hasErrors : "",
@@ -98,7 +96,7 @@ const Textarea = ({
                     requiredClassName={style.requiredSymbol}
                 />
             </Label>
-            <textarea key={key} {...textareaProps} />
+            <textarea key={elementKey || id} {...textareaProps} />
             <ErrorMessage id={getErrorElementId()} content={errorMessage} />
         </div>
     );
