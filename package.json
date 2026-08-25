@@ -26,6 +26,10 @@
 		"./dibk-design.css": "./dist/dibk-design.css"
 	},
 	"type": "module",
+	"sideEffects": [
+		"*.css",
+		"*.scss"
+	],
 	"files": [
 		"dist",
 		"README.md"
