@@ -3,6 +3,10 @@ import { MemoryRouter } from "react-router-dom";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
 
+// Published builds get the @font-face rules from dist/fonts.css; Storybook
+// renders from source, so it has to load them itself.
+import "../src/style/base/_fonts.scss";
+
 const withThemeProvider: Decorator = (Story, context) => {
   const themeKey = context.globals.theme ?? "dibk";
   const theme = customThemes[themeKey as keyof typeof customThemes];

@@ -22,6 +22,8 @@ Component documentation (Storybook): https://arkitektum.github.io/dibk-design/
     @import "dibk-design/dibk-design.css";
     ```
 
+    This pulls in `dibk-design/fonts.css` (the PP Mori `@font-face` rules) for you. Import it directly only if you load the component styles some other way, or omit it if your app supplies its own copy of the font.
+
 3.  **Use the components**
 
     ```jsx
@@ -36,10 +38,11 @@ Component documentation (Storybook): https://arkitektum.github.io/dibk-design/
 
 ## Styles & tokens
 
-In addition to `dibk-design/dibk-design.css` (component styles), the package ships two design-token entrypoints:
+In addition to `dibk-design/dibk-design.css` (component styles), the package ships:
 
 - `dibk-design/theme.css` — Tailwind-friendly theme tokens (via `@theme`)
 - `dibk-design/tokens.css` — plain CSS variables for non-Tailwind apps
+- `dibk-design/fonts.css` — the PP Mori `@font-face` rules, referencing the font files in `dibk-design/dist/fonts/`. Already imported by `dibk-design.css`.
 
 ### Use with Tailwind (recommended)
 
