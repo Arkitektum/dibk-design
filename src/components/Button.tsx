@@ -88,9 +88,11 @@ const Button = ({
         iconRight ? style.hasIconRight : null
     ]);
 
-    const buttonProps = {
+    // Props valid on every element this component can render. `href` is added
+    // by the anchor branch alone — on a <button> or <label> it would render as
+    // an invalid attribute.
+    const commonProps = {
         "aria-invalid": hasErrors || undefined,
-        href: !disabled && href?.length ? href : undefined,
         ...rest
     };
 
@@ -119,7 +121,7 @@ const Button = ({
             }
 
             return (
-                <button {...buttonProps} key={`button-${element.key}`} className={className}>
+                <button {...commonProps} key={`button-${element.key}`} className={className}>
                     {renderIcon(iconLeft)}
                     <span className={contentClassName}>{content || (element.props ? element.props.children : null)}</span>
                     {renderIcon(iconRight)}
@@ -129,11 +131,8 @@ const Button = ({
     };
 
     if (inputType === "button") {
-        // Only pass input-allowed props
-        const inputProps = { ...buttonProps };
-        delete inputProps.href;
         return (
-            <button type="button" {...buttonProps} className={className}>
+            <button type="button" {...commonProps} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -142,11 +141,13 @@ const Button = ({
     }
 
     if (inputType === "radio") {
-        const inputProps = { ...buttonProps };
-        delete inputProps.href;
         return (
             <label className={className}>
-                <input {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)} type="radio" />
+                <input
+                    {...(commonProps as React.InputHTMLAttributes<HTMLInputElement>)}
+                    type="radio"
+                    defaultChecked={defaultChecked}
+                />
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content}</span>
                 {renderIcon(iconRight)}
@@ -156,11 +157,11 @@ const Button = ({
 
     if (href?.length && !disabled) {
         // Only pass anchor-allowed props
-        const anchorProps = { ...buttonProps };
+        const anchorProps = { ...commonProps };
         // Remove 'type' if present
         if ("type" in anchorProps) delete anchorProps.type;
         return (
-            <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} className={className}>
+            <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} href={href} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -175,7 +176,7 @@ const Button = ({
     }
 
     return (
-        <button {...buttonProps} className={className}>
+        <button {...commonProps} className={className}>
             {renderIcon(iconLeft)}
             <span className={contentClassName}>{content || children}</span>
             {renderIcon(iconRight)}
