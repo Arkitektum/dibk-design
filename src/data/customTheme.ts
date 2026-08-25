@@ -46,7 +46,7 @@ const arbeidstilsynetColors = {
     primary: "#0D7168",
     primaryLight: "#4a958e" /*75%*/,
     primaryXLight: "#86b8b4" /*50%*/,
-    primaryContrast: "#ffffff",
+    defaultContrastText: "#ffffff",
     secondary: "#a0e6df",
     secondaryLight: "#d0f3ef" /*50%*/,
     secondaryXLight: "#e7f9f7" /*25%*/,
@@ -54,8 +54,11 @@ const arbeidstilsynetColors = {
     formElement: "#333",
     border: "#0D7168",
     focus: "#00C0B0",
-    defaultBackground: "#EDEEF2",
-    secondaryBackground: "#f6f7f9",
+    // These must stay spelled as the stylesheets read them
+    // (--color-background-default / --color-background-secondary); the previous
+    // defaultBackground/secondaryBackground names emitted variables nothing used.
+    backgroundDefault: "#EDEEF2",
+    backgroundSecondary: "#f6f7f9",
     success: "#13D646",
     successLight: "#c4f5d1",
     successXLight: "#e2fae8",
