@@ -515,9 +515,11 @@ const Table = <T extends object>({
                             iconLeft={<ArrowLeftIcon />}
                         />
                         <div className={style.pageList}>
-                            {pageItems.map((item) =>
+                            {pageItems.map((item, index) =>
                                 item === "..." ? (
-                                    <span key={`ellipsis-${item}`} className={style.pageEllipsis}>
+                                    // Keyed by position: a middle page renders two
+                                    // ellipses, so the value is not unique.
+                                    <span key={`ellipsis-${index}`} className={style.pageEllipsis}>
                                         ...
                                     </span>
                                 ) : (
