@@ -112,7 +112,6 @@ export const Loading: Story = {
 
     loading: true,
     pageSize: 10,
-    pageSizeOptions: [5, 10, 15],
   },
 };
 

@@ -20,20 +20,33 @@ export type SortState = {
     direction: "asc" | "desc";
 };
 
-const buildPageItems = (current: number, total: number) => {
+type PageItem = { type: "page"; page: number } | { type: "ellipsis" };
+
+const pageItem = (page: number): PageItem => ({ type: "page", page });
+const ellipsisItem: PageItem = { type: "ellipsis" };
+
+const buildPageItems = (current: number, total: number): PageItem[] => {
     if (total <= 7) {
-        return Array.from({ length: total }, (_, i) => i + 1);
+        return Array.from({ length: total }, (_, i) => pageItem(i + 1));
     }
 
     if (current <= 4) {
-        return [1, 2, 3, 4, 5, "...", total];
+        return [pageItem(1), pageItem(2), pageItem(3), pageItem(4), pageItem(5), ellipsisItem, pageItem(total)];
     }
 
     if (current >= total - 3) {
-        return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+        return [
+            pageItem(1),
+            ellipsisItem,
+            pageItem(total - 4),
+            pageItem(total - 3),
+            pageItem(total - 2),
+            pageItem(total - 1),
+            pageItem(total)
+        ];
     }
 
-    return [1, "...", current - 1, current, current + 1, "...", total];
+    return [pageItem(1), ellipsisItem, pageItem(current - 1), pageItem(current), pageItem(current + 1), ellipsisItem, pageItem(total)];
 };
 
 export type TableColumn<T> = {
@@ -89,10 +102,6 @@ export interface TableProps<T> {
     onPageChange?: (page: number) => void;
     totalCount?: number;
     totalPages?: number;
-    pageSizeOptions?: number[];
-    defaultPageSize?: number;
-    // eslint-disable-next-line no-unused-vars
-    onPageSizeChange?: (size: number) => void;
     defaultSort?: SortState;
     sort?: SortState | null;
     // eslint-disable-next-line no-unused-vars
@@ -222,14 +231,19 @@ const Table = <T extends object>({
         return sortState.direction === "asc" ? "ascending" : "descending";
     };
 
-    const resolveRowId = (row: T, index: number): React.Key => {
-        const resolved = getRowId?.(row, index);
-        if (resolved === undefined || resolved === null || resolved === "") {
-            const baseIndex = data.indexOf(row);
-            return baseIndex === -1 ? index : baseIndex;
-        }
-        return resolved;
-    };
+    // Resolved once per row rather than per lookup: the previous fallback called
+    // data.indexOf(row) for every row on every render, and again inside the
+    // data.filter() in each selection handler, making selection O(n^2).
+    const rowIdByRow = useMemo(() => {
+        const map = new Map<T, React.Key>();
+        data.forEach((row, index) => {
+            const resolved = getRowId?.(row, index);
+            map.set(row, resolved === undefined || resolved === null || resolved === "" ? index : resolved);
+        });
+        return map;
+    }, [data, getRowId]);
+
+    const resolveRowId = (row: T, fallbackIndex: number): React.Key => rowIdByRow.get(row) ?? fallbackIndex;
 
     const selectedRowIdSet = useMemo(() => {
         if (selectionType !== "multiple") return new Set<React.Key>();
@@ -516,24 +530,24 @@ const Table = <T extends object>({
                         />
                         <div className={style.pageList}>
                             {pageItems.map((item, index) =>
-                                item === "..." ? (
+                                item.type === "ellipsis" ? (
                                     // Keyed by position: a middle page renders two
-                                    // ellipses, so the value is not unique.
+                                    // ellipses, so there is no unique value to key on.
                                     <span key={`ellipsis-${index}`} className={style.pageEllipsis}>
                                         ...
                                     </span>
                                 ) : (
                                     <button
-                                        key={item}
+                                        key={item.page}
                                         type="button"
                                         className={classNameArrayToClassNameString([
                                             style.pageNumber,
-                                            item === currentPage && style.pageNumberActive
+                                            item.page === currentPage && style.pageNumberActive
                                         ])}
-                                        onClick={() => goToPage(Number(item))}
-                                        aria-current={item === currentPage ? "page" : undefined}
+                                        onClick={() => goToPage(item.page)}
+                                        aria-current={item.page === currentPage ? "page" : undefined}
                                     >
-                                        {item}
+                                        {item.page}
                                     </button>
                                 )
                             )}
