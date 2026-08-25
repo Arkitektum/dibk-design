@@ -44,13 +44,17 @@ export const getCssVariablesFromTheme = (theme?: ThemeProps, customThemeColors?:
 export const addGlobalStylesheet = (styleElementId: string, styles: string): void => {
     if (typeof document === "undefined") return;
 
+    const existing = document.getElementById(styleElementId);
+    if (existing) {
+        // Update in place — replacing the element would force the browser to
+        // re-parse and re-apply the whole stylesheet on every call.
+        if (existing.textContent !== styles) existing.textContent = styles;
+        return;
+    }
+
     const style = document.createElement("style");
     style.setAttribute("id", styleElementId);
     style.textContent = styles;
-
-    const existing = document.getElementById(styleElementId);
-    if (existing) existing.remove();
-
     document.head.appendChild(style);
 };
 
