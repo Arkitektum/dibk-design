@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
+import path from "node:path";
 import dts from "vite-plugin-dts";
 import svgr from "vite-plugin-svgr";
 
@@ -13,12 +13,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: path.resolve(import.meta.dirname, "src/index.ts"),
       formats: ["es", "cjs"],
       // The package has "type": "module", so the CommonJS bundle must use the
       // .cjs extension — with .js it would be parsed as ESM and break require().
