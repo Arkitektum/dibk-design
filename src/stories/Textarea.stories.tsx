@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
 import Textarea from "../components/Textarea";
 
 const meta: Meta<typeof Textarea> = {
@@ -110,5 +112,43 @@ export const WithCustomElementKey: Story = {
     id: "textarea14",
     value: "Textarea with key",
     elementKey: "textareaKeyHere",
+  },
+};
+
+// Interaction test: the textarea's React key used to be randomised on every
+// render, remounting the element. In controlled mode the parent re-renders on
+// each keystroke, so focus and caret were lost after the first character.
+export const KeepsFocusWhileTyping: Story = {
+  render: function Render() {
+    const [value, setValue] = useState("");
+
+    return <Textarea id="textarea-focus" label="Notes" value={value} onChange={(event) => setValue(event.target.value)} />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = canvas.getByLabelText("Notes");
+
+    await userEvent.type(textarea, "hello");
+
+    expect((textarea as HTMLTextAreaElement).value).toBe("hello");
+    expect(document.activeElement).toBe(textarea);
+  },
+};
+
+// The same element must still be in the DOM after typing — a remount would
+// replace it, which is what silently broke focus.
+export const KeepsTheSameElementWhileTyping: Story = {
+  render: function Render() {
+    const [value, setValue] = useState("");
+
+    return <Textarea id="textarea-identity" label="Identity" value={value} onChange={(event) => setValue(event.target.value)} />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const before = canvas.getByLabelText("Identity");
+
+    await userEvent.type(before, "abc");
+
+    expect(canvas.getByLabelText("Identity")).toBe(before);
   },
 };

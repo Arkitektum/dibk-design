@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
 import Table, { type TableColumn } from "../components/Table";
 
 type Person = {
@@ -242,5 +243,49 @@ export const RowClassName: StoryObj<typeof Table<ImportRow>> = {
     data: importData,
     getRowId: (row) => row.line,
     getRowClassName: (row) => (row.error ? "bg-red-50" : undefined),
+  },
+};
+
+// Interaction test: the effect resolving the default sort listed `columns` as a
+// dependency and always reset the state, so a parent re-render with an inline
+// columns array discarded the sort the reader had chosen.
+export const SortSurvivesParentRerender: Story = {
+  render: function Render() {
+    const [renderCount, setRenderCount] = useState(0);
+
+    return (
+      <>
+        <button type="button" onClick={() => setRenderCount((count) => count + 1)}>
+          Re-render parent ({renderCount})
+        </button>
+        <Table
+          // Inline on purpose: a new array identity on every parent render is
+          // what used to reset the sort.
+          columns={[
+            { key: "name", label: "Name", sortable: true, accessor: (row) => row.name },
+            { key: "age", label: "Age", sortable: true, accessor: (row) => row.age },
+          ]}
+          data={sampleData}
+        />
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const firstBodyCell = () => canvas.getAllByRole("row")[1].textContent;
+
+    // Sort by age, then flip direction, so the order differs from the default.
+    await userEvent.click(canvas.getByRole("button", { name: /Age/ }));
+    await userEvent.click(canvas.getByRole("button", { name: /Age/ }));
+
+    const sorted = firstBodyCell();
+    const sortState = canvas.getByRole("columnheader", { name: /Age/ }).getAttribute("aria-sort");
+    expect(sortState).toBe("descending");
+
+    await userEvent.click(canvas.getByRole("button", { name: /Re-render parent/ }));
+
+    expect(firstBodyCell()).toBe(sorted);
+    expect(canvas.getByRole("columnheader", { name: /Age/ }).getAttribute("aria-sort")).toBe("descending");
   },
 };
