@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 import js from "@eslint/js";
@@ -36,5 +39,6 @@ export default defineConfig([
             // and noUnusedParameters already cover this properly.
             "no-unused-vars": "off"
         }
-    }
+    },
+    ...storybook.configs["flat/recommended"]
 ]);
