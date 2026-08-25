@@ -68,3 +68,43 @@ describe("Accordion", () => {
         expect(attribute(html, "button", "aria-expanded")).toBe("true");
     });
 });
+
+describe("Accordion className handling", () => {
+    // Regression: className stayed in `rest`, and the spread came after
+    // className={...}, so a consumer class replaced every variant class.
+    it("merges a consumer className with the variant classes", () => {
+        const { html } = renderHtml(
+            <Accordion title="Title" color="success" className="my-class">
+                Body
+            </Accordion>
+        );
+        const classes = attribute(html, "div", "class") ?? "";
+
+        expect(classes).toContain("my-class");
+        expect(classes).toContain(style.accordion);
+        expect(classes).toContain(style.success);
+    });
+
+    it("keeps the variant classes when no className is given", () => {
+        const { html } = renderHtml(
+            <Accordion title="Title" color="success">
+                Body
+            </Accordion>
+        );
+        const classes = attribute(html, "div", "class") ?? "";
+
+        expect(classes).toContain(style.accordion);
+        expect(classes).toContain(style.success);
+    });
+
+    it("passes other div attributes through to the outer element", () => {
+        const { html } = renderHtml(
+            <Accordion title="Title" id="my-accordion" data-testid="probe">
+                Body
+            </Accordion>
+        );
+
+        expect(attribute(html, "div", "id")).toBe("my-accordion");
+        expect(attribute(html, "div", "data-testid")).toBe("probe");
+    });
+});

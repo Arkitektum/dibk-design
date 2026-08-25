@@ -13,7 +13,10 @@ type ButtonSize = "small" | "regular";
 export type ButtonColor = "primary" | "secondary" | "neutral";
 export type InputType = "button" | "radio";
 
-export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+// The component renders a button, an anchor, a label-wrapped radio or a
+// RouterLink depending on its props, so the attribute surface spans all four.
+// `onChange` is re-typed for the radio variant, so the button version is omitted.
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "onChange"> {
     content?: string;
     color?: ButtonColor;
     size?: ButtonSize;
@@ -31,8 +34,25 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
     children?: React.ReactNode;
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
-    // biome-ignore lint/suspicious/noExplicitAny: <any allowed>
-    [key: string]: any;
+
+    /**
+     * Native button type. Distinct from `inputType`, which selects which element
+     * is rendered. Without it a rendered <button> defaults to "submit".
+     */
+    type?: "button" | "submit" | "reset";
+
+    /** Radio variant only. */
+    checked?: boolean;
+    /** Radio variant only. Typed for HTMLElement because the same prop bag is
+     * spread onto a button, an anchor and an input. */
+    onChange?: React.FormEventHandler<HTMLElement>;
+
+    /** Anchor variant only. */
+    target?: React.HTMLAttributeAnchorTarget;
+    /** Anchor variant only. */
+    rel?: string;
+
+    [dataAttribute: `data-${string}`]: unknown;
 }
 
 const Button = ({
