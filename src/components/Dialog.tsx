@@ -23,6 +23,8 @@ export interface DialogProps {
     hidden?: boolean;
     footer?: React.ReactNode;
     children?: React.ReactNode;
+    /** Accessible name of the close button. */
+    closeButtonAriaLabel?: string;
     /** Names the dialog when it has no `title` to point at. */
     "aria-label"?: string;
     /** Overrides the name derived from `title`. */
@@ -67,6 +69,7 @@ const Dialog = ({
     hidden = false,
     footer,
     children,
+    closeButtonAriaLabel = "Lukk dialog",
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy
 }: DialogProps) => {
@@ -177,7 +180,7 @@ const Dialog = ({
                     {closeButton && (
                         <button
                             type="button"
-                            aria-label="Lukk dialog"
+                            aria-label={closeButtonAriaLabel}
                             onClick={onClickOutside}
                             className={classNameArrayToClassNameString([style.closeButton, noPadding && style.noPadding])}
                         >

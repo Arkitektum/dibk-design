@@ -83,6 +83,22 @@ export interface TableProps<T> {
     getRowId?: (row: T, index: number) => React.Key;
     selectionType?: "single" | "multiple";
     selectionLabel?: string;
+    /** Accessible name of the "select every row on this page" checkbox. */
+    selectAllLabel?: string;
+    /** Visible heading of the selection column. */
+    selectionHeaderLabel?: string;
+    /** Visible text of the previous-page button. */
+    previousPageLabel?: string;
+    /** Accessible name of the previous-page button. */
+    previousPageAriaLabel?: string;
+    /** Visible text of the next-page button. */
+    nextPageLabel?: string;
+    /** Accessible name of the next-page button. */
+    nextPageAriaLabel?: string;
+    /** Appended to a sortable column's accessible name when clicking sorts ascending. */
+    sortAscendingLabel?: string;
+    /** Appended to a sortable column's accessible name when clicking sorts descending. */
+    sortDescendingLabel?: string;
     // eslint-disable-next-line no-unused-vars
     getSelectionLabel?: (row: T) => string;
     selectedRowId?: React.Key;
@@ -117,6 +133,14 @@ const Table = <T extends object>({
     getRowId,
     selectionType,
     selectionLabel = "Velg rad",
+    selectAllLabel = "Velg alle rader",
+    selectionHeaderLabel = "Velg",
+    previousPageLabel = "Forrige",
+    previousPageAriaLabel = "Forrige side",
+    nextPageLabel = "Neste",
+    nextPageAriaLabel = "Neste side",
+    sortAscendingLabel = "sorter stigende",
+    sortDescendingLabel = "sorter synkende",
     getSelectionLabel,
     selectedRowId,
     onSelect,
@@ -341,11 +365,11 @@ const Table = <T extends object>({
                                         hideLabel
                                         onChange={() => handleSelectAll()}
                                     >
-                                        Velg alle rader
+                                        {selectAllLabel}
                                     </CheckBoxInput>
                                 ) : (
                                     <>
-                                        <span aria-hidden="true">Velg</span>
+                                        <span aria-hidden="true">{selectionHeaderLabel}</span>
                                         <span className={style.srOnly}>{selectionLabel}</span>
                                     </>
                                 )}
@@ -364,9 +388,7 @@ const Table = <T extends object>({
                                             type="button"
                                             className={`${style.thButton} ${style.sortable}`}
                                             onClick={() => toggleSort(key)}
-                                            aria-label={`${ariaLabel ?? label}: ${
-                                                isActive && isAsc ? "sorter synkende" : "sorter stigende"
-                                            }`}
+                                            aria-label={`${ariaLabel ?? label}: ${isAsc ? sortDescendingLabel : sortAscendingLabel}`}
                                         >
                                             <span className={labelClassName}>{label}</span>
                                             <span className={style.sortIndicators} aria-hidden="true">
@@ -524,8 +546,8 @@ const Table = <T extends object>({
                             className={classNameArrayToClassNameString([style.pageNavButtonPrevious, currentPage <= 1 && style.pageNavButtonHidden])}
                             onClick={() => goToPage(currentPage - 1)}
                             disabled={currentPage <= 1}
-                            aria-label="Forrige side"
-                            content="Forrige"
+                            aria-label={previousPageAriaLabel}
+                            content={previousPageLabel}
                             iconLeft={<ArrowLeftIcon />}
                         />
                         <div className={style.pageList}>
@@ -562,8 +584,8 @@ const Table = <T extends object>({
                             ])}
                             onClick={() => goToPage(currentPage + 1)}
                             disabled={currentPage >= totalPages}
-                            aria-label="Neste side"
-                            content="Neste"
+                            aria-label={nextPageAriaLabel}
+                            content={nextPageLabel}
                             iconRight={<ArrowRightIcon />}
                         />
                     </div>
