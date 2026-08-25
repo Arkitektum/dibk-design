@@ -16,7 +16,6 @@ export interface DragAndDropFileInputProps {
     id: string;
     name?: string;
     onSelectChange: () => void;
-    // eslint-disable-next-line no-unused-vars
     onDragAndDropChange: (files: FileList) => void;
     label?: string | (string | JSX.Element)[];
     subLabel?: string | (string | JSX.Element)[];

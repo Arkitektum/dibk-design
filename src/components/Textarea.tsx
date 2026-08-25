@@ -11,9 +11,7 @@ import style from "./Textarea.module.scss";
 
 export interface TextareaProps {
     id: string;
-    // eslint-disable-next-line no-unused-vars
     onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    // eslint-disable-next-line no-unused-vars
     onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
     name?: string;
     required?: boolean;

@@ -54,11 +54,8 @@ export type TableColumn<T> = {
     label: string;
     srOnlyLabel?: boolean;
     sortable?: boolean;
-    // eslint-disable-next-line no-unused-vars
     accessor?: (item: T) => string | number | null | undefined;
-    // eslint-disable-next-line no-unused-vars
     render?: (item: T) => React.ReactNode;
-    // eslint-disable-next-line no-unused-vars
     sortAccessor?: (item: T) => string | number | Date | null | undefined;
     // Optional column-level aria-label override for the sort button
     ariaLabel?: string;
@@ -79,7 +76,6 @@ export interface TableProps<T> {
 
     loading?: boolean;
     loadingAriaLabel?: string;
-    // eslint-disable-next-line no-unused-vars
     getRowId?: (row: T, index: number) => React.Key;
     selectionType?: "single" | "multiple";
     selectionLabel?: string;
@@ -99,28 +95,21 @@ export interface TableProps<T> {
     sortAscendingLabel?: string;
     /** Appended to a sortable column's accessible name when clicking sorts descending. */
     sortDescendingLabel?: string;
-    // eslint-disable-next-line no-unused-vars
     getSelectionLabel?: (row: T) => string;
     selectedRowId?: React.Key;
-    // eslint-disable-next-line no-unused-vars
     onSelect?: (row: T) => void;
     selectedRowIds?: React.Key[];
-    // eslint-disable-next-line no-unused-vars
     onSelectMany?: (rows: T[]) => void;
-    // eslint-disable-next-line no-unused-vars
     onRowClick?: (row: T) => void;
-    // eslint-disable-next-line no-unused-vars
     getRowClassName?: (row: T, index: number) => string | undefined;
     pageSize?: number;
     page?: number;
     defaultPage?: number;
-    // eslint-disable-next-line no-unused-vars
     onPageChange?: (page: number) => void;
     totalCount?: number;
     totalPages?: number;
     defaultSort?: SortState;
     sort?: SortState | null;
-    // eslint-disable-next-line no-unused-vars
     onSortChange?: (sort: SortState) => void;
 }
 

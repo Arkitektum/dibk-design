@@ -16,11 +16,8 @@ import style from "./InputField.module.scss";
 
 export interface InputFieldProps {
     id: string;
-    // eslint-disable-next-line no-unused-vars
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    // eslint-disable-next-line no-unused-vars
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    // eslint-disable-next-line no-unused-vars
     onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
     name?: string;
     type?: string;

@@ -23,7 +23,6 @@ import style from "./Tabs.module.scss";
 export interface TabsProps {
     children?: ReactNode;
     defaultIndex?: number;
-    // eslint-disable-next-line no-unused-vars
     onChange?: (nextIndex: number) => void;
     className?: string;
 }
@@ -31,7 +30,6 @@ export interface TabsProps {
 export interface TabsListProps {
     children?: ReactNode;
     activeIndex?: number;
-    // eslint-disable-next-line no-unused-vars
     setActiveIndex?: (index: number) => void;
     baseId?: string;
 }

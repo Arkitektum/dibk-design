@@ -34,7 +34,6 @@ interface SelectPropsBase {
     "aria-describedby"?: string;
     hasErrors?: boolean;
     errorMessage?: React.ReactNode;
-    // eslint-disable-next-line no-unused-vars
     formatOptionLabel?: (option: Option, meta: { context: "menu" | "value" }) => React.ReactNode;
 
     actionButtonColor?: "primary" | "secondary";
@@ -55,7 +54,6 @@ interface SelectPropsBase {
 
 export interface SingleSelectProps extends SelectPropsBase {
     multiple?: false;
-    // eslint-disable-next-line no-unused-vars
     onChange: (value: string | number) => void;
     value?: string | number;
     defaultValue?: string | number;
@@ -63,7 +61,6 @@ export interface SingleSelectProps extends SelectPropsBase {
 
 export interface MultipleSelectProps extends SelectPropsBase {
     multiple: true;
-    // eslint-disable-next-line no-unused-vars
     onChange: (value: (string | number)[]) => void;
     value?: (string | number)[];
     defaultValue?: (string | number)[];
