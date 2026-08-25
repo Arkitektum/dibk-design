@@ -118,6 +118,14 @@
             color: var(--color-primary, colors.$color-primary);
         }
     }
+    &.success {
+        background-color: var(--color-success-x-light, colors.$color-success-x-light);
+        color: var(--color-default-text, colors.$color-default-text);
+        .panel span,
+        .content {
+            color: var(--color-default-text, colors.$color-default-text);
+        }
+    }
     &.margin {
         margin-bottom: 8px;
     }
@@ -224,6 +232,10 @@
         &.bodyInfo {
             background-color: var(--color-background-info, colors.$color-background-info);
             color: var(--color-primary, colors.$color-primary);
+        }
+        &.bodySuccess {
+            background-color: var(--color-success-x-light, colors.$color-success-x-light);
+            color: var(--color-default-text, colors.$color-default-text);
         }
     }
 }

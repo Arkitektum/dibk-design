@@ -8,17 +8,18 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 // Stylesheets
 import style from "./Accordion.module.scss";
 
-type AccordionColor = "primary" | "neutral" | "secondary" | "info";
+type AccordionColor = "primary" | "neutral" | "secondary" | "info" | "success";
 type AccordionColorValue = AccordionColor | (string & {});
 
-const namedColors: AccordionColor[] = ["primary", "neutral", "secondary", "info"];
+const namedColors: AccordionColor[] = ["primary", "neutral", "secondary", "info", "success"];
 const isNamedColor = (value: string): value is AccordionColor => namedColors.includes(value as AccordionColor);
 
 const bodyColorClass: Record<AccordionColor, string> = {
     primary: style.bodyPrimary,
     neutral: style.bodyNeutral,
     secondary: style.bodySecondary,
-    info: style.bodyInfo
+    info: style.bodyInfo,
+    success: style.bodySuccess
 };
 
 export interface AccordionProps {

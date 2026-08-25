@@ -62,6 +62,15 @@ export const Info: Story = {
   render,
 };
 
+export const Success: Story = {
+  args: {
+    color: "success",
+    title: "Accordion title",
+    noMargin: false,
+  },
+  render,
+};
+
 export const CustomHexColor: Story = {
   args: {
     color: "#e8f4f8",
