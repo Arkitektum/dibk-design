@@ -45,6 +45,12 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({ svgrOptions: { exportType: "default" } }),
+    // Do not upgrade `typescript` past 6.x while this plugin is here. TS 7 is
+    // the native compiler and ships no JavaScript Compiler API, so unplugin-dts
+    // throws while this config file is being *loaded* — which breaks `build:lib`
+    // and `storybook dev` alike, and the viteFinal strip in .storybook/main.ts
+    // cannot help because the plugin has already been constructed by then.
+    // (@typescript-eslint also has no TS 7 release, so `lint:eslint` breaks too.)
     dts({
       bundleTypes: true,
       include: ["src/**/*"],
