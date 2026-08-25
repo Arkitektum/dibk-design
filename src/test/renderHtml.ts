@@ -48,7 +48,27 @@ export const hasAttribute = (html: string, tag: string, name: string): boolean =
     return opening ? new RegExp(`\\s${name}(=|\\s|>|/)`, "i").test(opening) : false;
 };
 
+/**
+ * Drops markup and keeps the text, for reading a rendered cell's contents.
+ *
+ * Not a sanitizer, and must not be used as one: it is a single pass over
+ * markup this suite generated itself. A regex such as `/<[^>]*>/g` would leave
+ * an unterminated `<td><script` intact, which is why this scans instead.
+ */
+const textOf = (markup: string): string => {
+    let text = "";
+    let insideTag = false;
+
+    for (const character of markup) {
+        if (character === "<") insideTag = true;
+        else if (character === ">") insideTag = false;
+        else if (!insideTag) text += character;
+    }
+
+    return text;
+};
+
 /** Text content of every `<td>`, in document order. */
 export const cellText = (html: string): string[] => {
-    return [...html.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((match) => match[1].replace(/<[^>]*>/g, "").trim());
+    return [...html.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((match) => textOf(match[1]).trim());
 };
