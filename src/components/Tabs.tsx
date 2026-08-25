@@ -10,6 +10,7 @@ import {
     isValidElement,
     useId,
     useMemo,
+    useRef,
     useState
 } from "react";
 
@@ -94,41 +95,60 @@ const Tabs = ({ children, defaultIndex = 0, onChange, className }: TabsProps) =>
 };
 
 const TabsList = ({ children, activeIndex = 0, setActiveIndex, baseId }: TabsListProps) => {
+    const tabListRef = useRef<HTMLDivElement>(null);
     const tabItems = useMemo(() => Children.toArray(children).filter((child) => isValidElement(child)), [children]);
 
     const tabCount = tabItems.length;
 
+    const isDisabled = (index: number) => {
+        const item = tabItems[index];
+        return isValidElement<TabProps>(item) ? Boolean(item.props.disabled) : false;
+    };
+
+    // Walks from `start` in `step` direction, wrapping, until it finds a tab the
+    // browser will accept focus on.
+    const findEnabledIndex = (start: number, step: number): number | null => {
+        for (let offset = 0; offset < tabCount; offset++) {
+            const candidate = (((start + step * offset) % tabCount) + tabCount) % tabCount;
+            if (!isDisabled(candidate)) return candidate;
+        }
+        return null;
+    };
+
     const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
         if (!setActiveIndex || tabCount === 0) return;
 
-        let nextIndex: number;
+        let nextIndex: number | null;
 
         switch (event.key) {
             case "ArrowRight":
-                event.preventDefault();
-                nextIndex = (index + 1) % tabCount;
+                nextIndex = findEnabledIndex(index + 1, 1);
                 break;
             case "ArrowLeft":
-                event.preventDefault();
-                nextIndex = (index - 1 + tabCount) % tabCount;
+                nextIndex = findEnabledIndex(index - 1, -1);
                 break;
             case "Home":
-                event.preventDefault();
-                nextIndex = 0;
+                nextIndex = findEnabledIndex(0, 1);
                 break;
             case "End":
-                event.preventDefault();
-                nextIndex = tabCount - 1;
+                nextIndex = findEnabledIndex(tabCount - 1, -1);
                 break;
             default:
                 return;
         }
 
+        if (nextIndex === null) return;
+
+        event.preventDefault();
         setActiveIndex(nextIndex);
+        // Focus has to follow the selection: the handler is bound to the tab it
+        // fires on, so leaving focus behind makes every further arrow press
+        // recompute the same target and navigation sticks.
+        tabListRef.current?.querySelectorAll<HTMLElement>('[role="tab"]')[nextIndex]?.focus();
     };
 
     return (
-        <div className={style.tabList} role="tablist">
+        <div ref={tabListRef} className={style.tabList} role="tablist">
             {tabItems.map((child, index) => {
                 if (!isValidElement<TabProps>(child)) return null;
 
@@ -169,6 +189,9 @@ const Tab = ({ children, amount, isActive, onSelect, onClick, onKeyDown, tabId, 
             type="button"
             aria-selected={isActive}
             aria-controls={panelId}
+            // Roving tabindex: one Tab stop for the whole tablist, then arrow
+            // keys move between tabs.
+            tabIndex={isActive ? 0 : -1}
             className={classNameString}
             onClick={handleClick}
             onKeyDown={handleLocalKeyDown}
