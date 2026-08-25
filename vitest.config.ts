@@ -1,42 +1,23 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { playwright } from "@vitest/browser-playwright";
-import { defineConfig, mergeConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vitest/config";
+import svgr from "vite-plugin-svgr";
 import viteConfig from "./vite.config";
 
-const dirname =
-  typeof __dirname !== "undefined"
-    ? __dirname
-    : path.dirname(fileURLToPath(import.meta.url));
-
+// Markup-level tests, rendered with react-dom/server. Deliberately kept in its
+// own config file rather than a project inside the Storybook one: importing
+// @storybook/addon-vitest pulls in storybook -> oxc-parser, whose native binding
+// is platform-specific, so a single shared config makes the fast suite
+// unrunnable anywhere the Playwright/Storybook toolchain is not installed.
+// Browser-level tests live in vitest.storybook.config.ts.
 export default defineConfig({
+  plugins: [react(), svgr({ svgrOptions: { exportType: "default" } })],
+  // Reused from the library config so CSS module class names in assertions
+  // match what the build emits.
+  css: viteConfig.css,
+  resolve: viteConfig.resolve,
   test: {
-    projects: [
-      mergeConfig(
-        viteConfig,
-        defineConfig({
-          plugins: [
-            storybookTest({
-              // The location of your Storybook config, main.js|ts
-              configDir: path.join(dirname, ".storybook"),
-              // This should match your package.json script to run Storybook
-              // The --ci flag will skip prompts and not open a browser
-              storybookScript: "pnpm storybook --ci",
-            }),
-          ],
-          test: {
-            name: "storybook",
-            browser: {
-              enabled: true,
-              provider: playwright(),
-              headless: true,
-              instances: [{ browser: "chromium" }],
-            },
-            setupFiles: ["./.storybook/vitest.setup.ts"],
-          },
-        }),
-      ),
-    ],
+    name: "unit",
+    environment: "node",
+    include: ["src/**/*.test.{ts,tsx}"],
   },
 });

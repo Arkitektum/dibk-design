@@ -51,7 +51,9 @@
 		"preview": "vite preview",
 		"serve-storybook": "serve -l 5000 ./storybook-static",
 		"storybook": "storybook dev -p 6006",
-		"test": "vitest run"
+		"test": "pnpm run test:unit && pnpm run test:stories",
+		"test:unit": "vitest run",
+		"test:stories": "vitest run --config vitest.storybook.config.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.16",
