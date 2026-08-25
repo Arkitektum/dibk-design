@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // Components
@@ -23,7 +23,38 @@ export interface DialogProps {
     hidden?: boolean;
     footer?: React.ReactNode;
     children?: React.ReactNode;
+    /** Names the dialog when it has no `title` to point at. */
+    "aria-label"?: string;
+    /** Overrides the name derived from `title`. */
+    "aria-labelledby"?: string;
 }
+
+// Nested and overlapping dialogs share one body scroll lock: the innermost to
+// close must not unlock the page while an outer dialog is still open, and
+// closing out of order must not leave the page locked forever.
+let openScrollLocks = 0;
+let overflowBeforeLock: string | null = null;
+
+const lockBodyScroll = (): (() => void) => {
+    if (typeof document === "undefined") return () => {};
+
+    if (openScrollLocks === 0) {
+        overflowBeforeLock = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+    }
+    openScrollLocks += 1;
+
+    let released = false;
+    return () => {
+        if (released) return;
+        released = true;
+        openScrollLocks -= 1;
+        if (openScrollLocks === 0) {
+            document.body.style.overflow = overflowBeforeLock ?? "";
+            overflowBeforeLock = null;
+        }
+    };
+};
 
 const Dialog = ({
     maxWidth = "none",
@@ -35,8 +66,11 @@ const Dialog = ({
     attachTo,
     hidden = false,
     footer,
-    children
+    children,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy
 }: DialogProps) => {
+    const titleId = useId();
     const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null);
     const dialogContainerRef = useRef<HTMLDivElement>(null);
     const dialogContentRef = useRef<HTMLDivElement>(null);
@@ -101,12 +135,7 @@ const Dialog = ({
             return;
         }
 
-        const previousOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-
-        return () => {
-            document.body.style.overflow = previousOverflow;
-        };
+        return lockBodyScroll();
     }, [hidden, modal]);
 
     const sideBarClassNames = attachTo && classNameArrayToClassNameString([style.isSidebar, style[attachTo]]);
@@ -118,21 +147,36 @@ const Dialog = ({
         return null;
     }
 
-    const dialogRoleProps = modal ? ({ role: "dialog", "aria-modal": "true" } as const) : ({ role: "dialog" } as const);
+    const dialogRoleProps = {
+        role: "dialog" as const,
+        "aria-modal": modal || undefined,
+        // Without a name, screen readers announce only "dialog".
+        "aria-labelledby": ariaLabelledBy ?? (title ? titleId : undefined),
+        "aria-label": ariaLabel
+    };
 
     return createPortal(
         <div className={classNameArrayToClassNameString([style.dialog, sideBarClassNames])} {...dialogRoleProps}>
+            {/* A mouse affordance only: the close button and Escape are the
+                accessible ways out, so exposing this as a second identically
+                labelled button is just noise. */}
             <button
                 type="button"
+                tabIndex={-1}
+                aria-hidden="true"
                 className={classNameArrayToClassNameString([style.backdrop, !modal && style.backdropTransparent])}
                 onClick={onClickOutside}
-                aria-label="Lukk dialog"
             />
             <div ref={dialogContainerRef} className={style.dialogContainer} style={dialogContentStyleProps}>
                 <div ref={dialogContentRef} className={classNameArrayToClassNameString([style.dialogContent, noPadding && style.noPadding])}>
-                    {title && <div className={style.dialogHeader}>{typeof title === "string" ? <Header size={2}>{title}</Header> : title}</div>}
+                    {title && (
+                        <div id={titleId} className={style.dialogHeader}>
+                            {typeof title === "string" ? <Header size={2}>{title}</Header> : title}
+                        </div>
+                    )}
                     {closeButton && (
                         <button
+                            type="button"
                             aria-label="Lukk dialog"
                             onClick={onClickOutside}
                             className={classNameArrayToClassNameString([style.closeButton, noPadding && style.noPadding])}
@@ -140,9 +184,7 @@ const Dialog = ({
                             <XSymbolIcon />
                         </button>
                     )}
-                    <div className={style.dialogBody} aria-live="assertive">
-                        {children}
-                    </div>
+                    <div className={style.dialogBody}>{children}</div>
                     {footer && <div className={style.dialogFooter}>{footer}</div>}
                 </div>
             </div>
