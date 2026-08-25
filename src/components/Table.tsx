@@ -51,6 +51,15 @@ export type TableColumn<T> = {
     ariaLabel?: string;
 };
 
+const resolveSortState = <T,>(columns: TableColumn<T>[], headerKey?: string, direction?: SortState["direction"]): SortState | null => {
+    if (headerKey != null && columns.some((column) => column.sortable && column.key === headerKey)) {
+        return { headerKey, direction: direction ?? "asc" };
+    }
+
+    const firstSortable = columns.find((column) => column.sortable);
+    return firstSortable ? { headerKey: firstSortable.key, direction: "asc" } : null;
+};
+
 export interface TableProps<T> {
     columns: TableColumn<T>[];
     data: T[];
@@ -116,28 +125,32 @@ const Table = <T extends object>({
     sort,
     onSortChange
 }: TableProps<T>) => {
-    const [internalSortState, setInternalSortState] = useState<SortState | null>(null);
+    const defaultSortKey = defaultSort?.headerKey;
+    const defaultSortDirection = defaultSort?.direction;
+
+    // Resolved during the first render so the initial paint is already sorted.
+    const [internalSortState, setInternalSortState] = useState<SortState | null>(() =>
+        resolveSortState(columns, defaultSortKey, defaultSortDirection)
+    );
     const isSortControlled = sort !== undefined;
     const sortState = isSortControlled ? sort : internalSortState;
     const selectionGroupName = useId();
     const [internalPage, setInternalPage] = useState(defaultPage);
 
-    const defaultSortKey = defaultSort?.headerKey;
-    const defaultSortDirection = defaultSort?.direction;
     useEffect(() => {
         if (isSortControlled) return;
 
-        if (defaultSortKey != null && columns.some((c) => c.sortable && c.key === defaultSortKey)) {
-            setInternalSortState({ headerKey: defaultSortKey, direction: defaultSortDirection ?? "asc" });
-            return;
-        }
-
-        const firstSortable = columns.find((c) => c.sortable);
-        if (firstSortable) {
-            setInternalSortState({ headerKey: firstSortable.key, direction: "asc" });
-        } else {
-            setInternalSortState(null);
-        }
+        // Only re-resolve when the sorted column is gone. Re-resolving on every
+        // `columns` identity change would throw away the sort the reader picked,
+        // and one parent re-render with an inline columns array is enough to
+        // change that identity. Returning `current` unchanged bails out of the
+        // state update entirely.
+        setInternalSortState((current) => {
+            if (current && columns.some((column) => column.sortable && column.key === current.headerKey)) {
+                return current;
+            }
+            return resolveSortState(columns, defaultSortKey, defaultSortDirection);
+        });
     }, [columns, defaultSortKey, defaultSortDirection, isSortControlled]);
 
     const headerByKey = useMemo(() => {
