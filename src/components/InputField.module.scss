@@ -120,11 +120,10 @@
         }
     }
     &.file {
-        label {
-            .fileInputContainer {
-                display: flex;
-                align-items: center;
-            }
+        // Not scoped to `label` — the container is a sibling of the label now.
+        .fileInputContainer {
+            display: flex;
+            align-items: center;
         }
         input {
             display: none;
