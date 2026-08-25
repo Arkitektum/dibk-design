@@ -72,6 +72,9 @@ const Button = ({
     iconLeft,
     iconRight,
     className: classNameProp,
+    // Defaults to "button": a bare <button> is type="submit" per HTML, so a
+    // Button placed inside a form used to submit it on every click.
+    type = "button",
     ...rest
 }: ButtonProps) => {
     const renderIcon = (icon: React.ReactNode) => (icon ? <span className={style.buttonIcon}>{icon}</span> : null);
@@ -141,7 +144,7 @@ const Button = ({
             }
 
             return (
-                <button {...commonProps} key={`button-${element.key}`} className={className}>
+                <button type={type} {...commonProps} key={`button-${element.key}`} className={className}>
                     {renderIcon(iconLeft)}
                     <span className={contentClassName}>{content || (element.props ? element.props.children : null)}</span>
                     {renderIcon(iconRight)}
@@ -152,7 +155,7 @@ const Button = ({
 
     if (inputType === "button") {
         return (
-            <button type="button" {...commonProps} className={className}>
+            <button type={type} {...commonProps} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -177,11 +180,8 @@ const Button = ({
 
     if (href?.length && !disabled) {
         // Only pass anchor-allowed props
-        const anchorProps = { ...commonProps };
-        // Remove 'type' if present
-        if ("type" in anchorProps) delete anchorProps.type;
         return (
-            <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} href={href} className={className}>
+            <a {...(commonProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} href={href} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -196,7 +196,7 @@ const Button = ({
     }
 
     return (
-        <button {...commonProps} className={className}>
+        <button type={type} {...commonProps} className={className}>
             {renderIcon(iconLeft)}
             <span className={contentClassName}>{content || children}</span>
             {renderIcon(iconRight)}

@@ -88,3 +88,56 @@ describe("Button", () => {
         expect(hasAttribute(html, "button", "href")).toBe(false);
     });
 });
+
+describe("Button type attribute", () => {
+    // Regression: the default branch rendered <button> with no type, which HTML
+    // treats as type="submit", so a Button inside a form submitted it on click.
+    it("defaults to type=button", () => {
+        const { html } = renderHtml(<Button content="Go" />);
+
+        expect(attribute(html, "button", "type")).toBe("button");
+    });
+
+    it("allows opting into submit", () => {
+        const { html } = renderHtml(<Button type="submit" content="Go" />);
+
+        expect(attribute(html, "button", "type")).toBe("submit");
+    });
+
+    it("allows opting into reset", () => {
+        const { html } = renderHtml(<Button type="reset" content="Go" />);
+
+        expect(attribute(html, "button", "type")).toBe("reset");
+    });
+
+    it("defaults to type=button for the explicit button variant", () => {
+        const { html } = renderHtml(<Button inputType="button" content="Go" />);
+
+        expect(attribute(html, "button", "type")).toBe("button");
+    });
+
+    it("keeps type=radio for the radio variant", () => {
+        const { html } = renderHtml(<Button inputType="radio" content="Pick" />);
+
+        expect(attribute(html, "input", "type")).toBe("radio");
+    });
+
+    it("puts no button type on the anchor variant", () => {
+        const { html } = renderHtml(<Button href="/somewhere" content="Go" />);
+
+        expect(html).toMatch(/^<a/);
+        expect(hasAttribute(html, "a", "type")).toBe(false);
+    });
+
+    it("defaults to type=button for a disabled RouterLink child", () => {
+        const { html } = renderHtml(
+            <MemoryRouter>
+                <Button disabled>
+                    <RouterLink to="/somewhere">Go</RouterLink>
+                </Button>
+            </MemoryRouter>
+        );
+
+        expect(attribute(html, "button", "type")).toBe("button");
+    });
+});
