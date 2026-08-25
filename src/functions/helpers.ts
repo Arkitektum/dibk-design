@@ -88,44 +88,90 @@ export const cloneThroughFragments = (children: ReactNode): ReactNode[] => {
 
 export const setFocusToElement = (element: HTMLElement): void => {
     if (typeof document === "undefined") return;
-    const autoFocusElement = document.createElement("button");
-    autoFocusElement.style.position = "absolute";
-    autoFocusElement.style.opacity = "0";
-    element.prepend(autoFocusElement);
-    autoFocusElement.focus();
-    autoFocusElement.remove();
+
+    const autoFocusTarget = element.querySelector<HTMLElement>("[autofocus]");
+    if (autoFocusTarget) {
+        autoFocusTarget.focus();
+        return;
+    }
+
+    // Focus the container itself rather than its first control, so assistive
+    // technology announces the whole region instead of just a button. Needs a
+    // tabindex to be programmatically focusable.
+    if (!element.hasAttribute("tabindex")) {
+        element.setAttribute("tabindex", "-1");
+    }
+    element.focus();
 };
+
+const focusableSelector = [
+    "a[href]",
+    "area[href]",
+    "button",
+    "input",
+    "select",
+    "textarea",
+    "audio[controls]",
+    "video[controls]",
+    "iframe",
+    '[contenteditable]:not([contenteditable="false"])',
+    "[tabindex]"
+].join(", ");
 
 export const getFocusableElementsInsideElement = (element: HTMLElement): HTMLElement[] => {
-    const focusableSelectors = 'button, [href], input, [tabindex="0"]';
-    return Array.from(element.querySelectorAll<HTMLElement>(focusableSelectors)).filter((el) => !!el);
+    return Array.from(element.querySelectorAll<HTMLElement>(focusableSelector)).filter((candidate) => {
+        if (candidate.hasAttribute("disabled") || candidate.getAttribute("aria-hidden") === "true") return false;
+        if (Number(candidate.getAttribute("tabindex")) < 0) return false;
+        // Cheap visibility test that, unlike offsetParent, also works for
+        // position: fixed subtrees such as a dialog.
+        return candidate.getClientRects().length > 0;
+    });
 };
 
-export const addFocusTrapInsideElement = (element: HTMLElement): void => {
+export const addFocusTrapInsideElement = (element: HTMLElement): (() => void) => {
+    if (typeof document === "undefined") return () => {};
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     setFocusToElement(element);
 
-    const focusableElements = getFocusableElementsInsideElement(element);
-    const first = focusableElements[0];
-    const last = focusableElements[focusableElements.length - 1] || first;
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key !== "Tab") return;
 
-    if (first) {
-        first.onkeydown = (event: KeyboardEvent) => {
-            if (event.key === "Tab" && event.shiftKey) {
+        // Recomputed per keypress — the contents can change while open, so a
+        // list captured up front goes stale.
+        const focusableElements = getFocusableElementsInsideElement(element);
+        if (!focusableElements.length) {
+            event.preventDefault();
+            return;
+        }
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+        const active = document.activeElement;
+
+        if (event.shiftKey) {
+            // The container is focusable too, and tabbing back off it would
+            // otherwise leave the trap.
+            if (active === first || active === element) {
                 event.preventDefault();
                 last.focus();
             }
-        };
-    }
+            return;
+        }
 
-    if (last) {
-        last.onclick = () => {
-            first?.focus();
-        };
-        last.onkeydown = (event: KeyboardEvent) => {
-            if (event.key === "Tab" && !event.shiftKey) {
-                event.preventDefault();
-                first?.focus();
-            }
-        };
-    }
+        if (active === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    };
+
+    element.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+        element.removeEventListener("keydown", handleKeyDown);
+        // Hand focus back to whatever opened the region, rather than dropping it
+        // to <body>.
+        if (previouslyFocused?.isConnected) previouslyFocused.focus();
+    };
 };

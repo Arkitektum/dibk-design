@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // Components
@@ -39,11 +39,15 @@ const Dialog = ({
 }: DialogProps) => {
     const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null);
     const dialogContainerRef = useRef<HTMLDivElement>(null);
-    const dialogContentRef = useCallback((element: HTMLDivElement | null): void => {
-        if (element) {
-            addFocusTrapInsideElement(element);
-        }
-    }, []);
+    const dialogContentRef = useRef<HTMLDivElement>(null);
+
+    // Runs once the portal content is mounted; the teardown removes the key
+    // handler and returns focus to whatever opened the dialog.
+    useEffect(() => {
+        const element = dialogContentRef.current;
+        if (!element) return;
+        return addFocusTrapInsideElement(element);
+    }, [portalElement, hidden]);
 
     useEffect(() => {
         if (hidden) {
