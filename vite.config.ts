@@ -25,7 +25,18 @@ export default defineConfig({
       fileName: (format) => (format === "es" ? "index.es.js" : "index.cjs"),
     },
     rollupOptions: {
-      external: ["react", "react/jsx-runtime", "react/jsx-dev-runtime", "react-dom", "react-router-dom"],
+      // Every package.json "dependencies" and "peerDependencies" entry belongs
+      // here — anything missing gets bundled into dist/, so consumers install a
+      // copy they never use and risk running two instances of it.
+      external: [
+        "react",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom",
+        "react-router-dom",
+        "react-select",
+        /^react-select\//,
+      ],
     },
     outDir: "dist",
     sourcemap: true,
