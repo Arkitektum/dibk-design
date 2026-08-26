@@ -1,15 +1,29 @@
 // Dependencies
-import { Children, type ReactNode, cloneElement, isValidElement } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 
 // Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
 import Header from "./Header";
 
-// Helpers
-import { cloneThroughFragments } from "../functions/helpers";
-
 // Stylesheets
 import style from "./CheckBoxList.module.scss";
+
+interface CheckBoxListContextValue {
+    compact?: boolean;
+}
+
+// Context rather than cloning the children: cloneElement only ever reached
+// direct children, so items wrapped in a component or a fragment were skipped.
+//
+// `required` is deliberately absent. CheckBoxInput resolves `required ||
+// requiredGroup` into the HTML `required` attribute, so handing it down here
+// would demand that *every* box in the group be checked — wrong for the
+// multi-select groups this component exists for. "At least one checked" cannot
+// be expressed with the required attribute and needs custom validation in
+// CheckBoxInput instead.
+const CheckBoxListContext = createContext<CheckBoxListContextValue>({});
+
+export const useCheckBoxList = () => useContext(CheckBoxListContext);
 
 export interface CheckBoxListProps {
     legend?: string;
@@ -30,24 +44,6 @@ const CheckBoxList = ({
     requirementIndicatorMode,
     optionalLabel
 }: CheckBoxListProps) => {
-    const renderChildElements = (childElements: ReactNode[]) => {
-        const flattenedChildren = cloneThroughFragments(childElements);
-
-        return flattenedChildren.map((childElement) => {
-            if (
-                isValidElement<{ requiredGroup: boolean; compact: boolean }>(childElement) &&
-                (childElement.type as { displayName?: string | undefined })?.displayName === "RadioButtonListItem"
-            ) {
-                return cloneElement(childElement, {
-                    requiredGroup: required,
-                    compact,
-                    key: `checkboxListItem-${childElement.key}`
-                });
-            }
-            return childElement;
-        });
-    };
-
     return (
         <fieldset className={style.checkBoxList}>
             {!!legend?.length && (
@@ -61,7 +57,7 @@ const CheckBoxList = ({
                     />
                 </legend>
             )}
-            {renderChildElements(Children.toArray(children))}
+            <CheckBoxListContext.Provider value={{ compact }}>{children}</CheckBoxListContext.Provider>
         </fieldset>
     );
 };

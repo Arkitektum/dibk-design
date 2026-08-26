@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 // Components
 import RadioButtonInput from "./RadioButtonInput";
+import { useRadioButtonList } from "./RadioButtonList";
 
 // Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
@@ -31,21 +32,28 @@ const RadioButtonListItem = ({
     checked = false,
     disabled = false,
     required = false,
-    requiredGroup = false,
+    requiredGroup,
     name = "",
     id,
     onChange,
-    compact = false,
+    compact,
     hasErrors = false,
     "aria-controls": ariaControls,
     "aria-describedby": ariaDescribedBy,
     children
 }: RadioButtonListItemProps) => {
+    const { compact: compactFromList, requiredGroup: requiredGroupFromList } = useRadioButtonList();
+
+    // Left undefined rather than defaulted to false, so `compact={false}` on an
+    // item inside a compact list can still opt out.
+    const isCompact = compact ?? compactFromList;
+    const isRequiredGroup = requiredGroup ?? requiredGroupFromList;
+
     const className = classNameArrayToClassNameString([
         style.radioButtonListItem,
         checked && style.checked,
         disabled && style.disabled,
-        compact && style.compact,
+        isCompact && style.compact,
         hasErrors && style.hasErrors
     ]);
 
@@ -55,7 +63,7 @@ const RadioButtonListItem = ({
         checked,
         disabled,
         required,
-        requiredGroup,
+        requiredGroup: isRequiredGroup,
         hasErrors,
         "aria-controls": ariaControls,
         "aria-describedby": ariaDescribedBy,

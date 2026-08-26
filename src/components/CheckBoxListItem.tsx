@@ -3,6 +3,7 @@ import type React from "react";
 
 // Components
 import CheckBoxInput from "./CheckBoxInput";
+import { useCheckBoxList } from "./CheckBoxList";
 
 // Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
@@ -35,7 +36,7 @@ const CheckBoxListItem = ({
     id,
     name = "",
     onChange,
-    compact = false,
+    compact,
     hasErrors = false,
     checkmarkCharacter = "✔",
     "aria-controls": ariaControls,
@@ -43,11 +44,17 @@ const CheckBoxListItem = ({
     children,
     value
 }: CheckBoxListItemProps) => {
+    const { compact: compactFromList } = useCheckBoxList();
+
+    // Left undefined rather than defaulted to false, so `compact={false}` on an
+    // item inside a compact list can still opt out.
+    const isCompact = compact ?? compactFromList;
+
     const className = classNameArrayToClassNameString([
         style.checkBoxListItem,
         checked && style.checked,
         disabled && style.disabled,
-        compact && style.compact,
+        isCompact && style.compact,
         hasErrors && style.hasErrors
     ]);
 

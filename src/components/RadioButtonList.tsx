@@ -1,15 +1,27 @@
 // Dependencies
-import { Children, type ReactNode, cloneElement, isValidElement } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 
 // Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
 import Header from "./Header";
 
-// Helpers
-import { cloneThroughFragments } from "../functions/helpers";
-
 // Stylesheets
 import style from "./RadioButtonList.module.scss";
+
+interface RadioButtonListContextValue {
+    compact?: boolean;
+    requiredGroup?: boolean;
+}
+
+// Context rather than cloning the children: cloneElement only ever reached
+// direct children, so items wrapped in a component or a fragment were skipped.
+//
+// Unlike CheckBoxList, `requiredGroup` is safe to hand down here: the HTML
+// required attribute on every input of a same-named radio group is satisfied by
+// checking any one of them.
+const RadioButtonListContext = createContext<RadioButtonListContextValue>({});
+
+export const useRadioButtonList = () => useContext(RadioButtonListContext);
 
 export interface RadioButtonListProps {
     legend?: string;
@@ -30,23 +42,6 @@ const RadioButtonList = ({
     requirementIndicatorMode,
     optionalLabel
 }: RadioButtonListProps) => {
-    const renderChildElements = (childElements: ReactNode[]) => {
-        const flattened = cloneThroughFragments(childElements);
-        return flattened.map((child) => {
-            if (
-                isValidElement<{ requiredGroup: boolean; compact?: boolean }>(child) &&
-                (child.type as { displayName?: string | undefined })?.displayName === "RadioButtonListItem"
-            ) {
-                return cloneElement(child, {
-                    requiredGroup: required,
-                    compact,
-                    key: `radioButtonListItem-${child.key}`
-                });
-            }
-            return child;
-        });
-    };
-
     return (
         <fieldset className={style.radioButtonList}>
             {!!legend?.length && (
@@ -60,7 +55,7 @@ const RadioButtonList = ({
                     />
                 </legend>
             )}
-            {renderChildElements(Children.toArray(children))}
+            <RadioButtonListContext.Provider value={{ compact, requiredGroup: required }}>{children}</RadioButtonListContext.Provider>
         </fieldset>
     );
 };
