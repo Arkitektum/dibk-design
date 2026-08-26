@@ -17,6 +17,7 @@
     .dragAndDropContainer {
         @include transition.transition(all 0.1s ease-in-out);
         border: 2px dashed var(--color-secondary, colors.$color-secondary);
+        border-radius: 20px;
         width: 100%;
         font-family: typography.$default-font;
         padding: 20px;
