@@ -69,9 +69,12 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
         requestAnimationFrame(() => focusItem(index));
     };
 
-    const close = (options?: { refocusTrigger?: boolean }) => {
+    // Closing in response to a keyboard action or a selection returns focus to
+    // the trigger. The paths where focus should stay put — an outside click, a
+    // scroll, or the trigger toggling itself — call setIsOpen(false) directly.
+    const close = () => {
         setIsOpen(false);
-        if (options?.refocusTrigger) focusTrigger();
+        focusTrigger();
     };
 
     useEffect(() => {
@@ -117,7 +120,7 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
             openAndFocusItem(-1);
         } else if (event.key === "Escape" && isOpen) {
             event.preventDefault();
-            close({ refocusTrigger: true });
+            close();
         }
     };
 
@@ -144,17 +147,19 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
                 break;
             case "Escape":
                 event.preventDefault();
-                close({ refocusTrigger: true });
+                close();
                 break;
             case "Tab":
                 event.preventDefault();
-                close({ refocusTrigger: true });
+                close();
                 break;
         }
     };
 
     const handleItemSelect = (item: DropdownButtonItem) => {
         item.onSelect?.();
+        // The selected item unmounts with the menu, so without moving focus back
+        // to the trigger it lands on <body> and keyboard users lose their place.
         close();
     };
 

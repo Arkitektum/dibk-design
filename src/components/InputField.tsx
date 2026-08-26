@@ -16,11 +16,8 @@ import style from "./InputField.module.scss";
 
 export interface InputFieldProps {
     id: string;
-    // eslint-disable-next-line no-unused-vars
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    // eslint-disable-next-line no-unused-vars
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    // eslint-disable-next-line no-unused-vars
     onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
     name?: string;
     type?: string;
@@ -114,7 +111,7 @@ const InputField = ({
     const styleRules: React.CSSProperties = width ? { maxWidth: width } : {};
     const isDateInput = type === "date" && !disabled && !readOnly;
     const isFileInput = type === "file";
-    const hasLabel = Boolean(label) || required || isFileInput;
+    const hasLabel = Boolean(label) || required;
     const hasActionButton = Boolean(actionButtonContent) && Boolean(actionButtonOnClick) && !isFileInput;
     const fileButtonContent = actionButtonContent || "Velg fil";
 
@@ -133,19 +130,6 @@ const InputField = ({
         triggerDatePicker();
         onFocus?.(event);
     };
-    const handleFileClick = () => {
-        if (!isFileInput) return;
-        if (disabled) return;
-        inputRef.current?.click();
-    };
-    const handleFileKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (!isFileInput || disabled) return;
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            inputRef.current?.click();
-        }
-    };
-
     /** Build value/defaultValue safely for the given type */
     const normalizedValueProps = (() => {
         if (isFileInput) return {};
@@ -193,7 +177,7 @@ const InputField = ({
     return (
         <div className={classNameArrayToClassNameString([style.inputField, style[type], noMargin && style.noMargin])}>
             {hasLabel && (
-                <Label htmlFor={id} srOnly={hideLabel && !isFileInput}>
+                <Label htmlFor={id} srOnly={hideLabel}>
                     {label}
                     <FieldRequirementIndicator
                         required={required}
@@ -201,28 +185,24 @@ const InputField = ({
                         optionalLabel={optionalLabel}
                         requiredClassName={style.requiredSymbol}
                     />
-                    {isFileInput && (
-                        // biome-ignore lint/a11y/useSemanticElements: <to do later sorry>
-                        <div
-                            className={style.fileInputContainer}
-                            onClick={handleFileClick}
-                            onKeyDown={handleFileKeyDown}
-                            role="button"
-                            tabIndex={disabled ? -1 : 0}
-                            aria-disabled={disabled || undefined}
-                        >
-                            <span className={style.input}>{selectedFileName}</span>
-                            <Button
-                                color={actionButtonColor}
-                                inputType="button"
-                                onClick={() => inputRef.current?.click()}
-                                content={fileButtonContent}
-                                disabled={disabled || actionButtonDisabled}
-                                aria-label={actionButtonAriaLabel}
-                            />
-                        </div>
-                    )}
                 </Label>
+            )}
+
+            {/* Outside the <label> and presentational: nesting a role="button"
+                div and a <button> inside a label gave one action three
+                overlapping click targets and two tab stops. */}
+            {isFileInput && (
+                <div className={style.fileInputContainer}>
+                    <span className={style.input}>{selectedFileName}</span>
+                    <Button
+                        color={actionButtonColor}
+                        inputType="button"
+                        onClick={() => inputRef.current?.click()}
+                        content={fileButtonContent}
+                        disabled={disabled || actionButtonDisabled}
+                        aria-label={actionButtonAriaLabel}
+                    />
+                </div>
             )}
 
             {/* note: for type="file", we don’t pass value/defaultValue */}

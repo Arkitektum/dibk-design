@@ -16,13 +16,18 @@ export interface DragAndDropFileInputProps {
     id: string;
     name?: string;
     onSelectChange: () => void;
-    // eslint-disable-next-line no-unused-vars
     onDragAndDropChange: (files: FileList) => void;
     label?: string | (string | JSX.Element)[];
     subLabel?: string | (string | JSX.Element)[];
     buttonContent?: string;
     buttonContentWhenSelectedFile?: string;
     selectedFileName?: string;
+    /** Prompt shown in the drop zone before a file is chosen. */
+    dropZoneLabel?: string;
+    /** Prefix shown before the chosen file's name. */
+    selectedFileLabel?: string;
+    /** Hint shown next to the button before a file is chosen. */
+    buttonHelpText?: string;
     hasErrors?: boolean;
     errorMessage?: string | (string | JSX.Element)[];
     required?: boolean;
@@ -42,6 +47,9 @@ const DragAndDropFileInput = ({
     buttonContent,
     buttonContentWhenSelectedFile,
     selectedFileName,
+    dropZoneLabel = "Slipp fil her",
+    selectedFileLabel = "Valgt fil:",
+    buttonHelpText = "eller klikk på knappen for å velge fil",
     hasErrors = false,
     errorMessage = "",
     required = false,
@@ -134,16 +142,16 @@ const DragAndDropFileInput = ({
                 {selectedFileName ? (
                     <div>
                         <span>
-                            <b>Valgt fil:</b> {selectedFileName}
+                            <b>{selectedFileLabel}</b> {selectedFileName}
                         </span>
                     </div>
                 ) : (
-                    <div>Slipp fil her</div>
+                    <div>{dropZoneLabel}</div>
                 )}
                 <input {...inputElementProps} ref={fileInputElementRef} type="file" onChange={onSelectChange} />
                 {buttonContent && (
                     <>
-                        <div>{selectedFileName ? "" : "eller klikk på knappen for å velge fil"}</div>
+                        <div>{selectedFileName ? "" : buttonHelpText}</div>
 
                         <Button
                             size="small"

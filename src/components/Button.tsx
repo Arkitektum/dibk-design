@@ -13,7 +13,10 @@ type ButtonSize = "small" | "regular";
 export type ButtonColor = "primary" | "secondary" | "neutral";
 export type InputType = "button" | "radio";
 
-export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+// The component renders a button, an anchor, a label-wrapped radio or a
+// RouterLink depending on its props, so the attribute surface spans all four.
+// `onChange` is re-typed for the radio variant, so the button version is omitted.
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "onChange"> {
     content?: string;
     color?: ButtonColor;
     size?: ButtonSize;
@@ -31,8 +34,25 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
     children?: React.ReactNode;
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
-    // biome-ignore lint/suspicious/noExplicitAny: <any allowed>
-    [key: string]: any;
+
+    /**
+     * Native button type. Distinct from `inputType`, which selects which element
+     * is rendered. Without it a rendered <button> defaults to "submit".
+     */
+    type?: "button" | "submit" | "reset";
+
+    /** Radio variant only. */
+    checked?: boolean;
+    /** Radio variant only. Typed for HTMLElement because the same prop bag is
+     * spread onto a button, an anchor and an input. */
+    onChange?: React.FormEventHandler<HTMLElement>;
+
+    /** Anchor variant only. */
+    target?: React.HTMLAttributeAnchorTarget;
+    /** Anchor variant only. */
+    rel?: string;
+
+    [dataAttribute: `data-${string}`]: unknown;
 }
 
 const Button = ({
@@ -52,6 +72,9 @@ const Button = ({
     iconLeft,
     iconRight,
     className: classNameProp,
+    // Defaults to "button": a bare <button> is type="submit" per HTML, so a
+    // Button placed inside a form used to submit it on every click.
+    type = "button",
     ...rest
 }: ButtonProps) => {
     const renderIcon = (icon: React.ReactNode) => (icon ? <span className={style.buttonIcon}>{icon}</span> : null);
@@ -88,9 +111,11 @@ const Button = ({
         iconRight ? style.hasIconRight : null
     ]);
 
-    const buttonProps = {
+    // Props valid on every element this component can render. `href` is added
+    // by the anchor branch alone — on a <button> or <label> it would render as
+    // an invalid attribute.
+    const commonProps = {
         "aria-invalid": hasErrors || undefined,
-        href: !disabled && href?.length ? href : undefined,
         ...rest
     };
 
@@ -119,7 +144,7 @@ const Button = ({
             }
 
             return (
-                <button {...buttonProps} key={`button-${element.key}`} className={className}>
+                <button type={type} {...commonProps} key={`button-${element.key}`} className={className}>
                     {renderIcon(iconLeft)}
                     <span className={contentClassName}>{content || (element.props ? element.props.children : null)}</span>
                     {renderIcon(iconRight)}
@@ -129,11 +154,8 @@ const Button = ({
     };
 
     if (inputType === "button") {
-        // Only pass input-allowed props
-        const inputProps = { ...buttonProps };
-        delete inputProps.href;
         return (
-            <button type="button" {...buttonProps} className={className}>
+            <button type={type} {...commonProps} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -142,11 +164,13 @@ const Button = ({
     }
 
     if (inputType === "radio") {
-        const inputProps = { ...buttonProps };
-        delete inputProps.href;
         return (
             <label className={className}>
-                <input {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)} type="radio" />
+                <input
+                    {...(commonProps as React.InputHTMLAttributes<HTMLInputElement>)}
+                    type="radio"
+                    defaultChecked={defaultChecked}
+                />
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content}</span>
                 {renderIcon(iconRight)}
@@ -156,11 +180,8 @@ const Button = ({
 
     if (href?.length && !disabled) {
         // Only pass anchor-allowed props
-        const anchorProps = { ...buttonProps };
-        // Remove 'type' if present
-        if ("type" in anchorProps) delete anchorProps.type;
         return (
-            <a {...(anchorProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} className={className}>
+            <a {...(commonProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)} href={href} className={className}>
                 {renderIcon(iconLeft)}
                 <span className={contentClassName}>{content || children}</span>
                 {renderIcon(iconRight)}
@@ -175,7 +196,7 @@ const Button = ({
     }
 
     return (
-        <button {...buttonProps} className={className}>
+        <button type={type} {...commonProps} className={className}>
             {renderIcon(iconLeft)}
             <span className={contentClassName}>{content || children}</span>
             {renderIcon(iconRight)}

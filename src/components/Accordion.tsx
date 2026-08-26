@@ -1,5 +1,5 @@
 // Dependencies
-import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 // Helpers
@@ -22,7 +22,9 @@ const bodyColorClass: Record<AccordionColor, string> = {
     success: style.bodySuccess
 };
 
-export interface AccordionProps {
+// `color` and `title` are re-typed, so the DOM versions are omitted rather than
+// merged. Remaining div attributes pass through to the outer element.
+export interface AccordionProps extends Omit<HTMLAttributes<HTMLDivElement>, "color" | "title"> {
     title?: ReactNode;
     color?: AccordionColorValue;
     bodyColor?: AccordionColorValue;
@@ -32,8 +34,7 @@ export interface AccordionProps {
     noMargin?: boolean;
     initialized?: boolean;
     children?: ReactNode;
-    // biome-ignore lint/suspicious/noExplicitAny: <any allowed>
-    [key: string]: any;
+    [dataAttribute: `data-${string}`]: unknown;
 }
 
 const RenderPanel = ({
@@ -65,6 +66,9 @@ const Accordion = ({
     noMargin = false,
     initialized: initializedProp,
     children,
+    // Destructured out of `rest`: it is merged into the computed class list
+    // below, and leaving it in would let the spread overwrite that.
+    className: classNameProp,
     ...rest
 }: AccordionProps) => {
     const [expanded, setExpanded] = useState(expandedProp);
@@ -83,7 +87,7 @@ const Accordion = ({
     }, [expandedProp]);
 
     const colorIsNamed = isNamedColor(color);
-    const className = classNameArrayToClassNameString([style.accordion, colorIsNamed && style[color], !noMargin && style.margin, rest.className]);
+    const className = classNameArrayToClassNameString([style.accordion, colorIsNamed && style[color], !noMargin && style.margin, classNameProp]);
 
     const accordionStyle: CSSProperties | undefined = colorIsNamed ? undefined : { backgroundColor: color };
 

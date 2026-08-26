@@ -42,9 +42,6 @@ import ToggleNavigationButton from "./components/ToggleNavigationButton";
 import WizardNavigation from "./components/WizardNavigation";
 import WizardNavigationStep from "./components/Step";
 
-// Stylesheets
-import "./style/base/_fonts.scss";
-
 export * from "./icons";
 export { useFieldRequirementIndicator, type RequirementIndicatorMode } from "./components/FieldRequirementIndicator";
 

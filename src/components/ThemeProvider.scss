@@ -1,7 +1,9 @@
 // Variables
+// The @font-face rules deliberately live outside this file: it is loaded with
+// ?inline and injected at runtime, so embedding the fonts here would inline
+// them as base64 in the JS bundle. They ship as dist/fonts.css instead.
 @use "../style/abstracts/variables/colors";
 @use "../style/abstracts/variables/typography";
-@use "../style/base/fonts";
 
 *,
 *::before,

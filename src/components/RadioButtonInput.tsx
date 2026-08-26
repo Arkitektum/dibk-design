@@ -70,6 +70,9 @@ const RadioButtonInput = ({
         disabled,
         required: required || requiredGroup,
         onChange,
+        // A controlled `checked` with no handler is a read-only field; saying so
+        // is what React asks for instead of warning.
+        readOnly: onChange ? undefined : true,
         tabIndex: tabIndex ?? undefined,
         "aria-controls": ariaControls,
         "aria-invalid": hasErrors ? "true" : undefined,

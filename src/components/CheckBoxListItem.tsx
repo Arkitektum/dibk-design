@@ -52,7 +52,9 @@ const CheckBoxListItem = ({
     ]);
 
     const inputProps = {
-        onChange: onChange ?? (() => {}),
+        // Passed through rather than defaulted to a no-op: a no-op handler hides
+        // from React and assistive tech that the control cannot be changed.
+        onChange,
         checked,
         disabled,
         required,

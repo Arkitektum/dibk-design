@@ -26,15 +26,14 @@ interface SelectPropsBase {
     width?: string;
     label?: React.ReactNode;
     hideLabel?: boolean;
-    keyAsContent?: boolean;
     placeholder?: string;
-    placeholderValue?: string;
+    /** Sentinel value meaning "nothing selected"; shows `placeholder` instead of the raw value. */
+    placeholderValue?: string | number;
     defaultContent?: string;
     role?: string;
     "aria-describedby"?: string;
     hasErrors?: boolean;
     errorMessage?: React.ReactNode;
-    // eslint-disable-next-line no-unused-vars
     formatOptionLabel?: (option: Option, meta: { context: "menu" | "value" }) => React.ReactNode;
 
     actionButtonColor?: "primary" | "secondary";
@@ -55,7 +54,6 @@ interface SelectPropsBase {
 
 export interface SingleSelectProps extends SelectPropsBase {
     multiple?: false;
-    // eslint-disable-next-line no-unused-vars
     onChange: (value: string | number) => void;
     value?: string | number;
     defaultValue?: string | number;
@@ -63,7 +61,6 @@ export interface SingleSelectProps extends SelectPropsBase {
 
 export interface MultipleSelectProps extends SelectPropsBase {
     multiple: true;
-    // eslint-disable-next-line no-unused-vars
     onChange: (value: (string | number)[]) => void;
     value?: (string | number)[];
     defaultValue?: (string | number)[];
@@ -79,6 +76,13 @@ type SelectOption = {
 
 const menuPortalStyles = {
     menuPortal: (base: CSSObjectWithLabel) => ({ ...base, zIndex: 1100 })
+};
+
+// Module scope keeps these component identities stable — rebuilding them per
+// render makes React unmount and remount the indicator subtrees every time.
+const selectComponents = {
+    IndicatorSeparator: () => null,
+    DropdownIndicator: () => null
 };
 
 const closeMenuOnScroll = (event: Event): boolean => {
@@ -97,6 +101,7 @@ const Select = (props: SelectProps) => {
         label = "",
         hideLabel = false,
         placeholder = "",
+        placeholderValue,
         defaultContent = "",
         role,
         "aria-describedby": ariaDescribedBy,
@@ -136,10 +141,14 @@ const Select = (props: SelectProps) => {
         return match ?? { value, label: String(value), raw: value };
     };
 
+    // The placeholder sentinel is not a real option: resolving it would render
+    // the raw sentinel as the selected label instead of showing the placeholder.
+    const isPlaceholderValue = (value: string | number) => placeholderValue !== undefined && value === placeholderValue;
+
     const toSelectValue = (value: string | number | (string | number)[] | undefined): SelectOption | SelectOption[] | null => {
         if (value === undefined) return null;
-        if (Array.isArray(value)) return value.map(getOptionByValue);
-        return getOptionByValue(value);
+        if (Array.isArray(value)) return value.filter((entry) => !isPlaceholderValue(entry)).map(getOptionByValue);
+        return isPlaceholderValue(value) ? null : getOptionByValue(value);
     };
 
     const placeholderText = placeholder || defaultContent || "";
@@ -151,10 +160,6 @@ const Select = (props: SelectProps) => {
         ...(placeholderColor ? { ["--select-placeholder" as string]: placeholderColor } : {})
     } as React.CSSProperties;
     const selectContainerStyle = hasActionButton ? undefined : containerStyle;
-    const selectComponents = {
-        IndicatorSeparator: () => null,
-        DropdownIndicator: () => null
-    };
 
     const handleChange = (nextValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
         if (isMulti) {
@@ -169,6 +174,38 @@ const Select = (props: SelectProps) => {
             props.onChange(selected.value);
         }
     };
+
+    // One instance shared by both layouts below — they differ only in the
+    // wrapper, and keeping two copies in sync has already drifted once.
+    const selectElement = (
+        <ReactSelect
+            inputId={id}
+            name={name}
+            aria-describedby={hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy}
+            aria-invalid={hasErrors || undefined}
+            aria-required={required || undefined}
+            isDisabled={disabled}
+            isMulti={isMulti}
+            isSearchable={false}
+            closeMenuOnSelect={!isMulti}
+            placeholder={placeholderText}
+            onChange={handleChange}
+            options={selectOptions}
+            menuPortalTarget={typeof document === "undefined" ? null : document.body}
+            menuPosition="fixed"
+            closeMenuOnScroll={closeMenuOnScroll}
+            styles={menuPortalStyles}
+            className={classNameArrayToClassNameString([hasErrors && style.hasErrors])}
+            classNamePrefix="reactSelect"
+            formatOptionLabel={props.formatOptionLabel ? (option, meta) => props.formatOptionLabel?.(option.raw, meta) : undefined}
+            components={selectComponents}
+            {...(props.value !== undefined
+                ? { value: toSelectValue(props.value) }
+                : props.defaultValue !== undefined
+                  ? { defaultValue: toSelectValue(props.defaultValue) }
+                  : {})}
+        />
+    );
 
     return (
         <div className={style.select}>
@@ -192,35 +229,7 @@ const Select = (props: SelectProps) => {
                     <div className={classNameArrayToClassNameString([style.selectContainer])} role={role}>
                         <span className={style.selectListArrow} />
 
-                        <ReactSelect
-                            inputId={id}
-                            name={name}
-                            aria-describedby={hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy}
-                            aria-invalid={hasErrors || undefined}
-                            aria-required={required || undefined}
-                            isDisabled={disabled}
-                            isMulti={isMulti}
-                            isSearchable={false}
-                            closeMenuOnSelect={!isMulti}
-                            placeholder={placeholderText}
-                            onChange={handleChange}
-                            options={selectOptions}
-                            menuPortalTarget={typeof document === "undefined" ? null : document.body}
-                            menuPosition="fixed"
-                            closeMenuOnScroll={closeMenuOnScroll}
-                            styles={menuPortalStyles}
-                            className={classNameArrayToClassNameString([hasErrors && style.hasErrors])}
-                            classNamePrefix="reactSelect"
-                            formatOptionLabel={props.formatOptionLabel ? (option, meta) => props.formatOptionLabel?.(option.raw, meta) : undefined}
-                            components={{
-                                ...selectComponents
-                            }}
-                            {...(props.value !== undefined
-                                ? { value: toSelectValue(props.value) }
-                                : props.defaultValue !== undefined
-                                  ? { defaultValue: toSelectValue(props.defaultValue) }
-                                  : {})}
-                        />
+                        {selectElement}
                     </div>
                     <Button
                         color={actionButtonColor}
@@ -239,35 +248,7 @@ const Select = (props: SelectProps) => {
                 <div className={classNameArrayToClassNameString([style.selectContainer])} style={selectContainerStyle} role={role}>
                     <span className={style.selectListArrow} />
 
-                    <ReactSelect
-                        inputId={id}
-                        name={name}
-                        aria-describedby={hasErrors && errorMessage ? getErrorElementId() : ariaDescribedBy}
-                        aria-invalid={hasErrors || undefined}
-                        aria-required={required || undefined}
-                        isDisabled={disabled}
-                        isMulti={isMulti}
-                        isSearchable={false}
-                        closeMenuOnSelect={!isMulti}
-                        placeholder={placeholderText}
-                        onChange={handleChange}
-                        options={selectOptions}
-                        menuPortalTarget={typeof document === "undefined" ? null : document.body}
-                        menuPosition="fixed"
-                        closeMenuOnScroll={closeMenuOnScroll}
-                        styles={menuPortalStyles}
-                        className={classNameArrayToClassNameString([hasErrors && style.hasErrors])}
-                        classNamePrefix="reactSelect"
-                        formatOptionLabel={props.formatOptionLabel ? (option, meta) => props.formatOptionLabel?.(option.raw, meta) : undefined}
-                        components={{
-                            ...selectComponents
-                        }}
-                        {...(props.value !== undefined
-                            ? { value: toSelectValue(props.value) }
-                            : props.defaultValue !== undefined
-                              ? { defaultValue: toSelectValue(props.defaultValue) }
-                              : {})}
-                    />
+                    {selectElement}
                 </div>
             )}
 

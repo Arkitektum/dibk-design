@@ -20,20 +20,33 @@ export type SortState = {
     direction: "asc" | "desc";
 };
 
-const buildPageItems = (current: number, total: number) => {
+type PageItem = { type: "page"; page: number } | { type: "ellipsis" };
+
+const pageItem = (page: number): PageItem => ({ type: "page", page });
+const ellipsisItem: PageItem = { type: "ellipsis" };
+
+const buildPageItems = (current: number, total: number): PageItem[] => {
     if (total <= 7) {
-        return Array.from({ length: total }, (_, i) => i + 1);
+        return Array.from({ length: total }, (_, i) => pageItem(i + 1));
     }
 
     if (current <= 4) {
-        return [1, 2, 3, 4, 5, "...", total];
+        return [pageItem(1), pageItem(2), pageItem(3), pageItem(4), pageItem(5), ellipsisItem, pageItem(total)];
     }
 
     if (current >= total - 3) {
-        return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+        return [
+            pageItem(1),
+            ellipsisItem,
+            pageItem(total - 4),
+            pageItem(total - 3),
+            pageItem(total - 2),
+            pageItem(total - 1),
+            pageItem(total)
+        ];
     }
 
-    return [1, "...", current - 1, current, current + 1, "...", total];
+    return [pageItem(1), ellipsisItem, pageItem(current - 1), pageItem(current), pageItem(current + 1), ellipsisItem, pageItem(total)];
 };
 
 export type TableColumn<T> = {
@@ -41,14 +54,20 @@ export type TableColumn<T> = {
     label: string;
     srOnlyLabel?: boolean;
     sortable?: boolean;
-    // eslint-disable-next-line no-unused-vars
     accessor?: (item: T) => string | number | null | undefined;
-    // eslint-disable-next-line no-unused-vars
     render?: (item: T) => React.ReactNode;
-    // eslint-disable-next-line no-unused-vars
     sortAccessor?: (item: T) => string | number | Date | null | undefined;
     // Optional column-level aria-label override for the sort button
     ariaLabel?: string;
+};
+
+const resolveSortState = <T,>(columns: TableColumn<T>[], headerKey?: string, direction?: SortState["direction"]): SortState | null => {
+    if (headerKey != null && columns.some((column) => column.sortable && column.key === headerKey)) {
+        return { headerKey, direction: direction ?? "asc" };
+    }
+
+    const firstSortable = columns.find((column) => column.sortable);
+    return firstSortable ? { headerKey: firstSortable.key, direction: "asc" } : null;
 };
 
 export interface TableProps<T> {
@@ -57,36 +76,40 @@ export interface TableProps<T> {
 
     loading?: boolean;
     loadingAriaLabel?: string;
-    // eslint-disable-next-line no-unused-vars
     getRowId?: (row: T, index: number) => React.Key;
     selectionType?: "single" | "multiple";
     selectionLabel?: string;
-    // eslint-disable-next-line no-unused-vars
+    /** Accessible name of the "select every row on this page" checkbox. */
+    selectAllLabel?: string;
+    /** Visible heading of the selection column. */
+    selectionHeaderLabel?: string;
+    /** Visible text of the previous-page button. */
+    previousPageLabel?: string;
+    /** Accessible name of the previous-page button. */
+    previousPageAriaLabel?: string;
+    /** Visible text of the next-page button. */
+    nextPageLabel?: string;
+    /** Accessible name of the next-page button. */
+    nextPageAriaLabel?: string;
+    /** Appended to a sortable column's accessible name when clicking sorts ascending. */
+    sortAscendingLabel?: string;
+    /** Appended to a sortable column's accessible name when clicking sorts descending. */
+    sortDescendingLabel?: string;
     getSelectionLabel?: (row: T) => string;
     selectedRowId?: React.Key;
-    // eslint-disable-next-line no-unused-vars
     onSelect?: (row: T) => void;
     selectedRowIds?: React.Key[];
-    // eslint-disable-next-line no-unused-vars
     onSelectMany?: (rows: T[]) => void;
-    // eslint-disable-next-line no-unused-vars
     onRowClick?: (row: T) => void;
-    // eslint-disable-next-line no-unused-vars
     getRowClassName?: (row: T, index: number) => string | undefined;
     pageSize?: number;
     page?: number;
     defaultPage?: number;
-    // eslint-disable-next-line no-unused-vars
     onPageChange?: (page: number) => void;
     totalCount?: number;
     totalPages?: number;
-    pageSizeOptions?: number[];
-    defaultPageSize?: number;
-    // eslint-disable-next-line no-unused-vars
-    onPageSizeChange?: (size: number) => void;
     defaultSort?: SortState;
     sort?: SortState | null;
-    // eslint-disable-next-line no-unused-vars
     onSortChange?: (sort: SortState) => void;
 }
 
@@ -99,6 +122,14 @@ const Table = <T extends object>({
     getRowId,
     selectionType,
     selectionLabel = "Velg rad",
+    selectAllLabel = "Velg alle rader",
+    selectionHeaderLabel = "Velg",
+    previousPageLabel = "Forrige",
+    previousPageAriaLabel = "Forrige side",
+    nextPageLabel = "Neste",
+    nextPageAriaLabel = "Neste side",
+    sortAscendingLabel = "sorter stigende",
+    sortDescendingLabel = "sorter synkende",
     getSelectionLabel,
     selectedRowId,
     onSelect,
@@ -116,28 +147,32 @@ const Table = <T extends object>({
     sort,
     onSortChange
 }: TableProps<T>) => {
-    const [internalSortState, setInternalSortState] = useState<SortState | null>(null);
+    const defaultSortKey = defaultSort?.headerKey;
+    const defaultSortDirection = defaultSort?.direction;
+
+    // Resolved during the first render so the initial paint is already sorted.
+    const [internalSortState, setInternalSortState] = useState<SortState | null>(() =>
+        resolveSortState(columns, defaultSortKey, defaultSortDirection)
+    );
     const isSortControlled = sort !== undefined;
     const sortState = isSortControlled ? sort : internalSortState;
     const selectionGroupName = useId();
     const [internalPage, setInternalPage] = useState(defaultPage);
 
-    const defaultSortKey = defaultSort?.headerKey;
-    const defaultSortDirection = defaultSort?.direction;
     useEffect(() => {
         if (isSortControlled) return;
 
-        if (defaultSortKey != null && columns.some((c) => c.sortable && c.key === defaultSortKey)) {
-            setInternalSortState({ headerKey: defaultSortKey, direction: defaultSortDirection ?? "asc" });
-            return;
-        }
-
-        const firstSortable = columns.find((c) => c.sortable);
-        if (firstSortable) {
-            setInternalSortState({ headerKey: firstSortable.key, direction: "asc" });
-        } else {
-            setInternalSortState(null);
-        }
+        // Only re-resolve when the sorted column is gone. Re-resolving on every
+        // `columns` identity change would throw away the sort the reader picked,
+        // and one parent re-render with an inline columns array is enough to
+        // change that identity. Returning `current` unchanged bails out of the
+        // state update entirely.
+        setInternalSortState((current) => {
+            if (current && columns.some((column) => column.sortable && column.key === current.headerKey)) {
+                return current;
+            }
+            return resolveSortState(columns, defaultSortKey, defaultSortDirection);
+        });
     }, [columns, defaultSortKey, defaultSortDirection, isSortControlled]);
 
     const headerByKey = useMemo(() => {
@@ -209,14 +244,19 @@ const Table = <T extends object>({
         return sortState.direction === "asc" ? "ascending" : "descending";
     };
 
-    const resolveRowId = (row: T, index: number): React.Key => {
-        const resolved = getRowId?.(row, index);
-        if (resolved === undefined || resolved === null || resolved === "") {
-            const baseIndex = data.indexOf(row);
-            return baseIndex === -1 ? index : baseIndex;
-        }
-        return resolved;
-    };
+    // Resolved once per row rather than per lookup: the previous fallback called
+    // data.indexOf(row) for every row on every render, and again inside the
+    // data.filter() in each selection handler, making selection O(n^2).
+    const rowIdByRow = useMemo(() => {
+        const map = new Map<T, React.Key>();
+        data.forEach((row, index) => {
+            const resolved = getRowId?.(row, index);
+            map.set(row, resolved === undefined || resolved === null || resolved === "" ? index : resolved);
+        });
+        return map;
+    }, [data, getRowId]);
+
+    const resolveRowId = (row: T, fallbackIndex: number): React.Key => rowIdByRow.get(row) ?? fallbackIndex;
 
     const selectedRowIdSet = useMemo(() => {
         if (selectionType !== "multiple") return new Set<React.Key>();
@@ -314,11 +354,11 @@ const Table = <T extends object>({
                                         hideLabel
                                         onChange={() => handleSelectAll()}
                                     >
-                                        Velg alle rader
+                                        {selectAllLabel}
                                     </CheckBoxInput>
                                 ) : (
                                     <>
-                                        <span aria-hidden="true">Velg</span>
+                                        <span aria-hidden="true">{selectionHeaderLabel}</span>
                                         <span className={style.srOnly}>{selectionLabel}</span>
                                     </>
                                 )}
@@ -337,9 +377,7 @@ const Table = <T extends object>({
                                             type="button"
                                             className={`${style.thButton} ${style.sortable}`}
                                             onClick={() => toggleSort(key)}
-                                            aria-label={`${ariaLabel ?? label}: ${
-                                                isActive && isAsc ? "sorter synkende" : "sorter stigende"
-                                            }`}
+                                            aria-label={`${ariaLabel ?? label}: ${isAsc ? sortDescendingLabel : sortAscendingLabel}`}
                                         >
                                             <span className={labelClassName}>{label}</span>
                                             <span className={style.sortIndicators} aria-hidden="true">
@@ -497,28 +535,30 @@ const Table = <T extends object>({
                             className={classNameArrayToClassNameString([style.pageNavButtonPrevious, currentPage <= 1 && style.pageNavButtonHidden])}
                             onClick={() => goToPage(currentPage - 1)}
                             disabled={currentPage <= 1}
-                            aria-label="Forrige side"
-                            content="Forrige"
+                            aria-label={previousPageAriaLabel}
+                            content={previousPageLabel}
                             iconLeft={<ArrowLeftIcon />}
                         />
                         <div className={style.pageList}>
-                            {pageItems.map((item) =>
-                                item === "..." ? (
-                                    <span key={`ellipsis-${item}`} className={style.pageEllipsis}>
+                            {pageItems.map((item, index) =>
+                                item.type === "ellipsis" ? (
+                                    // Keyed by position: a middle page renders two
+                                    // ellipses, so there is no unique value to key on.
+                                    <span key={`ellipsis-${index}`} className={style.pageEllipsis}>
                                         ...
                                     </span>
                                 ) : (
                                     <button
-                                        key={item}
+                                        key={item.page}
                                         type="button"
                                         className={classNameArrayToClassNameString([
                                             style.pageNumber,
-                                            item === currentPage && style.pageNumberActive
+                                            item.page === currentPage && style.pageNumberActive
                                         ])}
-                                        onClick={() => goToPage(Number(item))}
-                                        aria-current={item === currentPage ? "page" : undefined}
+                                        onClick={() => goToPage(item.page)}
+                                        aria-current={item.page === currentPage ? "page" : undefined}
                                     >
-                                        {item}
+                                        {item.page}
                                     </button>
                                 )
                             )}
@@ -533,8 +573,8 @@ const Table = <T extends object>({
                             ])}
                             onClick={() => goToPage(currentPage + 1)}
                             disabled={currentPage >= totalPages}
-                            aria-label="Neste side"
-                            content="Neste"
+                            aria-label={nextPageAriaLabel}
+                            content={nextPageLabel}
                             iconRight={<ArrowRightIcon />}
                         />
                     </div>

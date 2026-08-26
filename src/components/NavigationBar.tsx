@@ -50,7 +50,12 @@ const NavigationBar = ({
         const themeLogo = getThemeLogo(resolvedTheme);
         const themeAppName = getThemeAppName(resolvedTheme);
 
-        const alt = link && title ? "" : themeLogo && themeAppName ? `${themeAppName} logo` : "DIBK logo";
+        // Without a themeId there is no logo. Rendering the element anyway gives
+        // it src="", which makes the browser re-request the current page, and an
+        // empty link has no accessible name.
+        if (!themeLogo.length) return null;
+
+        const alt = link && title ? "" : themeAppName ? `${themeAppName} logo` : "DIBK logo";
 
         const logoElement = <img alt={alt} src={themeLogo} style={getLogoThemeStyle(resolvedTheme)} />;
 
