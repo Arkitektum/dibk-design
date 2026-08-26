@@ -156,7 +156,7 @@ const DragAndDropFileInput = ({
                         <Button
                             size="small"
                             inputType="button"
-                            color="secondary"
+                            color="primary"
                             onClick={handleAddButtonOnClick}
                             content={buttonLabel}
                             data-transaction-name={transactionName}
