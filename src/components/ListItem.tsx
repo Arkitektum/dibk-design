@@ -1,6 +1,9 @@
 // Dependencies
 import type React from "react";
 
+// Components
+import { useList } from "./List";
+
 // Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
 
@@ -12,8 +15,14 @@ export interface ListItemProps {
     children?: React.ReactNode;
 }
 
-const ListItem = ({ compact = false, children }: ListItemProps) => {
-    const className = classNameArrayToClassNameString([style.listItem, compact && style.compact]);
+const ListItem = ({ compact, children }: ListItemProps) => {
+    const { compact: compactFromList } = useList();
+
+    // Left undefined rather than defaulted to false, so `compact={false}` on an
+    // item inside a compact list can still opt out.
+    const isCompact = compact ?? compactFromList;
+
+    const className = classNameArrayToClassNameString([style.listItem, isCompact && style.compact]);
 
     return <li className={className}>{children}</li>;
 };

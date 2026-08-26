@@ -1,11 +1,20 @@
 // Dependencies
-import React, { Children, cloneElement, isValidElement } from "react";
-
-// Helpers
-import { cloneThroughFragments } from "../functions/helpers";
+import React, { createContext, useContext } from "react";
 
 // Stylesheets
 import style from "./List.module.scss";
+
+interface ListContextValue {
+    compact?: boolean;
+}
+
+// Context rather than cloning the children: cloneElement only ever reached
+// direct children, so items wrapped in a component were skipped, and it copied
+// `compact` onto *every* element child — including a plain DOM node such as a
+// <div>, which React then warns about as an unknown attribute.
+const ListContext = createContext<ListContextValue>({});
+
+export const useList = () => useContext(ListContext);
 
 export interface ListProps {
     listStyle?: string;
@@ -14,20 +23,12 @@ export interface ListProps {
     children?: React.ReactNode;
 }
 
-const List = ({ listStyle, compact = false, ordered = false, children }: ListProps) => {
-    const renderChildElements = (childElements: React.ReactNode[]) => {
-        const flattened = cloneThroughFragments(childElements);
+const List = ({ listStyle, compact, ordered = false, children }: ListProps) => {
+    const { compact: compactFromList } = useList();
 
-        return flattened.map((child) => {
-            if (isValidElement<{ compact?: boolean }>(child)) {
-                return cloneElement(child, {
-                    compact,
-                    key: `listItem-${child.key}`
-                });
-            }
-            return child;
-        });
-    };
+    // Left undefined rather than defaulted to false, so a nested list inherits
+    // compact from the list around it while `compact={false}` still opts out.
+    const isCompact = compact ?? compactFromList;
 
     const listType = ordered ? "ol" : "ul";
     const defaultStyle = ordered ? "decimal" : "disc";
@@ -36,10 +37,12 @@ const List = ({ listStyle, compact = false, ordered = false, children }: ListPro
     return React.createElement(
         listType,
         {
-            className: `${style.list} ${compact ? style.compact : ""}`,
+            className: `${style.list} ${isCompact ? style.compact : ""}`,
             style: { [styleVar]: listStyle || defaultStyle } as React.CSSProperties
         },
-        renderChildElements(Children.toArray(children))
+        // The provider renders no DOM of its own, so the <li> children stay
+        // direct children of the <ul>/<ol>.
+        <ListContext.Provider value={{ compact: isCompact }}>{children}</ListContext.Provider>
     );
 };
 

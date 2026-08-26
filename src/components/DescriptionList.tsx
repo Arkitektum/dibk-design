@@ -1,11 +1,25 @@
 // Dependencies
-import React, { Children, type ReactNode, cloneElement, isValidElement } from "react";
+import React, { type ReactNode, createContext, useContext } from "react";
 
 // Helpers
-import { classNameArrayToClassNameString, cloneThroughFragments } from "../functions/helpers";
+import { classNameArrayToClassNameString } from "../functions/helpers";
 
 // Stylesheets
 import style from "./DescriptionList.module.scss";
+
+interface DescriptionListContextValue {
+    compact?: boolean;
+    titleWidth?: string;
+}
+
+// Context rather than cloning the children: cloneElement only ever reached
+// direct children, so terms and details wrapped in a component were skipped,
+// and it copied `compact`/`titleWidth` onto *every* element child — including a
+// plain DOM node such as a <div>, which React then warns about as an unknown
+// attribute.
+const DescriptionListContext = createContext<DescriptionListContextValue>({});
+
+export const useDescriptionList = () => useContext(DescriptionListContext);
 
 export interface DescriptionListProps {
     compact?: boolean;
@@ -13,30 +27,25 @@ export interface DescriptionListProps {
     children?: ReactNode;
 }
 
-const DescriptionList = ({ compact = false, titleWidth, children }: DescriptionListProps) => {
-    const renderChildElements = (childElements: ReactNode[]) => {
-        const flattened = cloneThroughFragments(childElements);
+const DescriptionList = ({ compact, titleWidth, children }: DescriptionListProps) => {
+    const { compact: compactFromList, titleWidth: titleWidthFromList } = useDescriptionList();
 
-        return flattened.map((child) => {
-            if (isValidElement<{ compact?: boolean; titleWidth?: string }>(child)) {
-                return cloneElement(child, {
-                    compact,
-                    titleWidth,
-                    key: `descriptionListItem-${child.key}`
-                });
-            }
-            return child;
-        });
-    };
+    // Left undefined rather than defaulted to false, so a nested list inherits
+    // from the list around it while `compact={false}` still opts out.
+    const isCompact = compact ?? compactFromList;
+    const resolvedTitleWidth = titleWidth ?? titleWidthFromList;
+
     return React.createElement(
         "dl",
         {
-            className: classNameArrayToClassNameString([style.descriptionList, compact && style.compact]),
+            className: classNameArrayToClassNameString([style.descriptionList, isCompact && style.compact]),
             style: {
-                "--title-width": titleWidth || undefined
+                "--title-width": resolvedTitleWidth || undefined
             }
         },
-        renderChildElements(Children.toArray(children))
+        // The provider renders no DOM of its own, so the <dt>/<dd> children stay
+        // direct children of the <dl>.
+        <DescriptionListContext.Provider value={{ compact: isCompact, titleWidth: resolvedTitleWidth }}>{children}</DescriptionListContext.Provider>
     );
 };
 
