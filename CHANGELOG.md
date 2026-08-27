@@ -29,6 +29,36 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
+## Unreleased
+
+To be released as **11.6.0**. Every prop added here is optional and defaults to the current
+behaviour, so nothing changes for a consumer who does not opt in.
+
+### Added
+
+- **`contentOnly` is back on the remaining six components**, finishing what 11.5.0 started.
+  10.3.2 deleted it from eight; all eight have it again. Newly restored on `Textarea`,
+  `CheckBoxInput`, `CheckBoxListItem`, `RadioButtonInput`, `RadioButtonListItem` and
+  `DragAndDropFileInput`.
+- **`defaultContent` on `Textarea` and `DragAndDropFileInput`**, the text shown in
+  `contentOnly` mode when there is no value. It was removed alongside `contentOnly` and is not
+  much use without it.
+
+### Notes on the restored behaviour
+
+- **`Textarea`** keeps the line breaks in the value. It renders with `white-space: pre-wrap`,
+  where the pre-10.3.2 markup collapsed a multi-line value into a single run of text.
+- **`CheckBoxInput` and `RadioButtonInput` deliberately differ.** A read-only checkbox list
+  renders every option and has to show which are ticked, so the checkmark stays and only the
+  box goes. A radio group has one answer, so a read-only view renders just the selected option
+  and no indicator is drawn beside it. This matches the pre-10.3.2 behaviour, which looked
+  inconsistent but was not.
+- **The list items drop their card chrome.** In `contentOnly` the border, background, hover and
+  focus states and the selected-row highlight are all left off, because they read as
+  "this is clickable".
+- **`DragAndDropFileInput`** renders the chosen file name only, with no drop zone, no file
+  input and no button.
+
 ## 11.5.0 — 2026-08-27
 
 Every prop added here is optional, and the defaults reproduce current behaviour.
@@ -89,11 +119,13 @@ Every prop added here is optional, and the defaults reproduce current behaviour.
   `top` tuned to one specific control height (and a different one per breakpoint), so it drifted
   off centre whenever the height changed. It now centres itself at any height.
 
-### Still missing
+### Still missing at the time of this release
 
 `contentOnly` was removed from eight components in 10.3.2. Only `Select` and `InputField` are
 restored here. Still gone from `Textarea`, `CheckBoxInput`, `CheckBoxListItem`,
 `RadioButtonInput`, `RadioButtonListItem` and `DragAndDropFileInput`.
+
+Since addressed: the remaining six are restored in the release above.
 
 ## 11.4.1 and earlier in the 11.x line
 

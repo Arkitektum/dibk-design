@@ -127,18 +127,28 @@ quietly corrupts state — a re-selected value gets removed, a deselected one ge
 grep -rn -A 8 "<Select" src | grep -B 8 "multiple"
 ```
 
-### 3. `contentOnly` was removed, and is partly back (10.3.2, 11.5.0)
+### 3. `contentOnly` was removed, and is back (10.3.2, 11.5.0, 11.6.0)
 
 10.3.2 rewrote `Select` on top of `react-select` and deleted `contentOnly` from eight
 components, so read-only views silently started rendering as editable controls.
 
-`Select` and `InputField` have it back in 11.5.0, with the same behaviour as 10.1.1: the label,
-then a plain `<span>` holding the content, with no form control in the DOM. Prefer it over
-`disabled` for view modes — `disabled` greys the text out, implies "temporarily unavailable",
-and still renders a focusable widget.
+All eight have it back, with the same behaviour as 10.1.1: the label, then a plain `<span>`
+holding the content, with no form control in the DOM. Prefer it over `disabled` for view modes
+— `disabled` greys the text out, implies "temporarily unavailable", and still renders a
+focusable widget.
 
-Still missing from `Textarea`, `CheckBoxInput`, `CheckBoxListItem`, `RadioButtonInput`,
-`RadioButtonListItem` and `DragAndDropFileInput`.
+`Select` and `InputField` were restored in 11.5.0. `Textarea`, `CheckBoxInput`,
+`CheckBoxListItem`, `RadioButtonInput`, `RadioButtonListItem` and `DragAndDropFileInput`
+followed in 11.6.0.
+
+Two things worth knowing if you are putting `contentOnly` back into use:
+
+- `Textarea` keeps the line breaks in a multi-line value, where the pre-10.3.2 markup collapsed
+  them.
+- `CheckBoxInput` shows a bare checkmark, while `RadioButtonInput` shows no indicator at all.
+  That is deliberate rather than an oversight: a read-only checkbox list renders every option
+  and has to mark which are ticked, whereas a radio group has one answer, so a read-only view
+  renders only the selected option and a dot beside it would be noise.
 
 ```bash
 grep -rn "contentOnly" src
