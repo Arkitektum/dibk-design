@@ -63,6 +63,52 @@ describe("Select", () => {
         expect(selectedText(html)).toBe("Alpha");
     });
 
+    // Regression: matching was strict, so a value that had been through a query
+    // string or a JSON round trip missed its option and rendered the raw id as
+    // the visible label.
+    it("matches a string value against a numeric option value", () => {
+        const { html } = renderHtml(<Select id="s" label="Pick" options={[{ key: "Alpha", value: 5 }]} value="5" onChange={() => {}} />);
+
+        expect(selectedText(html)).toBe("Alpha");
+    });
+
+    it("matches a numeric value against a string option value", () => {
+        const { html } = renderHtml(<Select id="s" label="Pick" options={[{ key: "Alpha", value: "5" }]} value={5} onChange={() => {}} />);
+
+        expect(selectedText(html)).toBe("Alpha");
+    });
+
+    it("prefers an exact match over a loose one", () => {
+        const { html } = renderHtml(
+            <Select
+                id="s"
+                label="Pick"
+                options={[
+                    { key: "Numeric", value: 5 },
+                    { key: "String", value: "5" }
+                ]}
+                value="5"
+                onChange={() => {}}
+            />
+        );
+
+        expect(selectedText(html)).toBe("String");
+    });
+
+    it("treats a stringly-equal placeholderValue as the sentinel", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" placeholder="Choose one" placeholderValue="0" value={0} options={["Alpha"]} onChange={() => {}} />
+        );
+
+        expect(placeholderText(html)).toBe("Choose one");
+    });
+
+    it("still renders a genuinely unmatched value as its own label", () => {
+        const { html } = renderHtml(<Select id="s" label="Pick" options={["Alpha"]} value="Zeta" onChange={() => {}} />);
+
+        expect(selectedText(html)).toBe("Zeta");
+    });
+
     it("renders the label and links the error message", () => {
         const { html } = renderHtml(
             <Select id="s" label="Pick" options={["Alpha"]} hasErrors errorMessage="Required" onChange={() => {}} />
@@ -183,6 +229,14 @@ describe("Select contentOnly", () => {
         );
 
         expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Alpha, Beta</);
+    });
+
+    it("resolves keyAsContent through a loose value match", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" contentOnly keyAsContent options={[{ key: "Alpha", value: 5 }]} value="5" onChange={() => {}} />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Alpha</);
     });
 
     it("reads defaultValue when no value is given", () => {

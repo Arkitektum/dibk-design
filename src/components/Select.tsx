@@ -1,7 +1,7 @@
 // Dependencies
 import ReactSelect, { type CSSObjectWithLabel, type MultiValue, type SingleValue } from "react-select";
 import type React from "react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 // Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
@@ -160,14 +160,21 @@ const Select = (props: SelectProps) => {
         [options]
     );
 
+    // Exact match first, then match on the string form, so a value that has
+    // been through a query string or a JSON round trip ("5") still resolves
+    // against a numeric option value (5). Options differing only in type are
+    // therefore still distinguishable, because the exact pass runs over all of
+    // them before the loose one.
+    const findOption = (value: string | number): SelectOption | undefined =>
+        selectOptions.find((option) => option.value === value) ?? selectOptions.find((option) => String(option.value) === String(value));
+
     const getOptionByValue = (value: string | number): SelectOption => {
-        const match = selectOptions.find((opt) => opt.value === value);
-        return match ?? { value, label: String(value), raw: value };
+        return findOption(value) ?? { value, label: String(value), raw: value };
     };
 
     // The placeholder sentinel is not a real option: resolving it would render
     // the raw sentinel as the selected label instead of showing the placeholder.
-    const isPlaceholderValue = (value: string | number) => placeholderValue !== undefined && value === placeholderValue;
+    const isPlaceholderValue = (value: string | number) => placeholderValue !== undefined && String(value) === String(placeholderValue);
 
     const toSelectValue = (value: string | number | (string | number)[] | undefined): SelectOption | SelectOption[] | null => {
         if (value === undefined) return null;
@@ -190,6 +197,20 @@ const Select = (props: SelectProps) => {
         if (!entries.length) return defaultContent;
         return entries.map((entry) => (keyAsContent ? getOptionByValue(entry).label : String(entry))).join(", ");
     };
+
+    // An unmatched value falls back to rendering as its own label, so a stray id
+    // shows up as the visible option text rather than as an error. Skipped when
+    // there are no options at all, which is the normal state while they load.
+    const unmatchedValues = options.length ? selectedEntries().filter((entry) => findOption(entry) === undefined) : [];
+    const unmatchedKey = unmatchedValues.map(String).join(", ");
+
+    useEffect(() => {
+        if (process.env.NODE_ENV === "production" || !unmatchedKey) return;
+        console.warn(
+            `Select "${id}": value ${unmatchedKey} matches no option, so it renders as its own label. ` +
+                `Check that the value and the option values have the same type — a string "5" does not match a numeric option value 5.`
+        );
+    }, [id, unmatchedKey]);
 
     const placeholderText = placeholder || defaultContent || "";
     const hasActionButton = Boolean(actionButtonContent) && Boolean(actionButtonOnClick);
