@@ -66,3 +66,21 @@ export const WithLabelOnly: Story = {
     subLabel: "",
   },
 };
+
+export const ContentOnly: Story = {
+  args: {
+    ...WithoutSelectedFile.args,
+    label: "Content only",
+    contentOnly: true,
+    selectedFileName: "important-file.xml",
+  },
+};
+
+export const ContentOnlyWithDefaultContent: Story = {
+  args: {
+    ...WithoutSelectedFile.args,
+    label: "Content only (no file)",
+    contentOnly: true,
+    defaultContent: "Ingen fil valgt",
+  },
+};

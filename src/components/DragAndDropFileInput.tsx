@@ -22,6 +22,15 @@ export interface DragAndDropFileInputProps {
     buttonContent?: string;
     buttonContentWhenSelectedFile?: string;
     selectedFileName?: string;
+    /**
+     * Renders the chosen file name as static text: the label, then a plain
+     * `<span>`. No drop zone, no file input, no button and nothing focusable —
+     * for read-only and view modes, where `disabled` would wrongly imply
+     * "temporarily unavailable".
+     */
+    contentOnly?: boolean;
+    /** `contentOnly` only. Text shown when no file has been chosen. */
+    defaultContent?: string;
     /** Prompt shown in the drop zone before a file is chosen. */
     dropZoneLabel?: string;
     /** Prefix shown before the chosen file's name. */
@@ -47,6 +56,8 @@ const DragAndDropFileInput = ({
     buttonContent,
     buttonContentWhenSelectedFile,
     selectedFileName,
+    contentOnly = false,
+    defaultContent = "",
     dropZoneLabel = "Slipp fil her",
     selectedFileLabel = "Valgt fil:",
     buttonHelpText = "eller klikk på knappen for å velge fil",
@@ -123,17 +134,34 @@ const DragAndDropFileInput = ({
         };
     }, [handleDrop, highlightOn, highlightOff, preventDefaults]);
 
+    const labelElement = (
+        <Label htmlFor={id} subLabel={subLabel}>
+            {label}
+            <FieldRequirementIndicator
+                required={required}
+                mode={requirementIndicatorMode}
+                optionalLabel={optionalLabel}
+                requiredClassName={style.requiredSymbol}
+            />
+        </Label>
+    );
+
+    // Placed after the hooks, not before them, so the hook order stays the same
+    // in both modes. The drag listeners are a no-op here: their effect bails out
+    // because the drop zone it looks for is never rendered.
+    if (contentOnly) {
+        return (
+            <div className={style.dragAndDropFileInput}>
+                {labelElement}
+                <span className={style.contentOnly}>{selectedFileName || defaultContent}</span>
+                <ErrorMessage id={getErrorElementId()} content={errorMessage} />
+            </div>
+        );
+    }
+
     return (
         <div className={style.dragAndDropFileInput}>
-            <Label htmlFor={id} subLabel={subLabel}>
-                {label}
-                <FieldRequirementIndicator
-                    required={required}
-                    mode={requirementIndicatorMode}
-                    optionalLabel={optionalLabel}
-                    requiredClassName={style.requiredSymbol}
-                />
-            </Label>
+            {labelElement}
 
             <div
                 ref={containerElementRef}

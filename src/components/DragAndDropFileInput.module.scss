@@ -14,6 +14,12 @@
         margin-top: 2px;
     }
 
+    // contentOnly: takes the place of the drop zone in the layout flow, but keeps
+    // the surrounding text styles rather than mimicking a drop target.
+    .contentOnly {
+        display: block;
+    }
+
     .dragAndDropContainer {
         @include transition.transition(all 0.1s ease-in-out);
         border: 2px dashed var(--color-secondary, colors.$color-secondary);
