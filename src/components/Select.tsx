@@ -1,7 +1,7 @@
 // Dependencies
 import ReactSelect, { type CSSObjectWithLabel, type MultiValue, type SingleValue } from "react-select";
 import type React from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // Components
 import FieldRequirementIndicator, { type RequirementIndicatorMode } from "./FieldRequirementIndicator";
@@ -150,6 +150,11 @@ const Select = (props: SelectProps) => {
     const getErrorElementId = () => `${id}-errorMessage`;
     const isMulti = props.multiple === true;
 
+    // Tracked here rather than read off react-select's own
+    // `control--menu-is-open` class: the arrow sits outside the control, so CSS
+    // alone cannot reach it from that class.
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
+
     const selectOptions = useMemo(
         () =>
             options.map((option) =>
@@ -246,6 +251,8 @@ const Select = (props: SelectProps) => {
         }
     };
 
+    const arrowElement = <span className={classNameArrayToClassNameString([style.selectListArrow, menuIsOpen && style.menuIsOpen])} />;
+
     // One instance shared by both layouts below — they differ only in the
     // wrapper, and keeping two copies in sync has already drifted once.
     const selectElement = (
@@ -266,6 +273,8 @@ const Select = (props: SelectProps) => {
             closeMenuOnSelect={!isMulti}
             placeholder={placeholderText}
             onChange={handleChange}
+            onMenuOpen={() => setMenuIsOpen(true)}
+            onMenuClose={() => setMenuIsOpen(false)}
             options={selectOptions}
             menuPortalTarget={typeof document === "undefined" ? null : document.body}
             menuPosition="fixed"
@@ -318,7 +327,7 @@ const Select = (props: SelectProps) => {
                     style={containerStyle}
                 >
                     <div className={classNameArrayToClassNameString([style.selectContainer])} role={role}>
-                        <span className={style.selectListArrow} />
+                        {arrowElement}
 
                         {selectElement}
                     </div>
@@ -337,7 +346,7 @@ const Select = (props: SelectProps) => {
                 </div>
             ) : (
                 <div className={classNameArrayToClassNameString([style.selectContainer])} style={selectContainerStyle} role={role}>
-                    <span className={style.selectListArrow} />
+                    {arrowElement}
 
                     {selectElement}
                 </div>

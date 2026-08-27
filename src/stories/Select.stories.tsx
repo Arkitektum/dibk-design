@@ -273,6 +273,34 @@ export const ClearingEmitsPlaceholderValue: Story = {
   },
 };
 
+// The arrow sits outside react-select's control, so the open state is carried by a
+// class rather than by :has(.reactSelect__control--menu-is-open). A test is what
+// stops that class silently coming unwired.
+export const ArrowFlipsWhenTheMenuOpens: Story = {
+  args: {
+    id: "select-arrow-flip",
+    label: "Arrow flips on open",
+    options,
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement);
+    const arrow = canvasElement.querySelector("[class*='selectListArrow']");
+    expect(arrow).not.toBeNull();
+
+    const rotation = () => getComputedStyle(arrow as HTMLElement, "::after").transform;
+    const closed = rotation();
+
+    await userEvent.click(canvas.getByLabelText("Arrow flips on open"));
+
+    await waitFor(() => {
+      expect((arrow as HTMLElement).className).toContain("menuIsOpen");
+    });
+    await waitFor(() => {
+      expect(rotation()).not.toBe(closed);
+    });
+  },
+};
+
 // A value matching no option falls back to rendering as its own label, which reads
 // as a mangled option name rather than an error. The warning is the only signal, so
 // it needs a test -- and it cannot be a Node one, because that suite renders with

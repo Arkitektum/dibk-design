@@ -70,7 +70,17 @@ $arrow-inset-sm: 20px;
                 // Only the bottom-right corner is inked, so the visible chevron sits low in its
                 // box; lifting it slightly puts the ink, not the box, on the centre line.
                 transform: translateY(-25%) rotate(45deg);
+                @include transition.transition(transform transitions.$default-transition);
             }
+        }
+
+        // Driven by a class rather than :has(.reactSelect__control--menu-is-open), because the
+        // arrow is rendered before react-select's control and the CSS-modules transform would
+        // have to keep a :global() nested inside :has() intact for that to resolve.
+        .selectListArrow.menuIsOpen::after {
+            // Rotated past vertical so the chevron points up, with the optical nudge inverted
+            // because the inked corner now sits at the top of its box.
+            transform: translateY(25%) rotate(225deg);
         }
 
         :global(.reactSelect__control) {
