@@ -22,6 +22,15 @@ Component documentation (Storybook): https://arkitektum.github.io/dibk-design/
 
     react-router 6 is not supported from 13.0.0 onwards, because `Link` lives in `react-router-dom` there. Use 12.x if you are still on 6.
 
+    All three peers are required rather than optional, `react-router` included. The router import is static and top-level, so your bundler has to resolve it even if you never render a component that links anywhere.
+
+    **Your app and this library must resolve to one `react-router` instance.** Two instances break links in two different ways, and only one of them is loud:
+
+    - `Step` and `DropdownButton` throw `useHref() may be used only in the context of a <Router> component`, because router context is per instance.
+    - `Button` fails silently. It identifies a `<Link>` child by comparing module identity, so a `Link` from a second instance is not recognised and the button renders as a plain `<button>` with no navigation and no error.
+
+    The usual cause is a stray `react-router-dom` left in your dependencies alongside `react-router` 8. Check with `npm ls react-router` (or `pnpm why react-router`) and expect a single version.
+
 2.  **Import the component styles**
 
     All compiled component styles ship in a single CSS file that your app must import once (e.g. in your global CSS or app entry):
