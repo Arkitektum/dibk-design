@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
 import Select, {
   type MultipleSelectProps,
   type SingleSelectProps,
@@ -52,6 +53,8 @@ const meta: Meta<SelectArgs> = {
 
 export default meta;
 
+// Not StoryObj<typeof meta>: SelectArgs is a discriminated union, and resolving
+// it against the meta collapses every story's args to never.
 type Story = StoryObj<SelectArgs>;
 
 const options = ["Option 1", "Option 2", { key: "Option 3", value: "value 3" }];
@@ -218,5 +221,97 @@ export const WithActionButton: Story = {
     options,
     actionButtonContent: "Apply",
     actionButtonOnClick: () => console.log("Select action button clicked"),
+  },
+};
+
+export const Clearable: Story = {
+  args: {
+    id: "select24",
+    label: "Clearable with placeholder value",
+    placeholder: "Select from list",
+    placeholderValue: "notSelected",
+    isClearable: true,
+    value: "value 3",
+    options,
+  },
+};
+
+// Regression: placeholderValue was honoured inbound but never emitted, so a
+// consumer using a sentinel had no way back to "nothing selected".
+export const ClearingEmitsPlaceholderValue: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string | number>("value 3");
+    const [emitted, setEmitted] = useState("(nothing yet)");
+
+    return (
+      <div>
+        <Select
+          id="select-clear-emits"
+          label="Clearable"
+          placeholder="Select from list"
+          placeholderValue="notSelected"
+          isClearable
+          options={options}
+          value={value}
+          onChange={(next) => {
+            setValue(next);
+            setEmitted(String(next));
+          }}
+        />
+        <p data-testid="emitted">{emitted}</p>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByLabelText("Clearable"));
+    await userEvent.keyboard("{Backspace}");
+
+    expect(canvas.getByTestId("emitted")).toHaveTextContent("notSelected");
+    expect(canvas.getByText("Select from list")).toBeInTheDocument();
+  },
+};
+
+export const ContentOnly: Story = {
+  args: {
+    id: "select20",
+    label: "Content only (raw value)",
+    contentOnly: true,
+    value: "value 3",
+    options,
+  },
+};
+
+export const ContentOnlyWithKeyAsContent: Story = {
+  args: {
+    id: "select21",
+    label: "Content only (option key)",
+    contentOnly: true,
+    keyAsContent: true,
+    value: "value 3",
+    options,
+  },
+};
+
+export const ContentOnlyWithDefaultContent: Story = {
+  args: {
+    id: "select22",
+    label: "Content only (nothing selected)",
+    contentOnly: true,
+    defaultContent: "Ikke angitt",
+    options,
+  },
+};
+
+export const ContentOnlyMultiple: Story = {
+  args: {
+    id: "select23",
+    label: "Content only (multiple)",
+    contentOnly: true,
+    keyAsContent: true,
+    multiple: true,
+    value: ["Option 1", "value 3"],
+    options,
   },
 };
