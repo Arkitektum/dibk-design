@@ -43,7 +43,7 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
     const [isOpen, setIsOpen] = useState(false);
     const [menuPosition, setMenuPosition] = useState<MenuPosition | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const menuRef = useRef<HTMLUListElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<(HTMLElement | null)[]>([]);
     const menuId = useId();
 
@@ -126,7 +126,8 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
 
     const handleMenuKeyDown = (event: React.KeyboardEvent) => {
         const focusableItems = itemRefs.current.filter((item): item is HTMLElement => item !== null);
-        const currentIndex = focusableItems.findIndex((item) => item === document.activeElement);
+        const activeElement = document.activeElement;
+        const currentIndex = activeElement instanceof HTMLElement ? focusableItems.indexOf(activeElement) : -1;
 
         switch (event.key) {
             case "ArrowDown":
@@ -192,7 +193,11 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
             {isOpen &&
                 menuPosition &&
                 createPortal(
-                    <ul
+                    // A div rather than a ul: role="menu" replaces the list semantics
+                    // outright, which is why every item had to carry role="none" to
+                    // suppress them again. Without the list there is nothing to suppress,
+                    // and the menu items become direct children.
+                    <div
                         ref={menuRef}
                         id={menuId}
                         role="menu"
@@ -201,24 +206,22 @@ const DropdownButton = ({ content, items, color = "primary", size = "regular", d
                         style={{ top: menuPosition.top, left: menuPosition.left, minWidth: menuPosition.minWidth }}
                         onKeyDown={handleMenuKeyDown}
                     >
-                        {items.map((item, index) => (
-                            <li key={item.key} role="none">
-                                {item.to?.length ? (
-                                    <RouterLink to={item.to} {...menuItemProps(item, index)}>
-                                        {item.content}
-                                    </RouterLink>
-                                ) : item.href?.length ? (
-                                    <a href={item.href} {...menuItemProps(item, index)}>
-                                        {item.content}
-                                    </a>
-                                ) : (
-                                    <button type="button" {...menuItemProps(item, index)}>
-                                        {item.content}
-                                    </button>
-                                )}
-                            </li>
-                        ))}
-                    </ul>,
+                        {items.map((item, index) =>
+                            item.to?.length ? (
+                                <RouterLink key={item.key} to={item.to} {...menuItemProps(item, index)}>
+                                    {item.content}
+                                </RouterLink>
+                            ) : item.href?.length ? (
+                                <a key={item.key} href={item.href} {...menuItemProps(item, index)}>
+                                    {item.content}
+                                </a>
+                            ) : (
+                                <button key={item.key} type="button" {...menuItemProps(item, index)}>
+                                    {item.content}
+                                </button>
+                            )
+                        )}
+                    </div>,
                     document.body
                 )}
         </div>

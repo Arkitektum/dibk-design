@@ -30,15 +30,10 @@
     box-sizing: border-box;
     margin: 4px 0 0;
     padding: 0;
-    list-style: none;
     background-color: var(--color-background-default, colors.$color-background-default);
     font-family: typography.$default-font;
     font-size: 20px;
     line-height: 23px;
-
-    li {
-        margin: 0;
-    }
 
     .menuItem {
         display: block;
