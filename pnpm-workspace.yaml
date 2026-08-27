@@ -1,3 +1,9 @@
+# Both of these ship prebuilt native binaries as platform-specific optional dependencies, which
+# pnpm installs normally. Their install scripts only do work that is already done:
+# esbuild's swaps its JS shim for the native binary as a startup optimization, and
+# @parcel/watcher's builds from source only when no prebuild matches the platform.
+# So they stay blocked. If esbuild ever fails with "You installed esbuild for another platform
+# than the one you're currently using", that is the case where it needs true.
 allowBuilds:
-  '@parcel/watcher': set this to true or false
-  esbuild: set this to true or false
+  '@parcel/watcher': false
+  esbuild: false
