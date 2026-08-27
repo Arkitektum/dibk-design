@@ -34,6 +34,12 @@ export interface ThemeProps {
     colors?: {
         [key: string]: string;
     };
+    /**
+     * Emitted as `--size-<kebab-case-key>` custom properties on the root, so any
+     * key is accepted but only the ones a stylesheet reads have an effect.
+     *
+     * Currently honoured: `contentWidth`, which sets `Container`'s max width.
+     */
     sizes?: {
         [key: string]: string;
     };

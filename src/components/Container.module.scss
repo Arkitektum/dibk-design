@@ -7,7 +7,10 @@
     padding: 8px;
     @media (min-width: viewports.$screen-sm) {
         padding: 20px;
-        max-width: sizes.$content-width;
+        // Reads the custom property ThemeProvider emits from a theme's `sizes`, falling back to
+        // the built-in value, the same way every colour in this package is wired. Without the
+        // var() the theme option set the property and nothing ever read it.
+        max-width: var(--size-content-width, sizes.$content-width);
         &[style*="--max-width"] {
             max-width: var(--max-width);
         }

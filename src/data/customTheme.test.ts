@@ -17,10 +17,11 @@ const collectScssFiles = (dir: string, found: string[] = []): string[] => {
 };
 
 // Variables actually read through var(), not ones a stylesheet happens to define.
-const variablesReadByStylesheets = (): Set<string> => {
+const variablesReadByStylesheets = (prefix = "--color-"): Set<string> => {
     const read = new Set<string>();
+    const pattern = new RegExp(`var\\(\\s*(${prefix}[a-z0-9-]+)`, "g");
     for (const file of collectScssFiles(path.join(projectRoot, "src"))) {
-        for (const match of readFileSync(file, "utf8").matchAll(/var\(\s*(--color-[a-z0-9-]+)/g)) read.add(match[1]);
+        for (const match of readFileSync(file, "utf8").matchAll(pattern)) read.add(match[1]);
     }
     return read;
 };
@@ -56,6 +57,27 @@ describe("custom themes", () => {
         // Known exceptions: tokens defined for completeness but not consumed yet.
         const allowedUnused = new Set(["--color-info-light", "--color-primary-text", "--color-secondary-contrast"]);
         const unused = Object.keys(variables).filter((name) => !read.has(name) && !allowedUnused.has(name));
+
+        expect(unused).toEqual([]);
+    });
+});
+
+// Regression: a theme's `sizes` were emitted as --size-* custom properties that
+// no stylesheet read, so the option set the properties and changed nothing. The
+// colour equivalent of this test existed and would have caught it, but it only
+// ever looked at --color-*.
+describe("theme sizes", () => {
+    it("emits a variable for each size, kebab-cased", () => {
+        const variables = getCssVariablesFromTheme({ appName: "test", logo: "", sizes: { contentWidth: "1200px" } });
+
+        expect(variables["--size-content-width"]).toBe("1200px");
+    });
+
+    it("maps every emitted size variable to one the stylesheets read", () => {
+        const read = variablesReadByStylesheets("--size-");
+        const variables = getCssVariablesFromTheme({ appName: "test", logo: "", sizes: { contentWidth: "1200px" } });
+
+        const unused = Object.keys(variables).filter((name) => !read.has(name));
 
         expect(unused).toEqual([]);
     });
