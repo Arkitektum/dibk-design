@@ -29,10 +29,9 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
-## Unreleased
+## 11.5.0 — 2026-08-27
 
-To be released as **11.5.0** — every prop added here is optional, and the defaults reproduce
-current behaviour.
+Every prop added here is optional, and the defaults reproduce current behaviour.
 
 ### Added
 
