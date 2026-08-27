@@ -455,9 +455,14 @@ const Table = <T extends object>({
                                 // The selection control already reports its own change, and a
                                 // click on it bubbles to the row as well. Letting that through
                                 // would toggle a multiple selection twice, back to where it
-                                // started. Ignoring it here keeps the guard on the row, rather
-                                // than hanging a click handler off a presentational <span>.
-                                if (event.target instanceof Element && event.target.closest("[data-selection-cell]")) return;
+                                // started. Both the bail-out and the stopPropagation used to
+                                // live on a click handler hung off a presentational <span>;
+                                // doing it here keeps the event from escaping the table just as
+                                // that did, without making a <span> interactive.
+                                if (event.target instanceof Element && event.target.closest("[data-selection-cell]")) {
+                                    event.stopPropagation();
+                                    return;
+                                }
 
                                 if (selectionTypeIsSingle) {
                                     onSelect?.(row);

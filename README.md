@@ -66,9 +66,9 @@ Import the plain tokens instead:
 ## Migrating
 
 Two releases changed `Select` in ways that break working consumer code, and both shipped as
-minor releases without a release note. If you are upgrading across either of them, the greps
-below are the fastest way to find what needs changing. Full details in
-[CHANGELOG.md](CHANGELOG.md).
+minor releases without a release note. Items 1 to 5 below cover those and the props since
+restored. Item 6 is the one breaking change in 12.0.0. The greps are the fastest way to find
+what needs changing. Full details in [CHANGELOG.md](CHANGELOG.md).
 
 ### 1. `Select` `onChange` receives a value, not an event (9.1.0)
 
@@ -127,7 +127,7 @@ quietly corrupts state — a re-selected value gets removed, a deselected one ge
 grep -rn -A 8 "<Select" src | grep -B 8 "multiple"
 ```
 
-### 3. `contentOnly` was removed, and is back (10.3.2, 11.5.0, 11.6.0)
+### 3. `contentOnly` was removed, and is back (10.3.2, 11.5.0, 12.0.0)
 
 10.3.2 rewrote `Select` on top of `react-select` and deleted `contentOnly` from eight
 components, so read-only views silently started rendering as editable controls.
@@ -139,7 +139,7 @@ focusable widget.
 
 `Select` and `InputField` were restored in 11.5.0. `Textarea`, `CheckBoxInput`,
 `CheckBoxListItem`, `RadioButtonInput`, `RadioButtonListItem` and `DragAndDropFileInput`
-followed in 11.6.0.
+followed in 12.0.0.
 
 Two things worth knowing if you are putting `contentOnly` back into use:
 
@@ -175,6 +175,21 @@ value `5` matched nothing and rendered the raw id as the visible option label. M
 falls back to comparing string forms, and warns in development when a non-empty `value` matches
 no option at all. If you see that warning, the value and the option values have different
 types.
+
+### 6. `DropdownButton`'s menu is no longer a list (12.0.0)
+
+The menu was a `<ul role="menu">` whose items each sat in an `<li role="none">`. It is now a
+`<div role="menu">` with the items as direct children. `role="menu"` replaces a list's
+semantics outright, which is exactly why every item needed `role="none"` to suppress them
+again, so the list was doing no work.
+
+This only affects you if you style or query the dropdown's internals. Anything selecting by
+role is unchanged, since `role="menu"` and `role="menuitem"` are both still there.
+
+```bash
+# CSS or queries reaching into the dropdown's list markup
+grep -rn "menu li\|menu ul" src
+```
 
 ## Use with Next.js
 

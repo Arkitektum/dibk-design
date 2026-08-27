@@ -31,8 +31,13 @@ Two rules learned the hard way:
 
 ## Unreleased
 
-To be released as **11.6.0**. Every prop added here is optional and defaults to the current
-behaviour, so nothing changes for a consumer who does not opt in.
+To be released as **12.0.0**.
+
+Almost everything here is additive: every prop added is optional and defaults to the current
+behaviour. The major bump is for one change, `DropdownButton`'s menu markup, under
+[Changed markup](#changed-markup) below. Removing DOM elements a consumer could be styling is
+a major change under this project's [versioning policy](#versioning-policy), whether or not any
+consumer turns out to be affected. Given 9.1.0 and 10.3.2, the bump is the cheap side to err on.
 
 ### Added
 
@@ -58,6 +63,30 @@ behaviour, so nothing changes for a consumer who does not opt in.
   "this is clickable".
 - **`DragAndDropFileInput`** renders the chosen file name only, with no drop zone, no file
   input and no button.
+
+### Changed
+
+- **`Select`: the dropdown arrow flips when the menu opens.** It rotates to point up while the
+  menu is open and back when it closes. The chevron already carried a `transition` for this,
+  but nothing had ever changed its transform.
+
+### Fixed
+
+- **A theme's `sizes` now reach the stylesheets.** `ThemeProvider` emitted them as `--size-*`
+  custom properties and no stylesheet read any of them, so setting `sizes` on a theme changed
+  nothing. `Container` now honours `--size-content-width`. Any key is still accepted, but only
+  keys a stylesheet reads have an effect, which is now stated on the prop.
+
+### Changed markup
+
+Not opt-in, so worth checking against a consuming app.
+
+- **`DropdownButton`: the menu is a `<div role="menu">`, not a `<ul>` with `<li role="none">`
+  items.** The menu items are now direct children. `role="menu"` replaces a list's semantics
+  outright, which is why each item needed `role="none"` to suppress them again. Consumer CSS
+  or queries reaching for the `<ul>` or the `<li>` elements will no longer match. The
+  `role="menu"` and `role="menuitem"` roles are unchanged, so anything selecting by role is
+  unaffected.
 
 ## 11.5.0 — 2026-08-27
 
