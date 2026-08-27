@@ -29,7 +29,7 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
-## Unreleased
+## 13.0.0 — 2026-08-27
 
 To be released as **13.0.0**. One breaking change, and it is the whole release.
 
