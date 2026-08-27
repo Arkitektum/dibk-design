@@ -19,6 +19,12 @@
         margin-top: 2px;
     }
 
+    // contentOnly: takes the place of the control in the layout flow, but keeps
+    // the surrounding text styles rather than mimicking an input.
+    .contentOnly {
+        display: block;
+    }
+
     .selectContainer {
         position: relative;
         color: var(--select-text);

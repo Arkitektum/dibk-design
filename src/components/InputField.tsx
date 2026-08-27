@@ -30,6 +30,15 @@ export interface InputFieldProps {
     elementKey?: string;
     label?: React.ReactNode;
     hideLabel?: boolean;
+    /**
+     * Renders the current value as static text instead of a form control: the
+     * label, then a plain `<span>`. No input, not focusable, and no form control
+     * in the DOM — for read-only and view modes, where `disabled` would wrongly
+     * imply "temporarily unavailable".
+     */
+    contentOnly?: boolean;
+    /** `contentOnly` only. Text shown when there is no value. */
+    defaultContent?: string;
     actionButtonColor?: "primary" | "secondary";
 
     actionButtonContent?: string;
@@ -53,6 +62,15 @@ export interface InputFieldProps {
     requirementIndicatorMode?: RequirementIndicatorMode;
     optionalLabel?: string;
 }
+
+/** Format a Date (or date-like string) as DD.MM.YYYY, for contentOnly display */
+const formatDateForDisplay = (value: string | number | Date): string => {
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    return `${dd}.${mm}.${date.getFullYear()}`;
+};
 
 /** Normalize value for <input type="date"> → "YYYY-MM-DD" */
 const toDateInputValue = (v: string | number | Date | undefined): string | undefined => {
@@ -83,6 +101,8 @@ const InputField = ({
     elementKey,
     label = "",
     hideLabel = false,
+    contentOnly = false,
+    defaultContent = "",
     actionButtonColor = "secondary",
     actionButtonContent,
     actionButtonIconLeft,
@@ -174,19 +194,50 @@ const InputField = ({
         ...normalizedValueProps
     };
 
+    const labelElement = hasLabel && (
+        <Label htmlFor={id} srOnly={hideLabel}>
+            {label}
+            <FieldRequirementIndicator
+                required={required}
+                mode={requirementIndicatorMode}
+                optionalLabel={optionalLabel}
+                requiredClassName={style.requiredSymbol}
+            />
+        </Label>
+    );
+
+    const captionElement = caption ? (
+        <p className={style.caption} id={captionId}>
+            {caption}
+        </p>
+    ) : null;
+
+    // A file input's value is not readable, so its `selectedFileName` is what
+    // there is to display.
+    const contentOnlyValue = isFileInput ? selectedFileName : (value ?? defaultValue);
+
+    const contentOnlyText = (): string => {
+        if (contentOnlyValue === undefined || contentOnlyValue === null || contentOnlyValue === "") return defaultContent;
+        return type === "date" ? formatDateForDisplay(contentOnlyValue) : String(contentOnlyValue);
+    };
+
+    // No input, no file trigger and no action button: `contentOnly` is a display
+    // mode, so every interactive affordance is left out of the DOM rather than
+    // disabled.
+    if (contentOnly) {
+        return (
+            <div className={classNameArrayToClassNameString([style.inputField, style[type], noMargin && style.noMargin])}>
+                {labelElement}
+                <span className={style.contentOnly}>{contentOnlyText()}</span>
+                {captionElement}
+                {hasErrors && errorMessage ? <ErrorMessage id={getErrorElementId()} content={errorMessage} /> : null}
+            </div>
+        );
+    }
+
     return (
         <div className={classNameArrayToClassNameString([style.inputField, style[type], noMargin && style.noMargin])}>
-            {hasLabel && (
-                <Label htmlFor={id} srOnly={hideLabel}>
-                    {label}
-                    <FieldRequirementIndicator
-                        required={required}
-                        mode={requirementIndicatorMode}
-                        optionalLabel={optionalLabel}
-                        requiredClassName={style.requiredSymbol}
-                    />
-                </Label>
-            )}
+            {labelElement}
 
             {/* Outside the <label> and presentational: nesting a role="button"
                 div and a <button> inside a label gave one action three
@@ -229,11 +280,7 @@ const InputField = ({
             ) : (
                 <input key={elementKey || id} {...inputProps} ref={inputRef} />
             )}
-            {caption ? (
-                <p className={style.caption} id={captionId}>
-                    {caption}
-                </p>
-            ) : null}
+            {captionElement}
             {hasErrors && errorMessage ? <ErrorMessage id={getErrorElementId()} content={errorMessage} /> : null}
         </div>
     );

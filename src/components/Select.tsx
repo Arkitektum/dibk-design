@@ -26,6 +26,18 @@ interface SelectPropsBase {
     width?: string;
     label?: React.ReactNode;
     hideLabel?: boolean;
+    /**
+     * Renders the current selection as static text instead of a form control:
+     * the label, then a plain `<span>`. No input, no dropdown, not focusable,
+     * and no form control in the DOM — for read-only and view modes, where
+     * `disabled` would wrongly imply "temporarily unavailable".
+     */
+    contentOnly?: boolean;
+    /**
+     * `contentOnly` only. Shows the matching option's `key` (its human-readable
+     * label) instead of the raw `value`. Has no effect outside `contentOnly`.
+     */
+    keyAsContent?: boolean;
     placeholder?: string;
     /** Sentinel value meaning "nothing selected"; shows `placeholder` instead of the raw value. */
     placeholderValue?: string | number;
@@ -100,6 +112,8 @@ const Select = (props: SelectProps) => {
         width,
         label = "",
         hideLabel = false,
+        contentOnly = false,
+        keyAsContent = false,
         placeholder = "",
         placeholderValue,
         defaultContent = "",
@@ -149,6 +163,22 @@ const Select = (props: SelectProps) => {
         if (value === undefined) return null;
         if (Array.isArray(value)) return value.filter((entry) => !isPlaceholderValue(entry)).map(getOptionByValue);
         return isPlaceholderValue(value) ? null : getOptionByValue(value);
+    };
+
+    // `contentOnly` renders single and multiple selections alike, so both are
+    // normalised to a list. `value` wins over `defaultValue`, matching the
+    // react-select instance below.
+    const selectedEntries = (): (string | number)[] => {
+        const selected = props.value !== undefined ? props.value : props.defaultValue;
+        if (selected === undefined || selected === null) return [];
+        const entries = Array.isArray(selected) ? selected : [selected];
+        return entries.filter((entry) => entry !== null && entry !== undefined && entry !== "" && !isPlaceholderValue(entry));
+    };
+
+    const contentOnlyText = (): string => {
+        const entries = selectedEntries();
+        if (!entries.length) return defaultContent;
+        return entries.map((entry) => (keyAsContent ? getOptionByValue(entry).label : String(entry))).join(", ");
     };
 
     const placeholderText = placeholder || defaultContent || "";
@@ -207,19 +237,34 @@ const Select = (props: SelectProps) => {
         />
     );
 
+    const labelElement = (Boolean(label) || required) && (
+        <Label htmlFor={id} srOnly={hideLabel}>
+            {label}
+            <FieldRequirementIndicator
+                required={required}
+                mode={requirementIndicatorMode}
+                optionalLabel={optionalLabel}
+                requiredClassName={style.requiredSymbol}
+            />
+        </Label>
+    );
+
+    // No form control, no dropdown arrow and no action button: `contentOnly` is
+    // a display mode, so every interactive affordance is left out of the DOM
+    // rather than disabled.
+    if (contentOnly) {
+        return (
+            <div className={style.select}>
+                {labelElement}
+                <span className={style.contentOnly}>{contentOnlyText()}</span>
+                <ErrorMessage id={getErrorElementId()} content={errorMessage} />
+            </div>
+        );
+    }
+
     return (
         <div className={style.select}>
-            {(Boolean(label) || required) && (
-                <Label htmlFor={id} srOnly={hideLabel}>
-                    {label}
-                    <FieldRequirementIndicator
-                        required={required}
-                        mode={requirementIndicatorMode}
-                        optionalLabel={optionalLabel}
-                        requiredClassName={style.requiredSymbol}
-                    />
-                </Label>
-            )}
+            {labelElement}
 
             {hasActionButton ? (
                 <div

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import Select from "./Select";
-import { renderHtml } from "../test/renderHtml";
+import { attribute, openingTags, renderHtml } from "../test/renderHtml";
 
 const selectedText = (html: string) => html.match(/reactSelect__single-value[^>]*>([^<]*)</)?.[1] ?? null;
 const placeholderText = (html: string) => html.match(/reactSelect__placeholder[^>]*>([^<]*)</)?.[1] ?? null;
@@ -79,5 +79,94 @@ describe("Select", () => {
         );
 
         expect(html).toContain("Add");
+    });
+});
+
+// Regression: contentOnly was dropped in 10.3.2 along with the native <select>,
+// leaving read-only views with `disabled` as the only option.
+describe("Select contentOnly", () => {
+    it("renders no form control and no interactive element", () => {
+        const { html, warnings } = renderHtml(
+            <Select id="s" label="Pick" contentOnly options={[{ key: "Alpha", value: 1 }]} value={1} onChange={() => {}} />
+        );
+
+        expect(openingTags(html, "input")).toHaveLength(0);
+        expect(openingTags(html, "select")).toHaveLength(0);
+        expect(openingTags(html, "button")).toHaveLength(0);
+        expect(html).not.toMatch(/tabindex/i);
+        expect(html).not.toContain("selectListArrow");
+        expect(warnings).toEqual([]);
+    });
+
+    it("renders the label and the raw value as static text", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" contentOnly options={[{ key: "Alpha", value: 1 }]} value={1} onChange={() => {}} />
+        );
+
+        expect(attribute(html, "label", "for")).toBe("s");
+        expect(html).toContain("Pick");
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>1</);
+    });
+
+    it("renders the option key instead of the value with keyAsContent", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" contentOnly keyAsContent options={[{ key: "Alpha", value: 1 }]} value={1} onChange={() => {}} />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Alpha</);
+    });
+
+    it("falls back to defaultContent when nothing is selected", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" contentOnly defaultContent="Ikke angitt" options={["Alpha"]} onChange={() => {}} />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Ikke angitt</);
+    });
+
+    it("treats the placeholderValue sentinel as nothing selected", () => {
+        const { html } = renderHtml(
+            <Select
+                id="s"
+                label="Pick"
+                contentOnly
+                placeholderValue="notSelected"
+                defaultContent="Ikke angitt"
+                value="notSelected"
+                options={["Alpha"]}
+                onChange={() => {}}
+            />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Ikke angitt</);
+        expect(html).not.toContain("notSelected");
+    });
+
+    it("joins a multiple selection", () => {
+        const { html } = renderHtml(
+            <Select
+                id="s"
+                label="Pick"
+                contentOnly
+                keyAsContent
+                multiple
+                options={[
+                    { key: "Alpha", value: 1 },
+                    { key: "Beta", value: 2 }
+                ]}
+                value={[1, 2]}
+                onChange={() => {}}
+            />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Alpha, Beta</);
+    });
+
+    it("reads defaultValue when no value is given", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" contentOnly keyAsContent options={[{ key: "Alpha", value: 1 }]} defaultValue={1} onChange={() => {}} />
+        );
+
+        expect(html).toMatch(/<span[^>]*contentOnly[^>]*>Alpha</);
     });
 });

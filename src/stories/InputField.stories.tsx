@@ -199,3 +199,34 @@ export const InputWithCustomWidth: Story = {
   },
   render: Uncontrolled(),
 };
+
+export const ContentOnly: Story = {
+  args: {
+    id: "inputField20",
+    label: "Content only",
+    contentOnly: true,
+    value: "Input field value",
+  },
+  render: Uncontrolled(),
+};
+
+export const ContentOnlyWithDefaultContent: Story = {
+  args: {
+    id: "inputField21",
+    label: "Content only (no value)",
+    contentOnly: true,
+    defaultContent: "Ikke angitt",
+  },
+  render: Uncontrolled(),
+};
+
+export const ContentOnlyDate: Story = {
+  args: {
+    id: "inputField22",
+    label: "Content only (date)",
+    contentOnly: true,
+    type: "date",
+    value: "2020-05-10",
+  },
+  render: Uncontrolled(),
+};

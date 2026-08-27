@@ -220,3 +220,46 @@ export const WithActionButton: Story = {
     actionButtonOnClick: () => console.log("Select action button clicked"),
   },
 };
+
+export const ContentOnly: Story = {
+  args: {
+    id: "select20",
+    label: "Content only (raw value)",
+    contentOnly: true,
+    value: "value 3",
+    options,
+  },
+};
+
+export const ContentOnlyWithKeyAsContent: Story = {
+  args: {
+    id: "select21",
+    label: "Content only (option key)",
+    contentOnly: true,
+    keyAsContent: true,
+    value: "value 3",
+    options,
+  },
+};
+
+export const ContentOnlyWithDefaultContent: Story = {
+  args: {
+    id: "select22",
+    label: "Content only (nothing selected)",
+    contentOnly: true,
+    defaultContent: "Ikke angitt",
+    options,
+  },
+};
+
+export const ContentOnlyMultiple: Story = {
+  args: {
+    id: "select23",
+    label: "Content only (multiple)",
+    contentOnly: true,
+    keyAsContent: true,
+    multiple: true,
+    value: ["Option 1", "value 3"],
+    options,
+  },
+};

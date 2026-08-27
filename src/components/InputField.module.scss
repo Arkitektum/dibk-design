@@ -16,6 +16,13 @@
         margin-top: 2px;
         margin-left: 2px;
     }
+
+    // contentOnly: takes the place of the input in the layout flow, but keeps
+    // the surrounding text styles rather than mimicking an input.
+    .contentOnly {
+        display: block;
+    }
+
     input,
     &.file span.input {
         padding-top: 11px;
