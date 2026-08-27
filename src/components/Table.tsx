@@ -20,10 +20,12 @@ export type SortState = {
     direction: "asc" | "desc";
 };
 
-type PageItem = { type: "page"; page: number } | { type: "ellipsis" };
+// The side an ellipsis sits on is what distinguishes the two a middle page renders,
+// so it doubles as a stable React key and the list never has to be keyed by index.
+type PageItem = { type: "page"; page: number } | { type: "ellipsis"; side: "start" | "end" };
 
 const pageItem = (page: number): PageItem => ({ type: "page", page });
-const ellipsisItem: PageItem = { type: "ellipsis" };
+const ellipsisItem = (side: "start" | "end"): PageItem => ({ type: "ellipsis", side });
 
 const buildPageItems = (current: number, total: number): PageItem[] => {
     if (total <= 7) {
@@ -31,13 +33,13 @@ const buildPageItems = (current: number, total: number): PageItem[] => {
     }
 
     if (current <= 4) {
-        return [pageItem(1), pageItem(2), pageItem(3), pageItem(4), pageItem(5), ellipsisItem, pageItem(total)];
+        return [pageItem(1), pageItem(2), pageItem(3), pageItem(4), pageItem(5), ellipsisItem("end"), pageItem(total)];
     }
 
     if (current >= total - 3) {
         return [
             pageItem(1),
-            ellipsisItem,
+            ellipsisItem("start"),
             pageItem(total - 4),
             pageItem(total - 3),
             pageItem(total - 2),
@@ -46,7 +48,15 @@ const buildPageItems = (current: number, total: number): PageItem[] => {
         ];
     }
 
-    return [pageItem(1), ellipsisItem, pageItem(current - 1), pageItem(current), pageItem(current + 1), ellipsisItem, pageItem(total)];
+    return [
+        pageItem(1),
+        ellipsisItem("start"),
+        pageItem(current - 1),
+        pageItem(current),
+        pageItem(current + 1),
+        ellipsisItem("end"),
+        pageItem(total)
+    ];
 };
 
 export type TableColumn<T> = {
@@ -441,7 +451,14 @@ const Table = <T extends object>({
                             const isSelectableMulti = selectionTypeIsMultiple && !!onSelectMany;
                             const clickable = Boolean(onRowClick) || isSelectableSingle || isSelectableMulti;
 
-                            const handleRowClick = () => {
+                            const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
+                                // The selection control already reports its own change, and a
+                                // click on it bubbles to the row as well. Letting that through
+                                // would toggle a multiple selection twice, back to where it
+                                // started. Ignoring it here keeps the guard on the row, rather
+                                // than hanging a click handler off a presentational <span>.
+                                if (event.target instanceof Element && event.target.closest("[data-selection-cell]")) return;
+
                                 if (selectionTypeIsSingle) {
                                     onSelect?.(row);
                                 } else if (selectionTypeIsMultiple && onSelectMany) {
@@ -471,8 +488,8 @@ const Table = <T extends object>({
                                     onClick={clickable ? handleRowClick : undefined}
                                 >
                                     {selectionTypeIsSingle && (
-                                        <td className={style.selectionCell}>
-                                            <span className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
+                                        <td className={style.selectionCell} data-selection-cell="">
+                                            <span className={style.selectionControl}>
                                                 <RadioButtonInput
                                                     id={selectionControlId}
                                                     name={selectionGroupName}
@@ -489,8 +506,8 @@ const Table = <T extends object>({
                                         </td>
                                     )}
                                     {selectionTypeIsMultiple && (
-                                        <td className={style.selectionCell}>
-                                            <span className={style.selectionControl} onClick={(event) => event.stopPropagation()}>
+                                        <td className={style.selectionCell} data-selection-cell="">
+                                            <span className={style.selectionControl}>
                                                 <CheckBoxInput
                                                     id={selectionControlId}
                                                     value={String(rowId)}
@@ -540,11 +557,9 @@ const Table = <T extends object>({
                             iconLeft={<ArrowLeftIcon />}
                         />
                         <div className={style.pageList}>
-                            {pageItems.map((item, index) =>
+                            {pageItems.map((item) =>
                                 item.type === "ellipsis" ? (
-                                    // Keyed by position: a middle page renders two
-                                    // ellipses, so there is no unique value to key on.
-                                    <span key={`ellipsis-${index}`} className={style.pageEllipsis}>
+                                    <span key={`ellipsis-${item.side}`} className={style.pageEllipsis}>
                                         ...
                                     </span>
                                 ) : (
