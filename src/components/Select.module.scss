@@ -126,6 +126,18 @@
             cursor: pointer;
         }
 
+        // The dropdown arrow is absolutely positioned over the right edge, so
+        // the clear button has to be pulled in clear of it instead of rendering
+        // underneath.
+        :global(.reactSelect__clear-indicator) {
+            cursor: pointer;
+            padding-right: 0;
+            margin-right: 20px;
+            @media only screen and (min-width: viewports.$screen-sm) {
+                margin-right: 26px;
+            }
+        }
+
         .hasErrors {
             :global(.reactSelect__control) {
                 border-color: var(--color-error, colors.$color-error);

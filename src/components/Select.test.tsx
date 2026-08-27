@@ -73,6 +73,29 @@ describe("Select", () => {
         expect(html).toContain('id="s-errorMessage"');
     });
 
+    // react-select shows a clear button on a multi select by default, but its
+    // keyboard handler reads the raw isClearable prop, so leaving it unset made
+    // Backspace a no-op on a select that visibly offered clearing.
+    it("renders a clear button for a multiple select by default", () => {
+        const { html } = renderHtml(
+            <Select id="s" label="Pick" multiple options={["Alpha"]} value={["Alpha"]} onChange={() => {}} />
+        );
+
+        expect(html).toContain("reactSelect__clear-indicator");
+    });
+
+    it("renders no clear button for a single select by default", () => {
+        const { html } = renderHtml(<Select id="s" label="Pick" options={["Alpha"]} value="Alpha" onChange={() => {}} />);
+
+        expect(html).not.toContain("reactSelect__clear-indicator");
+    });
+
+    it("renders a clear button for a single select when isClearable is set", () => {
+        const { html } = renderHtml(<Select id="s" label="Pick" isClearable options={["Alpha"]} value="Alpha" onChange={() => {}} />);
+
+        expect(html).toContain("reactSelect__clear-indicator");
+    });
+
     it("renders the action button when given content and a handler", () => {
         const { html } = renderHtml(
             <Select id="s" label="Pick" options={["Alpha"]} actionButtonContent="Add" actionButtonOnClick={() => {}} onChange={() => {}} />

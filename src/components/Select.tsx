@@ -39,8 +39,17 @@ interface SelectPropsBase {
      */
     keyAsContent?: boolean;
     placeholder?: string;
-    /** Sentinel value meaning "nothing selected"; shows `placeholder` instead of the raw value. */
+    /**
+     * Sentinel value meaning "nothing selected": shows `placeholder` instead of
+     * the raw value, and is what `onChange` reports when the selection is
+     * cleared. Clearing a single select needs `isClearable`.
+     */
     placeholderValue?: string | number;
+    /**
+     * Whether the selection can be cleared. Defaults to react-select's own
+     * behaviour — off for a single select, on for `multiple`.
+     */
+    isClearable?: boolean;
     defaultContent?: string;
     role?: string;
     "aria-describedby"?: string;
@@ -116,6 +125,7 @@ const Select = (props: SelectProps) => {
         keyAsContent = false,
         placeholder = "",
         placeholderValue,
+        isClearable,
         defaultContent = "",
         role,
         "aria-describedby": ariaDescribedBy,
@@ -202,6 +212,16 @@ const Select = (props: SelectProps) => {
         if (props.multiple) return;
         if (selected) {
             props.onChange(selected.value);
+            return;
+        }
+
+        // Clearing the selection reports the sentinel, mirroring the inbound
+        // direction handled by isPlaceholderValue. Without a sentinel there is
+        // nothing truthful to report, so the clear is swallowed and the
+        // controlled value stays put — as it did before placeholderValue was
+        // honoured at all.
+        if (placeholderValue !== undefined) {
+            props.onChange(placeholderValue);
         }
     };
 
@@ -216,6 +236,11 @@ const Select = (props: SelectProps) => {
             aria-required={required || undefined}
             isDisabled={disabled}
             isMulti={isMulti}
+            // Resolved here rather than left undefined because react-select's
+            // keyboard handler reads the raw prop, while only its clear-button
+            // rendering falls back to isMulti — so leaving it unset makes
+            // Backspace a no-op on a multi select that shows a clear button.
+            isClearable={isClearable ?? isMulti}
             isSearchable={false}
             closeMenuOnSelect={!isMulti}
             placeholder={placeholderText}
