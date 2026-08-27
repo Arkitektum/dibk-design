@@ -2,7 +2,7 @@ import path from "node:path";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "./vite.config";
+import viteConfig from "./vite.config.ts";
 
 // Runs every story in a real browser. Requires `npx playwright install chromium`
 // and the Storybook toolchain; see vitest.config.ts for the fast Node suite.

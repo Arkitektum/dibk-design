@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 import svgr from "vite-plugin-svgr";
-import viteConfig from "./vite.config";
+import viteConfig from "./vite.config.ts";
 
 // Markup-level tests, rendered with react-dom/server. Deliberately kept in its
 // own config file rather than a project inside the Storybook one: importing
