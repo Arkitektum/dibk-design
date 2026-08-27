@@ -29,9 +29,7 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
-## Unreleased
-
-To be released as **12.0.0**.
+## 12.0.0 — 2026-08-27
 
 Almost everything here is additive: every prop added is optional and defaults to the current
 behaviour. The major bump is for one change, `DropdownButton`'s menu markup, under
