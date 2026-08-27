@@ -1,5 +1,5 @@
 import type { Decorator, Preview } from "@storybook/react-vite";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import ThemeProvider from "../src/components/ThemeProvider";
 import customThemes from "../src/data/customTheme";
 
