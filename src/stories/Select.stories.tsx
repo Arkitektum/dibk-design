@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import Select, {
   type MultipleSelectProps,
   type SingleSelectProps,
@@ -270,6 +270,98 @@ export const ClearingEmitsPlaceholderValue: Story = {
 
     expect(canvas.getByTestId("emitted")).toHaveTextContent("notSelected");
     expect(canvas.getByText("Select from list")).toBeInTheDocument();
+  },
+};
+
+// A value matching no option falls back to rendering as its own label, which reads
+// as a mangled option name rather than an error. The warning is the only signal, so
+// it needs a test -- and it cannot be a Node one, because that suite renders with
+// renderToStaticMarkup, which never runs effects.
+//
+// The value starts matched and is changed to an unmatched one from inside the play
+// function. Spying from play is otherwise too late: the effect has already run by
+// the time the story has mounted.
+export const WarnsWhenAValueMatchesNoOption: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string | number>("Option 1");
+
+    return (
+      <div>
+        <Select
+          id="select-warn"
+          label="Warns on an unmatched value"
+          options={options}
+          value={value}
+          onChange={setValue}
+        />
+        <button
+          type="button"
+          data-testid="set-unmatched"
+          onClick={() => setValue("no-such-option")}
+        >
+          Set an unmatched value
+        </button>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement);
+    const warnings: string[] = [];
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]) => warnings.push(args.map(String).join(" "));
+
+    try {
+      expect(warnings).toEqual([]);
+
+      await userEvent.click(canvas.getByTestId("set-unmatched"));
+
+      await waitFor(() => {
+        expect(warnings.some((warning) => warning.includes("matches no option"))).toBe(true);
+      });
+      expect(warnings.some((warning) => warning.includes("no-such-option"))).toBe(true);
+    } finally {
+      console.warn = originalWarn;
+    }
+  },
+};
+
+// The warning has to stay quiet while options load, or every asynchronously
+// populated Select warns on its first render.
+export const DoesNotWarnWhileOptionsAreEmpty: Story = {
+  render: function Render() {
+    const [loadedOptions, setLoadedOptions] = useState<typeof options>([]);
+
+    return (
+      <div>
+        <Select
+          id="select-loading"
+          label="Options still loading"
+          options={loadedOptions}
+          value="Option 1"
+          onChange={() => {}}
+        />
+        <button type="button" data-testid="load-options" onClick={() => setLoadedOptions(options)}>
+          Load the options
+        </button>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement);
+    const warnings: string[] = [];
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]) => warnings.push(args.map(String).join(" "));
+
+    try {
+      await userEvent.click(canvas.getByTestId("load-options"));
+
+      await waitFor(() => {
+        expect(canvas.getByText("Option 1")).toBeInTheDocument();
+      });
+      expect(warnings.filter((warning) => warning.includes("matches no option"))).toEqual([]);
+    } finally {
+      console.warn = originalWarn;
+    }
   },
 };
 
