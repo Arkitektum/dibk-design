@@ -6,7 +6,11 @@ export interface ErrorBoxProps extends Omit<InfoBoxProps, "variant" | "hideIcon"
 }
 
 const ErrorBox = ({ type = "warning", children = "", ...rest }: ErrorBoxProps) => {
-    return <InfoBox variant={type} children={children} {...rest} />;
+    return (
+        <InfoBox variant={type} {...rest}>
+            {children}
+        </InfoBox>
+    );
 };
 
 export default ErrorBox;

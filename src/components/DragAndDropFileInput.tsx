@@ -104,7 +104,7 @@ const DragAndDropFileInput = ({
             }
             setHighlight(false);
         },
-        [onDragAndDropChange]
+        [onDragAndDropChange, preventDefaults]
     );
 
     useEffect(() => {
