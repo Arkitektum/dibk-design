@@ -32,7 +32,8 @@
 	],
 	"files": [
 		"dist",
-		"README.md"
+		"README.md",
+		"CHANGELOG.md"
 	],
 	"dependencies": {
 		"react-select": "^5.10.2"
