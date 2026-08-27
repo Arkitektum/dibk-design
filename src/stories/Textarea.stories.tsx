@@ -55,7 +55,7 @@ export const WithLinkInLabel: Story = {
     label: [
       "Textarea with ",
       <a key="link" href="#textarea6">
-        link
+        a documentation link
       </a>,
       " in label",
     ],

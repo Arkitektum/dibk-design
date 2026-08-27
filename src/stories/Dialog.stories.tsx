@@ -21,6 +21,13 @@ export default meta;
 
 type Story = StoryObj<typeof Dialog>;
 
+// Static filler for the overflow story. Built once with an id per paragraph, so the
+// list is keyed by the item rather than by its position in the map.
+const overflowParagraphs = Array.from({ length: 30 }, (_, index) => ({
+  id: `overflow-paragraph-${index + 1}`,
+  number: index + 1,
+}));
+
 export const Default: Story = {
   args: {
     title: "Dialog title",
@@ -76,10 +83,10 @@ export const WithFooterAndOverflowingContent: Story = {
             </>
           }
         >
-          {Array.from({ length: 30 }, (_, index) => (
-            <p key={index}>
-              Paragraph {index + 1} — content taller than the dialog scrolls
-              within the body while the footer stays visible.
+          {overflowParagraphs.map((paragraph) => (
+            <p key={paragraph.id}>
+              Paragraph {paragraph.number} — content taller than the dialog
+              scrolls within the body while the footer stays visible.
             </p>
           ))}
         </Dialog>

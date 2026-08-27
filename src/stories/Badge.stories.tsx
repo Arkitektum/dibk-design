@@ -32,7 +32,8 @@ export const Warning: Story = {
   args: { children: "Ute av drift", variant: "warning" },
 };
 
-export const Error: Story = {
+export const ErrorVariant: Story = {
+  name: "Error",
   args: { children: "Stengt", variant: "error" },
 };
 

@@ -58,7 +58,8 @@ export const Warning: Story = {
   render,
 };
 
-export const Error: Story = {
+export const ErrorVariant: Story = {
+  name: "Error",
   args: {
     variant: "error",
     title: "Det oppstod en feil",

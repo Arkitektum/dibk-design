@@ -104,7 +104,7 @@ export const WithLinkInLabel: Story = {
     label: [
       "Select with ",
       <a key="link" href="#select6">
-        link
+        a documentation link
       </a>,
       " in label",
     ],
