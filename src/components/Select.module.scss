@@ -3,10 +3,22 @@
 @use "../style/abstracts/mixins/box-shadow";
 @use "../style/abstracts/mixins/transition";
 
+@use "sass:math";
+
 // Variables
 @use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/sizes";
 @use "../style/abstracts/variables/transitions";
 @use "../style/abstracts/variables/viewports";
+
+// Vertical padding that fills the 1px-bordered control out to sizes.$control-height.
+$value-padding-y: math.div(sizes.$control-height - sizes.$control-line-height - 2px, 2);
+
+// The chevron box, and how far its right edge sits from the control's right edge. Anything that
+// renders inside the control on the right (the clear button) has to stay clear of that.
+$arrow-size: 12px;
+$arrow-inset: 15px;
+$arrow-inset-sm: 20px;
 
 .select {
     .requiredSymbol {
@@ -29,30 +41,35 @@
         position: relative;
         color: var(--select-text);
 
+        // Stretched to the full height of the control and centring the chevron, rather than
+        // offset from the top by a fixed amount: the previous `top` values were tuned to one
+        // specific control height and drifted off centre as soon as it changed. Also keeps the
+        // chevron centred on a multi select that has grown taller than one row.
         .selectListArrow {
-            @include border-radius.border-radius(100px);
             box-sizing: border-box;
             position: absolute;
-            top: 15px;
-            right: 15px;
-            display: block;
-            width: 12px;
-            height: calc(50% - 6px);
+            top: 0;
+            bottom: 0;
+            right: $arrow-inset;
+            display: flex;
+            align-items: center;
+            width: $arrow-size;
+            pointer-events: none;
             @media only screen and (min-width: viewports.$screen-sm) {
-                top: 20px;
-                right: 20px;
+                right: $arrow-inset-sm;
             }
 
             &::after {
                 content: "";
                 display: block;
                 box-sizing: border-box;
-                position: absolute;
-                width: 12px;
-                height: 12px;
+                width: $arrow-size;
+                height: $arrow-size;
                 border-bottom: 2px solid;
                 border-right: 2px solid;
-                transform: translateY(-30%) rotate(45deg);
+                // Only the bottom-right corner is inked, so the visible chevron sits low in its
+                // box; lifting it slightly puts the ink, not the box, on the centre line.
+                transform: translateY(-25%) rotate(45deg);
                 transition: transform 0.3s ease-in-out;
             }
         }
@@ -66,7 +83,10 @@
             font-family: inherit;
             font-size: 18px;
             border: 1px solid var(--color-input-border, colors.$color-input-border);
-            line-height: 24px;
+            line-height: sizes.$control-line-height;
+            // min-height rather than height: a multi select with enough chips to wrap has to be
+            // allowed to grow. react-select's own default here is 38px.
+            min-height: sizes.$control-height;
             background: var(--select-background);
             cursor: pointer;
 
@@ -101,7 +121,8 @@
         }
 
         :global(.reactSelect__value-container) {
-            padding: 12px 40px 12px 12px;
+            // Right padding keeps the text from running under the absolutely positioned chevron.
+            padding: $value-padding-y ($arrow-inset-sm + $arrow-size + 8px) $value-padding-y 12px;
         }
 
         :global(.reactSelect__input-container) {
@@ -126,15 +147,15 @@
             cursor: pointer;
         }
 
-        // The dropdown arrow is absolutely positioned over the right edge, so
-        // the clear button has to be pulled in clear of it instead of rendering
-        // underneath.
+        // The chevron is absolutely positioned over the right edge, so the clear button has to be
+        // pulled in past it instead of rendering underneath. The chevron's inner edge is
+        // inset + size from the right, plus a small gap.
         :global(.reactSelect__clear-indicator) {
             cursor: pointer;
             padding-right: 0;
-            margin-right: 20px;
+            margin-right: $arrow-inset + $arrow-size + 4px;
             @media only screen and (min-width: viewports.$screen-sm) {
-                margin-right: 26px;
+                margin-right: $arrow-inset-sm + $arrow-size + 4px;
             }
         }
 
@@ -171,7 +192,7 @@
 
         &.matchHeight > button {
             box-sizing: border-box;
-            height: 48px;
+            height: sizes.$control-height;
             padding-top: 0;
             padding-bottom: 0;
             display: inline-flex;

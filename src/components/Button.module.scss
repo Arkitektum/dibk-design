@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Mixins
 @use "../style/abstracts/mixins/animation";
 @use "../style/abstracts/mixins/appearance";
@@ -9,9 +11,16 @@
 
 // Variables
 @use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/sizes";
 @use "../style/abstracts/variables/transitions";
 @use "../style/abstracts/variables/typography";
 @use "../style/abstracts/variables/viewports";
+
+// Vertical padding that brings a regular button to sizes.$control-height, so it lines up with
+// InputField and Select. The borderless variants (primary, secondary) and the 1px-bordered one
+// (neutral) need different padding to reach the same total.
+$regular-padding-y: math.div(sizes.$control-height - sizes.$control-line-height, 2);
+$regular-padding-y-bordered: math.div(sizes.$control-height - sizes.$control-line-height - 2px, 2);
 
 @include keyframes.keyframes(pushnext) {
     0% {
@@ -52,7 +61,7 @@
     border-style: solid;
     border-color: var(--color-primary, colors.$color-primary);
     cursor: pointer;
-    line-height: 23px;
+    line-height: sizes.$control-line-height;
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -78,7 +87,7 @@
     }
 
     &.regular {
-        padding: 16px 24px;
+        padding: $regular-padding-y 24px;
     }
 
     &.small {
@@ -146,8 +155,14 @@
         border-width: 1px;
         padding: 12px 19px;
 
+        // Scoped to the size classes rather than set on .neutral, because .neutral comes after
+        // .small in this file and would otherwise override the small padding too.
+        &.regular {
+            padding: $regular-padding-y-bordered 19px;
+        }
+
         &.uniformPadding {
-            padding: 15px 23px;
+            padding: $regular-padding-y-bordered 23px;
 
             &.small {
                 padding: 7px 9px;

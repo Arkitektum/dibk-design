@@ -72,6 +72,23 @@ current behaviour.
 - **`Select`: the clear button no longer renders underneath the dropdown arrow.** The arrow is
   positioned absolutely over the right edge, so the button is now pulled clear of it. Affected
   every `multiple` select.
+- **`Button`, `InputField` and `Select` are all 54px tall again.** They had drifted to 55px,
+  48px and 50px respectively, with `Button`'s `neutral` variant at 49px, so a row of them never
+  lined up. 54px is the original value — `InputField` was `height: 54px` and a regular `Button`
+  computed to 54px before both were changed. The height now comes from a single
+  `sizes.$control-height`, with the vertical padding derived from it rather than hardcoded, so
+  the three cannot drift apart again. `Select` uses `min-height`, so a `multiple` select with
+  enough chips to wrap can still grow. The `small` button size is unchanged.
+
+  This is the one change here that consumers will see without opting in. `InputField` grows by
+  6px and `Select` by 4px, which can shift a tightly packed layout.
+- **`Select`: clicking the dropdown arrow now opens the menu.** The arrow is a `<span>` layered
+  over react-select's control and was swallowing clicks that landed on it. It is now
+  `pointer-events: none`, which also matters because it is stretched to the full height of the
+  control — otherwise it would have created a dead 12px column down the right-hand side.
+- **`Select`: the dropdown arrow stays vertically centred.** It was positioned with a fixed
+  `top` tuned to one specific control height (and a different one per breakpoint), so it drifted
+  off centre whenever the height changed. It now centres itself at any height.
 
 ### Still missing
 

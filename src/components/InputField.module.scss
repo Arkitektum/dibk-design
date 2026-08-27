@@ -1,9 +1,15 @@
+@use "sass:math";
+
 // Mixins
 @use "../style/abstracts/mixins/appearance";
 @use "../style/abstracts/mixins/box-shadow";
 
 // Variables
 @use "../style/abstracts/variables/colors";
+@use "../style/abstracts/variables/sizes";
+
+// Vertical padding that fills the 1px-bordered control out to sizes.$control-height.
+$input-padding-y: math.div(sizes.$control-height - sizes.$control-line-height - 2px, 2);
 
 .inputField {
     .requiredSymbol {
@@ -25,10 +31,10 @@
 
     input,
     &.file span.input {
-        padding-top: 11px;
-        height: 48px; /* FJERN MEG! */
-        line-height: 24px;
-        padding-bottom: 11px;
+        padding-top: $input-padding-y;
+        height: sizes.$control-height;
+        line-height: sizes.$control-line-height;
+        padding-bottom: $input-padding-y;
         font-size: 18px;
         padding-left: 10px;
         gap: 10px;
@@ -118,7 +124,7 @@
         
         &.matchHeight > button {
             box-sizing: border-box;
-            height: 48px;
+            height: sizes.$control-height;
             padding-top: 0;
             padding-bottom: 0;
             display: inline-flex;

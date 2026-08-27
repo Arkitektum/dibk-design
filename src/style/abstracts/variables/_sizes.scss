@@ -1,1 +1,11 @@
 $content-width: 860px;
+
+/// Shared height of the interactive form controls — Button (regular size), InputField and
+/// Select — so they line up when placed next to each other. Before this was centralised the
+/// three had drifted to 55px, 48px and 50px respectively, and Button's neutral variant to 49px.
+$control-height: 54px;
+
+/// The line height all three use for their text, and with $control-height the basis for the
+/// vertical padding that makes them add up. Derive padding from these two rather than
+/// hardcoding it, so changing $control-height keeps the text centred.
+$control-line-height: 24px;
