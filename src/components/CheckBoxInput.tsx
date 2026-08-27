@@ -19,6 +19,12 @@ export interface CheckBoxInputProps {
     id: string;
     name?: string;
     onChange?: () => void;
+    /**
+     * Renders the state as static text: the label and a bare checkmark, with no
+     * box, nothing focusable and no form control in the DOM — for read-only and
+     * view modes, where `disabled` would wrongly imply "temporarily unavailable".
+     */
+    contentOnly?: boolean;
     hasErrors?: boolean;
     checkmarkCharacter?: string;
     hideLabel?: boolean;
@@ -40,6 +46,7 @@ const CheckBoxInput = ({
     id,
     name = "",
     onChange,
+    contentOnly = false,
     hasErrors = false,
     checkmarkCharacter = "✔",
     hideLabel = false,
@@ -59,7 +66,13 @@ const CheckBoxInput = ({
         }
     }, [indeterminate]);
 
-    const labelClassName = [style.checkBoxInput, disabled && style.disabled, hasErrors && style.hasErrors, hideLabel && style.hideLabel]
+    const labelClassName = [
+        style.checkBoxInput,
+        contentOnly && style.contentOnly,
+        disabled && style.disabled,
+        hasErrors && style.hasErrors,
+        hideLabel && style.hideLabel
+    ]
         .filter(Boolean)
         .join(" ");
 
@@ -67,7 +80,8 @@ const CheckBoxInput = ({
         checked,
         indeterminate,
         disabled,
-        showBox: true,
+        // No box in contentOnly: the box reads as something you can click.
+        showBox: !contentOnly,
         hasErrors,
         checkmarkCharacter,
         checkmarkIconSrc: checkmarkSymbolIcon
@@ -94,7 +108,7 @@ const CheckBoxInput = ({
     return (
         <label htmlFor={id} className={labelClassName}>
             <CheckBoxIcon {...iconProps} />
-            <input {...inputProps} ref={inputRef} />
+            {contentOnly ? null : <input {...inputProps} ref={inputRef} />}
             <span className={style.labelText}>
                 {children}
                 <FieldRequirementIndicator

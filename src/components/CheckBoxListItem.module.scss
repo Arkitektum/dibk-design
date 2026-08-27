@@ -27,7 +27,7 @@
     line-height: 24px;
     color: var(--color-default-text, colors.$color-default-text);
 
-    &:not(.compact) {
+    &:not(.contentOnly):not(.compact) {
         border: 1px solid var(--color-secondary, colors.$color-secondary);
         background: white;
         margin-bottom: 8px;
@@ -42,11 +42,21 @@
         }
     }
 
-    &.checked:not(.compact):not(.disabled) {
+    // contentOnly is a display mode, so the card chrome, the hover and focus states and the
+    // selected-row highlight all go: they read as "this is clickable".
+    &.contentOnly {
+        cursor: auto;
+        label {
+            cursor: auto;
+            padding: 5px 10px;
+        }
+    }
+
+    &.checked:not(.contentOnly):not(.compact):not(.disabled) {
         background-color: var(--color-secondary, colors.$color-secondary);
     }
 
-    &:not(.checked):not(.compact):not(.disabled) {
+    &:not(.checked):not(.contentOnly):not(.compact):not(.disabled) {
         &:hover {
             background-color: var(--color-secondary-light, colors.$color-secondary-light);
         }

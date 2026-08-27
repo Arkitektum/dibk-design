@@ -20,6 +20,8 @@ export interface CheckBoxListItemProps {
     name?: string;
     id: string;
     onChange?: () => void;
+    /** Renders the item as static text, with no form control in the DOM. */
+    contentOnly?: boolean;
     compact?: boolean;
     checkmarkCharacter?: string;
     hasErrors?: boolean;
@@ -36,6 +38,7 @@ const CheckBoxListItem = ({
     id,
     name = "",
     onChange,
+    contentOnly = false,
     compact,
     hasErrors = false,
     checkmarkCharacter = "✔",
@@ -52,6 +55,7 @@ const CheckBoxListItem = ({
 
     const className = classNameArrayToClassNameString([
         style.checkBoxListItem,
+        contentOnly && style.contentOnly,
         checked && style.checked,
         disabled && style.disabled,
         isCompact && style.compact,
@@ -66,6 +70,7 @@ const CheckBoxListItem = ({
         disabled,
         required,
         requiredGroup,
+        contentOnly,
         hasErrors,
         "aria-controls": ariaControls,
         "aria-describedby": ariaDescribedBy,

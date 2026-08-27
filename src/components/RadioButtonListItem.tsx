@@ -20,6 +20,8 @@ export interface RadioButtonListItemProps {
     name?: string;
     id: string;
     onChange?: () => void;
+    /** Renders the item as static text, with no form control in the DOM. */
+    contentOnly?: boolean;
     compact?: boolean;
     hasErrors?: boolean;
     "aria-controls"?: string;
@@ -36,6 +38,7 @@ const RadioButtonListItem = ({
     name = "",
     id,
     onChange,
+    contentOnly = false,
     compact,
     hasErrors = false,
     "aria-controls": ariaControls,
@@ -51,6 +54,7 @@ const RadioButtonListItem = ({
 
     const className = classNameArrayToClassNameString([
         style.radioButtonListItem,
+        contentOnly && style.contentOnly,
         checked && style.checked,
         disabled && style.disabled,
         isCompact && style.compact,
@@ -64,6 +68,7 @@ const RadioButtonListItem = ({
         disabled,
         required,
         requiredGroup: isRequiredGroup,
+        contentOnly,
         hasErrors,
         "aria-controls": ariaControls,
         "aria-describedby": ariaDescribedBy,

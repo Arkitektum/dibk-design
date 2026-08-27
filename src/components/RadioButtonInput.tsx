@@ -16,6 +16,17 @@ export interface RadioButtonInputProps {
     id: string;
     name?: string;
     onChange?: () => void;
+    /**
+     * Renders the label as static text, with no radio, nothing focusable and no
+     * form control in the DOM — for read-only and view modes, where `disabled`
+     * would wrongly imply "temporarily unavailable".
+     *
+     * Unlike `CheckBoxInput`, no indicator is drawn. A radio group has one
+     * answer, so a read-only view renders only the selected option and a dot
+     * beside the single visible label would be noise. A read-only checkbox list
+     * renders every option and does need to mark which are ticked.
+     */
+    contentOnly?: boolean;
     hasErrors?: boolean;
     inputValue: string;
     hideLabel?: boolean;
@@ -35,6 +46,7 @@ const RadioButtonInput = ({
     id,
     name = "",
     onChange,
+    contentOnly = false,
     hasErrors = false,
     inputValue,
     hideLabel = false,
@@ -47,6 +59,7 @@ const RadioButtonInput = ({
 }: RadioButtonInputProps) => {
     const labelClassName = [
         style.radioButtonInput,
+        contentOnly && style.contentOnly,
         checked && style.checked,
         disabled && style.disabled,
         hasErrors && style.hasErrors,
@@ -81,8 +94,12 @@ const RadioButtonInput = ({
 
     return (
         <label htmlFor={id} className={labelClassName}>
-            <RadioButtonIcon {...iconProps} />
-            <input {...inputProps} />
+            {contentOnly ? null : (
+                <>
+                    <RadioButtonIcon {...iconProps} />
+                    <input {...inputProps} />
+                </>
+            )}
             <span className={style.labelText}>
                 {children}
                 <FieldRequirementIndicator

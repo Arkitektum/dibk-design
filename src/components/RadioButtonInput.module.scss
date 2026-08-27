@@ -19,7 +19,7 @@
         margin-top: 2px;
     }
 
-    &:not(.disabled) {
+    &:not(.contentOnly):not(.disabled) {
         cursor: pointer;
         input {
             cursor: pointer;

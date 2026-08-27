@@ -60,3 +60,21 @@ export const Compact: Story = {
   },
   render: (args) => <CheckBoxList {...args}>{<Checkboxes />}</CheckBoxList>,
 };
+
+// A read-only checkbox list renders every option and marks the ticked ones, so
+// the checkmark stays while the box, the card chrome and the hover states go.
+export const ContentOnly: Story = {
+  args: {
+    legend: "Content only checkbox list",
+  },
+  render: (args) => (
+    <CheckBoxList {...args}>
+      <CheckBoxListItem contentOnly checked name="contentonly" id="cb-co-1">
+        Label for checked checkbox
+      </CheckBoxListItem>
+      <CheckBoxListItem contentOnly name="contentonly" id="cb-co-2">
+        Label for unchecked checkbox
+      </CheckBoxListItem>
+    </CheckBoxList>
+  ),
+};

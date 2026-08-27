@@ -60,3 +60,22 @@ export const Compact: Story = {
     <RadioButtonList {...args}>{<SharedChildren />}</RadioButtonList>
   ),
 };
+
+// Unlike the checkbox list, no indicator is drawn: a radio group has one answer,
+// so a read-only view renders just the selected option.
+export const ContentOnly: Story = {
+  args: { legend: "Content only radio button list" },
+  render: (args) => (
+    <RadioButtonList {...args}>
+      <RadioButtonListItem
+        contentOnly
+        checked
+        inputValue="a"
+        name="contentonly"
+        id="rb-co-1"
+      >
+        Label for the selected option
+      </RadioButtonListItem>
+    </RadioButtonList>
+  ),
+};
