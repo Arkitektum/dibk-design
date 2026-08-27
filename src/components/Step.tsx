@@ -1,5 +1,5 @@
 // Dependencies
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 
 // Components
 import { checkmarkSymbolIcon } from "../icons";
