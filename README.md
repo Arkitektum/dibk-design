@@ -12,7 +12,24 @@ Component documentation (Storybook): https://arkitektum.github.io/dibk-design/
     npm install dibk-design
     ```
 
-    Peer dependencies (must be installed in your app): `react` (18 or 19), `react-dom`, `react-router-dom` (6.4+ or 7).
+    Peer dependencies (must be installed in your app):
+
+    - `react` 18 or 19
+    - `react-dom` 18 or 19
+    - `react-router` 7 or 8
+
+    `react-router` is needed because `Button`, `Step` and `DropdownButton` render a router link when given a `to` prop. Import it from `react-router`, not `react-router-dom`: that package was removed in react-router 8 and is frozen at 7.18.2. On react-router 7 the two are interchangeable for `Link`, so `react-router` is the specifier that spans both majors.
+
+    react-router 6 is not supported from 13.0.0 onwards, because `Link` lives in `react-router-dom` there. Use 12.x if you are still on 6.
+
+    All three peers are required rather than optional, `react-router` included. The router import is static and top-level, so your bundler has to resolve it even if you never render a component that links anywhere.
+
+    **Your app and this library must resolve to one `react-router` instance.** Two instances break links in two different ways, and only one of them is loud:
+
+    - `Step` and `DropdownButton` throw `useHref() may be used only in the context of a <Router> component`, because router context is per instance.
+    - `Button` fails silently. It identifies a `<Link>` child by comparing module identity, so a `Link` from a second instance is not recognised and the button renders as a plain `<button>` with no navigation and no error.
+
+    The usual cause is a stray `react-router-dom` left in your dependencies alongside `react-router` 8. Check with `npm ls react-router` (or `pnpm why react-router`) and expect a single version.
 
 2.  **Import the component styles**
 
@@ -67,8 +84,8 @@ Import the plain tokens instead:
 
 Two releases changed `Select` in ways that break working consumer code, and both shipped as
 minor releases without a release note. Items 1 to 5 below cover those and the props since
-restored. Item 6 is the one breaking change in 12.0.0. The greps are the fastest way to find
-what needs changing. Full details in [CHANGELOG.md](CHANGELOG.md).
+restored. Item 6 is the one breaking change in 12.0.0, and item 7 the one in 13.0.0. The greps
+are the fastest way to find what needs changing. Full details in [CHANGELOG.md](CHANGELOG.md).
 
 ### 1. `Select` `onChange` receives a value, not an event (9.1.0)
 
@@ -189,6 +206,26 @@ role is unchanged, since `role="menu"` and `role="menuitem"` are both still ther
 ```bash
 # CSS or queries reaching into the dropdown's list markup
 grep -rn "menu li\|menu ul" src
+```
+
+### 7. `react-router` replaces `react-router-dom` (13.0.0)
+
+`Link` is now imported from `react-router`, and the peer dependency is `react-router` 7 or 8
+instead of `react-router-dom` 6.4+ or 7.
+
+On react-router 7 this is a one-line change to your `package.json` at most: `react-router` is
+what `react-router-dom` depends on, so it is already installed. On react-router 6 it is a
+blocker, because `Link` lives in `react-router-dom` there. Stay on 12.x until you can move to 7.
+
+`react-router-dom` was removed in react-router 8 and is frozen at 7.18.2, so importing from it
+capped every consumer at react-router 7. It was also worse than a cap: an app that installed
+react-router 8 and kept `react-router-dom` around for this library ended up with two
+react-router instances, and since router context is per instance, the library's `Link` threw
+`useHref() may be used only in the context of a <Router> component`.
+
+```bash
+# Anywhere your app still imports from the removed package
+grep -rn "react-router-dom" src
 ```
 
 ## Use with Next.js

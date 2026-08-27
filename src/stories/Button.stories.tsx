@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/icons";
 import Button from "../components/Button";
 

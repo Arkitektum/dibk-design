@@ -29,6 +29,34 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
+## Unreleased
+
+To be released as **13.0.0**. One breaking change, and it is the whole release.
+
+### Breaking — react-router replaces react-router-dom
+
+`Link` is now imported from `react-router` rather than `react-router-dom`, and the peer is
+`"react-router": "^7.0.0 || ^8.0.0"`. The `react-router-dom` peer is gone.
+
+**If you are on react-router 7, add `react-router` to your dependencies if it is not already
+there, and you are done.** It is what `react-router-dom` depends on, so it is almost certainly
+installed already.
+
+**If you are on react-router 6, this release is not for you yet.** `Link` lives in
+`react-router-dom` on 6, so the import will not resolve. Stay on 12.x until you can move to 7.
+
+Why it had to change: react-router 8 removed the `react-router-dom` package outright, and 7.18.2
+is its final version. Importing from it pinned every consumer to react-router 7 or older. Worse,
+an app that added react-router 8 while keeping `react-router-dom` installed for this library's
+sake ended up with two react-router instances. Router context is per instance, so this library's
+`Link` resolved through `react-router-dom` to react-router 7 while the app's router was 8, and
+the link threw `useHref() may be used only in the context of a <Router> component` at runtime.
+
+react-router 7 collapsed the DOM exports into its main entry and kept `react-router-dom` only as
+a v6 compatibility shim, so importing from `react-router` covers both 7 and 8 with one specifier.
+
+Affects `Button`, `Step` and `DropdownButton`, the three components that render a router link.
+
 ## 12.0.0 — 2026-08-27
 
 Almost everything here is additive: every prop added is optional and defaults to the current

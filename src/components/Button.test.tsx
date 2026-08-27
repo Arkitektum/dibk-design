@@ -1,4 +1,4 @@
-import { MemoryRouter, Link as RouterLink } from "react-router-dom";
+import { MemoryRouter, Link as RouterLink } from "react-router";
 import { describe, expect, it } from "vitest";
 
 import Button from "./Button";

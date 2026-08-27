@@ -33,7 +33,7 @@ export default defineConfig({
         "react/jsx-runtime",
         "react/jsx-dev-runtime",
         "react-dom",
-        "react-router-dom",
+        "react-router",
         "react-select",
         /^react-select\//,
       ],
