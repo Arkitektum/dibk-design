@@ -20,6 +20,14 @@
         vertical-align: top;
         margin-top: 2px;
     }
+
+    // contentOnly: takes the place of the textarea in the layout flow. A textarea's value
+    // carries the line breaks the user typed, so they have to survive being rendered as text.
+    .contentOnly {
+        display: block;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+    }
     textarea {
         @include appearance.appearance(none);
         @include transition.transition(border-color 0.15s linear, background 0.15s linear);

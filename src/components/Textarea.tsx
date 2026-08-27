@@ -24,6 +24,15 @@ export interface TextareaProps {
     elementKey?: string;
     rows?: string;
     label?: React.ReactNode;
+    /**
+     * Renders the current value as static text instead of a form control: the
+     * label, then a plain `<span>`. No textarea, not focusable, and no form
+     * control in the DOM — for read-only and view modes, where `disabled` would
+     * wrongly imply "temporarily unavailable".
+     */
+    contentOnly?: boolean;
+    /** `contentOnly` only. Text shown when there is no value. */
+    defaultContent?: string;
     placeholder?: string;
     "aria-describedby"?: string;
     hasErrors?: boolean;
@@ -47,6 +56,8 @@ const Textarea = ({
     elementKey,
     rows,
     label = "",
+    contentOnly = false,
+    defaultContent = "",
     placeholder = "",
     "aria-describedby": ariaDescribedBy,
     hasErrors = false,
@@ -83,17 +94,35 @@ const Textarea = ({
         style: styleRules
     };
 
+    const labelElement = (
+        <Label htmlFor={id}>
+            {label}
+            <FieldRequirementIndicator
+                required={required}
+                mode={requirementIndicatorMode}
+                optionalLabel={optionalLabel}
+                requiredClassName={style.requiredSymbol}
+            />
+        </Label>
+    );
+
+    // No textarea and nothing focusable: `contentOnly` is a display mode, so the
+    // control is left out of the DOM rather than disabled.
+    if (contentOnly) {
+        const currentValue = value ?? defaultValue;
+
+        return (
+            <div className={style.textarea}>
+                {labelElement}
+                <span className={style.contentOnly}>{currentValue === undefined || currentValue === "" ? defaultContent : currentValue}</span>
+                <ErrorMessage id={getErrorElementId()} content={errorMessage} />
+            </div>
+        );
+    }
+
     return (
         <div className={style.textarea}>
-            <Label htmlFor={id}>
-                {label}
-                <FieldRequirementIndicator
-                    required={required}
-                    mode={requirementIndicatorMode}
-                    optionalLabel={optionalLabel}
-                    requiredClassName={style.requiredSymbol}
-                />
-            </Label>
+            {labelElement}
             <textarea key={elementKey || id} {...textareaProps} />
             <ErrorMessage id={getErrorElementId()} content={errorMessage} />
         </div>

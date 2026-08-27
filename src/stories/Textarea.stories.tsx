@@ -135,6 +135,24 @@ export const KeepsFocusWhileTyping: Story = {
   },
 };
 
+export const ContentOnly: Story = {
+  args: {
+    id: "textarea-content-only",
+    label: "Content only",
+    contentOnly: true,
+    value: "First line\nSecond line",
+  },
+};
+
+export const ContentOnlyWithDefaultContent: Story = {
+  args: {
+    id: "textarea-content-only-empty",
+    label: "Content only (no value)",
+    contentOnly: true,
+    defaultContent: "Ikke angitt",
+  },
+};
+
 // The same element must still be in the DOM after typing — a remount would
 // replace it, which is what silently broke focus.
 export const KeepsTheSameElementWhileTyping: Story = {
