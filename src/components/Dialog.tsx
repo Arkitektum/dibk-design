@@ -77,15 +77,20 @@ const Dialog = ({
     const titleId = useId();
     const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null);
     const dialogContainerRef = useRef<HTMLDivElement>(null);
-    const dialogContentRef = useRef<HTMLDivElement>(null);
+
+    // Held in state rather than a ref so the effect can depend on the node itself.
+    // The content is only rendered once the portal exists and the dialog is not
+    // hidden, so this being non-null already means both, and the effect no longer
+    // has to list `portalElement` and `hidden` as stand-ins for "it mounted" —
+    // values it never actually read.
+    const [dialogContentElement, setDialogContentElement] = useState<HTMLDivElement | null>(null);
 
     // Runs once the portal content is mounted; the teardown removes the key
     // handler and returns focus to whatever opened the dialog.
     useEffect(() => {
-        const element = dialogContentRef.current;
-        if (!element) return;
-        return addFocusTrapInsideElement(element);
-    }, [portalElement, hidden]);
+        if (!dialogContentElement) return;
+        return addFocusTrapInsideElement(dialogContentElement);
+    }, [dialogContentElement]);
 
     useEffect(() => {
         if (hidden) {
@@ -172,7 +177,10 @@ const Dialog = ({
                 onClick={onClickOutside}
             />
             <div ref={dialogContainerRef} className={style.dialogContainer} style={dialogContentStyleProps}>
-                <div ref={dialogContentRef} className={classNameArrayToClassNameString([style.dialogContent, noPadding && style.noPadding])}>
+                <div
+                    ref={setDialogContentElement}
+                    className={classNameArrayToClassNameString([style.dialogContent, noPadding && style.noPadding])}
+                >
                     {title && (
                         <div id={titleId} className={style.dialogHeader}>
                             {typeof title === "string" ? <Header size={2}>{title}</Header> : title}
