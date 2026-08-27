@@ -9,6 +9,14 @@ import viteConfig from "./vite.config.ts";
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    // Pre-bundled up front rather than discovered while the suite runs. react-router
+    // is only reached through the preview decorator and a few stories, so Vite found
+    // it mid-run, re-optimized and reloaded, which invalidates the ?v= hashes the
+    // browser has already resolved and fails unrelated imports. Vitest warns about
+    // exactly this and asks for the dependency to be listed here.
+    optimizeDeps: {
+      include: ["react-router"],
+    },
     plugins: [
       storybookTest({
         // The location of your Storybook config, main.js|ts
