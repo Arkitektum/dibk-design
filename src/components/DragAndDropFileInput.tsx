@@ -19,6 +19,12 @@ export interface DragAndDropFileInputProps {
     onDragAndDropChange: (files: FileList) => void;
     label?: string | (string | JSX.Element)[];
     subLabel?: string | (string | JSX.Element)[];
+    /**
+     * Colour of the file-picker button. Named to match `InputField` and `Select`,
+     * which both expose `actionButtonColor`. Defaults to `primary` here rather
+     * than to their `secondary`, so the rendered button is unchanged.
+     */
+    actionButtonColor?: "primary" | "secondary";
     buttonContent?: string;
     buttonContentWhenSelectedFile?: string;
     selectedFileName?: string;
@@ -53,6 +59,7 @@ const DragAndDropFileInput = ({
     onDragAndDropChange,
     label = "",
     subLabel = "",
+    actionButtonColor = "primary",
     buttonContent,
     buttonContentWhenSelectedFile,
     selectedFileName,
@@ -184,7 +191,7 @@ const DragAndDropFileInput = ({
                         <Button
                             size="small"
                             inputType="button"
-                            color="primary"
+                            color={actionButtonColor}
                             onClick={handleAddButtonOnClick}
                             content={buttonLabel}
                             data-transaction-name={transactionName}

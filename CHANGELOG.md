@@ -41,6 +41,16 @@ come back optional, so nothing changes for a consumer who does not use them.
   every consuming app. The markup and its ids are as they were before 10.3.2, so consumer CSS
   targeting `#main-content-link` matches again. The link text is now overridable through
   `mainContentLinkText` rather than hardcoded to `"Hopp til hovedinnhold"`.
+- **`DragAndDropFileInput`: `actionButtonColor`.** The component lost `buttonColor` somewhere
+  between 6.5.3 and 11.2.1 while `buttonContent` survived, so a consumer passing both kept a
+  working button whose colour they could not control — the file-picker button was hardcoded to
+  `primary`. Named to match `InputField` and `Select`, which both already expose
+  `actionButtonColor`.
+
+  It defaults to `primary` rather than to the `secondary` those two default to, so the button
+  renders exactly as it did before the prop existed. That is a deliberate inconsistency: the
+  alternative was restoring a prop and changing the appearance of every existing file input in
+  the same release.
 
 ### Documented
 

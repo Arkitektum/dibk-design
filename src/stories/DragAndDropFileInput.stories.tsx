@@ -84,3 +84,11 @@ export const ContentOnlyWithDefaultContent: Story = {
     defaultContent: "Ingen fil valgt",
   },
 };
+
+export const WithSecondaryActionButton: Story = {
+  args: {
+    ...WithoutSelectedFile.args,
+    label: "Secondary button colour",
+    actionButtonColor: "secondary",
+  },
+};
