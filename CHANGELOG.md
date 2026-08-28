@@ -31,7 +31,7 @@ Two rules learned the hard way:
 
 ## 13.0.0 — 2026-08-27
 
-To be released as **13.0.0**. One breaking change, and it is the whole release.
+One breaking change, and it is the whole release.
 
 ### Breaking — react-router replaces react-router-dom
 
