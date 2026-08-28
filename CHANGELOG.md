@@ -29,10 +29,10 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
-## Unreleased
+## 13.1.0 — 2026-08-28
 
-To be released as **13.1.0**. Additive: the props below were dropped in earlier releases and
-come back optional, so nothing changes for a consumer who does not use them.
+Additive: the props below were dropped in earlier releases and come back optional, so nothing
+changes for a consumer who does not use them.
 
 ### Added
 
@@ -57,8 +57,14 @@ come back optional, so nothing changes for a consumer who does not use them.
   map over the same options — a common shape when a `maxCount` flag decides which to render —
   and passing the wrong one produced an input with no `value` attribute and no error.
 
-  `inputValue` still works and is marked `@deprecated`. It will be removed in the next major.
   One of the two is still required, enforced through the type, so neither name can be omitted.
+
+### Deprecated
+
+- **`inputValue` on `RadioButtonInput` and `RadioButtonListItem`**, renamed to `value`. It still
+  works and is marked `@deprecated`, so editors strike it through and nothing breaks today.
+  **It will be removed in the next major**, so a find and replace to `value` is worth doing
+  before then. Nothing else is deprecated in this release.
 
 ### Fixed
 
@@ -230,7 +236,7 @@ Since addressed: the remaining six are restored in the release above.
 
 Not documented here. See the commit history.
 
-## 10.3.5
+## 10.3.5 — 2026-01-20
 
 ### Breaking — shipped as a patch release, should have been 11.0.0
 
