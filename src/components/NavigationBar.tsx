@@ -27,6 +27,15 @@ export interface NavigationBarProps {
     themeId?: CustomThemeName;
     color?: "secondary" | "neutral";
     links?: ListItemObject[];
+    /**
+     * Id of the element holding the page's main content, without the `#`.
+     * Renders a skip link as the first focusable thing on the page, letting
+     * keyboard and screen reader users bypass the navigation — WCAG 2.4.1.
+     * Nothing is rendered without it, so the id has to exist in your page.
+     */
+    mainContentId?: string;
+    /** Visible text of the skip link. */
+    mainContentLinkText?: string;
     children?: React.ReactNode;
 }
 
@@ -37,6 +46,8 @@ const NavigationBar = ({
     themeId,
     color = "neutral",
     links = [],
+    mainContentId,
+    mainContentLinkText = "Hopp til hovedinnhold",
     children
 }: NavigationBarProps) => {
     const resolvedTheme = themeId ? customThemes[themeId] : undefined;
@@ -77,6 +88,13 @@ const NavigationBar = ({
 
     return (
         <div className={classNameArrayToClassNameString([color && style[color], style.navigationBarContainer])}>
+            {/* First in the DOM so it is first in the tab order, which is the
+                whole point of a skip link. */}
+            {mainContentId?.length ? (
+                <a id="main-content-link" href={`#${mainContentId}`} className={style.mainContentLink}>
+                    <span id="main-content-link-text">{mainContentLinkText}</span>
+                </a>
+            ) : null}
             <div className={classNameArrayToClassNameString([style.navigationBar])}>
                 <div className={style.logoContainer}>{renderLogo(logoLink, logoLinkTitle)}</div>
                 <div className={style.linksContainer}>

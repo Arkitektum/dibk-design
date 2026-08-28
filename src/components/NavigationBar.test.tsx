@@ -62,3 +62,44 @@ describe("NavigationBar", () => {
         expect(html).toContain('href="/one"');
     });
 });
+
+// Regression: mainContentId was dropped in 10.3.2 with no replacement, silently
+// removing a WCAG 2.4.1 bypass affordance from every consuming app. Nothing
+// failed, and the id it pointed at kept sitting in consumers' markup looking
+// correct with nothing linking to it.
+describe("NavigationBar skip link", () => {
+    it("renders a skip link pointing at the given id", () => {
+        const { html, warnings } = renderHtml(<NavigationBar mainContentId="main-content" />);
+
+        expect(html).toContain('href="#main-content"');
+        expect(html).toContain('id="main-content-link"');
+        expect(html).toContain("Hopp til hovedinnhold");
+        expect(warnings).toEqual([]);
+    });
+
+    // It is the bypass mechanism, so it has to come before the thing it bypasses.
+    it("renders the skip link before the navigation itself", () => {
+        const { html } = renderHtml(<NavigationBar mainContentId="main-content" links={[{ name: "One", href: "/one" }]} />);
+
+        expect(html.indexOf("main-content-link")).toBeLessThan(html.indexOf("navigationBar"));
+    });
+
+    it("renders nothing when no mainContentId is given", () => {
+        const { html } = renderHtml(<NavigationBar links={[{ name: "One", href: "/one" }]} />);
+
+        expect(html).not.toContain("main-content-link");
+    });
+
+    it("renders no skip link for an empty mainContentId", () => {
+        const { html } = renderHtml(<NavigationBar mainContentId="" />);
+
+        expect(html).not.toContain("main-content-link");
+    });
+
+    it("allows the link text to be overridden", () => {
+        const { html } = renderHtml(<NavigationBar mainContentId="main-content" mainContentLinkText="Skip to main content" />);
+
+        expect(html).toContain("Skip to main content");
+        expect(html).not.toContain("Hopp til hovedinnhold");
+    });
+});
