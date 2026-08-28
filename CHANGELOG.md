@@ -29,6 +29,26 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
+## Unreleased
+
+To be released as **13.1.0**. Additive: the props below were dropped in earlier releases and
+come back optional, so nothing changes for a consumer who does not use them.
+
+### Added
+
+- **`NavigationBar`: `mainContentId` is back**, along with the skip link it renders. It was
+  removed in 10.3.2 with no replacement, silently taking a WCAG 2.4.1 bypass affordance out of
+  every consuming app. The markup and its ids are as they were before 10.3.2, so consumer CSS
+  targeting `#main-content-link` matches again. The link text is now overridable through
+  `mainContentLinkText` rather than hardcoded to `"Hopp til hovedinnhold"`.
+
+### Documented
+
+- **`NavigationBar`: `preventChildElementStacking` has no replacement, and why.** See the
+  [10.3.2](#1032--2026-01-13) entry: the behaviour it selected is now unconditional, so the
+  prop could only ever have been a no-op. Consumers who relied on the default stacking need
+  their own media query.
+
 ## 13.0.0 — 2026-08-27
 
 One breaking change, and it is the whole release.
@@ -213,6 +233,19 @@ Published directly after 10.1.1; 10.2.0, which carried the rewrite, was never pu
 - **`keyAsContent` and `placeholderValue` were left in `SelectProps` but stopped being read**,
   so they became silent no-ops rather than compile errors. `placeholderValue` regained its
   inbound half in 11.4.0; both are fully restored in 11.5.0.
+- **`NavigationBar`: `mainContentId` was removed**, taking the skip link with it. Restored in
+  13.1.0.
+- **`NavigationBar`: `preventChildElementStacking` was removed, and the behaviour it controlled
+  became unconditional in the direction the prop selected.** Before, the nav stacked its child
+  elements into a column below the `sm` breakpoint unless you passed the prop, and always laid
+  them out in a row above it. Now the row direction applies at every width, and the bar has a
+  fixed `height: 62px`.
+
+  So if you passed `preventChildElementStacking`, you already have what it did and can drop the
+  prop. If you did not, your nav children no longer stack on narrow viewports and may overflow
+  the bar. There is no replacement prop, because reinstating one would only be able to select
+  the behaviour that is now permanent. Restoring the stacked layout means your own media query
+  on the children.
 
 ## 9.1.0 — 2025-07-09
 
