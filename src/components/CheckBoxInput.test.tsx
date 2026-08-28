@@ -4,7 +4,7 @@ import CheckBoxInput from "./CheckBoxInput";
 import CheckBoxListItem from "./CheckBoxListItem";
 import RadioButtonInput from "./RadioButtonInput";
 import RadioButtonListItem from "./RadioButtonListItem";
-import { hasAttribute, openingTags, renderHtml } from "../test/renderHtml";
+import { attribute, hasAttribute, openingTags, renderHtml } from "../test/renderHtml";
 
 // All four render a controlled `checked` with an optional onChange, so all four
 // have to declare themselves read-only when no handler is supplied — otherwise
@@ -19,7 +19,7 @@ const controlledInputs = [
 describe.each(controlledInputs)("%s", (_name, Component) => {
     it("marks the input read-only when no onChange is given", () => {
         const { html, warnings } = renderHtml(
-            <Component id="x" checked inputValue="v">
+            <Component id="x" checked value="v">
                 Label
             </Component>
         );
@@ -30,7 +30,7 @@ describe.each(controlledInputs)("%s", (_name, Component) => {
 
     it("does not mark the input read-only when onChange is given", () => {
         const { html, warnings } = renderHtml(
-            <Component id="x" checked inputValue="v" onChange={() => {}}>
+            <Component id="x" checked value="v" onChange={() => {}}>
                 Label
             </Component>
         );
@@ -41,7 +41,7 @@ describe.each(controlledInputs)("%s", (_name, Component) => {
 
     it("reflects the checked prop", () => {
         const { html } = renderHtml(
-            <Component id="x" checked inputValue="v" onChange={() => {}}>
+            <Component id="x" checked value="v" onChange={() => {}}>
                 Label
             </Component>
         );
@@ -51,12 +51,54 @@ describe.each(controlledInputs)("%s", (_name, Component) => {
 
     it("reflects an unchecked state", () => {
         const { html } = renderHtml(
-            <Component id="x" inputValue="v" onChange={() => {}}>
+            <Component id="x" value="v" onChange={() => {}}>
                 Label
             </Component>
         );
 
         expect(hasAttribute(html, "input", "checked")).toBe(false);
+    });
+
+    // The gap that hid the value/inputValue split: this block passed `inputValue`
+    // to all four, which the two checkbox components silently discarded, and
+    // nothing asserted the attribute was written. `value` now works for all four.
+    it("writes the value onto the input", () => {
+        const { html } = renderHtml(
+            <Component id="x" value="v" onChange={() => {}}>
+                Label
+            </Component>
+        );
+
+        expect(attribute(html, "input", "value")).toBe("v");
+    });
+});
+
+// Kept working for one major so existing call sites compile untouched.
+describe("inputValue as a deprecated alias for value", () => {
+    const radioComponents = [
+        ["RadioButtonInput", RadioButtonInput],
+        ["RadioButtonListItem", RadioButtonListItem]
+    ] as const;
+
+    it.each(radioComponents)("%s still honours inputValue", (_name, Component) => {
+        const { html, warnings } = renderHtml(
+            <Component id="x" inputValue="legacy" onChange={() => {}}>
+                Label
+            </Component>
+        );
+
+        expect(attribute(html, "input", "value")).toBe("legacy");
+        expect(warnings).toEqual([]);
+    });
+
+    it.each(radioComponents)("%s prefers value when both are given", (_name, Component) => {
+        const { html } = renderHtml(
+            <Component id="x" value="new" inputValue="legacy" onChange={() => {}}>
+                Label
+            </Component>
+        );
+
+        expect(attribute(html, "input", "value")).toBe("new");
     });
 });
 
@@ -140,7 +182,7 @@ describe("RadioButtonInput contentOnly", () => {
     // the single visible label would be noise.
     it("renders no form control and no indicator, only the label", () => {
         const { html, warnings } = renderHtml(
-            <RadioButtonInput id="rb" inputValue="a" contentOnly checked>
+            <RadioButtonInput id="rb" value="a" contentOnly checked>
                 Option A
             </RadioButtonInput>
         );
@@ -154,7 +196,7 @@ describe("RadioButtonInput contentOnly", () => {
 
     it("still renders the indicator when not contentOnly", () => {
         const { html } = renderHtml(
-            <RadioButtonInput id="rb" inputValue="a" checked onChange={() => {}}>
+            <RadioButtonInput id="rb" value="a" checked onChange={() => {}}>
                 Option A
             </RadioButtonInput>
         );
@@ -179,7 +221,7 @@ describe("list item contentOnly", () => {
 
     it("RadioButtonListItem passes contentOnly down and marks the wrapper", () => {
         const { html } = renderHtml(
-            <RadioButtonListItem id="rb" inputValue="a" contentOnly checked>
+            <RadioButtonListItem id="rb" value="a" contentOnly checked>
                 Option A
             </RadioButtonListItem>
         );

@@ -132,7 +132,7 @@ const Theme = (theme: ThemeProps) => {
                         <RadioButtonList legend="Default radio button list">
                             <RadioButtonListItem
                                 onChange={() => console.log("onchange")}
-                                inputValue="value 1"
+                                value="value 1"
                                 name="radio-button-list-list-item"
                                 id={radioButtonListId}
                                 checked
@@ -141,7 +141,7 @@ const Theme = (theme: ThemeProps) => {
                             </RadioButtonListItem>
                             <RadioButtonListItem
                                 onChange={() => console.log("onchange")}
-                                inputValue="value 2"
+                                value="value 2"
                                 name="radio-button-list-list-item"
                                 id={radioButtonListId}
                             >

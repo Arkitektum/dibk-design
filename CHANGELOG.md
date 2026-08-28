@@ -51,6 +51,20 @@ come back optional, so nothing changes for a consumer who does not use them.
   renders exactly as it did before the prop existed. That is a deliberate inconsistency: the
   alternative was restoring a prop and changing the appearance of every existing file input in
   the same release.
+- **`RadioButtonInput` and `RadioButtonListItem`: `value`.** All four checkbox and radio
+  components now take the same prop name. `CheckBoxInput` and `CheckBoxListItem` already took
+  `value`; the two radio components took `inputValue`, so the pair could not be swapped in a
+  map over the same options — a common shape when a `maxCount` flag decides which to render —
+  and passing the wrong one produced an input with no `value` attribute and no error.
+
+  `inputValue` still works and is marked `@deprecated`. It will be removed in the next major.
+  One of the two is still required, enforced through the type, so neither name can be omitted.
+
+### Fixed
+
+- **The checkbox and radio components' own test suite was passing `inputValue` to all four**,
+  which the two checkbox components silently discarded, and nothing asserted the `value`
+  attribute was written. Both are fixed, so the suite would now catch this.
 
 ### Documented
 

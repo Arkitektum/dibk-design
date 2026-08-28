@@ -17,7 +17,7 @@ export const Unchecked: Story = {
   args: {
     id: "radioButtonInput-1",
     children: "Label for unchecked radio button",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -26,7 +26,7 @@ export const Checked: Story = {
     id: "radioButtonInput-2",
     children: "Label for radio button",
     checked: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -35,7 +35,7 @@ export const HiddenLabel: Story = {
     id: "radioButtonInput-12",
     children: "Label only available to screen readers",
     hideLabel: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -45,7 +45,7 @@ export const CheckedDisabled: Story = {
     children: "Label for checked disabled radio button",
     checked: true,
     disabled: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -54,7 +54,7 @@ export const HasErrors: Story = {
     id: "radioButtonInput-6",
     children: "Label for radio button with errors",
     hasErrors: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -64,7 +64,7 @@ export const HasErrorsDisabled: Story = {
     children: "Label for disabled radio button with errors",
     hasErrors: true,
     disabled: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -74,7 +74,7 @@ export const HasErrorsChecked: Story = {
     children: "Label for checked radio button with errors",
     hasErrors: true,
     checked: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -85,7 +85,7 @@ export const HasErrorsCheckedDisabled: Story = {
     hasErrors: true,
     checked: true,
     disabled: true,
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -94,6 +94,6 @@ export const Required: Story = {
     id: "radioButtonInput-10",
     required: true,
     children: "Label for required radio button",
-    inputValue: "value",
+    value: "value",
   },
 };

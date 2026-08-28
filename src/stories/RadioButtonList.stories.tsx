@@ -21,7 +21,7 @@ const SharedChildren = () => {
     <>
       <RadioButtonListItem
         onChange={() => console.log("onchange")}
-        inputValue="value 1"
+        value="value 1"
         name="radio-button-list-list-item"
         id={radioButtonListId}
         checked
@@ -30,7 +30,7 @@ const SharedChildren = () => {
       </RadioButtonListItem>
       <RadioButtonListItem
         onChange={() => console.log("onchange")}
-        inputValue="value 2"
+        value="value 2"
         name="radio-button-list-list-item"
         id={radioButtonListId}
       >
@@ -70,7 +70,7 @@ export const ContentOnly: Story = {
       <RadioButtonListItem
         contentOnly
         checked
-        inputValue="a"
+        value="a"
         name="contentonly"
         id="rb-co-1"
       >
