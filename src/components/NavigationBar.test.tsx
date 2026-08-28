@@ -78,10 +78,14 @@ describe("NavigationBar skip link", () => {
     });
 
     // It is the bypass mechanism, so it has to come before the thing it bypasses.
+    // Compared against the logo rather than the nav element: "navigationBar" is a
+    // substring of the outer "navigationBarContainer", so it matches the wrapper
+    // that legitimately precedes the link.
     it("renders the skip link before the navigation itself", () => {
         const { html } = renderHtml(<NavigationBar mainContentId="main-content" links={[{ name: "One", href: "/one" }]} />);
 
-        expect(html.indexOf("main-content-link")).toBeLessThan(html.indexOf("navigationBar"));
+        expect(html.indexOf("main-content-link")).toBeLessThan(html.indexOf("logoContainer"));
+        expect(html.indexOf("main-content-link")).toBeLessThan(html.indexOf("linksContainer"));
     });
 
     it("renders nothing when no mainContentId is given", () => {
