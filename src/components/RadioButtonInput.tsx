@@ -8,7 +8,7 @@ import RadioButtonIcon from "./RadioButtonIcon";
 // Stylesheets
 import style from "./RadioButtonInput.module.scss";
 
-export interface RadioButtonInputProps {
+interface RadioButtonInputPropsBase {
     checked?: boolean;
     disabled?: boolean;
     required?: boolean;
@@ -28,7 +28,6 @@ export interface RadioButtonInputProps {
      */
     contentOnly?: boolean;
     hasErrors?: boolean;
-    inputValue: string;
     hideLabel?: boolean;
     tabIndex?: number;
     children?: React.ReactNode;
@@ -37,6 +36,23 @@ export interface RadioButtonInputProps {
     requirementIndicatorMode?: RequirementIndicatorMode;
     optionalLabel?: string;
 }
+
+// Either name satisfies the requirement, which is what keeps `inputValue` working
+// while making it impossible to supply neither.
+type RadioButtonInputValueProps =
+    | {
+          /** The value written to the input's `value` attribute. */
+          value: string | number;
+          /** @deprecated Renamed to `value`. Still honoured, removed in the next major. */
+          inputValue?: string;
+      }
+    | {
+          value?: string | number;
+          /** @deprecated Renamed to `value`. Still honoured, removed in the next major. */
+          inputValue: string;
+      };
+
+export type RadioButtonInputProps = RadioButtonInputPropsBase & RadioButtonInputValueProps;
 
 const RadioButtonInput = ({
     checked = false,
@@ -48,6 +64,7 @@ const RadioButtonInput = ({
     onChange,
     contentOnly = false,
     hasErrors = false,
+    value,
     inputValue,
     hideLabel = false,
     tabIndex,
@@ -78,7 +95,7 @@ const RadioButtonInput = ({
         id,
         name,
         type: "radio",
-        value: inputValue,
+        value: value ?? inputValue,
         checked,
         disabled,
         required: required || requiredGroup,

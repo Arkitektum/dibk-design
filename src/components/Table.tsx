@@ -498,7 +498,7 @@ const Table = <T extends object>({
                                                 <RadioButtonInput
                                                     id={selectionControlId}
                                                     name={selectionGroupName}
-                                                    inputValue={String(rowId)}
+                                                    value={String(rowId)}
                                                     checked={isSelectedSingle}
                                                     hideLabel
                                                     onChange={() => {

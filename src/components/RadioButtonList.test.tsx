@@ -23,7 +23,7 @@ describe("RadioButtonList compact propagation", () => {
     it("applies compact to a direct child item", () => {
         const { html, warnings } = renderHtml(
             <RadioButtonList legend="Group" compact>
-                <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                     A
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -36,7 +36,7 @@ describe("RadioButtonList compact propagation", () => {
     it("leaves items non-compact when the list is not compact", () => {
         const { html } = renderHtml(
             <RadioButtonList legend="Group">
-                <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                     A
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -50,14 +50,14 @@ describe("RadioButtonList compact propagation", () => {
             <RadioButtonList legend="Group" compact>
                 {/* biome-ignore lint/complexity/noUselessFragments: the fragment is what this test exercises */}
                 <>
-                    <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                    <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                         A
                     </RadioButtonListItem>
-                    <RadioButtonListItem id="b" inputValue="b" name="group" onChange={() => {}}>
+                    <RadioButtonListItem id="b" value="b" name="group" onChange={() => {}}>
                         B
                     </RadioButtonListItem>
                 </>
-                <RadioButtonListItem id="c" inputValue="c" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="c" value="c" name="group" onChange={() => {}}>
                     C
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -69,10 +69,10 @@ describe("RadioButtonList compact propagation", () => {
     it("applies compact to items nested inside a component", () => {
         const Items = () => (
             <>
-                <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                     A
                 </RadioButtonListItem>
-                <RadioButtonListItem id="b" inputValue="b" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="b" value="b" name="group" onChange={() => {}}>
                     B
                 </RadioButtonListItem>
             </>
@@ -91,7 +91,7 @@ describe("RadioButtonList compact propagation", () => {
         const { html, warnings } = renderHtml(
             <RadioButtonList legend="Group" compact>
                 {["a", "b", "c"].map((id) => (
-                    <RadioButtonListItem key={id} id={id} inputValue={id} name="group" onChange={() => {}}>
+                    <RadioButtonListItem key={id} id={id} value={id} name="group" onChange={() => {}}>
                         {id}
                     </RadioButtonListItem>
                 ))}
@@ -105,10 +105,10 @@ describe("RadioButtonList compact propagation", () => {
     it("lets an item opt out with compact={false}", () => {
         const { html } = renderHtml(
             <RadioButtonList legend="Group" compact>
-                <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                     A
                 </RadioButtonListItem>
-                <RadioButtonListItem id="b" inputValue="b" name="group" compact={false} onChange={() => {}}>
+                <RadioButtonListItem id="b" value="b" name="group" compact={false} onChange={() => {}}>
                     B
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -126,11 +126,11 @@ describe("RadioButtonList required propagation", () => {
             <RadioButtonList legend="Group" required>
                 {/* biome-ignore lint/complexity/noUselessFragments: nesting is what this test exercises */}
                 <>
-                    <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                    <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                         A
                     </RadioButtonListItem>
                 </>
-                <RadioButtonListItem id="b" inputValue="b" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="b" value="b" name="group" onChange={() => {}}>
                     B
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -142,7 +142,7 @@ describe("RadioButtonList required propagation", () => {
     it("leaves radio buttons not required when the list is not required", () => {
         const { html } = renderHtml(
             <RadioButtonList legend="Group">
-                <RadioButtonListItem id="a" inputValue="a" name="group" onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" onChange={() => {}}>
                     A
                 </RadioButtonListItem>
             </RadioButtonList>
@@ -154,7 +154,7 @@ describe("RadioButtonList required propagation", () => {
     it("lets an item opt out with requiredGroup={false}", () => {
         const { html } = renderHtml(
             <RadioButtonList legend="Group" required>
-                <RadioButtonListItem id="a" inputValue="a" name="group" requiredGroup={false} onChange={() => {}}>
+                <RadioButtonListItem id="a" value="a" name="group" requiredGroup={false} onChange={() => {}}>
                     A
                 </RadioButtonListItem>
             </RadioButtonList>

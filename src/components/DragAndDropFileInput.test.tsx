@@ -65,3 +65,22 @@ describe("DragAndDropFileInput contentOnly", () => {
         expect(html).toContain('id="dnd-errorMessage"');
     });
 });
+
+// Regression: buttonColor was dropped somewhere between 6.5.3 and 11.2.1 while
+// buttonContent survived, so a consumer passing both kept a working button whose
+// colour they could no longer control. Named actionButtonColor here to match
+// InputField and Select.
+describe("DragAndDropFileInput actionButtonColor", () => {
+    it("defaults to the primary button, unchanged from before the prop existed", () => {
+        const { html } = renderHtml(<DragAndDropFileInput {...baseProps} buttonContent="Velg fil" />);
+
+        expect(html).toMatch(/<button[^>]*class="[^"]*primary/);
+    });
+
+    it("renders a secondary button when asked", () => {
+        const { html } = renderHtml(<DragAndDropFileInput {...baseProps} buttonContent="Velg fil" actionButtonColor="secondary" />);
+
+        expect(html).toMatch(/<button[^>]*class="[^"]*secondary/);
+        expect(html).not.toMatch(/<button[^>]*class="[^"]*primary/);
+    });
+});

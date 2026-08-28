@@ -28,6 +28,39 @@
         padding-right: 20px;
     }
     position: relative;
+
+    // Clipped to 1x1 rather than display:none or visibility:hidden, both of which
+    // would take the link out of the tab order and defeat the point of it. It
+    // returns to the flow on focus, pushing the nav down rather than covering it.
+    .mainContentLink {
+        display: block;
+        padding: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 19px;
+        position: absolute;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        width: 1px;
+        height: 1px;
+        word-wrap: normal;
+        background-color: var(--color-body-background, colors.$color-body-background);
+        color: var(--color-primary, colors.$color-primary);
+
+        &:focus,
+        &:active {
+            position: static;
+            overflow: visible;
+            clip: auto;
+            width: auto;
+            height: auto;
+
+            span {
+                outline-color: var(--color-primary, colors.$color-primary);
+            }
+        }
+    }
+
     .navigationBar {
         position: relative;
         height: 62px;

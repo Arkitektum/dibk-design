@@ -16,7 +16,7 @@ export const Unchecked: Story = {
     id: "radioButtonListItem-1",
     name: "radioButtonListItem",
     children: "Label for unchecked radio button",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -26,7 +26,7 @@ export const Checked: Story = {
     checked: true,
     name: "radioButtonListItem",
     children: "Label for checked radio button",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -37,7 +37,7 @@ export const CheckedDisabled: Story = {
     disabled: true,
     name: "radioButtonListItem",
     children: "Label for checked disabled radio button",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -47,7 +47,7 @@ export const HasErrors: Story = {
     hasErrors: true,
     name: "radioButtonListItem",
     children: "Label for radio button with errors",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -58,7 +58,7 @@ export const HasErrorsDisabled: Story = {
     disabled: true,
     name: "radioButtonListItem",
     children: "Label for disabled radio button with errors",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -69,7 +69,7 @@ export const HasErrorsChecked: Story = {
     checked: true,
     name: "radioButtonListItem",
     children: "Label for checked radio button with errors",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -81,7 +81,7 @@ export const HasErrorsCheckedDisabled: Story = {
     disabled: true,
     name: "radioButtonListItem",
     children: "Label for checked disabled radio button with errors",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -91,7 +91,7 @@ export const Required: Story = {
     required: true,
     name: "radioButtonListItem",
     children: "Label for required radio button",
-    inputValue: "value",
+    value: "value",
   },
 };
 
@@ -101,6 +101,6 @@ export const Compact: Story = {
     compact: true,
     name: "radioButtonListItem",
     children: "Label for compact radio button",
-    inputValue: "value",
+    value: "value",
   },
 };

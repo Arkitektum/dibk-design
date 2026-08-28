@@ -52,3 +52,21 @@ export const WithSecondaryColor: Story = {
         ]
     }
 };
+
+// The skip link is invisible until focused, so tab into the story to see it.
+export const WithSkipLink: Story = {
+    args: {
+        themeId: "dibk",
+        mainContentId: "main-content",
+        links: [
+            { name: "Oversikt", href: "/oversikt" },
+            { name: "Administrasjon", href: "/administrasjon" }
+        ]
+    },
+    render: (args) => (
+        <>
+            <NavigationBar {...args} />
+            <main id="main-content">Hovedinnhold</main>
+        </>
+    )
+};
