@@ -4,10 +4,10 @@ import List from "../components/List";
 import ListItem from "../components/ListItem";
 
 const meta: Meta<typeof List> = {
-  title: "Primitives/List",
-  component: List,
-  argTypes: {},
-  tags: ["autodocs"],
+    title: "Primitives/List",
+    component: List,
+    argTypes: {},
+    tags: ["autodocs"]
 };
 
 export default meta;
@@ -15,56 +15,72 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const listItems = (
-  <>
-    <ListItem>item 1</ListItem>
-    <ListItem>item 2</ListItem>
-    <ListItem>item 3</ListItem>
-  </>
+    <>
+        <ListItem>item 1</ListItem>
+        <ListItem>item 2</ListItem>
+        <ListItem>item 3</ListItem>
+    </>
 );
 
 const listItemsWithSubItems = (
-  <>
-    <ListItem>item 1</ListItem>
-    <ListItem>
-      item 2
-      <List>
-        <ListItem>subitem 1</ListItem>
-        <ListItem>subitem 2</ListItem>
-      </List>
-    </ListItem>
-    <ListItem>item 3</ListItem>
-  </>
+    <>
+        <ListItem>item 1</ListItem>
+        <ListItem>
+            item 2
+            <List>
+                <ListItem>subitem 1</ListItem>
+                <ListItem>subitem 2</ListItem>
+            </List>
+        </ListItem>
+        <ListItem>item 3</ListItem>
+    </>
 );
 
 export const Ordered: Story = {
-  args: {
-    children: listItems,
-    ordered: true,
-  },
+    args: {
+        children: listItems,
+        ordered: true
+    }
 };
 
 export const Unordered: Story = {
-  args: {
-    children: listItems,
-  },
+    args: {
+        children: listItems
+    }
 };
 
 export const UnorderedSquareStyled: Story = {
-  args: {
-    children: listItems,
-    listStyle: "square",
-  },
+    args: {
+        children: listItems,
+        listStyle: "square"
+    }
 };
 
 export const UnorderedUnstyled: Story = {
-  args: {
-    children: listItems,
-    listStyle: "none",
-  },
+    args: {
+        children: listItems,
+        listStyle: "none"
+    }
 };
 
 export const UnorderedListWithSubItems: Story = {
-  args: {
-    children: listItemsWithSubItems,
-  },
+    args: {
+        children: listItemsWithSubItems
+    }
+};
+
+// `compact` tightens the spacing between items, and every item inherits it —
+// including the ones in a nested list.
+export const Compact: Story = {
+    args: {
+        children: listItems,
+        compact: true
+    }
+};
+
+export const CompactWithSubItems: Story = {
+    args: {
+        children: listItemsWithSubItems,
+        compact: true
+    }
 };

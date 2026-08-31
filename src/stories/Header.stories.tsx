@@ -2,62 +2,96 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import Header from "../components/Header";
 
 const meta: Meta<typeof Header> = {
-  title: "Primitives/Header",
-  component: Header,
-  argTypes: {
-    size: { control: "select", options: [1, 2, 3, 4, 5] },
-    htmlTag: { control: "select", options: ["h1", "h2", "h3", "h4", "h5"] },
-  },
-  tags: ["autodocs"],
+    title: "Primitives/Header",
+    component: Header,
+    argTypes: {
+        size: { control: "select", options: [1, 2, 3, 4, 5] },
+        htmlTag: { control: "select", options: ["h1", "h2", "h3", "h4", "h5"] }
+    },
+    tags: ["autodocs"]
 };
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const render: Story["render"] = (args) => (
-  <Header {...args}>Title with size {args.size}</Header>
-);
+const render: Story["render"] = (args) => <Header {...args}>Title with size {args.size}</Header>;
 
 export const Header1: Story = {
-  args: {
-    size: 1,
-  },
-  render,
+    args: {
+        size: 1
+    },
+    render
 };
 
 export const Header2: Story = {
-  args: {
-    size: 2,
-  },
-  render,
+    args: {
+        size: 2
+    },
+    render
 };
 
 export const Header3: Story = {
-  args: {
-    size: 3,
-  },
-  render,
+    args: {
+        size: 3
+    },
+    render
 };
 
 export const Header4: Story = {
-  args: {
-    size: 4,
-  },
-  render,
+    args: {
+        size: 4
+    },
+    render
 };
 
 export const Header5: Story = {
-  args: {
-    size: 5,
-  },
-  render,
+    args: {
+        size: 5
+    },
+    render
 };
 
 export const Header2WithH1Tag: Story = {
-  args: {
-    size: 2,
-    htmlTag: "h1",
-  },
-  render,
+    args: {
+        size: 2,
+        htmlTag: "h1"
+    },
+    render
+};
+
+// `label` is rendered by CSS from a `--label` custom property, above the
+// heading — for a section eyebrow that is not a heading of its own.
+export const WithLabel: Story = {
+    args: {
+        size: 2,
+        label: "Steg 3 av 5"
+    },
+    render
+};
+
+// `content` is the string form of `children`, and wins when both are given.
+export const WithContentProp: Story = {
+    args: {
+        size: 3,
+        content: "Title from the content prop"
+    },
+    render: (args) => <Header {...args} />
+};
+
+// `htmlTag="label"` plus `htmlFor` makes a heading-sized label for a single
+// form control.
+export const AsLabel: Story = {
+    args: {
+        size: 4,
+        htmlTag: "label",
+        htmlFor: "header-story-input",
+        content: "Heading sized label"
+    },
+    render: (args) => (
+        <>
+            <Header {...args} />
+            <input id="header-story-input" type="text" />
+        </>
+    )
 };
