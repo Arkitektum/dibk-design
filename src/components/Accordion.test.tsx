@@ -107,4 +107,22 @@ describe("Accordion className handling", () => {
         expect(attribute(html, "div", "id")).toBe("my-accordion");
         expect(attribute(html, "div", "data-testid")).toBe("probe");
     });
+
+    // Regression: the panel rendered <button> with no type, which HTML treats
+    // as type="submit", so toggling an accordion inside a form submitted it.
+    it("gives the panel button type=button", () => {
+        const { html } = renderHtml(<Accordion title="Title">Body</Accordion>);
+
+        expect(attribute(html, "button", "type")).toBe("button");
+    });
+
+    it("lets buttonProps override the button type", () => {
+        const { html } = renderHtml(
+            <Accordion title="Title" buttonProps={{ type: "submit" }}>
+                Body
+            </Accordion>
+        );
+
+        expect(attribute(html, "button", "type")).toBe("submit");
+    });
 });

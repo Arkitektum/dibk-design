@@ -49,7 +49,10 @@ const RenderPanel = ({
     handleToggleExpand: () => void;
 }) => {
     return (
-        <button {...buttonProps} className={style.panel} onClick={handleToggleExpand} aria-expanded={expanded ? "true" : "false"}>
+        // `type` before the spread, so a consumer can still opt into submit,
+        // but the default is not the HTML one — an untyped <button> is a submit
+        // button, and toggling an accordion inside a form submitted it.
+        <button type="button" {...buttonProps} className={style.panel} onClick={handleToggleExpand} aria-expanded={expanded ? "true" : "false"}>
             <span className={style.panelText}>{title}</span>
             <span className={`${style.panelChevron} ${expanded ? style.expanded : ""}`}></span>
         </button>
