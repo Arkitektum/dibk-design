@@ -46,11 +46,23 @@ export const RichContent: Story = {
     }
 };
 
-// Nothing is rendered when the content is empty — the component returns null
-// rather than an empty element with an error icon.
+// With no content there is no icon and no text — but the aria-live region
+// itself stays in the DOM, empty and taking up no space.
+//
+// Regression: it used to return null, so the region was inserted at the same
+// moment as its own text. Screen readers announce *changes inside* a region
+// they are already watching, so an error appearing while focus was elsewhere
+// — after a failed submit, typically — was never announced.
 export const EmptyContent: Story = {
     args: {
         content: ""
+    },
+    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        const region = canvasElement.querySelector("[aria-live]");
+
+        expect(region).not.toBeNull();
+        expect(region?.textContent).toBe("");
+        expect((region as HTMLElement).getBoundingClientRect().height).toBe(0);
     }
 };
 

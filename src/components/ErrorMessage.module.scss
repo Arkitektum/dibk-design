@@ -1,5 +1,12 @@
 @use "../style/abstracts/variables/colors";
 
+// Block rather than inline, so the always-present region adds no line box —
+// an empty inline element would still generate one, pushing every field below
+// it down by a line.
+.errorMessageRegion {
+    display: block;
+}
+
 .errorMessage {
     display: inline-flex;
     align-items: center;

@@ -230,7 +230,10 @@ const InputField = ({
                 {labelElement}
                 <span className={style.contentOnly}>{contentOnlyText()}</span>
                 {captionElement}
-                {hasErrors && errorMessage ? <ErrorMessage id={getErrorElementId()} content={errorMessage} /> : null}
+                {/* Rendered unconditionally — ErrorMessage keeps the live region
+                    mounted and decides what goes in it. Mounting it only on error
+                    is what stopped screen readers announcing. */}
+                <ErrorMessage id={getErrorElementId()} content={hasErrors ? errorMessage : undefined} />
             </div>
         );
     }
