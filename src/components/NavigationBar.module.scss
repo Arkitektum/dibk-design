@@ -225,12 +225,8 @@
     }
 }
 
-.secondary {
-    --navigation-overlay: var(--color-secondary-light, colors.$color-secondary-light);
-    --navigation-text: var(--color-secondary-light, colors.$color-secondary-light);
-}
-
-.neutral {
-    --navigation-overlay: colors.$color-background-secondary;
-    --navigation-text: colors.$color-default-text;
-}
+// The `secondary` and `neutral` variants are gone with the `color` prop.
+// `neutral` only restated the defaults set on .navigationBarContainer, and
+// `secondary` set --navigation-text to the same token as --navigation-overlay,
+// which painted the bar's text in its own background colour. The
+// --navigation-* custom properties stay as the styling hook.

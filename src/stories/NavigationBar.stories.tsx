@@ -10,10 +10,6 @@ const meta: Meta<typeof NavigationBar> = {
         themeId: {
             control: "select",
             options: ["dibk", "arbeidstilsynet"]
-        },
-        color: {
-            control: "radio",
-            options: ["secondary", "neutral"]
         }
     },
     tags: ["autodocs"]
@@ -25,26 +21,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        themeId: "dibk",
-        color: "neutral"
+        themeId: "dibk"
     }
 };
 
 export const WithLinks: Story = {
     args: {
         themeId: "dibk",
-        color: "neutral",
-        links: [
-            { name: "Oversikt", href: "/oversikt" },
-            { name: "Administrasjon", href: "/administrasjon" }
-        ]
-    }
-};
-
-export const WithSecondaryColor: Story = {
-    args: {
-        themeId: "dibk",
-        color: "secondary",
         links: [
             { name: "Oversikt", href: "/oversikt" },
             { name: "Administrasjon", href: "/administrasjon" }
@@ -122,7 +105,6 @@ export const WithChildren: Story = {
 export const Arbeidstilsynet: Story = {
     args: {
         themeId: "arbeidstilsynet",
-        color: "neutral",
         links: [
             { name: "Oversikt", href: "/oversikt" },
             { name: "Administrasjon", href: "/administrasjon" }

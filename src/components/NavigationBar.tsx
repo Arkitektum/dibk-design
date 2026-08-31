@@ -116,7 +116,6 @@ export interface NavigationBarProps {
     logoLinkTitle?: string;
     openLogoLinkInNewTab?: boolean;
     themeId?: CustomThemeName;
-    color?: "secondary" | "neutral";
     links?: ListItemObject[];
     /**
      * Id of the element holding the page's main content, without the `#`.
@@ -140,7 +139,6 @@ const NavigationBar = ({
     logoLinkTitle = "DIBK logo",
     openLogoLinkInNewTab = true,
     themeId,
-    color = "neutral",
     links = [],
     mainContentId,
     mainContentLinkText = "Hopp til hovedinnhold",
@@ -203,7 +201,7 @@ const NavigationBar = ({
     };
 
     return (
-        <div className={classNameArrayToClassNameString([color && style[color], style.navigationBarContainer])}>
+        <div className={style.navigationBarContainer}>
             {/* First in the DOM so it is first in the tab order, which is the
                 whole point of a skip link. */}
             {mainContentId?.length ? (
