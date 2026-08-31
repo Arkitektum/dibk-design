@@ -4,6 +4,12 @@ import { type ReactNode, createContext, useContext } from "react";
 // Components
 import { AsteriskIcon } from "../icons";
 
+// Helpers
+import { classNameArrayToClassNameString } from "../functions/helpers";
+
+// Stylesheets
+import style from "./FieldRequirementIndicator.module.scss";
+
 export type RequirementIndicatorMode = "required" | "optional" | "none";
 
 interface FieldRequirementIndicatorContextValue {
@@ -54,8 +60,11 @@ const FieldRequirementIndicator = ({ required, mode, optionalLabel, requiredClas
         return required ? <AsteriskIcon aria-hidden="true" className={requiredClassName} /> : null;
     }
 
+    // Styled through a class rather than an inline style, which no consumer
+    // could override: an inline style beats any selector they could write,
+    // including the `optionalClassName` this component asks them for.
     return !required ? (
-        <span className={optionalClassName} style={{ color: "#828282", fontWeight: 400 }}>
+        <span className={classNameArrayToClassNameString([style.optionalLabel, optionalClassName])}>
             {" "}
             ({effectiveOptionalLabel})
         </span>

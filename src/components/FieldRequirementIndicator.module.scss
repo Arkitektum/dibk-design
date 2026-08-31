@@ -1,0 +1,9 @@
+.optionalLabel {
+    // The grey is not from the palette — it is a neutral #828282, while every
+    // grey in _colors.scss is warm-tinted (the nearest, $color-warm-gray-500,
+    // is #8a7b78). Swapping it would restyle the optional marker in every
+    // consuming app, so the value is kept and exposed as a custom property
+    // instead. Worth revisiting if a neutral grey is ever added to the palette.
+    color: var(--color-optional-label, #828282);
+    font-weight: 400;
+}

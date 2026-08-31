@@ -148,6 +148,15 @@ is not styling this library's internals.
   `undefined`, React dropped the attribute, and the icon was sized only by its own `width` and
   `height` attributes. The rule now exists, stating that same 14×11 size where it can be changed.
 
+- **`FieldRequirementIndicator`'s `optionalClassName` could never take effect.** The optional
+  label carried its colour and weight as an inline style, and an inline style beats any selector
+  a consumer can write — including the class the component asks them for. It is a stylesheet
+  class now, so `optionalClassName` composes with it as intended.
+
+  The colour is unchanged. It is a neutral `#828282` while every grey in the palette is
+  warm-tinted, so rather than restyle the optional marker in every app it stays as it is, behind
+  a `--color-optional-label` custom property for anyone who wants to override it without a class.
+
 - **`Accordion` and `ToggleNavigationButton` submitted the form around them.** Both rendered a
   `<button>` with no `type`, which HTML treats as `type="submit"`, so opening an accordion or
   toggling the navigation inside a `<form>` submitted it. Both now default to `type="button"`,
