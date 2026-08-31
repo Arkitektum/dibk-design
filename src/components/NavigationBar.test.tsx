@@ -63,6 +63,93 @@ describe("NavigationBar", () => {
     });
 });
 
+// Regression: ListItemObject.listItems survived the 10.3.0 rewrite in the type
+// while the recursive renderer that drew it did not, so nested items were
+// accepted and silently dropped for every release since.
+describe("NavigationBar submenus", () => {
+    const links = [
+        { name: "Oversikt", href: "/oversikt" },
+        {
+            name: "Administrasjon",
+            href: "/administrasjon",
+            listItems: [
+                { name: "Brukere", href: "/administrasjon/brukere" },
+                { name: "Roller", href: "/administrasjon/roller" }
+            ]
+        }
+    ];
+
+    it("renders the nested items", () => {
+        const { html, warnings } = renderHtml(<NavigationBar links={links} />);
+
+        expect(html).toContain('href="/administrasjon/brukere"');
+        expect(html).toContain('href="/administrasjon/roller"');
+        expect(warnings).toEqual([]);
+    });
+
+    it("keeps the parent's own link alongside the toggle", () => {
+        const { html } = renderHtml(<NavigationBar links={links} />);
+
+        expect(html).toContain('href="/administrasjon"');
+        expect(html).toContain("<button");
+    });
+
+    it("starts collapsed and points the toggle at the submenu", () => {
+        const { html } = renderHtml(<NavigationBar links={links} />);
+        const submenuId = attribute(html, "button", "aria-controls");
+
+        expect(attribute(html, "button", "aria-expanded")).toBe("false");
+        expect(submenuId).toBeTruthy();
+        expect(html).toContain(`id="${submenuId}"`);
+    });
+
+    // The link beside it already says the name, so the button needs a name of
+    // its own that does not read the item twice.
+    it("labels the toggle when the item has its own link", () => {
+        const { html } = renderHtml(<NavigationBar links={links} />);
+
+        expect(attribute(html, "button", "aria-label")).toBe("Vis undermeny for Administrasjon");
+    });
+
+    it("allows the toggle label to be overridden", () => {
+        const { html } = renderHtml(<NavigationBar links={links} getSubmenuToggleLabel={(name) => `Show ${name} submenu`} />);
+
+        expect(attribute(html, "button", "aria-label")).toBe("Show Administrasjon submenu");
+    });
+
+    // With no href of its own the button is the item, and its text is the name.
+    it("makes the toggle the item itself when it has no href", () => {
+        const { html } = renderHtml(<NavigationBar links={[{ name: "Administrasjon", href: "", listItems: [{ name: "Brukere", href: "/brukere" }] }]} />);
+
+        expect(attribute(html, "button", "aria-label")).toBeNull();
+        expect(html).toContain("Administrasjon");
+    });
+
+    it("renders a grouping item inside the panel as a heading rather than a link", () => {
+        const { html } = renderHtml(
+            <NavigationBar
+                links={[
+                    {
+                        name: "Administrasjon",
+                        href: "/administrasjon",
+                        listItems: [{ name: "Tilganger", href: "", listItems: [{ name: "Roller", href: "/roller" }] }]
+                    }
+                ]}
+            />
+        );
+
+        expect(html).toContain("Tilganger");
+        expect(html).not.toContain('href=""');
+        expect(html).toContain('href="/roller"');
+    });
+
+    it("leaves items without children as plain links", () => {
+        const { html } = renderHtml(<NavigationBar links={[{ name: "Oversikt", href: "/oversikt" }]} />);
+
+        expect(html).not.toContain("<button");
+    });
+});
+
 // Regression: mainContentId was dropped in 10.3.2 with no replacement, silently
 // removing a WCAG 2.4.1 bypass affordance from every consuming app. Nothing
 // failed, and the id it pointed at kept sitting in consumers' markup looking

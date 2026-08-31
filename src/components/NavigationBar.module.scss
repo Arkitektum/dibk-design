@@ -119,6 +119,104 @@
                 border-radius: 2px;
             }
         }
+
+        // An item that discloses a submenu keeps its own link and puts the
+        // toggle beside it, so both fit on one row.
+        .submenuContainer {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .submenuTrigger {
+            @include appearance.appearance(none);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            font: inherit;
+            color: var(--navigation-text, colors.$color-default-text);
+
+            &:focus-visible {
+                outline: 2px solid colors.$color-secondary;
+                outline-offset: 3px;
+                border-radius: 2px;
+            }
+        }
+
+        .submenuChevron {
+            width: 7px;
+            height: 7px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: translateY(-25%) rotate(45deg);
+            @include transition.transition(transform transitions.$default-transition);
+        }
+
+        .submenuTriggerOpen .submenuChevron {
+            transform: translateY(10%) rotate(225deg);
+        }
+
+        // display:none, so a closed panel is out of both the tab order and the
+        // accessibility tree. Nothing animates on the way out here, so unlike
+        // Accordion it does not need to stay rendered while it collapses.
+        .submenu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            z-index: 10;
+            min-width: 230px;
+            margin: 0;
+            padding: 8px 0;
+            list-style: none;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            font-size: 17px;
+            font-weight: 400;
+            text-align: left;
+
+            // Its own surface colours rather than the bar's: the panel sits on
+            // the page, not on the bar, and the bar's text colour is picked to
+            // contrast with the bar.
+            background-color: var(--color-body-background, colors.$color-body-background);
+            color: var(--color-default-text, colors.$color-default-text);
+            border: 1px solid var(--color-border, colors.$color-border);
+            @include box-shadow.box-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+
+            li {
+                display: block;
+            }
+
+            a {
+                display: block;
+                padding: 8px 16px;
+                color: inherit;
+            }
+        }
+
+        .submenuOpen {
+            display: flex;
+        }
+
+        // A grouping item has no destination of its own, so it is a heading for
+        // the items below it rather than a link.
+        .submenuGroupName {
+            display: block;
+            padding: 8px 16px;
+            font-weight: 600;
+        }
+
+        .submenuGroup {
+            margin: 0;
+            padding: 0 0 0 16px;
+            list-style: none;
+        }
     }
     background-color: var(--navigation-overlay, colors.$color-background-secondary);
     color: var(--navigation-text, colors.$color-default-text);
