@@ -8,13 +8,11 @@ const meta: Meta<typeof NavigationBar> = {
     argTypes: {
         themeId: {
             control: "select",
-            options: ["dibk", "arbeidstilsynet"],
-            defaultValue: "dibk"
+            options: ["dibk", "arbeidstilsynet"]
         },
         color: {
             control: "radio",
-            options: ["secondary", "neutral"],
-            defaultValue: "neutral"
+            options: ["secondary", "neutral"]
         }
     },
     tags: ["autodocs"]

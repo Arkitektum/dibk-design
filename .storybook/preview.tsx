@@ -20,11 +20,11 @@ const withThemeProvider: Decorator = (Story, context) => {
 };
 
 const preview: Preview = {
-  argTypes: {theme: {
-    control: "select",
-    options: ["dibk", "arbeidstilsynet"],
-    defaultValue: "dibk",
-  }},
+  // No global `theme` argType: the theme is a global (see globalTypes below),
+  // read from context.globals by the decorator above — never from args. A
+  // global argType put a dead `theme` control on every component's Controls
+  // tab, and on ThemeProvider it shadowed the real `theme` prop, offering the
+  // string "dibk" where the component expects a ThemeProps object.
   parameters: {
     controls: {
       matchers: {
