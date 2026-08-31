@@ -82,6 +82,19 @@ is not styling this library's internals.
   grep -rn "errorMessage" src
   ```
 
+- **`InfoBox` and `Step`: their icons are inline `<svg>` too.** Same fix as `ErrorMessage`, same
+  shape of breakage: `InfoBox`'s variant icon (`.iconImage`) and the finished-step checkmark in
+  `Step` (`.checkmarkSymbol`) were `<img>` elements and are now inline SVG. The class names are
+  unchanged and sizing rules still apply. A selector written as `img.iconImage`, or one setting
+  `object-fit`, stops matching.
+
+  The `error` variant's icon changes shape slightly: its artwork is 24×28 in a 24×24 box, so as
+  an image it was squashed and now keeps its proportions.
+
+  ```bash
+  grep -rn "iconImage\|checkmarkSymbol" src
+  ```
+
 ### Added
 
 - **`NavigationBar`: nested `listItems` finally render.** `ListItemObject.listItems` survived
@@ -122,6 +135,18 @@ is not styling this library's internals.
   `aria-describedby` covered it up whenever the user later focused the field. The region is now
   always mounted, and `display: block` so that when empty it is a zero-height box that shifts
   nothing.
+
+- **`InfoBox`'s variant icons and `Step`'s checkmark ignored their colour**, for the same reason
+  `ErrorMessage`'s did: every one of these icons is drawn with `fill="currentColor"`, and an
+  `<img>` resolves that against its own document. All six `InfoBox` variants therefore drew a
+  black icon, and no stylesheet could change it. Inlined, they take the colour of the box or the
+  step around them — which is the current text colour in both, so nothing looks different today,
+  but tinting an icon per variant is now a matter of one CSS rule.
+
+- **`Step`'s checkmark had a class the stylesheet never defined.** `Step.tsx` has always set
+  `className={style.checkmarkSymbol}`, but no rule declared it, so the class resolved to
+  `undefined`, React dropped the attribute, and the icon was sized only by its own `width` and
+  `height` attributes. The rule now exists, stating that same 14×11 size where it can be changed.
 
 - **`Accordion` and `ToggleNavigationButton` submitted the form around them.** Both rendered a
   `<button>` with no `type`, which HTML treats as `type="submit"`, so opening an accordion or

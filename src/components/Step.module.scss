@@ -10,6 +10,16 @@
     .wizardTopnavItemContent {
         display: flex;
     }
+
+    // Step.tsx has always put this class on the finished-step checkmark, but no
+    // rule ever defined it, so the icon rendered at whatever size its own
+    // attributes said. The size below is that intrinsic 14×11, now stated where
+    // it can be changed.
+    .checkmarkSymbol {
+        width: 14px;
+        height: 11px;
+        flex-shrink: 0;
+    }
     &.vertical {
         transition: background-color transitions.$long-transition;
         .wizardTopnavItemContent {

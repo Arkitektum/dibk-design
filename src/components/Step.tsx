@@ -2,7 +2,7 @@
 import { Link as RouterLink } from "react-router";
 
 // Components
-import { checkmarkSymbolIcon } from "../icons";
+import { CheckmarkSymbolIcon } from "../icons";
 
 // Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
@@ -43,7 +43,10 @@ const Step = ({ step, index, activeStepId, direction = "vertical" }: StepProps) 
         <>
             <span className={style.stepNumber}>{index + 1}</span>
             <span className={style.stepName}>{step.name}</span>
-            {isVertical && step.finished && !isActive && <img src={checkmarkSymbolIcon} alt="" className={style.checkmarkSymbol} />}
+            {/* Inlined rather than <img src>: the icon is drawn with
+                fill="currentColor", which an <img> resolves against its own
+                document and so paints black whatever the step is coloured. */}
+            {isVertical && step.finished && !isActive && <CheckmarkSymbolIcon aria-hidden="true" className={style.checkmarkSymbol} />}
         </>
     );
 

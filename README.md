@@ -278,8 +278,12 @@ direct or last child of the field. The region is rendered even when there is no 
 This affects every component that shows a validation error — `InputField`, `Textarea`, `Select`
 and `DragAndDropFileInput` — not just direct uses of `ErrorMessage`.
 
+`InfoBox`'s variant icon (`.iconImage`) and `Step`'s finished-step checkmark (`.checkmarkSymbol`)
+changed from `<img>` to inline `<svg>` for the same reason. Their class names and sizing rules
+are unchanged; only selectors that assume an image break.
+
 ```bash
-grep -rn "errorSign\|errorMessage" src
+grep -rn "errorSign\|errorMessage\|iconImage\|checkmarkSymbol" src
 ```
 
 ## Use with Next.js

@@ -2,7 +2,7 @@
 import type React from "react";
 
 // Components
-import { errorIcon, infoIcon, successIcon, warningIcon } from "../icons";
+import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from "../icons";
 import Header from "./Header";
 
 // Helpers
@@ -12,6 +12,18 @@ import { classNameArrayToClassNameString } from "../functions/helpers";
 import style from "./InfoBox.module.scss";
 
 export type InfoBoxVariant = "default" | "secondary" | "warning" | "error" | "info" | "success";
+
+// The components rather than the `?url` exports: every one of these icons is
+// drawn with fill="currentColor", and an <img> loads the file as its own
+// document, where `currentColor` cannot see the colour of the box around it.
+const defaultIcons: Record<InfoBoxVariant, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+    default: InfoIcon,
+    secondary: InfoIcon,
+    warning: WarningIcon,
+    error: ErrorIcon,
+    info: InfoIcon,
+    success: SuccessIcon
+};
 
 export interface InfoBoxProps {
     title: React.ReactNode | string;
@@ -35,16 +47,9 @@ const InfoBox = ({
     hideIcon = false,
     icon
 }: InfoBoxProps) => {
-    const defaultIcons: Record<InfoBoxVariant, string> = {
-        default: infoIcon,
-        secondary: infoIcon,
-        warning: warningIcon,
-        error: errorIcon,
-        info: infoIcon,
-        success: successIcon
-    };
+    const DefaultIcon = defaultIcons[variant];
 
-    const iconNode = icon ?? <img src={defaultIcons[variant]} alt="" className={style.iconImage} />;
+    const iconNode = icon ?? <DefaultIcon aria-hidden="true" className={style.iconImage} />;
     const shouldRenderIcon = !hideIcon && iconNode;
 
     return (
