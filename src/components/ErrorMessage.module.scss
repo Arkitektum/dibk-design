@@ -10,7 +10,16 @@
 }
 
 .errorSign {
-    width: 16px;
-    height: 16px;
+    // Sized by height: the icon's viewBox is 24×28, so a square box would scale
+    // the glyph to fit the *width* and leave dead space at the sides, which
+    // reads as a wider gap to the text than the 6px above.
+    height: 20px;
+    width: auto;
+    aspect-ratio: 24 / 28;
     flex-shrink: 0;
+
+    // The glyph sits symmetrically in its viewBox, so centring the box centres
+    // the mark itself. Stated here as well as on the parent, so the alignment
+    // survives a consumer overriding `align-items` on .errorMessage.
+    align-self: center;
 }
