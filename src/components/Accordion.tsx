@@ -1,6 +1,6 @@
 // Dependencies
 import type { ButtonHTMLAttributes, CSSProperties, HTMLAttributes, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 // Helpers
 import { classNameArrayToClassNameString } from "../functions/helpers";
@@ -41,18 +41,29 @@ const RenderPanel = ({
     title,
     buttonProps,
     expanded,
-    handleToggleExpand
+    handleToggleExpand,
+    contentId
 }: {
     title: ReactNode;
     buttonProps: ButtonHTMLAttributes<HTMLButtonElement>;
     expanded: boolean;
     handleToggleExpand: () => void;
+    contentId: string;
 }) => {
     return (
         // `type` before the spread, so a consumer can still opt into submit,
         // but the default is not the HTML one — an untyped <button> is a submit
         // button, and toggling an accordion inside a form submitted it.
-        <button type="button" {...buttonProps} className={style.panel} onClick={handleToggleExpand} aria-expanded={expanded ? "true" : "false"}>
+        <button
+            type="button"
+            {...buttonProps}
+            className={style.panel}
+            onClick={handleToggleExpand}
+            // After the spread: which element this button expands is the
+            // component's business, not a caller's.
+            aria-controls={contentId}
+            aria-expanded={expanded ? "true" : "false"}
+        >
             <span className={style.panelText}>{title}</span>
             <span className={`${style.panelChevron} ${expanded ? style.expanded : ""}`}></span>
         </button>
@@ -76,6 +87,11 @@ const Accordion = ({
 }: AccordionProps) => {
     const [expanded, setExpanded] = useState(expandedProp);
     const [initialized, setInitialized] = useState(initializedProp);
+
+    // Pairs the panel button with the region it expands, so assistive tech can
+    // report and reach the content. useId rather than deriving it from the
+    // outer `id`, which is optional and need not be unique.
+    const contentId = useId();
 
     const handleToggleExpand = () => {
         setExpanded(!expanded);
@@ -109,8 +125,14 @@ const Accordion = ({
 
     return (
         <div className={className} style={accordionStyle} {...rest}>
-            <RenderPanel title={title} buttonProps={buttonProps ?? {}} expanded={expanded ?? false} handleToggleExpand={handleToggleExpand} />
-            <div className={contentClassName} style={contentStyle}>
+            <RenderPanel
+                title={title}
+                buttonProps={buttonProps ?? {}}
+                expanded={expanded ?? false}
+                handleToggleExpand={handleToggleExpand}
+                contentId={contentId}
+            />
+            <div id={contentId} className={contentClassName} style={contentStyle}>
                 {children}
             </div>
         </div>

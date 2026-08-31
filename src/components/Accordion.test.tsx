@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import Accordion from "./Accordion";
 import style from "./Accordion.module.scss";
-import { attribute, renderHtml } from "../test/renderHtml";
+import { attribute, openingTags, renderHtml } from "../test/renderHtml";
 
 describe("Accordion", () => {
     it("applies the primary colour by default", () => {
@@ -114,6 +114,31 @@ describe("Accordion className handling", () => {
         const { html } = renderHtml(<Accordion title="Title">Body</Accordion>);
 
         expect(attribute(html, "button", "type")).toBe("button");
+    });
+
+    // The button said aria-expanded but never said what it expanded, so
+    // assistive tech could not report or jump to the panel it controls.
+    it("points the panel button at the content it expands", () => {
+        const { html } = renderHtml(<Accordion title="Title">Body</Accordion>);
+        const contentId = openingTags(html, "div")[1]?.match(/\sid="([^"]*)"/)?.[1];
+
+        expect(contentId).toBeTruthy();
+        expect(attribute(html, "button", "aria-controls")).toBe(contentId);
+    });
+
+    it("gives each accordion its own content id", () => {
+        const { html } = renderHtml(
+            <>
+                <Accordion title="First">Body</Accordion>
+                <Accordion title="Second">Body</Accordion>
+            </>
+        );
+        const ids = openingTags(html, "div")
+            .map((tag) => tag.match(/\sid="([^"]*)"/)?.[1])
+            .filter(Boolean);
+
+        expect(ids).toHaveLength(2);
+        expect(new Set(ids).size).toBe(2);
     });
 
     it("lets buttonProps override the button type", () => {
