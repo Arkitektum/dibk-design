@@ -7,6 +7,12 @@
 @use "../style/abstracts/variables/viewports";
 @use "../style/abstracts/variables/typography";
 
+// Shared by the show/hide animations and by the delay that keeps collapsed
+// content visible until the hide animation has finished — a mismatch between
+// the two would either cut the animation short or leave the content focusable
+// after it has gone.
+$collapse-duration: 0.3s;
+
 @keyframes show {
     0% {
         opacity: 0;
@@ -198,15 +204,30 @@
         max-height: 0;
         overflow: hidden;
         padding: 0 15px 0;
+
+        // Collapsed content has to leave the accessibility tree and the tab
+        // order, not merely be clipped: `max-height: 0; overflow: hidden` left
+        // screen readers reading a panel whose button said aria-expanded=false,
+        // and Tab landing on links and inputs nobody can see (WCAG 2.4.3, 2.4.7).
+        //
+        // Hiding is delayed by the collapse duration so the hide animation is
+        // still visible on the way out; showing is immediate, so the content is
+        // reachable as soon as it starts opening. No transition runs on first
+        // paint, so a closed-on-load panel is hidden right away.
+        visibility: hidden;
+        transition: visibility 0s linear $collapse-duration;
+
         @media only screen and (min-width: viewports.$screen-sm) {
             padding: 0 30px 0;
         }
         &.initialized {
-            animation: hide 0.3s ease-in-out;
+            animation: hide $collapse-duration ease-in-out;
         }
 
         &.expanded {
-            animation: show 0.3s ease-in-out;
+            animation: show $collapse-duration ease-in-out;
+            visibility: visible;
+            transition-delay: 0s;
             opacity: 1;
             margin-top: 0px;
             padding: 8px 15px 15px;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
 
 import Accordion from "../components/Accordion";
 import Paragraph from "../components/Paragraph";
@@ -160,5 +161,47 @@ export const Controlled: Story = {
                 ))}
             </>
         );
+    }
+};
+
+// Interaction test: collapsed content was only clipped (`max-height: 0;
+// overflow: hidden`), so it stayed in the accessibility tree and in the tab
+// order — Tab landed on a link nobody could see, inside a panel whose button
+// said aria-expanded="false".
+export const CollapsedContentIsNotReachable: Story = {
+    args: {
+        title: "Accordion with a link inside"
+    },
+    render: (args) => (
+        <Accordion {...args}>
+            <a href="https://dibk.no">Lenke i innholdet</a>
+        </Accordion>
+    ),
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const content = canvasElement.querySelector("[class*='content']") as HTMLElement;
+        // querySelector rather than getByRole: while collapsed the link is gone
+        // from the accessibility tree, which is what queryByRole checks below.
+        const link = canvasElement.querySelector("a") as HTMLAnchorElement;
+
+        expect(getComputedStyle(content).visibility).toBe("hidden");
+
+        // Out of the accessibility tree: a screen reader no longer reads it.
+        expect(canvas.queryByRole("link", { name: "Lenke i innholdet" })).toBeNull();
+
+        // And out of the tab order: focusing a visibility:hidden element is a
+        // no-op, so Tab cannot land here either.
+        link.focus();
+        expect(document.activeElement).not.toBe(link);
+
+        // Opening is immediate — the delay is only on the way out — so the link
+        // is reachable as soon as the panel starts expanding.
+        await userEvent.click(canvas.getByRole("button", { name: /Accordion with a link inside/ }));
+
+        expect(getComputedStyle(content).visibility).toBe("visible");
+        expect(canvas.getByRole("link", { name: "Lenke i innholdet" })).toBe(link);
+
+        link.focus();
+        expect(document.activeElement).toBe(link);
     }
 };
