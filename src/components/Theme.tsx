@@ -118,10 +118,10 @@ const Theme = (theme: ThemeProps) => {
                     <section>
                         <Header size={2}>Checkboxes</Header>
                         <CheckBoxList legend="Default checkbox list">
-                            <CheckBoxListItem onChange={() => console.log("onchange")} checked={true} name="checkboxlist" id={checkboxListId}>
+                            <CheckBoxListItem onChange={() => console.log("onchange")} checked={true} name="checkboxlist" id={`${checkboxListId}-checked`}>
                                 Label for checked checkbox
                             </CheckBoxListItem>
-                            <CheckBoxListItem onChange={() => console.log("onchange")} name="checkboxlist" id={checkboxListId}>
+                            <CheckBoxListItem onChange={() => console.log("onchange")} name="checkboxlist" id={`${checkboxListId}-unchecked`}>
                                 Label for unchecked checkbox
                             </CheckBoxListItem>
                         </CheckBoxList>
@@ -134,7 +134,7 @@ const Theme = (theme: ThemeProps) => {
                                 onChange={() => console.log("onchange")}
                                 value="value 1"
                                 name="radio-button-list-list-item"
-                                id={radioButtonListId}
+                                id={`${radioButtonListId}-checked`}
                                 checked
                             >
                                 Checked radio button
@@ -143,7 +143,7 @@ const Theme = (theme: ThemeProps) => {
                                 onChange={() => console.log("onchange")}
                                 value="value 2"
                                 name="radio-button-list-list-item"
-                                id={radioButtonListId}
+                                id={`${radioButtonListId}-unchecked`}
                             >
                                 Unchecked radio button
                             </RadioButtonListItem>
