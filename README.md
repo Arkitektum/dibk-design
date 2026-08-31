@@ -84,8 +84,9 @@ Import the plain tokens instead:
 
 Two releases changed `Select` in ways that break working consumer code, and both shipped as
 minor releases without a release note. Items 1 to 5 below cover those and the props since
-restored. Item 6 is the one breaking change in 12.0.0, and item 7 the one in 13.0.0. The greps
-are the fastest way to find what needs changing. Full details in [CHANGELOG.md](CHANGELOG.md).
+restored. Item 6 is the one breaking change in 12.0.0, item 7 the one in 13.0.0, and items 8 and
+9 the two in 14.0.0. The greps are the fastest way to find what needs changing. Full details in
+[CHANGELOG.md](CHANGELOG.md).
 
 ### 1. `Select` `onChange` receives a value, not an event (9.1.0)
 
@@ -226,6 +227,59 @@ react-router instances, and since router context is per instance, the library's 
 ```bash
 # Anywhere your app still imports from the removed package
 grep -rn "react-router-dom" src
+```
+
+### 8. `NavigationBar` no longer takes `color` (14.0.0)
+
+The prop took `"secondary"` or `"neutral"`. `secondary` painted the bar's links in the bar's own
+background colour, which made the navigation unreadable, and no app used it. `neutral` was the
+default and only restated the values already on the container.
+
+```jsx
+// Before (≤ 13.1.0)
+<NavigationBar themeId="dibk" color="neutral" links={links} />
+
+// After (≥ 14.0.0)
+<NavigationBar themeId="dibk" links={links} />
+```
+
+Delete the prop. Nothing replaces it and nothing changes on screen — the default is what
+`neutral` produced. To recolour the bar, set the `--navigation-overlay`, `--navigation-text` and
+`--navigation-surface` custom properties in your own stylesheet.
+
+Symptom: a TypeScript error on the prop. It is deliberate — the alternative was accepting it and
+ignoring it.
+
+```bash
+grep -rn "<NavigationBar" src
+```
+
+### 9. `ErrorMessage` emits different markup (14.0.0)
+
+The icon is an inline `<svg>` instead of an `<img>`, so it can take its colour from CSS, and the
+message now sits inside an always-present `aria-live` region so screen readers actually announce
+it. Both are fixes; both change the DOM.
+
+```html
+<!-- Before (≤ 13.1.0) -->
+<span aria-live="polite" class="…errorMessage"><img class="…errorSign">Message</span>
+
+<!-- After (≥ 14.0.0) -->
+<span class="…errorMessageRegion" aria-live="polite">
+  <span class="…errorMessage"><svg class="…errorSign"></svg>Message</span>
+</span>
+```
+
+`errorMessage` and `errorSign` still name the same things, so most CSS keeps working. Check two
+shapes: selectors treating the icon as an image, and selectors assuming `.errorMessage` is a
+direct or last child of the field. The region is rendered even when there is no error, so
+`:last-child` on a field's children now matches it instead of the input.
+
+This affects every component that shows a validation error — `InputField`, `Textarea`, `Select`
+and `DragAndDropFileInput` — not just direct uses of `ErrorMessage`.
+
+```bash
+grep -rn "errorSign\|errorMessage" src
 ```
 
 ## Use with Next.js

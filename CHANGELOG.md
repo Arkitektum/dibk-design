@@ -29,6 +29,133 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
+## 14.0.0 — 2026-08-31
+
+Mostly accessibility fixes. The major bump is for two things: `NavigationBar` loses its `color`
+prop, and `ErrorMessage` changes the markup it emits. Both are under
+[Breaking](#breaking-changes) below. Everything else is additive or invisible to a consumer who
+is not styling this library's internals.
+
+### Breaking changes
+
+- **`NavigationBar`: the `color` prop is gone.** It took `"secondary"` or `"neutral"`, and
+  neither was worth keeping. `secondary` set `--navigation-text` to the same token as
+  `--navigation-overlay`, so the bar painted its links in its own background colour and the
+  navigation was unreadable. `neutral` — the default — only restated the values already declared
+  on the container, so removing it changes nothing on screen.
+
+  **Delete the prop; there is no replacement and nothing to put in its place.** The default
+  appearance is what `neutral` already produced. The `--navigation-*` custom properties are
+  still there for anyone who needs to recolour the bar from their own stylesheet.
+
+  Removed from `NavigationBarProps` in the same release as the implementation, so a consumer
+  still passing it gets a compile error rather than a prop that is quietly ignored.
+
+- **`ErrorMessage`: the icon is an inline `<svg>`, and the message is wrapped in a live
+  region.** Two markup changes in one component, both explained under [Fixed](#fixed) below.
+  The rendered structure goes from
+
+  ```html
+  <span aria-live="polite" class="…errorMessage"><img class="…errorSign" …>Message</span>
+  ```
+
+  to
+
+  ```html
+  <span class="…errorMessageRegion" aria-live="polite">
+    <span class="…errorMessage"><svg class="…errorSign" …></svg>Message</span>
+  </span>
+  ```
+
+  The `errorMessage` and `errorSign` class names are unchanged and still sit on the same
+  conceptual elements, so most consumer CSS keeps matching. **Two selector shapes break:** one
+  that assumes the icon is an image (`img.errorSign`, or anything setting `object-fit`), and one
+  that assumes `.errorMessage` is a direct or last child of the field wrapper (`> .errorMessage`,
+  `.inputField > *:last-child`). The region is always present now, including when there is no
+  error, so `:last-child` on a field's children lands on it rather than on the input.
+
+  ```bash
+  # Selectors that assume the icon is an <img>
+  grep -rn "errorSign" src
+
+  # Selectors that assume .errorMessage is a direct or last child
+  grep -rn "errorMessage" src
+  ```
+
+### Added
+
+- **`NavigationBar`: nested `listItems` finally render.** `ListItemObject.listItems` survived
+  the 10.3.0 rewrite in the type while the recursive renderer that drew it did not, so nested
+  items were accepted and silently discarded in every release since — the same shape of failure
+  as `keyAsContent` and `placeholderValue`, and the reason this file has a rule about it.
+
+  Implemented as an [APG disclosure navigation][apg-disclosure]: these are links, not menu
+  commands, so an item with children gets a toggle button next to a plain nested `<ul>`, rather
+  than the roving-focus `menubar` semantics that would misdescribe them. A parent keeps its own
+  link and puts the toggle beside it, so a supplied `href` is honoured; an item with an empty
+  `href` is a pure group and the toggle becomes the item itself. `Escape` closes and returns
+  focus to the trigger, tabbing past the last link closes, a click outside closes, and only one
+  panel is open at a time. Levels below the first are listed inside the open panel rather than
+  flying out sideways.
+
+  Nothing changes for a consumer who passes no `listItems`. A consumer who has been passing them
+  all along — with no effect — will see submenus appear.
+
+- **`NavigationBar`: `getSubmenuToggleLabel`.** Optional. Names the submenu toggle for items
+  that also have a link of their own, where the button cannot take the item's name without
+  reading it twice. Defaults to `` (name) => `Vis undermeny for ${name}` ``, matching the
+  Norwegian default of `mainContentLinkText`.
+
+### Fixed
+
+- **`ErrorMessage`'s icon ignored the colour it was given.** The icon is drawn with
+  `fill="currentColor"`, but it was rendered as `<img src>`, which loads the SVG as its own
+  document — `currentColor` resolved to black there and never saw `--color-error`. No consumer
+  CSS could have reached it. It is inlined now, so it follows the message's colour, including a
+  themed override. It is also 20px and sized by height, so the glyph keeps the 24×28 proportions
+  of its viewBox instead of being squashed into a square.
+
+- **`ErrorMessage`'s live region announced nothing.** It returned `null` with no content, so the
+  `aria-live` region entered the DOM at the same moment as its own text. Screen readers announce
+  *changes inside* a region they are already watching; one inserted together with its content is
+  usually missed. An error appearing after a failed submit, with focus elsewhere, was silent —
+  `aria-describedby` covered it up whenever the user later focused the field. The region is now
+  always mounted, and `display: block` so that when empty it is a zero-height box that shifts
+  nothing.
+
+- **`Accordion` and `ToggleNavigationButton` submitted the form around them.** Both rendered a
+  `<button>` with no `type`, which HTML treats as `type="submit"`, so opening an accordion or
+  toggling the navigation inside a `<form>` submitted it. Both now default to `type="button"`,
+  set before their prop spread so `buttonProps` can still opt into submit.
+
+- **`Accordion`'s collapsed content stayed readable and focusable.** Collapsing only clipped the
+  panel — `max-height: 0` with `overflow: hidden` — so screen readers still read the body of a
+  panel whose button said `aria-expanded="false"`, and Tab still landed on links and inputs
+  inside it that nobody could see (WCAG 2.4.3 and 2.4.7). Collapsed content is `visibility:
+  hidden` now, delayed by the collapse duration so the animation still plays on the way out and
+  immediate on the way in.
+
+- **`Accordion`'s toggle never said what it controlled.** The button reported `aria-expanded`
+  with no `aria-controls`, so assistive tech could not tie the state to a region or offer a jump
+  to it. The panel now carries a generated id and the button points at it.
+
+### Development
+
+- **Storybook had a dead `theme` control on every component.** A project-level `theme` argType
+  in `.storybook/preview.tsx` put a select in the Controls tab of every story, but the decorator
+  reads the theme from `context.globals`, so changing it did nothing. On `ThemeProvider` it was
+  worse than dead: it shadowed the real `theme` prop, offering a string where the component
+  takes a `ThemeProps` object. The toolbar switcher is unaffected and remains the way to change
+  theme.
+
+- **Stories for the seven components that had none** — `ErrorMessage`, `ErrorBox`,
+  `FieldRequirementIndicator`, `WizardNavigationStep`, `ListItem`, `DescriptionTerm` and
+  `DescriptionDetails` — and coverage for previously undemonstrated props across the existing
+  ones. Two story helpers gave both items in a list the same `useId` value, so the second
+  label pointed at the first control; `Theme` had the same bug in its own markup.
+
+[apg-disclosure]: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/
+
 ## 13.1.0 — 2026-08-28
 
 Additive: the props below were dropped in earlier releases and come back optional, so nothing
