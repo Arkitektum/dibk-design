@@ -2,7 +2,7 @@
 import type React from "react";
 
 // Components
-import { errorIcon } from "../icons";
+import { ErrorIcon } from "../icons";
 
 // Stylesheets
 import style from "./ErrorMessage.module.scss";
@@ -22,7 +22,10 @@ const ErrorMessage = ({ id, content = "" }: ErrorMessageProps) => {
 
     return hasContent ? (
         <span aria-live="polite" {...getErrorElementProps()}>
-            <img src={errorIcon} alt="" className={style.errorSign} />
+            {/* Inlined rather than <img src>: the icon is drawn with
+                fill="currentColor", and an <img> loads the file as its own
+                document, where `currentColor` cannot see the text colour here. */}
+            <ErrorIcon aria-hidden="true" className={style.errorSign} />
             {content}
         </span>
     ) : null;

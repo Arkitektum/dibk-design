@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
 
 import ErrorMessage from "../components/ErrorMessage";
 
@@ -50,5 +51,24 @@ export const RichContent: Story = {
 export const EmptyContent: Story = {
     args: {
         content: ""
+    }
+};
+
+// Regression: the icon used to be an <img src>, which loads the file as its own
+// document — so its fill="currentColor" resolved to black and the icon stayed
+// black however `--color-error` was themed. Inlined, it follows the text.
+export const IconFollowsTheErrorColor: Story = {
+    args: {
+        content: "Feilmelding med overstyrt farge"
+    },
+    render: (args) => (
+        <div style={{ ["--color-error" as string]: "rgb(0, 0, 255)" }}>
+            <ErrorMessage {...args} />
+        </div>
+    ),
+    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        const icon = canvasElement.querySelector("svg");
+        expect(icon).not.toBeNull();
+        expect(getComputedStyle(icon as SVGSVGElement).color).toBe("rgb(0, 0, 255)");
     }
 };
