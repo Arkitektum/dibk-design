@@ -57,7 +57,11 @@ const FieldRequirementIndicator = ({ required, mode, optionalLabel, requiredClas
     if (effectiveMode === "none") return null;
 
     if (effectiveMode === "required") {
-        return required ? <AsteriskIcon aria-hidden="true" className={requiredClassName} /> : null;
+        // Replaced by `requiredClassName` rather than composed with it: the
+        // eight components in this library that pass one all set the same
+        // properties, and two classes of equal specificity are settled by the
+        // order they happen to land in the bundle.
+        return required ? <AsteriskIcon aria-hidden="true" className={requiredClassName ?? style.requiredIndicator} /> : null;
     }
 
     // Styled through a class rather than an inline style, which no consumer

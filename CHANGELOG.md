@@ -148,6 +148,13 @@ is not styling this library's internals.
   `undefined`, React dropped the attribute, and the icon was sized only by its own `width` and
   `height` attributes. The rule now exists, stating that same 14×11 size where it can be changed.
 
+- **`FieldRequirementIndicator` rendered a 32px asterisk when used directly.** The artwork is
+  32×30, and the component had no size of its own — every one of the eight components here that
+  renders it passes a `requiredClassName` that shrinks it, so the raw glyph only showed up for a
+  consumer using the component standalone. It now sizes itself at `0.4em` of the surrounding
+  text, matching what most of those callers set. A supplied `requiredClassName` replaces that
+  default rather than composing with it, so nothing changes for the components that pass one.
+
 - **`FieldRequirementIndicator`'s `optionalClassName` could never take effect.** The optional
   label carried its colour and weight as an inline style, and an inline style beats any selector
   a consumer can write — including the class the component asks them for. It is a stylesheet

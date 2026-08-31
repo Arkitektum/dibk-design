@@ -1,3 +1,19 @@
+// The asterisk artwork is 32×30, so without a size it renders as a glyph
+// several times the height of the text beside it. Every component in this
+// library passes a `requiredClassName` that shrinks it; a consumer using this
+// component directly got the raw artwork.
+//
+// 0.4em of the surrounding text, which is what six of the eight callers use.
+// No colour: the majority inherit it from the label they sit in.
+.requiredIndicator {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: 0.4em;
+    vertical-align: top;
+    margin-top: 2px;
+}
+
 .optionalLabel {
     // The grey is not from the palette — it is a neutral #828282, while every
     // grey in _colors.scss is warm-tinted (the nearest, $color-warm-gray-500,

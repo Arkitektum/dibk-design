@@ -11,6 +11,24 @@ describe("FieldRequirementIndicator", () => {
         expect(html).toContain("<svg");
     });
 
+    // Regression: the asterisk artwork is 32×30 and the component had no size of
+    // its own, so anything that did not pass a requiredClassName — every direct
+    // consumer use — rendered a glyph several times the height of the text.
+    it("sizes the asterisk itself when no class is given", () => {
+        const { html } = renderHtml(<FieldRequirementIndicator required mode="required" />);
+
+        expect(style.requiredIndicator).toBeTruthy();
+        expect(attribute(html, "svg", "class")).toContain(style.requiredIndicator);
+    });
+
+    it("steps aside for a requiredClassName", () => {
+        const { html } = renderHtml(<FieldRequirementIndicator required mode="required" requiredClassName="consumer-class" />);
+        const className = attribute(html, "svg", "class") ?? "";
+
+        expect(className).toBe("consumer-class");
+        expect(className).not.toContain(style.requiredIndicator);
+    });
+
     it("marks nothing for an optional field in required mode", () => {
         const { html } = renderHtml(<FieldRequirementIndicator required={false} mode="required" />);
 

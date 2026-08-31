@@ -25,6 +25,9 @@ const render: Story["render"] = (args) => (
     </span>
 );
 
+// The asterisk sizes itself at 0.4em of the text around it. Pass
+// `requiredClassName` to size or colour it differently — that replaces the
+// default rather than adding to it.
 export const RequiredMode: Story = {
     args: {
         required: true,
