@@ -117,7 +117,12 @@ $color-warning: $color-amber-200;
 $color-warning-light: $color-amber-100;
 $color-warning-x-light: $color-amber-50;
 
-$color-error: $color-red-700;
+// red-800 rather than red-700: as text, red-700 #db0000 is only 3.83:1 on
+// $color-secondary, the background of a checked checkbox or radio list item, so
+// an error on a selected option failed WCAG AA. red-800 clears 4.5:1 on every
+// background it lands on — 7.56 on white, 6.79 on the page, 5.54 on a checked
+// item, 6.60 on $color-error-x-light.
+$color-error: $color-red-800;
 $color-error-light: $color-red-100;
 $color-error-x-light: $color-red-50;
 
