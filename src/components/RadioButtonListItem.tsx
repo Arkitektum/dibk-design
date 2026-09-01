@@ -34,12 +34,12 @@ type RadioButtonListItemValueProps =
     | {
           /** The value written to the input's `value` attribute. */
           value: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in the next major. */
+          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
           inputValue?: string;
       }
     | {
           value?: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in the next major. */
+          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
           inputValue: string;
       };
 

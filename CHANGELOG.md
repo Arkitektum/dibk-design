@@ -119,6 +119,16 @@ is not styling this library's internals.
   reading it twice. Defaults to `` (name) => `Vis undermeny for ${name}` ``, matching the
   Norwegian default of `mainContentLinkText`.
 
+### Deprecated
+
+- **`inputValue` on `RadioButtonInput` and `RadioButtonListItem` is still here.**
+  [13.1.0](#131--2026-08-28) said it would go "in the next major", and this is that major. It
+  did not happen, so to be unambiguous the second time: **it is removed in 15.0.0**, and the
+  `@deprecated` tag on the prop now names that version rather than a moving target. It still
+  works, and a find and replace to `value` is still the whole migration.
+
+  Nothing else is deprecated in this release.
+
 ### Fixed
 
 - **`ErrorMessage`'s icon ignored the colour it was given.** The icon is drawn with
@@ -233,6 +243,9 @@ changes for a consumer who does not use them.
   works and is marked `@deprecated`, so editors strike it through and nothing breaks today.
   **It will be removed in the next major**, so a find and replace to `value` is worth doing
   before then. Nothing else is deprecated in this release.
+
+  _Correction, added after 14.0.0: that did not happen. 14.0.0 was the next major and the prop
+  is still there. The removal is now pinned to 15.0.0, see [14.0.0](#1400--2026-08-31)._
 
 ### Fixed
 
