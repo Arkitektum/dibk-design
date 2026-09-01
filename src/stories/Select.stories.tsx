@@ -55,6 +55,7 @@ const options = ["Option 1", "Option 2", { key: "Option 3", value: "value 3" }];
 export const Default: Story = {
     args: {
         id: "select1",
+        label: "Default select",
         options
     }
 };

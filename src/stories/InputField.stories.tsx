@@ -24,7 +24,7 @@ const Uncontrolled = (): Story["render"] => (args) => <InputField {...args} />;
 /* ------------------ Stories ------------------ */
 
 export const Default: Story = {
-    args: { id: "inputField1" },
+    args: { id: "inputField1", label: "Default input field" },
     render: Uncontrolled()
 };
 

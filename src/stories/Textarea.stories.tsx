@@ -14,12 +14,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-    args: { onChange: () => {}, id: "textarea1" }
+    args: { onChange: () => {}, id: "textarea1", label: "Default textarea" }
 };
 export const WithValue: Story = {
     args: {
         onChange: () => {},
         id: "textarea2",
+        label: "Textarea with value",
         value: "Textarea with value"
     }
 };
@@ -27,6 +28,7 @@ export const WithDefaultValue: Story = {
     args: {
         onChange: () => {},
         id: "textarea3",
+        label: "Textarea with default value",
         defaultValue: "Textarea with default value"
     }
 };
@@ -93,6 +95,7 @@ export const WithCustomWidth: Story = {
     args: {
         onChange: () => {},
         id: "textarea12",
+        label: "Textarea with custom width",
         value: "Textarea with custom width",
         width: "320px"
     }
@@ -101,6 +104,7 @@ export const WithCustomWidthAndVerticalResizing: Story = {
     args: {
         onChange: () => {},
         id: "textarea13",
+        label: "Textarea with custom width and vertical resizing",
         value: "Textarea with resizing",
         width: "450px",
         resize: "vertical"
@@ -110,6 +114,7 @@ export const WithCustomElementKey: Story = {
     args: {
         onChange: () => {},
         id: "textarea14",
+        label: "Textarea with custom element key",
         value: "Textarea with key",
         elementKey: "textareaKeyHere"
     }
