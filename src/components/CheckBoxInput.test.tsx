@@ -73,34 +73,11 @@ describe.each(controlledInputs)("%s", (_name, Component) => {
     });
 });
 
-// Kept working for one major so existing call sites compile untouched.
-describe("inputValue as a deprecated alias for value", () => {
-    const radioComponents = [
-        ["RadioButtonInput", RadioButtonInput],
-        ["RadioButtonListItem", RadioButtonListItem]
-    ] as const;
-
-    it.each(radioComponents)("%s still honours inputValue", (_name, Component) => {
-        const { html, warnings } = renderHtml(
-            <Component id="x" inputValue="legacy" onChange={() => {}}>
-                Label
-            </Component>
-        );
-
-        expect(attribute(html, "input", "value")).toBe("legacy");
-        expect(warnings).toEqual([]);
-    });
-
-    it.each(radioComponents)("%s prefers value when both are given", (_name, Component) => {
-        const { html } = renderHtml(
-            <Component id="x" value="new" inputValue="legacy" onChange={() => {}}>
-                Label
-            </Component>
-        );
-
-        expect(attribute(html, "input", "value")).toBe("new");
-    });
-});
+// `inputValue`, the deprecated alias for `value`, was removed in 15.0.0 after
+// being deprecated in 13.1.0. There is nothing left to assert at runtime: the
+// prop is gone from the types, so a call site still passing it fails to
+// compile, which is the point. `value` is required on all four components and
+// covered by the shared block above.
 
 describe("CheckBoxInput", () => {
     it("associates its label with the input", () => {

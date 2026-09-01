@@ -37,22 +37,10 @@ interface RadioButtonInputPropsBase {
     optionalLabel?: string;
 }
 
-// Either name satisfies the requirement, which is what keeps `inputValue` working
-// while making it impossible to supply neither.
-type RadioButtonInputValueProps =
-    | {
-          /** The value written to the input's `value` attribute. */
-          value: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
-          inputValue?: string;
-      }
-    | {
-          value?: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
-          inputValue: string;
-      };
-
-export type RadioButtonInputProps = RadioButtonInputPropsBase & RadioButtonInputValueProps;
+export interface RadioButtonInputProps extends RadioButtonInputPropsBase {
+    /** The value written to the input's `value` attribute. */
+    value: string | number;
+}
 
 const RadioButtonInput = ({
     checked = false,
@@ -65,7 +53,6 @@ const RadioButtonInput = ({
     contentOnly = false,
     hasErrors = false,
     value,
-    inputValue,
     hideLabel = false,
     tabIndex,
     children,
@@ -95,7 +82,7 @@ const RadioButtonInput = ({
         id,
         name,
         type: "radio",
-        value: value ?? inputValue,
+        value,
         checked,
         disabled,
         required: required || requiredGroup,

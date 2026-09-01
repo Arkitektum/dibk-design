@@ -28,26 +28,13 @@ interface RadioButtonListItemPropsBase {
     children?: ReactNode;
 }
 
-// Mirrors RadioButtonInput: either name satisfies the requirement, so `inputValue`
-// keeps working while neither-supplied stays a compile error.
-type RadioButtonListItemValueProps =
-    | {
-          /** The value written to the input's `value` attribute. */
-          value: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
-          inputValue?: string;
-      }
-    | {
-          value?: string | number;
-          /** @deprecated Renamed to `value`. Still honoured, removed in 15.0.0. */
-          inputValue: string;
-      };
-
-export type RadioButtonListItemProps = RadioButtonListItemPropsBase & RadioButtonListItemValueProps;
+export interface RadioButtonListItemProps extends RadioButtonListItemPropsBase {
+    /** The value written to the input's `value` attribute. */
+    value: string | number;
+}
 
 const RadioButtonListItem = ({
     value,
-    inputValue,
     checked = false,
     disabled = false,
     required = false,
@@ -78,14 +65,9 @@ const RadioButtonListItem = ({
         hasErrors && style.hasErrors
     ]);
 
-    // The union guarantees one of the two is present, but TypeScript loses that
-    // once they are destructured, so this restates it rather than widening the
-    // child's requirement.
-    const resolvedValue = (value ?? inputValue) as string | number;
-
     const inputProps = {
         onChange,
-        value: resolvedValue,
+        value,
         checked,
         disabled,
         required,
