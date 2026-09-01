@@ -141,3 +141,49 @@ describe("Button type attribute", () => {
         expect(attribute(html, "button", "type")).toBe("button");
     });
 });
+
+// Regression: `disabled` was destructured out of the props and only ever added
+// a CSS class, so a disabled Button kept the DOM of an enabled one — focusable,
+// clickable, onClick still firing, and announced to assistive tech as
+// available. It also cost the element the WCAG exemption for inactive
+// controls, which is how axe found it.
+describe("Button disabled state", () => {
+    it("marks a disabled button as disabled in the DOM", () => {
+        const { html } = renderHtml(<Button disabled content="Go" />);
+
+        expect(hasAttribute(html, "button", "disabled")).toBe(true);
+    });
+
+    it("leaves the attribute off an enabled button", () => {
+        const { html } = renderHtml(<Button content="Go" />);
+
+        expect(hasAttribute(html, "button", "disabled")).toBe(false);
+    });
+
+    it("disables the input behind the radio variant", () => {
+        const { html } = renderHtml(<Button inputType="radio" name="group" disabled content="Go" />);
+
+        expect(hasAttribute(html, "input", "disabled")).toBe(true);
+    });
+
+    it("disables the button a disabled RouterLink child falls back to", () => {
+        const { html } = renderHtml(
+            <MemoryRouter>
+                <Button disabled>
+                    <RouterLink to="/somewhere">Go</RouterLink>
+                </Button>
+            </MemoryRouter>
+        );
+
+        expect(hasAttribute(html, "button", "disabled")).toBe(true);
+    });
+
+    // The anchor branch never runs while disabled, so no <a disabled> — which
+    // is not a thing — can be emitted.
+    it("emits no disabled anchor", () => {
+        const { html } = renderHtml(<Button href="/somewhere" disabled content="Go" />);
+
+        expect(html).toMatch(/^<button/);
+        expect(hasAttribute(html, "a", "disabled")).toBe(false);
+    });
+});

@@ -114,8 +114,15 @@ const Button = ({
     // Props valid on every element this component can render. `href` is added
     // by the anchor branch alone — on a <button> or <label> it would render as
     // an invalid attribute.
+    //
+    // `disabled` was styling only: it added a class and was never applied to
+    // the element, so a disabled Button stayed focusable and clickable and was
+    // announced as available. `undefined` rather than `false` keeps it off the
+    // markup when enabled, and off the <a> the anchor branch renders — which
+    // only runs when the button is not disabled anyway.
     const commonProps = {
         "aria-invalid": hasErrors || undefined,
+        disabled: disabled || undefined,
         ...rest
     };
 
