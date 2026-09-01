@@ -9,7 +9,8 @@ const meta: Meta<typeof ProgressBar> = {
     component: ProgressBar,
     argTypes: {
         progress: { control: { type: "range", min: 0, max: 100, step: 1 } },
-        hasErrors: { control: "boolean" }
+        hasErrors: { control: "boolean" },
+        ariaLabel: { control: "text" }
     },
     tags: ["autodocs"]
 };
@@ -32,4 +33,10 @@ export const Complete: Story = {
 
 export const WithError: Story = {
     args: { progress: 60, hasErrors: true }
+};
+
+// The bar is exposed as role="progressbar", so `ariaLabel` is all a screen
+// reader has to say what the percentage refers to.
+export const WithCustomAriaLabel: Story = {
+    args: { progress: 40, ariaLabel: "Opplasting av vedlegg" }
 };
