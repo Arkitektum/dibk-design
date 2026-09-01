@@ -38,7 +38,18 @@ const preview: Preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: "todo"
+      //
+      // 'error', so axe failures break the story test run rather than sitting
+      // in the UI where nobody looks. 14.0.0 was almost entirely accessibility
+      // fixes, several of which a run like this would have caught years ago:
+      // an accordion whose collapsed content stayed in the tab order, a live
+      // region that announced nothing, buttons that submitted their form.
+      //
+      // A story that has a violation it cannot fix should override this on
+      // itself, with a comment saying why, rather than the whole suite going
+      // back to advisory:
+      //   parameters: { a11y: { test: "todo" } }
+      test: "error"
     }
   },
   decorators: [withThemeProvider],
