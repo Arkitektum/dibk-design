@@ -420,7 +420,10 @@ body {
         text-align: center;
     }
     .text-red {
-        color: red;
+        // The brand error red rather than the CSS keyword: pure #ff0000 is only
+        // 4.00:1 on white and fails WCAG AA for body text, while this is 5.23:1.
+        // It is also the red every other error affordance in the library uses.
+        color: var(--color-error, colors.$color-error);
     }
 
     .text-muted {
