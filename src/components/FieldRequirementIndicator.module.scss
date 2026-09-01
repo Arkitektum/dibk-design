@@ -1,3 +1,5 @@
+@use "../style/abstracts/variables/colors";
+
 // The asterisk artwork is 32×30, so without a size it renders as a glyph
 // several times the height of the text beside it. Every component in this
 // library passes a `requiredClassName` that shrinks it; a consumer using this
@@ -15,11 +17,15 @@
 }
 
 .optionalLabel {
-    // The grey is not from the palette — it is a neutral #828282, while every
-    // grey in _colors.scss is warm-tinted (the nearest, $color-warm-gray-500,
-    // is #8a7b78). Swapping it would restyle the optional marker in every
-    // consuming app, so the value is kept and exposed as a custom property
-    // instead. Worth revisiting if a neutral grey is ever added to the palette.
-    color: var(--color-optional-label, #828282);
+    // Was a hardcoded neutral #828282, which axe failed: 3.84:1 on white and
+    // 3.45:1 on the page background, against the 4.5:1 AA needs for 16px text.
+    //
+    // warm-gray-700 rather than the lighter 600: the marker is rendered by
+    // RadioButtonInput and CheckBoxInput, so inside a *checked* list item it
+    // sits on $color-secondary #c7e0f2, where 600 manages only 3.68:1. 700
+    // clears every background it can land on — 8.03 on white, 7.21 on the page
+    // background, 5.88 on a checked item — and 600 passes the page background
+    // by 0.01, which is not a margin worth shipping.
+    color: var(--color-optional-label, var(--color-warm-gray-700, colors.$color-warm-gray-700));
     font-weight: 400;
 }
