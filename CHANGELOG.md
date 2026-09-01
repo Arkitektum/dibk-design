@@ -29,6 +29,102 @@ Two rules learned the hard way:
 2. **A rewrite is a major release.** Replacing a component's implementation changes its DOM,
    its keyboard behaviour and its callback shapes, whether or not the prop names still match.
 
+## 15.0.0 — 2026-09-01
+
+The accessibility work 14.0.0 started, now driven by a check that fails the build instead of a
+panel nobody opens: the story suite runs axe on every story and treats a violation as an error.
+Turning it on found eight real defects, and one of them is why this is a major — `Button`'s
+`disabled` never disabled anything.
+
+The other breaking change is the removal of `inputValue`, promised for 13.1.0's "next major",
+missed in 14.0.0, and pinned to this release in 14.0.0's notes.
+
+Two colour tokens change value. Nothing about that breaks an API, but an app that hardcoded the
+old hex to match will now be out of step, so it is called out under [Fixed](#fixed) below.
+
+### Breaking changes
+
+- **`Button`: `disabled` now actually disables the button.** It was destructured out of the
+  props and only ever added a CSS class, so a disabled `Button` kept the DOM of an enabled one:
+  focusable, clickable, `onClick` still firing, and announced to assistive tech as available.
+  `DropdownButton` guarded its own `onClick` with `!disabled`, working around the same gap.
+
+  The attribute is now applied on every path the component can render — the `inputType="button"`
+  branch, the radio `<input>`, the fallback button for a disabled `RouterLink` child, and the
+  default button.
+
+  **This is the change to check.** Anything relying on a "disabled" button still firing its
+  handler stops working, and that is a working consumer breaking without touching their code,
+  which is what makes this release major. It found the bug by way of a contrast failure: axe
+  refused to apply WCAG's exemption for inactive controls to a control that was not inactive.
+
+  ```bash
+  grep -rn "disabled" src | grep -i button
+  ```
+
+- **`inputValue` is removed from `RadioButtonInput` and `RadioButtonListItem`.** Deprecated in
+  [13.1.0](#131--2026-08-28) in favour of `value`, still there through 14.0.0, gone now. Rename
+  it; that is the whole migration, and a call site still passing it fails to compile rather than
+  being quietly ignored.
+
+  The either-or union that let either name satisfy the requirement collapses into
+  `value: string | number`, required.
+
+  ```bash
+  grep -rn "inputValue" src
+  ```
+
+### Added
+
+- **`ProgressBar`: `ariaLabel`.** Optional, defaulting to `"Fremdrift"`. The `progressbar` role
+  carried `aria-valuenow` but no accessible name, so a screen reader announced a bare percentage
+  with nothing to say what was progressing. Name what the bar measures when the default is too
+  vague — a form's completion and a file upload should not both announce as "Fremdrift".
+
+### Fixed
+
+- **`$color-error` is darker: `$color-red-800` `#ad0000`, was `$color-red-700` `#db0000`.** As
+  text, the old red managed 3.83:1 on `$color-secondary` — the background of a checked checkbox
+  or radio list item — so an error on a selected option failed WCAG AA. The new value clears
+  4.5:1 everywhere it lands: 7.56 on white, 6.79 on the page background, 5.54 on a checked item,
+  6.60 on `$color-error-x-light`.
+
+  Twelve component stylesheets read `--color-error`, so this moves every error affordance at
+  once: message text and its icon, the required asterisk, `InfoBox` and `ContentBox` error
+  variants, `Badge`, and the error borders and focus rings on the form controls. An app that
+  hardcoded `#db0000` to match should move to `#ad0000`, or better, read the token.
+
+- **The optional field marker is a palette grey: `$color-warm-gray-700` `#5c4d4a`.** It was a
+  hardcoded `#828282`, which fails AA for 16px text at 3.84:1 on white and 3.45:1 on the page
+  background. `warm-gray-700` rather than the lighter `600` because `RadioButtonInput` and
+  `CheckBoxInput` render the marker, so inside a checked list item it sits on `$color-secondary`
+  where `600` manages 3.68:1. It is noticeably darker than before. The `--color-optional-label`
+  custom property still overrides it and now falls back through the palette token.
+
+- **`PDF`: `.text-red` was the CSS keyword `red`.** `#ff0000` is 4.00:1 on white and fails AA
+  for body text. It is the `--color-error` token now, and so matches the rest of the library.
+
+- **`ErrorMessage`'s icon is aligned to the first line of the message.** It was centred against
+  the whole text block, so a message long enough to wrap left the icon floating halfway down it
+  while the first line sat at the top. Single-line messages are unchanged. The icon is also
+  sized in `em` now, so it tracks the text rather than being pinned to 20px.
+
+### Development
+
+- **The story suite fails on accessibility violations.** `@storybook/addon-a11y` was set to
+  `'todo'`, which reports into the Storybook UI and fails nothing, so no accessibility
+  regression was ever stopped. It is `'error'` now. A story with a violation it cannot fix
+  overrides the parameter on itself with a comment, rather than the whole suite going back to
+  advisory.
+
+  Turning it on surfaced 32 failures across 16 files: the `Button` bug above, the missing
+  `ProgressBar` name, three contrast defects, and eight stories that rendered a form control
+  with no label — bad examples, since a story is what consumers copy.
+
+- **First test files for `ProgressBar` and the `Button` disabled state**, and dependencies
+  updated across the board. `typescript` stays pinned to the latest 6.x: TypeScript 7 ships no
+  JavaScript Compiler API, which `unplugin-dts` and `@typescript-eslint/parser` both still need.
+
 ## 14.0.0 — 2026-08-31
 
 Mostly accessibility fixes. The major bump is for two things: `NavigationBar` loses its `color`

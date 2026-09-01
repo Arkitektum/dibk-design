@@ -84,9 +84,9 @@ Import the plain tokens instead:
 
 Two releases changed `Select` in ways that break working consumer code, and both shipped as
 minor releases without a release note. Items 1 to 5 below cover those and the props since
-restored. Item 6 is the one breaking change in 12.0.0, item 7 the one in 13.0.0, and items 8 and
-9 the two in 14.0.0. The greps are the fastest way to find what needs changing. Full details in
-[CHANGELOG.md](CHANGELOG.md).
+restored. Item 6 is the one breaking change in 12.0.0, item 7 the one in 13.0.0, items 8 and 9
+the two in 14.0.0, and items 10 to 12 what 15.0.0 changes. The greps are the fastest way to find
+what needs changing. Full details in [CHANGELOG.md](CHANGELOG.md).
 
 ### 1. `Select` `onChange` receives a value, not an event (9.1.0)
 
@@ -284,6 +284,67 @@ are unchanged; only selectors that assume an image break.
 
 ```bash
 grep -rn "errorSign\|errorMessage\|iconImage\|checkmarkSymbol" src
+```
+
+### 10. `Button` `disabled` now really disables the button (15.0.0)
+
+**This is the one to check most carefully — nothing crashes.** `disabled` used to add a CSS class
+and nothing else, so the button looked disabled while staying focusable and clickable, and
+`onClick` still fired. It now sets the `disabled` attribute on the rendered element.
+
+```jsx
+// Before (≤ 14.0.0): looked disabled, still ran the handler
+<Button disabled onClick={submit} content="Send inn" />
+
+// After (≥ 15.0.0): the handler does not run
+<Button disabled onClick={submit} content="Send inn" />
+```
+
+Symptom: a click that used to do something now does nothing. That is the fix working, but if any
+of your code depended on it — a button disabled for appearance that still needed to be clickable
+— drive it with your own state instead of `disabled`.
+
+The same applies to `DropdownButton`, which passes `disabled` through to `Button`.
+
+```bash
+grep -rn "disabled" src | grep -i button
+```
+
+### 11. `inputValue` is gone from the radio components (15.0.0)
+
+Deprecated in 13.1.0 in favour of `value`, removed now. It only ever affected `RadioButtonInput`
+and `RadioButtonListItem`; the two checkbox components always took `value`.
+
+```jsx
+// Before (≤ 14.0.0)
+<RadioButtonInput id="x" inputValue="value 1" onChange={onChange}>Ja</RadioButtonInput>
+
+// After (≥ 15.0.0)
+<RadioButtonInput id="x" value="value 1" onChange={onChange}>Ja</RadioButtonInput>
+```
+
+Symptom: a TypeScript error on the prop. `value` is required on all four components now.
+
+```bash
+grep -rn "inputValue" src
+```
+
+### 12. Two colour tokens changed value (15.0.0)
+
+Both failed WCAG AA contrast. Nothing about the API changes, so this only matters if you
+hardcoded the old values somewhere to match the library.
+
+| Token | Was | Now | Why |
+| --- | --- | --- | --- |
+| `--color-error` | `#db0000` | `#ad0000` | 3.83:1 as text on a checked list item |
+| optional field marker | `#828282` | `#5c4d4a` | 3.45:1 on the page background |
+
+`--color-error` drives every error affordance, so error text, icons, the required asterisk,
+error borders and the `InfoBox` and `Badge` error variants all shift together. Read the token
+rather than the hex and this stays in step by itself.
+
+```bash
+grep -rni "db0000\|828282" src
 ```
 
 ## Use with Next.js
